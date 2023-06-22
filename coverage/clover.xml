@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1684078746185" clover="3.2.0">
+  <project timestamp="1684078746185" name="All files">
+    <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3" elements="8" coveredelements="8" complexity="0" loc="3" ncloc="3" packages="1" files="1" classes="1"/>
+    <file name="classNames.ts" path="D:\Work\react-tests\react-ts-production\src\shared\lib\classNames\classNames.ts">
+      <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+      <line num="8" count="3" type="stmt"/>
+      <line num="12" count="3" type="stmt"/>
+      <line num="13" count="2" type="stmt"/>
+    </file>
+  </project>
+</coverage>

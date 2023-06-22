@@ -1,0 +1,48 @@
+.FilterModul {
+  flex-direction: column;
+  position: relative;
+  width: var(--sidebar-width);
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+  border-top: 10px solid var(--border-color);
+  border-right: 10px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--seccondary-bg-color);
+}
+.FilterModulFilds {
+  padding: 10px;
+}
+.collapsed {
+  width: 0px;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  border: none;
+}
+.FilterModulHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.title {
+  font-size: var(--font-line-m);
+  font-weight: 700;
+}
+.closeButton {
+  background: none;
+  font-size: 30px;
+  border: none;
+  transform: rotate(45deg);
+  color: var(--primary-color);
+  cursor: pointer;
+}
+.inputLabel {
+  margin-top: 15px;
+}
+.actionButtons {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 20px;
+}

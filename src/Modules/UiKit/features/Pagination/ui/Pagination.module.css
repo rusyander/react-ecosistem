@@ -1,0 +1,128 @@
+.pagination {
+  padding: 0 10px;
+  position: absolute;
+  bottom: 0;
+  right: 10;
+  width: 100%;
+  height: var(--pagination-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--border-color);
+}
+.pageControl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pageSelect {
+  display: flex;
+  justify-content: space-around;
+  margin-right: 10px;
+}
+.pageSelect > button {
+  margin: 0 5px;
+}
+.pageSelect > button:hover {
+  color: var(--primary-bg-color);
+}
+.buttonPage {
+  color: var(--seccondary-bg-color);
+  background-color: var(--primary-bg-color);
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+}
+.buttonPage:hover {
+  color: var(--seccondary-bg-color) !important;
+}
+
+.buttonPageChange {
+  background: none;
+  border: none;
+  outline: none;
+  height: 30px;
+}
+.doubleArrow {
+  font-size: 22px;
+  color: var(--border-color-dark);
+}
+.doubleArrow:hover {
+  color: var(--primary-bg-color);
+}
+
+.doubleArrowColor {
+  color: var(--border-color-dark);
+  font-size: 22px;
+}
+.doubleArrowDisabled {
+  font-size: 22px;
+  /* color: var(--border-color-dark); */
+
+  pointer-events: none;
+}
+.doubleArrowDisabled:hover {
+  color: var(--border-color-dark);
+  pointer-events: none;
+}
+
+.singleArrowColor {
+  color: var(--border-color-dark);
+}
+
+.singleArrow {
+  color: var(--border-color-dark);
+}
+.singleArrow:hover {
+  color: var(--primary-bg-color);
+}
+.singleArrowDisabled {
+  color: var(--border-color-dark);
+  pointer-events: none;
+}
+.singleArrowDisabled:hover {
+  color: var(--border-color-dark);
+  pointer-events: none;
+}
+
+/* -------------------------- */
+.paginationContainer {
+  display: flex;
+  list-style-type: none;
+}
+
+.paginationItem {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 12px;
+  background-color: var(--border-color);
+  cursor: pointer;
+  color: #000;
+  min-width: 30px;
+  height: 30px;
+  margin: 0 3px;
+}
+
+.paginationItem:hover {
+  background: var(--primary-bg-color);
+  color: var(--seccondary-bg-color);
+  cursor: pointer;
+}
+
+.paginationItem.selected {
+  background: var(--primary-bg-color);
+  color: var(--seccondary-bg-color);
+}
+
+ul,
+li {
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.asdasddasd {
+  display: flex;
+}

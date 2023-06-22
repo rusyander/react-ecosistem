@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "@babel/preset-env",
+
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "plugins": [
+    "i18next-extract"
+    // "@babel/plugin-proposal-class-properties",
+    // "@babel/plugin-transform-runtime"
+  ]
+  // "outputPath": "public/locales/{{locale}}/{{ns}}.json",
+  // "locales": ["en", "ru"]
+}

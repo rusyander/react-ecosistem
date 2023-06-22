@@ -1,0 +1,157 @@
+.table-wrapper {
+  margin-bottom: 25px;
+  border-radius: 6px;
+
+  transition: "all 0.2s ease";
+  flex-grow: 1;
+}
+
+table tr {
+  position: fixed;
+}
+
+table thead,
+table tbody,
+table tr {
+  transition: all 0.2s ease-in-out;
+  display: contents;
+}
+tr:hover td {
+  /* background: var(--scroll-color) !important; */
+  background: var(--select-row-item-bg) !important;
+  /* color: var(--bg-color) !important; */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+table th {
+  position: relative;
+  font-size: 18px;
+}
+
+table th {
+  border: 1px solid var(--border-color);
+  margin: 0;
+  padding: 0.5rem;
+}
+
+table td {
+  border: 1px solid var(--border-color);
+  margin: 0;
+  padding: 0.5rem;
+}
+
+table th span,
+table td span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.resize-handle {
+  display: block;
+  position: absolute;
+  cursor: col-resize;
+  width: 6px;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  border-right: 2px solid transparent;
+  background-color: var(--border-color-dark);
+  height: 43px !important;
+}
+
+.resize-handle:hover {
+  border-color: var(--scroll-color);
+}
+
+.resize-handle.active {
+  border-color: var(--scroll-color);
+}
+th {
+  background: var(--border-color);
+}
+
+/* --------- */
+
+.colorTR:hover {
+  /* background: rgba(141, 149, 255, 0.5); */
+  background: var(--primary-bg-color);
+  color: var(--seccondary-bg-color);
+  transition: background 0.6s;
+}
+
+.sortIcons {
+  font-size: 25px;
+}
+
+.sortIcons:hover {
+  color: var(--seccondary-bg-color);
+}
+
+.sortIconsSecondary {
+  font-size: 25px;
+  color: var(--seccondary-bg-color);
+}
+
+.colorTR:hover .sortIcons {
+  color: var(--seccondary-bg-color);
+}
+
+.colorTR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.thFlex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.buttonTable {
+  margin-left: 15px;
+  background: none;
+  color: var(--primary-color);
+  border: none;
+  outline: none;
+  padding: 0;
+  height: 25px;
+}
+.bgColorTRLast {
+  background: var(--primary-bg-color);
+  color: var(--seccondary-bg-color);
+}
+
+table thead th {
+  position: sticky;
+  top: 0;
+}
+
+table {
+  /* min-width: 1000px; */
+  min-width: 100px;
+  position: relative;
+  overflow: auto;
+}
+
+table::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: var(--seccondary-bg-color);
+}
+
+table::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px var(--border-color);
+  border-radius: 10px;
+}
+table::-webkit-scrollbar-thumb {
+  background: var(--scroll-color);
+  border-radius: 10px;
+}
+.tableTitleStyle {
+  font: var(--font-l);
+}

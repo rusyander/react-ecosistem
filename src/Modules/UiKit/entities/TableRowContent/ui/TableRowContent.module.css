@@ -1,0 +1,8 @@
+.tableRowContent {
+  white-space: wrap !important;
+  text-overflow: ellipsis !important;
+}
+.CkeletonLoader {
+  flex-grow: 1 !important;
+  flex-shrink: 100 !important;
+}
