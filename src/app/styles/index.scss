@@ -17,7 +17,7 @@ body {
 }
 
 .content-page {
-  display: flex;
+  // display: flex;
 }
 
 .page-wrapper {
@@ -28,3 +28,16 @@ body {
   height: calc(100vh - var(--navbar-height));
   overflow-y: auto;
 }
+
+.navBatHeight {
+  // position: absolute;
+  // top: 0;
+  // background-color: green;
+  // right: 0;
+  // left: 0;
+
+  // width: 100%;
+}
+// .contentMargin {
+//   margin-top: var(--navbar-height);
+// }

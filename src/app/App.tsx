@@ -1,7 +1,6 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useTheme } from './providers/ThemeProvider';
 import { AppRouter } from './providers/router';
-import { Navbar } from 'widgets/Navbar';
 import { Sidebar } from 'widgets/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,14 +9,17 @@ import {
   getUserIsAuth,
 } from 'entities/User';
 import { classNames } from 'Modules/UiKit';
-import { LoginPage } from 'pages/LoginPage';
-import { MainPage } from 'pages/MainPage';
+import { UserApp } from 'Modules/Moduls/Core';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { ErrorPage } from 'pages/ErrorPage';
 
 export default function App() {
   const { theme } = useTheme();
   const dispatch = useDispatch();
   const initedUser = useSelector(getUserInitedSelectors);
   const isAuth = useSelector(getUserIsAuth);
+
+  const [notFound, setNotFound] = useState(false);
 
   console.log(initedUser);
 
@@ -36,7 +38,15 @@ export default function App() {
 
             <div className="content-page">
               <Sidebar />
-              <AppRouter />
+              <div>
+                <BrowserRouter>
+                  <AppRouter />
+                </BrowserRouter>
+
+                <BrowserRouter>
+                  <UserApp />
+                </BrowserRouter>
+              </div>
               {/* <MainPage /> */}
               {/* {initedUser && <MainPage />} */}
             </div>

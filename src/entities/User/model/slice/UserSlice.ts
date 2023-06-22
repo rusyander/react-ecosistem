@@ -5,6 +5,7 @@ import { USER_LOCALSTORAGE_KEY } from 'shared/const/localstorage';
 const initialState: UserSchema = {
   _inited: false,
   isAuth: false,
+  authData: undefined,
 };
 
 const UserSlice = createSlice({

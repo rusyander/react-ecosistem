@@ -3,7 +3,6 @@ import cls from './Navbar.module.scss';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserActions, getUserAuthData } from 'entities/User';
 import { Button, classNames } from 'Modules/UiKit';
 
 interface NavbarProps {

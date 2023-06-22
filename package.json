@@ -6,7 +6,7 @@
   "scripts": {
     "i": "npm i --force",
     "build": "webpack --config webpack.config.ts",
-    "dev": "webpack serve --env port=9090",
+    "dev": "webpack serve --env port=9999",
     "start": "npm run dev",
     "build:prod": "webpack --env mode=production",
     "build:dev": "webpack --env mode=development",
