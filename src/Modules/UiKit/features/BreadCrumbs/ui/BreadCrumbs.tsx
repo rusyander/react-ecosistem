@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import cls from "./BreadCrumbs.module.css";
-import { Icon } from "@iconify/react";
-import { BreadCrumbsActions, BreadCrumbsReducer, Paths, getPathList } from "..";
-import { memo, useCallback } from "react";
-import { DynamicModuleLoader, useAppDispatch } from "../../../shared";
-import { ReducersList } from "../../../shared/components/DynamicModuleLoader/DynamicModuleLoader";
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import cls from './BreadCrumbs.module.css';
+import { Icon } from '@iconify/react';
+import { BreadCrumbsActions, BreadCrumbsReducer, Paths, getPathList } from '..';
+import { memo, useCallback } from 'react';
+import { DynamicModuleLoader, useAppDispatch } from '../../../shared';
+import { ReducersList } from '../../../shared/components/DynamicModuleLoader/DynamicModuleLoader';
 
 const reducers: ReducersList = {
   breadCrumps: BreadCrumbsReducer,
@@ -22,9 +22,11 @@ export const BreadCrumbs = memo(() => {
   );
 
   const pathListData = useSelector(getPathList);
+  console.log(pathListData);
 
   return (
     // <DynamicModuleLoader removeAfterUnmaunt={true} reducers={reducers}>
+
     <div className={cls.BreadCrumbsElementsList}>
       {pathListData.map((path: Paths) => (
         <div key={path.path} className={cls.BreadCrumbsElement}>

@@ -1,5 +1,7 @@
 .BreadCrumbsElementsList {
   display: flex;
+  background-color: red;
+  width: calc(100% - var(--collapsed-sidebar-width)) !important;
 }
 
 .BreadCrumbsElement {

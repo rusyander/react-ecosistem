@@ -1,8 +1,8 @@
 @import 'reset';
 @import 'variables/globals';
-@import 'themes/dark';
-@import 'themes/normals';
-@import './themes//orange';
+// @import 'themes/dark';
+// @import 'themes/normals';
+// @import './themes//orange';
 body {
   font: var(--font-m);
   color: var(--primary-color);
@@ -16,10 +16,6 @@ body {
   margin-left: var(--collapsed-sidebar-width);
 }
 
-.content-page {
-  // display: flex;
-}
-
 .page-wrapper {
   flex-grow: 1;
   flex-shrink: 100;
@@ -28,16 +24,3 @@ body {
   height: calc(100vh - var(--navbar-height));
   overflow-y: auto;
 }
-
-.navBatHeight {
-  // position: absolute;
-  // top: 0;
-  // background-color: green;
-  // right: 0;
-  // left: 0;
-
-  // width: 100%;
-}
-// .contentMargin {
-//   margin-top: var(--navbar-height);
-// }

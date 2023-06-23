@@ -1,5 +1,5 @@
 // export  AppRouter  from "./ui/AppRouter";
 
-import AppRouter2 from './ui/AppRouter2';
+import AppRouter from './ui/AppRouter';
 
-export { AppRouter2 };
+export { AppRouter };

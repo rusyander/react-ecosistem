@@ -8,6 +8,13 @@
 .DropdownMenuItems .menu-items {
   position: relative;
   font-size: 14px;
+  height: auto;
+  height: var(--navbar-height);
+  color: var(--seccondary-bg-color);
+}
+
+.DropdownMenuItems .menu-items:hover {
+  border: 1px solid var(--seccondary-bg-color);
 }
 
 .DropdownMenuItems .menu-items a {
@@ -46,7 +53,7 @@
 }
 
 .DropdownMenuItems .arrow::after {
-  content: "";
+  content: '';
   display: inline-block;
   margin-left: 0.28em;
   vertical-align: 0.09em;
@@ -66,7 +73,7 @@
   min-width: 10rem;
   padding: 0.5rem 0;
   list-style: none;
-  background-color: var(--seccondary-bg-color);
+  background-color: var(--primary-bg-color);
   border-radius: 0.5rem;
   display: none;
 }

@@ -32,10 +32,12 @@
 
   /* --font-family-main: "Open Sans", "Times New Roman", serif; */
   --font-family-main: Arial, Helvetica, sans-serif;
-  --font-size-m: 16px;
-  --font-line-m: 24px;
+  // --font-size-m: 16px;
+  // --font-line-m: 24px;
+  --font-size-m: 14px;
+  --font-line-m: 22px;
   --font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-main);
-  --font-size-l: 24px;
+  --font-size-l: 16px;
   --font-line-l: 32px;
   --font-l: var(--font-size-l) / var(--font-line-l) var(--font-family-main);
   --font-size-xl: 32px;
@@ -67,6 +69,7 @@
   --pagination-height: 45px;
   --navbar-height: 50px;
   --sidebar-width: 300px;
+  --breadcrumbs: 30px;
 
   /* modal */
   --primary-color: #000;
