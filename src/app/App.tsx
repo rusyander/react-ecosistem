@@ -7,7 +7,7 @@ import {
   getUserInitedSelectors,
   getUserIsAuth,
 } from 'entities/User';
-import { classNames } from 'Modules/UiKit';
+import { StoreProviderUiKit, classNames } from 'Modules/UiKit';
 import { UserApp } from 'Modules/Moduls/Core';
 import { LoginPage } from 'pages/LoginPage';
 
@@ -46,7 +46,9 @@ export default function App() {
                 </BrowserRouter> */}
 
                 {/* <BrowserRouter> */}
-                <UserApp />
+                <StoreProviderUiKit>
+                  <UserApp />
+                </StoreProviderUiKit>
                 {/* </BrowserRouter> */}
               </div>
               {/* <MainPage /> */}

@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { DropdownMenu } from "./DropdownMenu";
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { ReducersMapObject } from "@reduxjs/toolkit";
+import { DropdownMenu } from './DropdownMenu';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ReducersMapObject } from '@reduxjs/toolkit';
 import {
   createReduxStore,
-  StateSchema,
-} from "../../../../../app/providers/StoreProvider";
+  StateSchemaUiKit,
+} from '../../../../../app/providers/StoreProvider';
 
 const store = createReduxStore();
 
 const meta = {
-  title: "shared/DropdownMenu",
+  title: 'shared/DropdownMenu',
   component: DropdownMenu,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <Provider store={store}>
@@ -33,57 +33,57 @@ export const Primary: Story = {
   args: {
     menuItems: [
       {
-        title: "Home",
-        url: "/page1",
+        title: 'Home',
+        url: '/page1',
       },
       {
-        title: "Services",
-        url: "/page1",
+        title: 'Services',
+        url: '/page1',
         submenu: [
           {
-            title: "web design",
-            url: "/page2",
+            title: 'web design',
+            url: '/page2',
           },
           {
-            title: "web development",
-            url: "/page1",
+            title: 'web development',
+            url: '/page1',
             submenu: [
               {
-                title: "Frontend",
-                url: "/page3",
+                title: 'Frontend',
+                url: '/page3',
               },
               {
-                title: "Backend",
+                title: 'Backend',
                 submenu: [
                   {
-                    title: "NodeJS",
-                    url: "/page2",
+                    title: 'NodeJS',
+                    url: '/page2',
                   },
                   {
-                    title: "PHP",
-                    url: "/page1",
+                    title: 'PHP',
+                    url: '/page1',
                   },
                 ],
               },
             ],
           },
           {
-            title: "SEO",
-            url: "/page1",
+            title: 'SEO',
+            url: '/page1',
           },
         ],
       },
       {
-        title: "About",
-        url: "//page1",
+        title: 'About',
+        url: '//page1',
         submenu: [
           {
-            title: "Who we are",
-            url: "/page2",
+            title: 'Who we are',
+            url: '/page2',
           },
           {
-            title: "Our values",
-            url: "/page3",
+            title: 'Our values',
+            url: '/page3',
           },
         ],
       },

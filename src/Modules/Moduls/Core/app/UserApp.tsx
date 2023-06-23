@@ -4,12 +4,13 @@ import { AppRouter } from './providers/router';
 import { useDispatch } from 'react-redux';
 import { StoreProvider } from './providers/StoreProvider';
 import { Navbar } from '../widgets/Navbar';
-import { BreadCrumbs } from 'Modules/UiKit';
+import { BreadCrumbs, StoreProviderUiKit } from 'Modules/UiKit';
 
 export const UserApp = () => {
   const dispatch = useDispatch();
 
   return (
+    // <StoreProviderUiKit>
     <StoreProvider>
       <Suspense fallback={''}>
         <div className="navBatHeight">
@@ -22,5 +23,6 @@ export const UserApp = () => {
         </div>
       </Suspense>
     </StoreProvider>
+    // </StoreProviderUiKit>
   );
 };

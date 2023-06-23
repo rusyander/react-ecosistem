@@ -18,7 +18,7 @@ export { Texts } from './shared';
 export { Tooltip } from './shared';
 
 export { classNames } from './shared';
-export { useAppDispatch } from './shared';
+export { useAppDispatchUiKit } from './shared';
 export { DynamicModuleLoader } from './shared';
 export { useInfiniteScroll } from './shared';
 export { useInitialEffect } from './shared';
@@ -41,3 +41,6 @@ export { Grid } from './widgets';
 export { GridInPopup } from './widgets';
 export { PageError } from './widgets';
 export { PageLoader } from './widgets';
+
+// StoreProviderUiKit
+export { StoreProviderUiKit } from './app/providers/StoreProvider/ui/StoreProviderUiKit';

@@ -4,7 +4,7 @@ import cls from './BreadCrumbs.module.css';
 import { Icon } from '@iconify/react';
 import { BreadCrumbsActions, BreadCrumbsReducer, Paths, getPathList } from '..';
 import { memo, useCallback } from 'react';
-import { DynamicModuleLoader, useAppDispatch } from '../../../shared';
+import { DynamicModuleLoader, useAppDispatchUiKit } from '../../../shared';
 import { ReducersList } from '../../../shared/components/DynamicModuleLoader/DynamicModuleLoader';
 
 const reducers: ReducersList = {
@@ -12,7 +12,7 @@ const reducers: ReducersList = {
 };
 
 export const BreadCrumbs = memo(() => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatchUiKit();
 
   const deletePathsElement = useCallback(
     (id: string) => {

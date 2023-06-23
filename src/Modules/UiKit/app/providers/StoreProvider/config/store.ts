@@ -4,19 +4,19 @@ import {
   Reducer,
   ReducersMapObject,
   configureStore,
-} from "@reduxjs/toolkit";
-import { StateSchema, ThunkExtraArg } from "./StateSchema";
-import { createReducerManager } from "./reduserManaget";
-import { NavigateOptions, To } from "react-router-dom";
-import { $api } from "../../../../shared/api/api";
-import { BreadCrumbsReducer } from "../../../../features/BreadCrumbs";
+} from '@reduxjs/toolkit';
+import { StateSchemaUiKit, ThunkExtraArg } from './StateSchemaUiKit';
+import { createReducerManager } from './reduserManaget';
+import { NavigateOptions, To } from 'react-router-dom';
+import { $api } from '../../../../shared/api/api';
+import { BreadCrumbsReducer } from '../../../../features/BreadCrumbs';
 
 export function createReduxStore(
-  initialState?: StateSchema,
-  asyncReducers?: ReducersMapObject<StateSchema>,
+  initialState?: StateSchemaUiKit,
+  asyncReducers?: ReducersMapObject<StateSchemaUiKit>,
   navigate?: (to: To, options?: NavigateOptions) => void
 ) {
-  const rootReduser: ReducersMapObject<StateSchema> = {
+  const rootReduser: ReducersMapObject<StateSchemaUiKit> = {
     ...asyncReducers,
     breadCrumps: BreadCrumbsReducer,
   };
@@ -29,7 +29,7 @@ export function createReduxStore(
   };
 
   const store = configureStore({
-    reducer: reducerManager.reduce as Reducer<CombinedState<StateSchema>>,
+    reducer: reducerManager.reduce as Reducer<CombinedState<StateSchemaUiKit>>,
     preloadedState: initialState,
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware({
@@ -46,4 +46,4 @@ export function createReduxStore(
   return store;
 }
 
-export type AppDispatch = ReturnType<typeof createReduxStore>["dispatch"];
+export type AppDispatchUiKit = ReturnType<typeof createReduxStore>['dispatch'];
