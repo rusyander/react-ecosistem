@@ -1,18 +1,14 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import cls from './BreadCrumbs.module.css';
 import { Icon } from '@iconify/react';
-import { BreadCrumbsActions, BreadCrumbsReducer, Paths, getPathList } from '..';
+import { BreadCrumbsActions, Paths, getPathList } from '..';
 import { memo, useCallback } from 'react';
-import { DynamicModuleLoader, useAppDispatchUiKit } from '../../../shared';
-import { ReducersList } from '../../../shared/components/DynamicModuleLoader/DynamicModuleLoader';
-
-const reducers: ReducersList = {
-  breadCrumps: BreadCrumbsReducer,
-};
+import { classNames } from '../../..';
 
 export const BreadCrumbs = memo(() => {
-  const dispatch = useAppDispatchUiKit();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   const deletePathsElement = useCallback(
     (id: string) => {
@@ -21,15 +17,23 @@ export const BreadCrumbs = memo(() => {
     [dispatch]
   );
 
-  const pathListData = useSelector(getPathList);
-  console.log(pathListData);
+  // const pathListData = useSelector(getPathList);
+  const pathListData = useSelector((state: any) => state.breadCrumbs?.pathList);
+  console.log(pathListData, 'pathListData CORE');
 
+  // path.path === location.pathname ? cls.activeBreadcrubm : ""
   return (
-    // <DynamicModuleLoader removeAfterUnmaunt={true} reducers={reducers}>
-
     <div className={cls.BreadCrumbsElementsList}>
-      {pathListData.map((path: Paths) => (
-        <div key={path.path} className={cls.BreadCrumbsElement}>
+      {pathListData?.map((path: Paths) => (
+        <div
+          key={path.path}
+          className={classNames('', {}, [
+            // cls.BreadCrumbsElement
+            path.path === location.pathname
+              ? cls.activeBreadcrubm
+              : cls.BreadCrumbsElement,
+          ])}
+        >
           <Link className={cls.link} to={path.path}>
             {path.name}
           </Link>
@@ -41,6 +45,5 @@ export const BreadCrumbs = memo(() => {
         </div>
       ))}
     </div>
-    // </DynamicModuleLoader>
   );
 });

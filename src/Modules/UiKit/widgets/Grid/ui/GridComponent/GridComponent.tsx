@@ -22,6 +22,7 @@ interface GridComponentProps {
   onRefresh?: () => void;
   AddNewButtonComponents?: any[];
   isLoading?: boolean;
+  hasOpenModal?: boolean;
 }
 
 export const GridComponent = memo(
@@ -30,7 +31,7 @@ export const GridComponent = memo(
     ModalContent,
     pageCountOptions,
     rowData,
-    gridHeight,
+    gridHeight = 100,
     gridIsOpenModal,
     defaultPageSize,
     totalDataCount = 100,
@@ -44,6 +45,7 @@ export const GridComponent = memo(
     onRefresh = () => {
       return null;
     },
+    hasOpenModal = false,
     AddNewButtonComponents,
     isLoading,
   }: GridComponentProps) => {
@@ -78,7 +80,7 @@ export const GridComponent = memo(
           <div className={cls.content} style={{ maxHeight: gridHeight }}>
             <TableHeaderSort
               dataHeaders={headerData}
-              minCellWidth={100}
+              minCellWidth={hasOpenModal ? 550 : 100}
               dataRowState={dataRowState}
               setDataRowState={setDataRowState}
               //sort
@@ -90,6 +92,7 @@ export const GridComponent = memo(
               setSelectedFild={setSelectedFild}
               selectedFild={selectedFild}
               selectedFields={selectedFields}
+              hasOpenModal={hasOpenModal}
               //filter
               canOpenFilter={canOpenFilter}
               // loading

@@ -1,8 +1,9 @@
-import { memo, useCallback } from 'react';
-import cls from './Navigation.module.css';
-import { Texts, classNames, useAppDispatchUiKit } from '../..';
-import { Link } from 'react-router-dom';
-import { BreadCrumbsActions, Paths } from '../../../features/BreadCrumbs';
+import { memo, useCallback } from "react";
+import cls from "./Navigation.module.css";
+import { Texts, classNames } from "../..";
+import { Link } from "react-router-dom";
+import { BreadCrumbsActions, Paths } from "../../../features/BreadCrumbs";
+import { useDispatch } from "react-redux";
 
 interface NavigationProps {
   className?: string;
@@ -11,8 +12,8 @@ interface NavigationProps {
 }
 
 export const Navigation = memo(
-  ({ className = '', path = '', name = '' }: NavigationProps) => {
-    const dispatch = useAppDispatchUiKit();
+  ({ className = "", path = "", name = "" }: NavigationProps) => {
+    const dispatch = useDispatch();
 
     const addNewPaths = useCallback(
       (path: Paths) => {
@@ -20,6 +21,7 @@ export const Navigation = memo(
       },
       [dispatch]
     );
+
     return (
       <Link
         className={classNames(cls.Navigation, {}, [className])}

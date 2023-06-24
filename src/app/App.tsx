@@ -7,25 +7,26 @@ import {
   getUserInitedSelectors,
   getUserIsAuth,
 } from 'entities/User';
-import { StoreProviderUiKit, classNames } from 'Modules/UiKit';
-import { UserApp } from 'Modules/Moduls/Core';
+import { CoreApp } from 'Modules/Moduls/Core';
 import { LoginPage } from 'pages/LoginPage';
+import { StoreProviderCore } from 'Modules/Moduls/Core/app/providers/StoreProvider';
+import { classNames } from 'Modules/UiKit';
 
 export default function App() {
   const { theme } = useTheme();
-  const dispatch = useDispatch();
-  const initedUser = useSelector(getUserInitedSelectors);
-  const isAuth = useSelector(getUserIsAuth);
+  // const dispatch = useDispatch();
+  // const initedUser = useSelector(getUserInitedSelectors);
+  // const isAuth = useSelector(getUserIsAuth);
 
-  console.log(initedUser);
+  // console.log(initedUser);
 
-  useEffect(() => {
-    dispatch(UserActions.initAuthData());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(UserActions.initAuthData());
+  // }, [dispatch]);
 
-  if (!isAuth) {
-    return <LoginPage />;
-  }
+  // if (!isAuth) {
+  //   return <LoginPage />;
+  // }
   // if (isAuth) {
   //   novigate('/user');
   // }
@@ -46,9 +47,11 @@ export default function App() {
                 </BrowserRouter> */}
 
                 {/* <BrowserRouter> */}
-                <StoreProviderUiKit>
-                  <UserApp />
-                </StoreProviderUiKit>
+                {/* <StoreProviderUiKit> */}
+                {/* <StoreProviderCore> */}
+                <CoreApp />
+                {/* </StoreProviderCore> */}
+                {/* </StoreProviderUiKit> */}
                 {/* </BrowserRouter> */}
               </div>
               {/* <MainPage /> */}

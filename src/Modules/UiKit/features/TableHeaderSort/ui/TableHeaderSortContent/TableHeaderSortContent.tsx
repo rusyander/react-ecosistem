@@ -32,22 +32,18 @@ export default function TableHeaderSortContent(
             className={`tr colorTR ${
               sortFild === accessorKey && "bgColorTRLast"
             }`}
+            onClick={() => sortByFields(accessorKey)}
           >
             <div className="thFlex">
               <span className="tableTitleStyle">{header}</span>
-              {/* <Texts title={header} size="sizeM" /> */}
 
               <button
                 className="buttonTable"
-                onClick={() => sortByFields(accessorKey)}
+                // onClick={() => sortByFields(accessorKey)}
               >
                 {renderSortIcon(accessorKey)}
                 {sortFild !== accessorKey && (
-                  <Icon
-                    onClick={() => sortByFields(accessorKey)}
-                    className="sortIcons"
-                    icon="bx:sort-alt-2"
-                  />
+                  <Icon className="sortIcons" icon="bx:sort-alt-2" />
                 )}
               </button>
             </div>

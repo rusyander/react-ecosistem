@@ -97,6 +97,7 @@ module.exports = {
     'jsx-props-no-spreading': 'off',
     '@typescript-eslint/restrict-plus-operands': 'warn',
     '@typescript-eslint/restrict-template-expressions': 'warn',
+    '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
   },
   globals: {
     __IS_DEV__: true,

@@ -5,23 +5,20 @@ import {
   ReducersMapObject,
   configureStore,
 } from '@reduxjs/toolkit';
-import { StateSchema, ThunkExtraArg } from './StateSchema';
+import { StateSchemaCore, ThunkExtraArg } from './StateSchemaCore';
 import { createReducerManager } from './reduserManaget';
 import { $api } from 'shared/api/api';
 import { NavigateOptions, To } from 'react-router-dom';
+import { BreadCrumbsReducer } from 'Modules/UiKit';
 
 export function createReduxStore(
-  initialState?: StateSchema,
-  asyncReducers?: ReducersMapObject<StateSchema>,
+  initialState?: StateSchemaCore,
+  asyncReducers?: ReducersMapObject<StateSchemaCore>,
   navigate?: (to: To, options?: NavigateOptions) => void
 ) {
-  const rootReduser: ReducersMapObject<StateSchema> = {
+  const rootReduser: ReducersMapObject<StateSchemaCore> = {
+    breadCrumbs: BreadCrumbsReducer,
     ...asyncReducers,
-    // counter: CounterReducer,
-    // user: UserReducer,
-
-    // loginForm: LoginReducer,
-    // articleDetails: ArticleDetailsReducer,
   };
 
   const reducerManager = createReducerManager(rootReduser);
@@ -32,7 +29,7 @@ export function createReduxStore(
   };
 
   const store = configureStore({
-    reducer: reducerManager.reduce as Reducer<CombinedState<StateSchema>>,
+    reducer: reducerManager.reduce as Reducer<CombinedState<StateSchemaCore>>,
     devTools: __IS_DEV__,
     preloadedState: initialState,
     middleware: (getDefaultMiddleware) => {

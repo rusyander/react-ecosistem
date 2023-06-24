@@ -28,5 +28,8 @@
   cursor: pointer;
 }
 .GridComponentMaxWidth {
-  max-width: 1000px;
+  flex-grow: 1;
+  /* width: auto; */
+  width: 1000px;
 }
+/* ----------------------------------------------- */

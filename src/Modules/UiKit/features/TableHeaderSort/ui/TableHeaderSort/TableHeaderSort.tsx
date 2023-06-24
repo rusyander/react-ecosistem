@@ -1,10 +1,11 @@
-import { useRef, memo, useState, useCallback, useEffect } from "react";
-import { Icon } from "@iconify/react";
-import { TableHeadersProps } from "../../../../widgets/Grid";
-import "./TableHeaderSort.css";
-import { Modal } from "../../../../shared/ui/Modal";
-import TableHeaderSortContent from "../TableHeaderSortContent/TableHeaderSortContent";
-import { TableRowContent } from "../../../../entities/TableRowContent";
+import { useRef, memo, useState, useCallback, useEffect } from 'react';
+import { Icon } from '@iconify/react';
+import { TableHeadersProps } from '../../../../widgets/Grid';
+import './TableHeaderSort.css';
+import { Modal } from '../../../../shared/ui/Modal';
+import { TableRowContent } from '../../../../entities/TableRowContent';
+// @ts-ignore
+import TableHeaderSortContent from '../TableHeaderSortContent/TableHeaderSortContent';
 
 interface TableHeaderSortProps {
   minCellWidth?: number;
@@ -19,6 +20,7 @@ interface TableHeaderSortProps {
   selectedFields?: (value: any) => void;
   canOpenFilter?: boolean;
   isLoading?: boolean;
+  hasOpenModal?: boolean;
 }
 
 const createHeaders = (headers: TableHeadersProps[]) => {
@@ -41,6 +43,7 @@ export const TableHeaderSort = memo(
     setSelectedFild,
     selectedFild,
     isLoading = false,
+    hasOpenModal = false,
     selectedFields = () => {
       return null;
     },
@@ -61,25 +64,73 @@ export const TableHeaderSort = memo(
 
     const mouseMove = useCallback(
       (e: MouseEvent) => {
-        const gridColumns = columns.map((col: any, i: any) => {
+        const indexCurrent = activeIndex === null ? 0 : activeIndex;
+        const screenWidth = window.innerWidth;
+        const gridColumns: any = columns.map((col: any, i: any) => {
           if (i === activeIndex) {
             const width = e.clientX - col.ref.current.offsetLeft;
             if (width >= minCellWidth) {
-              return `${canOpenFilter == true ? width - 300 : width}px`;
+              return `${canOpenFilter === true ? width - 300 : width}px`;
             }
           }
           return `${col.ref.current?.offsetWidth}px`;
         });
-        tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
-          " "
-        )}`;
+
+        // console.log(hasOpenModal, "hasOpenModal");
+        console.log(gridColumns, 'gridColumns');
+        console.log(screenWidth, 'screenWidth');
+
+        if (hasOpenModal === true) {
+          const gridColumnsInModal = gridColumns.map((col: any, i: any) => {
+            if (i === indexCurrent) {
+              const toNumber = col.split('px')[0];
+              // return `${Math.floor(Number(toNumber) / 1.575)}px`;
+              // return `${Math.floor(Number(toNumber) - 84)}px`;
+              // return `${Math.floor(Number(toNumber) - 331)}px`;
+              if (screenWidth <= 1100) {
+                return `${Math.floor(Number(toNumber) - 35)}px`;
+              }
+              if (screenWidth <= 1200) {
+                return `${Math.floor(Number(toNumber) - 79)}px`;
+              }
+              if (screenWidth <= 1200) {
+                return `${Math.floor(Number(toNumber) - 142)}px`;
+              }
+              if (screenWidth <= 1300) {
+                return `${Math.floor(Number(toNumber) - 183)}px`;
+              }
+              if (screenWidth <= 1400) {
+                return `${Math.floor(Number(toNumber) - 223)}px`;
+              }
+              if (screenWidth <= 1500) {
+                return `${Math.floor(Number(toNumber) - 290)}px`;
+              }
+              if (screenWidth <= 1650) {
+                return `${Math.floor(Number(toNumber) - 330)}px`;
+              }
+              if (screenWidth <= 1922) {
+                return `${Math.floor(Number(toNumber) - 455)}px`;
+              }
+            }
+            return `${col}`;
+          });
+          tableElement.current.style.gridTemplateColumns = `${gridColumnsInModal.join(
+            ' '
+          )}`;
+          console.log(gridColumnsInModal, 'gridColumnsInModal');
+        }
+        if (hasOpenModal === false) {
+          tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
+            ' '
+          )}`;
+        }
       },
-      [activeIndex, columns, canOpenFilter, minCellWidth]
+      [activeIndex, columns, hasOpenModal, minCellWidth, canOpenFilter]
     );
 
     const removeListeners = useCallback(() => {
-      window.removeEventListener("mousemove", mouseMove);
-      window.removeEventListener("mouseup", removeListeners);
+      window.removeEventListener('mousemove', mouseMove);
+      window.removeEventListener('mouseup', removeListeners);
     }, [mouseMove]);
 
     const mouseUp = useCallback(() => {
@@ -90,8 +141,8 @@ export const TableHeaderSort = memo(
     useEffect(() => {
       divBlock.current.getBoundingClientRect();
       if (activeIndex !== null) {
-        window.addEventListener("mousemove", mouseMove);
-        window.addEventListener("mouseup", mouseUp);
+        window.addEventListener('mousemove', mouseMove);
+        window.addEventListener('mouseup', mouseUp);
       }
       setTableHeights(tableElement.current.offsetHeight);
       return () => {
@@ -99,10 +150,8 @@ export const TableHeaderSort = memo(
       };
     }, [activeIndex, mouseMove, mouseUp, removeListeners]);
 
-    //---------------------------- sort
-
-    const [sortFild, setSortFild] = useState("");
-    const [getSortDirections, setGetSortDirections] = useState("asc");
+    const [sortFild, setSortFild] = useState('');
+    const [getSortDirections, setGetSortDirections] = useState('asc');
 
     const selectFild = useCallback(
       (selectedFieldsElement: string) => {
@@ -114,19 +163,20 @@ export const TableHeaderSort = memo(
 
     const sortByFields = useCallback(
       (field: string) => {
-        let direction = "asc";
+        let direction = 'asc';
         if (sortFild === field) {
-          direction = getSortDirections === "asc" ? "desc" : "asc";
+          direction = getSortDirections === 'asc' ? 'desc' : 'asc';
         }
         const sortedData = [...dataRowState].sort((a: any, b: any) => {
           if (a[field] < b[field]) {
-            return direction === "asc" ? -1 : 1;
+            return direction === 'asc' ? -1 : 1;
           }
           if (a[field] > b[field]) {
-            return direction === "asc" ? 1 : -1;
+            return direction === 'asc' ? 1 : -1;
           }
           return 0;
         });
+
         setDataRowState(sortedData);
         setSortFild(field);
         setGetSortDirections(direction);
@@ -137,7 +187,7 @@ export const TableHeaderSort = memo(
     const renderSortIcon = useCallback(
       (field: string) => {
         if (field === sortFild) {
-          return getSortDirections === "asc" ? (
+          return getSortDirections === 'asc' ? (
             <Icon className="sortIconsSecondary" icon="bx:sort-up" /> // Верхняя стрелка
           ) : (
             <Icon className="sortIconsSecondary" icon="bx:sort-down" /> // Нижняя стрелка
@@ -160,9 +210,11 @@ export const TableHeaderSort = memo(
         <div className="table-wrapper" ref={divBlock}>
           <table
             style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${columns.length},  minmax(10px, 1fr))`,
-              maxHeight: `${tableHeight - 45}px`,
+              display: 'grid',
+              gridTemplateColumns: `repeat(${columns.length},  minmax(${
+                hasOpenModal ? 100 : 100
+              }px, 1fr))`,
+              height: `${tableHeight - 45}px`,
             }}
             ref={tableElement}
           >

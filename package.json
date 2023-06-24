@@ -107,21 +107,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^11.15.5",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.11.2"
-  },
-  "loki": {
-    "configurations": {
-      "chrome.laptop": {
-        "target": "chrome.app",
-        "width": 1366,
-        "height": 768,
-        "deviceScaleFactor": 1,
-        "mobile": false
-      },
-      "chrome.iphone7": {
-        "target": "chrome.app",
-        "preset": "iPhone 7"
-      }
-    }
+    "react-router-dom": "^6.11.2",
+    "symbol-observable": "^4.0.0"
   }
 }

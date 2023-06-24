@@ -1,6 +1,6 @@
 import cls from "./Grid.module.css";
 import { Grid, GridInPopup } from "../../../widgets/Grid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Input, Button } from "../../..";
 
@@ -492,8 +492,32 @@ export function GridPage() {
     onPaginationPageChange(currentPageNumber, pageLimit);
   };
 
+  // find free height gor grid
+  const greedHeaderContentHeight = useRef<HTMLDivElement>(
+    null
+  ) as React.MutableRefObject<HTMLDivElement>;
+  const greedFooterContentHeight = useRef<HTMLDivElement>(
+    null
+  ) as React.MutableRefObject<HTMLDivElement>;
+
+  const screenHeight = window.innerHeight;
+  const headerHeight = 50;
+  const currentGridHeight =
+    screenHeight -
+    headerHeight -
+    greedHeaderContentHeight?.current?.offsetHeight -
+    greedFooterContentHeight?.current?.offsetHeight;
+
+  // console.log("currentGridHeight", currentGridHeight);
+
   return (
     <div>
+      <div ref={greedHeaderContentHeight}>
+        <h4>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae,
+          voluptates quae quaerat est reprehenderit reiciendis!
+        </h4>
+      </div>
       {/* <HeadersActionButtons /> */}
       <div className={cls.GridTableBlock}>
         <GridInPopup
@@ -501,7 +525,7 @@ export function GridPage() {
           headerData={headerForTest}
           rowData={rowDatasElements}
           // for grid height
-          gridHeight={415}
+          gridHeight={550}
           // for modal
           gridIsOpenModal={true}
           ModalContent={ModalContents}
@@ -535,7 +559,8 @@ export function GridPage() {
           headerData={headerForTest}
           rowData={rowDatasElements}
           // for grid height
-          gridHeight={415}
+          // gridHeight={currentGridHeight != 0 ? currentGridHeight : 500}
+          gridHeight={500}
           // for modal
           gridIsOpenModal={true}
           ModalContent={ModalContents}
@@ -561,6 +586,12 @@ export function GridPage() {
           // loading
           isLoading={false}
         />
+      </div>
+      <div ref={greedFooterContentHeight}>
+        <h4>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, esse
+          accusantium tempore fugit ea nulla!
+        </h4>
       </div>
     </div>
   );

@@ -1,1 +1,2 @@
-export { TableHeaderSort } from "./ui/TableHeaderSort/TableHeaderSort";
+// @ts-ignore
+export { TableHeaderSort } from './ui/TableHeaderSort/TableHeaderSort';

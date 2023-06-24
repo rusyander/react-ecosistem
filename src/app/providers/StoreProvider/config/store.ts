@@ -11,6 +11,7 @@ import { createReducerManager } from './reduserManaget';
 import { $api } from 'shared/api/api';
 import { NavigateOptions, To } from 'react-router-dom';
 import { LoginReducer } from 'features/AuthByUserName/model/slice/loginSlice';
+import { BreadCrumbsReducer } from 'Modules/UiKit';
 
 export function createReduxStore(
   initialState?: StateSchema,
@@ -20,9 +21,8 @@ export function createReduxStore(
   const rootReduser: ReducersMapObject<StateSchema> = {
     ...asyncReducers,
     user: UserReducer,
-
     loginForm: LoginReducer,
-    // articleDetails: ArticleDetailsReducer,
+    breadCrumbs: BreadCrumbsReducer,
   };
 
   const reducerManager = createReducerManager(rootReduser);

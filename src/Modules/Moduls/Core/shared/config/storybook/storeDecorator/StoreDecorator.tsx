@@ -1,18 +1,22 @@
 import { Story } from '@storybook/react';
-import { StoreProvider } from '../../../../app/providers/StoreProvider';
-import { StateSchema } from 'app/providers/StoreProvider';
-import { ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModalLoader';
+import { StoreProviderCore } from '../../../../app/providers/StoreProvider';
+import { StateSchemaCore } from '../../../../app/providers/StoreProvider/config/StateSchemaCore';
+// import { ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModalLoader';
+import { BreadCrumbsReducer } from 'Modules/UiKit';
+import { ReducersList } from '../../../lib/components/DynamicModuleLoader/DynamicModalLoader';
 
-const defaultAsyncReducers: ReducersList = {};
+const defaultAsyncReducers: ReducersList = {
+  breadCrumbs: BreadCrumbsReducer,
+};
 
 export const StoreDecorator =
-  (state: DeepPartial<StateSchema>, asyncReducers?: ReducersList) =>
+  (state: DeepPartial<StateSchemaCore>, asyncReducers?: ReducersList) =>
   (StoryComponent: Story) =>
     (
-      <StoreProvider
+      <StoreProviderCore
         initialState={state}
         asyncReducers={{ ...defaultAsyncReducers, ...asyncReducers }}
       >
         <StoryComponent />
-      </StoreProvider>
+      </StoreProviderCore>
     );

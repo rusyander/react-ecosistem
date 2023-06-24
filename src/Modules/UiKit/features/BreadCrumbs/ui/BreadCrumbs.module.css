@@ -1,7 +1,5 @@
 .BreadCrumbsElementsList {
   display: flex;
-  background-color: red;
-  width: calc(100% - var(--collapsed-sidebar-width)) !important;
 }
 
 .BreadCrumbsElement {
@@ -44,4 +42,30 @@
 .BreadCrumbsElement:hover .deleteButton {
   color: var(--primary-bg-color);
   transition: color 0.2s ease-in-out;
+}
+
+.activeBreadcrubm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 7px;
+  margin-right: 5px;
+  cursor: pointer;
+
+  color: var(--primary-bg-color);
+  border: 1px solid var(--primary-bg-color);
+  transition: all 0.2s ease-in-out;
+}
+.activeBreadcrubm .link {
+  text-decoration: none;
+  color: var(--primary-bg-color);
+  transition: color 0.2s ease-in-out;
+}
+.activeBreadcrubm:hover {
+  display: flex;
+  border: 1px solid var(--primary-bg-color);
+  color: var(--primary-bg-color);
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
 }

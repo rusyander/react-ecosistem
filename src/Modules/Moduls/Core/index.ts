@@ -1,1 +1,1 @@
-export { UserApp } from './app/UserApp';
+export { CoreApp } from './app/CoreApp';

@@ -1,1 +1,2 @@
-export { TableRowContent } from "./ui/TableRowContent";
+// @ts-ignore
+export { TableRowContent } from './ui/TableRowContent';

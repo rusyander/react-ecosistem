@@ -1,13 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { FilterBlock } from "./FilterBlock";
-import { BrowserRouter } from "react-router-dom";
-import { useState } from "react";
+// @ts-ignore
+import { FilterBlock } from './FilterBlock';
+import { BrowserRouter } from 'react-router-dom';
+import { useState } from 'react';
 
 const meta = {
-  title: "features/FilterBlock",
+  title: 'features/FilterBlock',
   component: FilterBlock,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <BrowserRouter>

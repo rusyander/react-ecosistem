@@ -1,11 +1,12 @@
 import { Reducer } from '@reduxjs/toolkit';
+import { StateSchemaCoreKey } from '../../../../app/providers/StoreProvider/config/StateSchemaCore';
 import { ReduxStoreWithManager } from 'app/providers/StoreProvider';
-import { StateSchemaKey } from 'app/providers/StoreProvider/config/StateSchema';
+// import { StateSchemaKey } from 'app/providers/StoreProvider/config/StateSchema';
 import { FC, useEffect } from 'react';
 import { useDispatch, useStore } from 'react-redux';
 
 export type ReducersList = {
-  [name in StateSchemaKey]?: Reducer;
+  [name in StateSchemaCoreKey]?: Reducer;
 };
 
 interface DynamicModuleLoaderProps {
@@ -20,14 +21,16 @@ export const DynamicModuleLoader: FC<DynamicModuleLoaderProps> = (props) => {
 
   useEffect(() => {
     Object.entries(reducers).forEach(([name, reducer]) => {
-      store.reducerManager.add(name as StateSchemaKey, reducer);
+      // @ts-ignore
+      store.reducerManager.add(name as StateSchemaCoreKey, reducer);
       dispatch({ type: `@Init- ${name} reduser` });
     });
 
     return () => {
       if (removeAfterUnmaunt) {
         Object.entries(reducers).forEach(([name, reducer]) => {
-          store.reducerManager.remove(name as StateSchemaKey);
+          // @ts-ignore
+          store.reducerManager.remove(name as StateSchemaCoreKey);
           dispatch({ type: `@Destroy- ${name} reduser` });
         });
       }

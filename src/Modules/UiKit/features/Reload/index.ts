@@ -1,1 +1,2 @@
-export { Reload } from "./ui/Reload";
+// @ts-ignore
+export { Reload } from './ui/Reload';

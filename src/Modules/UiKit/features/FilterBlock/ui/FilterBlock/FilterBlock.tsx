@@ -1,6 +1,6 @@
-import cls from "./FilterBlock.module.css";
-import { classNames } from "../../../../shared";
-import { memo, useCallback } from "react";
+import cls from './FilterBlock.module.css';
+import { classNames } from '../../../../shared';
+import { memo, useCallback } from 'react';
 
 interface FilterBlockProps {
   FilterFormComponents?: () => JSX.Element;
@@ -15,7 +15,7 @@ export const FilterBlock = memo((props: FilterBlockProps) => {
     },
     canOpenFilter = false,
     setCanOpenFilter = () => {
-      return;
+      return null;
     },
   } = props;
 
@@ -28,7 +28,7 @@ export const FilterBlock = memo((props: FilterBlockProps) => {
       className={classNames(
         cls.FilterModul,
         { [cls.collapsed]: !canOpenFilter },
-        [""]
+        ['']
       )}
     >
       <div className={cls.FilterModulHeader}>

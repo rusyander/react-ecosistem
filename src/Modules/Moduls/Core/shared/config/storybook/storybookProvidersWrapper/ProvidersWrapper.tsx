@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { type Preview } from '@storybook/react';
-import { StoreProvider } from '../../../../app/providers/StoreProvider/ui/StoreProvider';
+import { StoreProviderCore } from '../../../../app/providers/StoreProvider/ui/StoreProviderCore';
 
 export const ProvidersWrapper: Preview = {
   decorators: [
     (Story) => (
       <Suspense fallback={''}>
-        <StoreProvider>
+        <StoreProviderCore>
           <BrowserRouter>
             {/* <div className={`'app' ${Theme.DARK}`}> */}
             <div>
@@ -15,7 +15,7 @@ export const ProvidersWrapper: Preview = {
             </div>
             <Story />
           </BrowserRouter>
-        </StoreProvider>
+        </StoreProviderCore>
       </Suspense>
     ),
   ],

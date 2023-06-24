@@ -6,10 +6,12 @@ import {
   Reducer,
   ReducersMapObject,
 } from '@reduxjs/toolkit';
+import { BreadCrumbsSchema } from 'Modules/UiKit';
 import { AxiosInstance } from 'axios';
 import { NavigateOptions, To } from 'react-router-dom';
 
-export interface StateSchema {
+export interface StateSchemaCore {
+  breadCrumbs: BreadCrumbsSchema;
   // counter: CounterSchema;
   // user: UserSchema;
   // async redusers
@@ -21,16 +23,19 @@ export interface StateSchema {
   // articlesPage?: ArticlePageSchema;
 }
 
-export type StateSchemaKey = keyof StateSchema;
+export type StateSchemaCoreKey = keyof StateSchemaCore;
 
 export interface ReducerManager {
-  getReducerMap: () => ReducersMapObject<StateSchema>;
-  reduce: (state: StateSchema, action: AnyAction) => CombinedState<StateSchema>;
-  add: (key: StateSchemaKey, reducer: Reducer) => void;
-  remove: (key: StateSchemaKey) => void;
+  getReducerMap: () => ReducersMapObject<StateSchemaCore>;
+  reduce: (
+    state: StateSchemaCore,
+    action: AnyAction
+  ) => CombinedState<StateSchemaCore>;
+  add: (key: StateSchemaCoreKey, reducer: Reducer) => void;
+  remove: (key: StateSchemaCoreKey) => void;
 }
 
-export interface ReduxStoreWithManager extends EnhancedStore<StateSchema> {
+export interface ReduxStoreWithManager extends EnhancedStore<StateSchemaCore> {
   reducerManager: ReducerManager;
 }
 
@@ -43,5 +48,5 @@ export interface ThunkConfig<T> {
   rejectValue: T;
   extra: ThunkExtraArg;
   dispatch?: Dispatch;
-  state: StateSchema;
+  state: StateSchemaCore;
 }

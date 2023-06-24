@@ -1,1 +1,2 @@
-export { FilterBlock } from "./ui/FilterBlock/FilterBlock";
+// @ts-ignore
+export { FilterBlock } from './ui/FilterBlock/FilterBlock';

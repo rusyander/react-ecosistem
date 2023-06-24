@@ -12,7 +12,7 @@ interface PaginationProps {
   currentPage: number;
   pageSize: number;
   className?: string;
-  pageCountOptions: Array<{ value: number; label: string }>;
+  pageCountOptions: Array<{ value: number; label: string }> | any;
 
   pageSizeElement: number;
   setPageSizeElement: (value: number) => void;

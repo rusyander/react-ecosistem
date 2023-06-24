@@ -1,12 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { BreadCrumbsSchema } from "../..";
+import { createSlice } from '@reduxjs/toolkit';
+import { BreadCrumbsSchema } from '../..';
 
 const initialState: BreadCrumbsSchema = {
-  pathList: [],
+  pathList: [
+    {
+      id: '1',
+      name: 'Главная',
+      path: '/',
+    },
+  ],
 };
 
 const BreadCrumbs = createSlice({
-  name: "breadCrumbs",
+  name: 'breadCrumbs',
   initialState,
   reducers: {
     addPathList: (state, action) => {
@@ -15,6 +21,7 @@ const BreadCrumbs = createSlice({
         ...new Set(pathList.map((item) => JSON.stringify(item))),
       ].map((item) => JSON.parse(item));
       state.pathList = uniquePaths;
+      console.log('state.pathList', state.pathList);
     },
 
     removePathListItem: (state, action) => {

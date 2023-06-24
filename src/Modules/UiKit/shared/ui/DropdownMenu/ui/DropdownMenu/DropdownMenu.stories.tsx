@@ -3,13 +3,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DropdownMenu } from './DropdownMenu';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ReducersMapObject } from '@reduxjs/toolkit';
-import {
-  createReduxStore,
-  StateSchemaUiKit,
-} from '../../../../../app/providers/StoreProvider';
+import { ReducersMapObject, configureStore } from '@reduxjs/toolkit';
 
-const store = createReduxStore();
+const store = configureStore({
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  reducer: {} as ReducersMapObject,
+});
 
 const meta = {
   title: 'shared/DropdownMenu',

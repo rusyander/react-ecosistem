@@ -1,1 +1,2 @@
-export { Pagination } from "./ui/Pagination";
+// @ts-ignore
+export { Pagination } from './ui/Pagination';

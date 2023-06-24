@@ -100,7 +100,8 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
           className={cls.gridIcons}
         />
       </div>
-      <Modal isOpen={hasOpenModal} lazy onClose={OnClickCloseModal}>
+
+      <Modal isOpen={hasOpenModal} onClose={OnClickCloseModal}>
         <div className={cls.GridComponentMaxWidth}>
           <GridComponent
             headerData={headerData}
@@ -119,6 +120,7 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
             onRefresh={onRefresh}
             AddNewButtonComponents={AddNewButtonComponents}
             isLoading={isLoading}
+            hasOpenModal={hasOpenModal}
           />
         </div>
       </Modal>
