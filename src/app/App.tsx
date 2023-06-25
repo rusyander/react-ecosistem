@@ -9,57 +9,40 @@ import {
 } from 'entities/User';
 import { CoreApp } from 'Modules/Moduls/Core';
 import { LoginPage } from 'pages/LoginPage';
-import { StoreProviderCore } from 'Modules/Moduls/Core/app/providers/StoreProvider';
 import { classNames } from 'Modules/UiKit';
+import { useNavigate } from 'react-router-dom';
 
 export default function App() {
   const { theme } = useTheme();
-  // const dispatch = useDispatch();
-  // const initedUser = useSelector(getUserInitedSelectors);
-  // const isAuth = useSelector(getUserIsAuth);
+  const dispatch = useDispatch();
+  const initedUser = useSelector(getUserInitedSelectors);
+  const isAuth = useSelector(getUserIsAuth);
+  const navigate = useNavigate();
 
-  // console.log(initedUser);
+  console.log(initedUser);
 
-  // useEffect(() => {
-  //   dispatch(UserActions.initAuthData());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(UserActions.initAuthData());
+  }, [dispatch]);
 
-  // if (!isAuth) {
-  //   return <LoginPage />;
-  // }
+  if (!isAuth) {
+    return <LoginPage />;
+  }
   // if (isAuth) {
-  //   novigate('/user');
+  //   navigate('/user');
   // }
 
   return (
     <div className={classNames('app', {}, [theme])}>
       <Suspense fallback={''}>
-        <>
-          {/* {!isAuth && ( */}
-          <div>
-            {/* <Navbar /> */}
-
-            <div className="content-page">
-              <Sidebar />
-              <div>
-                {/* <BrowserRouter>
-                  <AppRouter />
-                </BrowserRouter> */}
-
-                {/* <BrowserRouter> */}
-                {/* <StoreProviderUiKit> */}
-                {/* <StoreProviderCore> */}
-                <CoreApp />
-                {/* </StoreProviderCore> */}
-                {/* </StoreProviderUiKit> */}
-                {/* </BrowserRouter> */}
-              </div>
-              {/* <MainPage /> */}
-              {/* {initedUser && <MainPage />} */}
-            </div>
-          </div>
-          {/* )} */}
-        </>
+        {/* {!isAuth && ( */}
+        <div className="content-page">
+          <Sidebar />
+          <>
+            <CoreApp />
+          </>
+        </div>
+        {/* )} */}
       </Suspense>
     </div>
   );

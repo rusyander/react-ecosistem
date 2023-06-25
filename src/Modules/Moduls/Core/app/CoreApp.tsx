@@ -7,17 +7,17 @@ import { BreadCrumbs } from 'Modules/UiKit';
 
 export const CoreApp = () => {
   return (
-    // <StoreProviderCore>
-    <Suspense fallback={''}>
-      <div className="navBatHeight">
-        <Navbar />
-        <BreadCrumbs />
-      </div>
+    <StoreProviderCore>
+      <Suspense fallback={''}>
+        <div>
+          <Navbar />
+          <BreadCrumbs />
+        </div>
 
-      <div className="contentMargin">
-        <AppRouter />
-      </div>
-    </Suspense>
-    // </StoreProviderCore>
+        <div className="contentMargin">
+          <AppRouter />
+        </div>
+      </Suspense>
+    </StoreProviderCore>
   );
 };

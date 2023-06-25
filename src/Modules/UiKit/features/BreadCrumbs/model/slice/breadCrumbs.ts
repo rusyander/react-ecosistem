@@ -21,7 +21,6 @@ const BreadCrumbs = createSlice({
         ...new Set(pathList.map((item) => JSON.stringify(item))),
       ].map((item) => JSON.parse(item));
       state.pathList = uniquePaths;
-      console.log('state.pathList', state.pathList);
     },
 
     removePathListItem: (state, action) => {

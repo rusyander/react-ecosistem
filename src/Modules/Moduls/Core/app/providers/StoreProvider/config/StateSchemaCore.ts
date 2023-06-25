@@ -12,15 +12,8 @@ import { NavigateOptions, To } from 'react-router-dom';
 
 export interface StateSchemaCore {
   breadCrumbs: BreadCrumbsSchema;
-  // counter: CounterSchema;
-  // user: UserSchema;
   // async redusers
   // profile?: ProfileSchema;
-  // loginForm?: LoginSchema;
-  // articleDetails?: ArticleDetailsSchema;
-  // articleDetailsComments?: ArticleDetailsPageComponentSchema;
-  // addCommentForm?: AddCommentFormSchema;
-  // articlesPage?: ArticlePageSchema;
 }
 
 export type StateSchemaCoreKey = keyof StateSchemaCore;

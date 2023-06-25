@@ -6,7 +6,6 @@ import {
   Reducer,
   ReducersMapObject,
 } from '@reduxjs/toolkit';
-import { BreadCrumbsSchema } from 'Modules/UiKit';
 import { AxiosInstance } from 'axios';
 import { UserSchema } from 'entities/User';
 import { LoginSchema } from 'features/AuthByUserName';
@@ -15,7 +14,6 @@ import { NavigateOptions, To } from 'react-router-dom';
 export interface StateSchema {
   user: UserSchema;
   loginForm: LoginSchema;
-  breadCrumbs: BreadCrumbsSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

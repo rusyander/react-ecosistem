@@ -1,5 +1,8 @@
 .BreadCrumbsElementsList {
   display: flex;
+  flex-grow: 1;
+  max-height: var(--breadcrumbs-height);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .BreadCrumbsElement {

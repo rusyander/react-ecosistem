@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import cls from './BreadCrumbs.module.css';
 import { Icon } from '@iconify/react';
-import { BreadCrumbsActions, Paths, getPathList } from '..';
+import { BreadCrumbsActions, Paths } from '..';
 import { memo, useCallback } from 'react';
-import { classNames } from '../../..';
+import { BreadCrumbsSchema, classNames } from '../../..';
 
 export const BreadCrumbs = memo(() => {
   const location = useLocation();
@@ -17,18 +17,16 @@ export const BreadCrumbs = memo(() => {
     [dispatch]
   );
 
-  // const pathListData = useSelector(getPathList);
-  const pathListData = useSelector((state: any) => state.breadCrumbs?.pathList);
-  console.log(pathListData, 'pathListData CORE');
-
-  // path.path === location.pathname ? cls.activeBreadcrubm : ""
+  const pathListData = useSelector(
+    (state: { breadCrumbs: BreadCrumbsSchema }) =>
+      state.breadCrumbs?.pathList || []
+  );
   return (
     <div className={cls.BreadCrumbsElementsList}>
       {pathListData?.map((path: Paths) => (
         <div
           key={path.path}
           className={classNames('', {}, [
-            // cls.BreadCrumbsElement
             path.path === location.pathname
               ? cls.activeBreadcrubm
               : cls.BreadCrumbsElement,
