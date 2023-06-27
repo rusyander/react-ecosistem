@@ -3,11 +3,11 @@ import { BreadCrumbsSchema } from '../..';
 
 const initialState: BreadCrumbsSchema = {
   pathList: [
-    {
-      id: '1',
-      name: 'Главная',
-      path: '/',
-    },
+    // {
+    //   id: '1',
+    //   name: 'Главная',
+    //   path: '/',
+    // },
   ],
 };
 

@@ -98,6 +98,7 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 'warn',
     '@typescript-eslint/restrict-template-expressions': 'warn',
     '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
+    'n/no-callback-literal': 'off',
   },
   globals: {
     __IS_DEV__: true,

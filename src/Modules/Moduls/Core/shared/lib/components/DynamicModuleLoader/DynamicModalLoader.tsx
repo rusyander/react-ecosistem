@@ -20,17 +20,18 @@ export const DynamicModuleLoader: FC<DynamicModuleLoaderProps> = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const mountedReducers: any = store.reducerManager.getReducerMap();
     Object.entries(reducers).forEach(([name, reducer]) => {
-      // @ts-ignore
-      store.reducerManager.add(name as StateSchemaCoreKey, reducer);
-      dispatch({ type: `@Init- ${name} reduser` });
+      if (!mountedReducers[name as StateSchemaCoreKey]) {
+        store.reducerManager.add(name as StateSchemaCoreKey | any, reducer);
+        dispatch({ type: `@Init- ${name} reduser` });
+      }
     });
 
     return () => {
       if (removeAfterUnmaunt) {
         Object.entries(reducers).forEach(([name, reducer]) => {
-          // @ts-ignore
-          store.reducerManager.remove(name as StateSchemaCoreKey);
+          store.reducerManager.remove(name as StateSchemaCoreKey | any);
           dispatch({ type: `@Destroy- ${name} reduser` });
         });
       }

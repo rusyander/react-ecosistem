@@ -12,7 +12,7 @@ export default (env: BuildEnv) => {
   };
 
   const mode = env.mode || 'development';
-  const PORT = env.port || 9090;
+  const PORT = env.port || 9797;
   const apiUrl = env.apiUrl || 'http://localhost:9988';
 
   const isDev = mode === 'development';

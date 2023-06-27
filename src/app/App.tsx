@@ -11,13 +11,14 @@ import { CoreApp } from 'Modules/Moduls/Core';
 import { LoginPage } from 'pages/LoginPage';
 import { classNames } from 'Modules/UiKit';
 import { useNavigate } from 'react-router-dom';
+import Routers from './providers/Router/Router';
 
 export default function App() {
   const { theme } = useTheme();
   const dispatch = useDispatch();
   const initedUser = useSelector(getUserInitedSelectors);
   const isAuth = useSelector(getUserIsAuth);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   console.log(initedUser);
 
@@ -35,13 +36,18 @@ export default function App() {
   return (
     <div className={classNames('app', {}, [theme])}>
       <Suspense fallback={''}>
+        {/* <Routers /> */}
+
         {/* {!isAuth && ( */}
-        <div className="content-page">
+        <Sidebar />
+        <CoreApp />
+        {/* <div className="content-page">
           <Sidebar />
           <>
+          
             <CoreApp />
           </>
-        </div>
+        </div> */}
         {/* )} */}
       </Suspense>
     </div>
