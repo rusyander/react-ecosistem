@@ -4,6 +4,7 @@ export { DropdownMenu } from './ui/DropdownMenu';
 export { Modal } from './ui/Modal/ui/Modal';
 export { MultiSelect } from './ui/MultiSelect/ui/MultiSelect';
 export { Navigation } from './ui/Navigation/Navigation';
+// @ts-ignore
 export { Select } from './ui/Select';
 export { TreeView } from './ui/TreeView/ui/TreeView/TreeView';
 export { Skeleton } from './ui/Skeleton';

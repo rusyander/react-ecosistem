@@ -1,54 +1,54 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useTheme } from './providers/ThemeProvider';
 import { Sidebar } from 'widgets/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   UserActions,
+  getUserAuthData,
   getUserInitedSelectors,
   getUserIsAuth,
 } from 'entities/User';
 import { CoreApp } from 'Modules/Moduls/Core';
 import { LoginPage } from 'pages/LoginPage';
 import { classNames } from 'Modules/UiKit';
-import { useNavigate } from 'react-router-dom';
-import Routers from './providers/Router/Router';
 
 export default function App() {
   const { theme } = useTheme();
   const dispatch = useDispatch();
   const initedUser = useSelector(getUserInitedSelectors);
   const isAuth = useSelector(getUserIsAuth);
-  // const navigate = useNavigate();
 
-  console.log(initedUser);
+  // const [userData, setUserData] = useState(localStorage.getItem('user'));
+
+  const userData = useSelector(getUserAuthData);
+  console.log(userData);
 
   useEffect(() => {
     dispatch(UserActions.initAuthData());
   }, [dispatch]);
 
-  if (!isAuth) {
+  const logout = useCallback(() => {
+    console.log('asd');
+
+    dispatch(UserActions.logout());
+  }, [dispatch]);
+
+  // if (!isAuth) {
+  //   return <LoginPage />;
+  // }
+  if (!userData) {
     return <LoginPage />;
   }
-  // if (isAuth) {
-  //   navigate('/user');
-  // }
 
   return (
     <div className={classNames('app', {}, [theme])}>
       <Suspense fallback={''}>
-        {/* <Routers /> */}
-
-        {/* {!isAuth && ( */}
-        <Sidebar />
-        <CoreApp />
-        {/* <div className="content-page">
-          <Sidebar />
+        {userData && (
           <>
-          
-            <CoreApp />
+            <Sidebar />
+            <CoreApp logout={logout} />
           </>
-        </div> */}
-        {/* )} */}
+        )}
       </Suspense>
     </div>
   );

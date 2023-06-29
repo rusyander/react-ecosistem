@@ -1,11 +1,21 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import cls from './Navbar.module.scss';
 import { useTranslation } from 'react-i18next';
-import { Button, DropdownMenu, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  DropdownMenu,
+  Navigation,
+  Texts,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { UserActions } from '../../../../../../entities/User/model/slice/UserSlice';
 
 interface NavbarProps {
   className?: string;
+  logout: () => void;
 }
 
 const menuItems = [
@@ -62,13 +72,21 @@ const menuItems = [
   },
 ];
 
-export const Navbar = memo(({ className }: NavbarProps) => {
+export const Navbar = memo(({ className, logout }: NavbarProps) => {
   const [t] = useTranslation();
+  const dispatch = useDispatch();
+
+  const logouts = useCallback(() => {
+    // console.log('asd');
+
+    // dispatch(UserActions.logout());
+    logout();
+  }, [logout]);
 
   return (
     <header className={classNames(cls.navbar, {}, [className])}>
       <div className={cls.navigationLine}>
-        <div>
+        <Link to="/">
           <p className={cls.bisnessSuite}>Bisness Suite</p>
           <p className={cls.baseSuite}>Базовый функционал</p>
           {/* <Texts
@@ -81,16 +99,18 @@ export const Navbar = memo(({ className }: NavbarProps) => {
             title="Базовый функционал"
             className={cls.bisnessSuite}
           /> */}
-        </div>
+        </Link>
         <DropdownMenu menuItems={menuItems} />
       </div>
-      <Button theme="clear" className={cls.navigationLogout}>
-        <div>
-          <p className={cls.bisnessSuite}>Системный администратор</p>
-          <p className={cls.baseSuite}>Головная организация</p>
-        </div>
-        <Icon className={cls.logoutIcon} icon="tabler:logout" />
-      </Button>
+      <div onClick={logout}>
+        <Button theme="clear" className={cls.navigationLogout}>
+          <div>
+            <p className={cls.bisnessSuite}>Системный администратор</p>
+            <p className={cls.baseSuite}>Головная организация</p>
+          </div>
+          <Icon className={cls.logoutIcon} icon="tabler:logout" />
+        </Button>
+      </div>
     </header>
   );
 });

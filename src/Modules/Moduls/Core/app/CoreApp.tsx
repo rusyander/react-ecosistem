@@ -5,12 +5,16 @@ import { StoreProviderCore } from './providers/StoreProvider';
 import { Navbar } from '../widgets/Navbar';
 import { BreadCrumbs } from 'Modules/UiKit';
 
-export const CoreApp = () => {
+interface CoreAppProps {
+  logout: () => void;
+}
+
+export const CoreApp = ({ logout }: CoreAppProps) => {
   return (
     <StoreProviderCore>
       <Suspense fallback={''}>
         <div>
-          <Navbar />
+          <Navbar logout={logout} />
           <BreadCrumbs />
         </div>
 

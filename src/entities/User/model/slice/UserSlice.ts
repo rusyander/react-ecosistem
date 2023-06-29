@@ -19,6 +19,7 @@ const UserSlice = createSlice({
       const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
       if (user) {
         state.authData = JSON.parse(user);
+
         state.isAuth = true;
       }
       state._inited = true;
@@ -27,6 +28,8 @@ const UserSlice = createSlice({
       state.authData = undefined;
       state.isAuth = false;
       localStorage.removeItem(USER_LOCALSTORAGE_KEY);
+      localStorage.removeItem('user');
+      console.log('logout');
     },
   },
 });

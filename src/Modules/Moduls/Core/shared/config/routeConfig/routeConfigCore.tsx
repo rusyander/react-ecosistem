@@ -12,12 +12,14 @@ import { CORE_SCHED_TASKS } from 'Modules/Moduls/Core/pages/CORE_SCHED_TASKS';
 import { CORE_SET_FORM_ACTION_AUDIT } from 'Modules/Moduls/Core/pages/CORE_SET_FORM_ACTION_AUDIT';
 import { CORE_SYS_PARAMS } from 'Modules/Moduls/Core/pages/CORE_SYS_PARAMS';
 import { CORE_USERS } from 'Modules/Moduls/Core/pages/CORE_USERS';
+import Main from '../../../pages/Main/Main';
 
 export type AppRoutePropsCore = RouteProps & {
   authOnly?: boolean;
 };
 
 export enum AppRoute {
+  MAIN = 'main',
   USER = 'user',
   CORE_AUDIT_LOGIN = 'CORE_AUDIT_LOGIN',
   CORE_AUDIT_FORMS = 'CORE_AUDIT_FORMS',
@@ -35,6 +37,7 @@ export enum AppRoute {
 }
 
 export const RoutePath: Record<AppRoute, string> = {
+  [AppRoute.MAIN]: '/',
   [AppRoute.USER]: '/user',
   [AppRoute.CORE_AUDIT_LOGIN]: '/CORE_AUDIT_LOGIN',
   [AppRoute.CORE_AUDIT_FORMS]: '/CORE_AUDIT_FORMS',
@@ -52,6 +55,12 @@ export const RoutePath: Record<AppRoute, string> = {
 };
 
 export const routeConfigCore: Record<AppRoute, AppRoutePropsCore> = {
+  [AppRoute.MAIN]: {
+    path: RoutePath.main,
+    element: <Main />,
+    authOnly: true,
+  },
+
   [AppRoute.USER]: {
     path: RoutePath.user,
     element: <UserPage />,

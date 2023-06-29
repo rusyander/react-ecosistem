@@ -8,8 +8,12 @@ export default function Routers(): JSX.Element {
 
   return (
     <Routes location={location}>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/core/*" element={<CoreApp />} />
+      {/* <Route path="*" element={<MainPage />} /> */}
+      {/* <Route path="/" element={<MainPage />}>
+        <Route path="core" element={<CoreApp />} />
+      </Route> */}
+
+      {/* <Route path="/core/*" element={<CoreApp />} /> */}
     </Routes>
   );
 }

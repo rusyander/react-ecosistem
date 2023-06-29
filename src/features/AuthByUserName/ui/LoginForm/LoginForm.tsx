@@ -23,14 +23,13 @@ import { Button, Input, Texts, classNames } from 'Modules/UiKit';
 
 export interface LoginFormProps {
   className?: string;
-  onSuccess?: () => void;
 }
 
 const initialRedusers: ReducersList | any = {
   loginForm: LoginReducer,
 };
 
-const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
+const LoginForm = memo(({ className }: LoginFormProps) => {
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
@@ -58,9 +57,8 @@ const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
     console.log(res);
     if (res.meta.requestStatus === 'fulfilled') {
       console.log('fulfilled');
-      onSuccess?.();
     }
-  }, [dispatch, onSuccess, password, username]);
+  }, [dispatch, password, username]);
   return (
     <DynamicModuleLoader reducers={initialRedusers} removeAfterUnmaunt>
       <div className={classNames(cls.LoginForm, {}, [className])}>
