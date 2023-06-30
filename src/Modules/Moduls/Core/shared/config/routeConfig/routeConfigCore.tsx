@@ -1,4 +1,4 @@
-import { ErrorPage } from 'pages/ErrorPage';
+import { ErrorPage } from '../../../pages/ErrorPage';
 import { UserPage } from '../../../pages/UserPage';
 import { type RouteProps } from 'react-router-dom';
 import { CORE_AUDIT_ACTIONS } from 'Modules/Moduls/Core/pages/CORE_AUDIT_ACTIONS';

@@ -10,7 +10,7 @@ import { UserReducer } from 'entities/User';
 import { createReducerManager } from './reduserManaget';
 import { $api } from 'shared/api/api';
 import { NavigateOptions, To } from 'react-router-dom';
-import { LoginReducer } from 'features/AuthByUserName/model/slice/loginSlice';
+import { LoginReducer } from 'features/AuthByUser/model/slice/loginSlice';
 
 export function createReduxStore(
   initialState?: StateSchema,

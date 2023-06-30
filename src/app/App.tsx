@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect } from 'react';
 import { useTheme } from './providers/ThemeProvider';
 import { Sidebar } from 'widgets/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,10 +18,8 @@ export default function App() {
   const initedUser = useSelector(getUserInitedSelectors);
   const isAuth = useSelector(getUserIsAuth);
 
-  // const [userData, setUserData] = useState(localStorage.getItem('user'));
-
   const userData = useSelector(getUserAuthData);
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     dispatch(UserActions.initAuthData());
@@ -33,9 +31,6 @@ export default function App() {
     dispatch(UserActions.logout());
   }, [dispatch]);
 
-  // if (!isAuth) {
-  //   return <LoginPage />;
-  // }
   if (!userData) {
     return <LoginPage />;
   }

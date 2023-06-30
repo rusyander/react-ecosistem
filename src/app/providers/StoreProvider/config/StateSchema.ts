@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { UserSchema } from 'entities/User';
-import { LoginSchema } from 'features/AuthByUserName';
+import { LoginSchema } from 'features/AuthByUser';
 import { NavigateOptions, To } from 'react-router-dom';
 
 export interface StateSchema {

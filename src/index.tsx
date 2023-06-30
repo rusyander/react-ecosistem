@@ -10,7 +10,8 @@ import { ErrorBoundary } from 'app/providers/ErrorBoundary';
 import { StoreProvider } from 'app/providers/StoreProvider';
 import { BrowserRouter } from 'react-router-dom';
 
-console.info('Symbol_observable', Symbol_observable);
+// console.info('Symbol_observable', Symbol_observable);
+console.info('', Symbol_observable);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <div>

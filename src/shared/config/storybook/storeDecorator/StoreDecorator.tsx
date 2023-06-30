@@ -1,9 +1,8 @@
 import { Story } from '@storybook/react';
 import { StateSchema, StoreProvider } from 'app/providers/StoreProvider';
 
-import { LoginReducer } from 'features/AuthByUserName/model/slice/loginSlice';
-
-import { ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModalLoader';
+import { LoginReducer } from 'features/AuthByUser/model/slice/loginSlice';
+import { ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
 
 const defaultAsyncReducers: ReducersList | any = {
   loginForm: LoginReducer,
