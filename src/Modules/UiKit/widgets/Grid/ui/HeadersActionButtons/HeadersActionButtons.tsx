@@ -1,8 +1,8 @@
-import cls from "./HeadersActionButtons.module.css";
-import { classNames } from "../../../../shared";
+import cls from './HeadersActionButtons.module.scss';
+import { classNames } from '../../../../shared';
 
-import { Fragment, memo } from "react";
-import { Filter, Reload } from "../../../../features";
+import { Fragment, memo } from 'react';
+import { Filter, Reload } from '../../../../features';
 
 interface HeadersActionButtonsProps {
   setCanOpenFilter?: (canOpenFilter: boolean) => void;

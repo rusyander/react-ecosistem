@@ -1,7 +1,7 @@
 import { useRef, memo, useState, useCallback, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { TableHeadersProps } from '../../../../widgets/Grid';
-import './TableHeaderSort.css';
+import './TableHeaderSort.scss';
 import { Modal } from '../../../../shared/ui/Modal';
 import { TableRowContent } from '../../../../entities/TableRowContent';
 // @ts-ignore

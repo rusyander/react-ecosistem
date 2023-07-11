@@ -1,7 +1,7 @@
-import { memo, useCallback } from "react";
-import cls from "./Copy.module.css";
+import { memo, useCallback } from 'react';
+import cls from './Copy.module.scss';
 // import CopyImage from "shared/assets/icons/copy.svg";
-import { Button, Icon, classNames } from "../../..";
+import { Button, Icon, classNames } from '../../..';
 
 interface CopyProps {
   className?: string;
@@ -19,6 +19,7 @@ export const Copy = memo((props: CopyProps) => {
     <pre className={classNames(cls.code, {}, [className])}>
       <Button onClick={copyCode} className={cls.copyBtn} theme="clear">
         {/* <Icon Svg={CopyImage} className={cls.copyIcon} /> */}
+        Copy
       </Button>
       <code>{text}</code>
     </pre>

@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Input } from "./Input";
-import { BrowserRouter } from "react-router-dom";
-import { useState } from "react";
+import { Input } from './Input';
+import { BrowserRouter } from 'react-router-dom';
+import { useState } from 'react';
 
 const meta = {
-  title: "shared/Input",
+  title: 'shared/Input',
   component: Input,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <BrowserRouter>
@@ -24,12 +24,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    label: "label value",
-    placeholder: "placeholder value",
+    label: 'label value',
+    placeholder: 'placeholder value',
     autoFocus: true,
     onChange: () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       (value: any) => null;
     },
-    value: "",
+    value: '',
   },
 };

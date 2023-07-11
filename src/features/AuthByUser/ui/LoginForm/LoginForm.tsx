@@ -3,10 +3,7 @@ import cls from './LoginForm.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { loginByUser } from '../../model/services/loginByUserName/loginByUser';
-import {
-  LoginActions,
-  LoginReducer,
-} from 'features/AuthByUser/model/slice/loginSlice';
+import { LoginActions, LoginReducer } from '../../model/slice/loginSlice';
 import { getLoginUsername } from '../../model/selectors/getLoginUserName/getLoginUserName';
 import { getLoginPassword } from '../../model/selectors/getLoginPassword/getLoginPassword';
 import { getLoginIsLoading } from '../../model/selectors/getLoginIsLoading/getLoginIsLoading';

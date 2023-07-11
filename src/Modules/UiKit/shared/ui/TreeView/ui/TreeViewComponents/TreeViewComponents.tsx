@@ -1,7 +1,7 @@
-import { memo, useCallback, useState } from "react";
-import cls from "./TreeViewComponents.module.css";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { classNames } from "../../../..";
+import { memo, useCallback, useState } from 'react';
+import cls from './TreeViewComponents.module.scss';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { classNames } from '../../../..';
 
 interface TreeDataTypes {
   id: string;

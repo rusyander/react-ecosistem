@@ -1,7 +1,7 @@
-import { memo, useCallback } from "react";
-import { Icon } from "@iconify/react";
-import cls from "./Filter.module.css";
-import { Button } from "../../../shared";
+import { memo, useCallback } from 'react';
+import { Icon } from '@iconify/react';
+import cls from './Filter.module.scss';
+import { Button } from '../../../shared';
 
 interface FilterProps {
   setCanOpenFilter?: (canOpenFilter: boolean | any) => void;
@@ -10,7 +10,7 @@ interface FilterProps {
 export const Filter = memo((props: FilterProps) => {
   const {
     setCanOpenFilter = () => {
-      return;
+      return null;
     },
   } = props;
 

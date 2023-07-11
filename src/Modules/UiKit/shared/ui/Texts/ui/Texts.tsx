@@ -1,14 +1,14 @@
-import { FC, memo } from "react";
-import cls from "./Texts.module.css";
-import { Mods, classNames } from "../../../lib/classNames/classNames";
+import { FC, memo } from 'react';
+import cls from './Texts.module.scss';
+import { Mods, classNames } from '../../../lib/classNames/classNames';
 
 interface TextsProps {
   className?: string;
   title?: string;
   text?: string;
-  theme?: "primary" | "error";
-  align?: "left" | "center" | "right";
-  size?: "sizeM" | "sizeL";
+  theme?: 'primary' | 'error';
+  align?: 'left' | 'center' | 'right';
+  size?: 'sizeM' | 'sizeL';
 }
 
 export const Texts: FC<TextsProps> = memo(
@@ -16,9 +16,9 @@ export const Texts: FC<TextsProps> = memo(
     className,
     title,
     text,
-    theme = "primary",
-    align = "left",
-    size = "sizeM",
+    theme = 'primary',
+    align = 'left',
+    size = 'sizeM',
   }: TextsProps) => {
     const mods: Mods = {
       [cls[theme]]: true,

@@ -1,6 +1,6 @@
-import { memo } from "react";
-import cls from "./PageError.module.css";
-import { classNames } from "../../../shared";
+import { memo } from 'react';
+import cls from './PageError.module.scss';
+import { classNames } from '../../../shared';
 
 interface PageErrorProps {
   className?: string;
@@ -11,8 +11,8 @@ interface PageErrorProps {
 export const PageError = memo(
   ({
     className,
-    errorText = "Произошла ошибка",
-    reloadButtonText = "Обновить страницу",
+    errorText = 'Произошла ошибка',
+    reloadButtonText = 'Обновить страницу',
   }: PageErrorProps) => {
     const reloadPage = () => {
       location.reload();

@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
-import cls from "./TreeViewInPopup.module.css";
-import { Input, Modal, TreeView, classNames } from "../../..";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import cls from './TreeViewInPopup.module.scss';
+import { Input, Modal, TreeView, classNames } from '../../..';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface DataElement {
   label: string;
@@ -18,7 +18,7 @@ interface TreeViewInPopupProps {
 export const TreeViewInPopup = memo(
   ({ data, placeholder, selectTreeItems, className }: TreeViewInPopupProps) => {
     const [hasOpenModal, setHasOpenModal] = useState(false);
-    const [selectedFild, setSelectedFild]: any = useState("");
+    const [selectedFild, setSelectedFild]: any = useState('');
     const [inputValue, setInputValue] = useState(selectedFild);
     const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
     const [clearInputValue, setClearInputValue] = useState(true);
@@ -34,8 +34,8 @@ export const TreeViewInPopup = memo(
     }, []);
     const OnClearFilds = useCallback(() => {
       inputValueRef.current = null;
-      setInputValue("");
-      setSelectedFild("");
+      setInputValue('');
+      setSelectedFild('');
       setClearInputValue(false);
 
       setTimeout(() => {
@@ -47,14 +47,14 @@ export const TreeViewInPopup = memo(
     }, []);
 
     return (
-      <div className={classNames("", {}, [className])}>
+      <div className={classNames('', {}, [className])}>
         <div className={cls.treeViewForm}>
           <Input
             readOnly
             className={cls.inputPointer}
             placeholder={placeholder}
             onChange={(e: any) => setInputValue(e.target.value)}
-            value={clearInputValue === true ? inputValue?.label : ""}
+            value={clearInputValue === true ? inputValue?.label : ''}
             onClick={OnClickOpenModal}
           />
           {/* delete */}

@@ -16,6 +16,9 @@ export { Loader } from './shared';
 export { Page } from './shared';
 export { Texts } from './shared';
 export { Tooltip } from './shared';
+export { Dropdown } from './shared';
+export { ListBox } from './shared';
+export { HStack, VStack } from './shared';
 
 export { classNames } from './shared';
 export { useInfiniteScroll } from './shared';

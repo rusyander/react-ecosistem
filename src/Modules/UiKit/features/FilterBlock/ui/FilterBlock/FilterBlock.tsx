@@ -1,4 +1,4 @@
-import cls from './FilterBlock.module.css';
+import cls from './FilterBlock.module.scss';
 import { classNames } from '../../../../shared';
 import { memo, useCallback } from 'react';
 

@@ -1,7 +1,13 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { CSSProperties } from "react";
-import cls from "./MultiSelect.module.css";
-import { Button, classNames } from "../../..";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  CSSProperties,
+} from 'react';
+import cls from './MultiSelect.module.scss';
+import { Button, classNames } from '../../..';
 
 interface Option {
   value: string;
@@ -67,9 +73,9 @@ export const MultiSelect = memo(
     );
 
     useEffect(() => {
-      document.addEventListener("mousedown", handleOutsideClick);
+      document.addEventListener('mousedown', handleOutsideClick);
       return () => {
-        document.removeEventListener("mousedown", handleOutsideClick);
+        document.removeEventListener('mousedown', handleOutsideClick);
       };
     }, []);
 
@@ -77,9 +83,9 @@ export const MultiSelect = memo(
       <div className={classNames(cls.MultiSelectComponent, {}, [className])}>
         <div className={cls.multiselectSelect} ref={selectRef}>
           <div
-            className={classNames("", {}, [
+            className={classNames('', {}, [
               cls.selectedValue,
-              isOpen ? cls.open : "",
+              isOpen ? cls.open : '',
             ])}
             onClick={toggleDropdown}
           >
@@ -92,7 +98,7 @@ export const MultiSelect = memo(
                         className={cls.selectedItem}
                         onClick={selectedItems}
                       >
-                        {item.label}{" "}
+                        {item.label}{' '}
                         <Button
                           theme="clear"
                           onClick={deleteItems(item)}
@@ -102,7 +108,7 @@ export const MultiSelect = memo(
                         </Button>
                       </span>
                     ))
-                  : "Выберете элементы"}
+                  : 'Выберете элементы'}
               </div>
             </div>
           </div>
@@ -113,11 +119,11 @@ export const MultiSelect = memo(
                 <li
                   key={option.value}
                   onClick={() => handleOptionSelect(option)}
-                  className={classNames("", {}, [
+                  className={classNames('', {}, [
                     cls.option,
                     selectedOptions.some((item) => item.value === option.value)
                       ? cls.selected
-                      : "",
+                      : '',
                   ])}
                 >
                   {option.label}

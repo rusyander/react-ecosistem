@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import cls from './BreadCrumbs.module.css';
+import cls from './BreadCrumbs.module.scss';
 import { Icon } from '@iconify/react';
 import { BreadCrumbsActions, Paths } from '..';
 import { memo, useCallback } from 'react';

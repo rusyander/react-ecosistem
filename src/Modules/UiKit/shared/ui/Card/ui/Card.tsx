@@ -1,6 +1,6 @@
-import { memo } from "react";
-import cls from "./Card.module.css";
-import { classNames } from "../../..";
+import { memo } from 'react';
+import cls from './Card.module.scss';
+import { classNames } from '../../..';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;

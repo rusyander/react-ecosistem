@@ -3,3 +3,8 @@ export interface TableHeadersProps {
   accessorKey?: string;
   header?: string;
 }
+
+export interface PageCountOptionsProps {
+  value: number;
+  label: string;
+}

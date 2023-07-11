@@ -1,14 +1,15 @@
-import cls from "./Grid.module.css";
-import { TableHeadersProps } from "../..";
-import { FilterBlock, Pagination } from "../../../../features";
-import { useState, memo, useEffect } from "react";
-import { HeadersActionButtons } from "../HeadersActionButtons/HeadersActionButtons";
-import { TableHeaderSort } from "../../../../features/TableHeaderSort";
+import cls from './Grid.module.scss';
+import { TableHeadersProps } from '../..';
+import { FilterBlock, Pagination } from '../../../../features';
+import { useState, memo, useEffect } from 'react';
+import { HeadersActionButtons } from '../HeadersActionButtons/HeadersActionButtons';
+import { TableHeaderSort } from '../../../../features/TableHeaderSort';
+import { PageCountOptionsProps } from '../../model/types/gridSchema';
 
 interface GridComponentProps {
   headerData: TableHeadersProps[];
   ModalContent?: () => JSX.Element;
-  pageCountOptions: { value: number; label: string }[];
+  pageCountOptions: PageCountOptionsProps[];
   rowData: any;
   gridHeight: number;
   gridIsOpenModal: boolean;

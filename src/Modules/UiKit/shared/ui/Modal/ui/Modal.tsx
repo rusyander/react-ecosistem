@@ -5,11 +5,11 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
-import cls from "./Modal.module.css";
-import { Button, classNames } from "../../..";
-import { Portal } from "../../Portal/Portal";
-import { Mods } from "../../../lib/classNames/classNames";
+} from 'react';
+import cls from './Modal.module.scss';
+import { Button, classNames } from '../../..';
+import { Portal } from '../../Portal/Portal';
+import { Mods } from '../../../lib/classNames/classNames';
 
 interface ModalProps {
   className?: string;
@@ -22,7 +22,7 @@ interface ModalProps {
 const ANIMATION_DELAY = 200;
 
 export const Modal = (props: ModalProps) => {
-  const { className = "", children, isOpen, onClose, lazy } = props;
+  const { className = '', children, isOpen, onClose, lazy } = props;
 
   const [isClosing, setIsClosing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -49,7 +49,7 @@ export const Modal = (props: ModalProps) => {
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         closeHandler();
       }
     },
@@ -62,12 +62,12 @@ export const Modal = (props: ModalProps) => {
 
   useEffect(() => {
     if (isOpen) {
-      window.addEventListener("keydown", onKeyDown);
+      window.addEventListener('keydown', onKeyDown);
     }
 
     return () => {
       clearTimeout(timerRef.current);
-      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, [isOpen, onKeyDown]);
 
@@ -83,7 +83,7 @@ export const Modal = (props: ModalProps) => {
   return (
     <Portal>
       <div
-        className={classNames(cls.Modal, mods, [className, "app_modal"])}
+        className={classNames(cls.Modal, mods, [className, 'app_modal'])}
         onClick={closeHandler}
       >
         <div className={cls.overlay}>

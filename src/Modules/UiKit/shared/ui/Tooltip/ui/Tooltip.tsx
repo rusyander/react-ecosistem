@@ -1,7 +1,7 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { Portal } from "../../Portal/Portal";
-import cls from "./Tooltip.module.css";
-import { Texts } from "../../Texts";
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { Portal } from '../../Portal/Portal';
+import cls from './Tooltip.module.scss';
+import { Texts } from '../../Texts';
 
 interface TooltipChildProps {
   onMouseEnter: React.MouseEventHandler<HTMLElement>;
@@ -46,13 +46,13 @@ export const Tooltip = ({ children, text }: TooltipProps) => {
     return {
       ...baseProps,
       onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-        if (typeof onMouseEnter === "function") {
+        if (typeof onMouseEnter === 'function') {
           onMouseEnter(e);
         }
         setAnchorEl(null);
       },
       onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-        if (typeof onMouseLeave === "function") {
+        if (typeof onMouseLeave === 'function') {
           onMouseLeave(e);
         }
         setAnchorEl(e.currentTarget);

@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
-import cls from './Select.module.css';
+import cls from './Select.module.scss';
 
 export interface Option {
   label: string;
@@ -67,6 +67,7 @@ export const Select = memo(
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

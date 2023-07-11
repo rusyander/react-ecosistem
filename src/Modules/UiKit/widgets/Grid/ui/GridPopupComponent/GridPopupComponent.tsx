@@ -1,16 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { TableHeadersProps } from "../..";
-import { Input, Modal } from "../../../..";
-import { GridComponent } from "../GridComponent/GridComponent";
-import cls from "./GridInPopupComponent.module.css";
-import { Icon } from "@iconify/react";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { TableHeadersProps } from '../..';
+import { Input, Modal } from '../../../..';
+import { GridComponent } from '../GridComponent/GridComponent';
+import cls from './GridInPopupComponent.module.scss';
+import { Icon } from '@iconify/react';
+import { PageCountOptionsProps } from '../../model/types/gridSchema';
 
 interface GridInPopupComponentProps {
   rowData: any[];
   headerData: TableHeadersProps[];
   gridHeight: number;
   gridIsOpenModal: boolean;
-  pageCountOptions: { value: number; label: string }[];
+  pageCountOptions: PageCountOptionsProps[];
   ModalContent?: () => JSX.Element;
   defaultPageSize?: number;
   selectedFields?: (selectedField: string) => void;
@@ -47,7 +48,7 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
   } = props;
 
   const [hasOpenModal, setHasOpenModal] = useState(false);
-  const [selectedFild, setSelectedFild]: any = useState("");
+  const [selectedFild, setSelectedFild]: any = useState('');
   const [inputValue, setInputValue] = useState(selectedFild);
   const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
   const [clearInputValue, setClearInputValue] = useState(true);
@@ -64,8 +65,8 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
   }, [onPaginationPageChange]);
   const OnClearFilds = useCallback(() => {
     inputValueRef.current = null;
-    setInputValue("");
-    setSelectedFild("");
+    setInputValue('');
+    setSelectedFild('');
     setClearInputValue(false);
 
     setTimeout(() => {
@@ -84,7 +85,7 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
           className={cls.inputPointer}
           placeholder={placeholder}
           onChange={(e: any) => setInputValue(e.target.value)}
-          value={clearInputValue === true ? inputValue?.email : ""}
+          value={clearInputValue === true ? inputValue?.email : ''}
           onClick={OnClickOpenModal}
         />
         {/* delete */}

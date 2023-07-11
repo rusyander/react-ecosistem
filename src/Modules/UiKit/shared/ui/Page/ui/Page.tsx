@@ -1,6 +1,6 @@
-import { MutableRefObject, useRef } from "react";
-import cls from "./Page.module.css";
-import { classNames, useInfiniteScroll } from "../../..";
+import { MutableRefObject, useRef } from 'react';
+import cls from './Page.module.scss';
+import { classNames, useInfiniteScroll } from '../../..';
 
 interface PageProps {
   className?: string;

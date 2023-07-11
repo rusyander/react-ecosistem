@@ -19,11 +19,17 @@ module.exports = {
     project: './tsconfig.json',
   },
 
-  plugins: ['react', 'react-hooks', 'i18next', '@typescript-eslint'],
+  plugins: [
+    'react',
+    'react-hooks',
+    'i18next',
+    '@typescript-eslint',
+    'rustam-plugin-fsd-elsint',
+  ],
   rules: {
     'react/jsx-indent': [0, 2],
     'react/jsx-indent-props': [0, 2],
-    '@typescript-eslint/indent': 'warn',
+    '@typescript-eslint/indent': 'off',
     indent: [0, 2],
     'react/jsx-filename-extension': [
       2,
@@ -58,7 +64,7 @@ module.exports = {
         code: 130,
       },
     ],
-    indent: 'warn',
+    indent: 'off',
 
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
@@ -76,7 +82,7 @@ module.exports = {
     'n/handle-callback-err': 'warn',
     'no-trailing-spaces': 'warn',
     '@typescript-eslint/parser': 'off',
-    '@typescript-eslint/quotes': 'warn',
+    '@typescript-eslint/quotes': 'off',
     '@typescript-eslint/space-before-function-paren': 'warn',
     '@typescript-eslint/prefer-ts-expect-error': 'warn',
     '@typescript-eslint/prefer-includes': 'warn',
@@ -99,6 +105,13 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': 'warn',
     '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
     'n/no-callback-literal': 'off',
+    'spaced-comment': 'off',
+    'rustam-plugin-fsd-elsint/path-checker': 'error',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'storybook/prefer-pascal-case': 'off',
+    '@typescript-eslint/await-thenable': 'off',
+    '@typescript-eslint/no-confusing-void-expression': 'off',
+    curly: 'off',
   },
   globals: {
     __IS_DEV__: true,

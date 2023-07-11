@@ -1,8 +1,8 @@
-import { memo } from "react";
-import { Icon } from "@iconify/react";
+import { memo } from 'react';
+import { Icon } from '@iconify/react';
 
-import cls from "./Reload.module.css";
-import { Button } from "../../../shared";
+import cls from './Reload.module.scss';
+import { Button } from '../../../shared';
 
 interface ReloadProps {
   onRefresh: () => void;

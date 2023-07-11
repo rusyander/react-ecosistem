@@ -1,6 +1,6 @@
-import { memo } from "react";
-import cls from "./Icon.module.css";
-import { classNames } from "../../..";
+import { memo } from 'react';
+import cls from './Icon.module.scss';
+import { classNames } from '../../..';
 
 interface IconProps {
   className?: string;

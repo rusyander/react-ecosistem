@@ -5,13 +5,13 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
-import cls from "./Input.module.css";
-import { classNames } from "../../../lib/classNames/classNames";
+} from 'react';
+import cls from './Input.module.scss';
+import { classNames } from '../../../lib/classNames/classNames';
 
 type HTMLInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "value" | "onChange"
+  'value' | 'onChange'
 >;
 
 interface InputProps extends HTMLInputProps {
@@ -25,10 +25,10 @@ interface InputProps extends HTMLInputProps {
 
 export const Input = memo((props: InputProps) => {
   const {
-    className = "",
-    value = "",
+    className = '',
+    value = '',
     onChange,
-    type = "text",
+    type = 'text',
     placeholder,
     autoFocus,
     label,

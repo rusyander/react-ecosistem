@@ -1,7 +1,7 @@
-import { Texts } from "../../..";
-import { Skeleton } from "../../../shared/ui/Skeleton/ui/Skeleton";
-import { TableHeadersProps } from "../../../widgets/Grid";
-import cls from "./TableRowContent.module.css";
+import { Texts } from '../../..';
+import { Skeleton } from '../../../shared/ui/Skeleton/ui/Skeleton';
+import { TableHeadersProps } from '../../../widgets/Grid';
+import cls from './TableRowContent.module.scss';
 
 interface TableRowContentProps {
   tableData?: any[];
@@ -39,7 +39,7 @@ export const TableRowContent = ({
       {tableData?.map((item: any) => (
         <tr
           key={item.id}
-          onClick={() => selectFild?.(item || "")}
+          onClick={() => selectFild?.(item || '')}
           onDoubleClick={isModalOpen}
         >
           {dataHeaders?.map((column: TableHeadersProps | any) => (
@@ -48,8 +48,8 @@ export const TableRowContent = ({
               style={{
                 background: `${
                   selectedFild?.id === item.id
-                    ? "var(--select-row-item-bg)"
-                    : "var(--seccondary-bg-color)"
+                    ? 'var(--select-row-item-bg)'
+                    : 'var(--seccondary-bg-color)'
                 }`,
               }}
             >

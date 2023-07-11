@@ -24,6 +24,17 @@ export default {
     '\\.s?css$': 'identity-obj-proxy',
     '\\.svg': path.resolve(__dirname, 'jestEmptyComponent.tsx'),
   },
+  reporters: [
+    'default',
+    [
+      'jest-html-reporters',
+      {
+        publickPath: '<rootDir>/reports/unit',
+        pageTitle: 'Test Report',
+        openReport: false,
+      },
+    ],
+  ],
   globals: {
     __IS_DEV__: true,
     __API__: '',

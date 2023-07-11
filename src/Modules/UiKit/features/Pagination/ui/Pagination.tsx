@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { Icon } from '@iconify/react';
 
-import cls from './Pagination.module.css';
+import cls from './Pagination.module.scss';
 import { DOTS, usePagination } from '../../../shared/lib/hook/usePagination';
 import { Select, classNames } from '../../../shared';
 

@@ -1,5 +1,6 @@
-import { TableHeadersProps } from "..";
-import { GridInPopupComponent } from "./GridPopupComponent/GridPopupComponent";
+import { TableHeadersProps } from '..';
+import { PageCountOptionsProps } from '../model/types/gridSchema';
+import { GridInPopupComponent } from './GridPopupComponent/GridPopupComponent';
 
 interface GridInPopupProps {
   rowData: any[];
@@ -9,7 +10,7 @@ interface GridInPopupProps {
 
   gridIsOpenModal: boolean;
 
-  pageCountOptions: { value: number; label: string }[];
+  pageCountOptions: PageCountOptionsProps[];
 
   ModalContent?: () => JSX.Element;
 

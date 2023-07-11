@@ -1,7 +1,7 @@
-import { memo } from "react";
-import "./DropdownMenu.css";
+import { memo } from 'react';
+import './DropdownMenu.scss';
 
-import MenuItems from "../MenuItems/MenuItems";
+import MenuItems from '../MenuItems/MenuItems';
 
 export interface MenuItem {
   title: string;

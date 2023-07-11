@@ -10,6 +10,7 @@ import { createReducerManager } from './reduserManaget';
 import { $api } from 'shared/api/api';
 import { NavigateOptions, To } from 'react-router-dom';
 import { BreadCrumbsReducer } from 'Modules/UiKit';
+import { rtkApi } from '../../../../shared/api/rtkApi';
 
 export function createReduxStore(
   initialState?: StateSchemaCore,
@@ -19,6 +20,7 @@ export function createReduxStore(
   const rootReduser: ReducersMapObject<StateSchemaCore> = {
     breadCrumbs: BreadCrumbsReducer,
     ...asyncReducers,
+    [rtkApi.reducerPath]: rtkApi.reducer,
   };
 
   const reducerManager = createReducerManager(rootReduser);

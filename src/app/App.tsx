@@ -19,15 +19,12 @@ export default function App() {
   const isAuth = useSelector(getUserIsAuth);
 
   const userData = useSelector(getUserAuthData);
-  // console.log(userData);
 
   useEffect(() => {
     dispatch(UserActions.initAuthData());
   }, [dispatch]);
 
   const logout = useCallback(() => {
-    console.log('asd');
-
     dispatch(UserActions.logout());
   }, [dispatch]);
 
