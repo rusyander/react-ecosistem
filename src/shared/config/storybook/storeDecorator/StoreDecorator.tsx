@@ -1,11 +1,11 @@
 import { Story } from '@storybook/react';
 import { StateSchema, StoreProvider } from 'app/providers/StoreProvider';
 
-import { LoginReducer } from 'features/AuthByUser/model/slice/loginSlice';
+import { AuthSliceReducer } from 'features/AuthByUser/model/slice/authSlice';
 import { ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
 
 const defaultAsyncReducers: ReducersList | any = {
-  loginForm: LoginReducer,
+  auth: AuthSliceReducer,
 };
 
 export const StoreDecorator =

@@ -13,7 +13,7 @@ import { NavigateOptions, To } from 'react-router-dom';
 
 export interface StateSchemaCore {
   [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
-  breadCrumbs: BreadCrumbsSchema;
+  // breadCrumbs: BreadCrumbsSchema;
   // async redusers
   // profile?: ProfileSchema;
 }

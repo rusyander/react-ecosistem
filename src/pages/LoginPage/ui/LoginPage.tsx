@@ -5,10 +5,8 @@ import cls from './LoginPage.module.scss';
 
 export default function LoginPage() {
   return (
-    // <Page>
     <div className={cls.formSize}>
       <Suspense fallback={<Loader />}>{<LoginFormAsync />}</Suspense>{' '}
     </div>
-    // </Page>
   );
 }

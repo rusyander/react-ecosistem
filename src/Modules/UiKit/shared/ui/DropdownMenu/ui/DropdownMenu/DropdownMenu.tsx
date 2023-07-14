@@ -4,9 +4,14 @@ import './DropdownMenu.scss';
 import MenuItems from '../MenuItems/MenuItems';
 
 export interface MenuItem {
-  title: string;
-  url: string;
-  submenu?: MenuItem[];
+  // title: string;
+  // url: string;
+  // submenu?: MenuItem[];
+
+  label: string;
+  toolTip: string;
+  command: string;
+  items?: MenuItem[];
 }
 
 export interface DropdownMenuProps {

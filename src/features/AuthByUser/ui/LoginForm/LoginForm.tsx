@@ -1,10 +1,13 @@
-import { useCallback, memo } from 'react';
+import { useCallback, memo, useEffect } from 'react';
 import cls from './LoginForm.module.scss';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { loginByUser } from '../../model/services/loginByUserName/loginByUser';
-import { LoginActions, LoginReducer } from '../../model/slice/loginSlice';
-import { getLoginUsername } from '../../model/selectors/getLoginUserName/getLoginUserName';
+import { authByUser } from '../../model/services/loginByUserName/authByUser';
+import {
+  AuthSliceActions,
+  AuthSliceReducer,
+} from '../../model/slice/authSlice';
+import { getLoginLogin } from '../../model/selectors/getLoginUserLogin/getLoginUserLogin';
 import { getLoginPassword } from '../../model/selectors/getLoginPassword/getLoginPassword';
 import { getLoginIsLoading } from '../../model/selectors/getLoginIsLoading/getLoginIsLoading';
 import { getLoginError } from '../../model/selectors/getLoginError/getLoginError';
@@ -21,7 +24,7 @@ export interface LoginFormProps {
 }
 
 const initialRedusers: ReducersList | any = {
-  loginForm: LoginReducer,
+  auth: AuthSliceReducer,
 };
 
 const LoginForm = memo(({ className }: LoginFormProps) => {
@@ -29,45 +32,68 @@ const LoginForm = memo(({ className }: LoginFormProps) => {
 
   const { t } = useTranslation();
 
-  const username = useSelector(getLoginUsername);
+  const login = useSelector(getLoginLogin);
   const password = useSelector(getLoginPassword);
   const isLoading = useSelector(getLoginIsLoading);
   const error = useSelector(getLoginError);
 
-  const onChangeUserName = useCallback(
+  const onChangeLogin = useCallback(
     (value: string) => {
-      dispatch(LoginActions.setUserName(value));
+      dispatch(AuthSliceActions.setLoginName(value));
     },
     [dispatch]
   );
   const onChangePassword = useCallback(
     (value: string) => {
-      dispatch(LoginActions.setPassword(value));
+      dispatch(AuthSliceActions.setPassword(value));
     },
     [dispatch]
   );
 
   const onLoginClick = useCallback(async (): Promise<void> => {
-    const res = await dispatch(loginByUser({ username, password }));
-    console.log(res);
+    if (!login || !password) return;
+    const res = await dispatch(authByUser({ login, password }));
     if (res.meta.requestStatus === 'fulfilled') {
       console.log('fulfilled');
     }
-  }, [dispatch, password, username]);
+  }, [dispatch, password, login]);
+
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent | any) => {
+      if (e.key === 'Enter') {
+        console.log('onKeyDown');
+        onLoginClick();
+      }
+    },
+    [onLoginClick]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [onKeyDown]);
+
   return (
     <DynamicModuleLoader reducers={initialRedusers} removeAfterUnmaunt>
-      <div className={classNames(cls.LoginForm, {}, [className])}>
+      <div
+        className={classNames(cls.LoginForm, {}, [className])}
+        onKeyUp={onKeyDown}
+      >
         <Texts title={t('Форма авторизации')} />
-        {error && (
+        {/* {error && (
           <Texts theme="error" text={t('Вы ввели неправельные данные')} />
-        )}
+        )} */}
+        {error && <Texts theme="error" text={t(error)} />}
         <Input
           type="text"
           className={cls.input}
-          placeholder={t('Введите username')}
+          placeholder={t('Введите логин')}
           autoFocus
-          onChange={onChangeUserName}
-          value={username}
+          onChange={onChangeLogin}
+          value={login}
         />
         <Input
           type="text"

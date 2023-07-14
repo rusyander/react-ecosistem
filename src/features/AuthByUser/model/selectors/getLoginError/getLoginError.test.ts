@@ -1,11 +1,11 @@
 import { StateSchema } from 'app/providers/StoreProvider';
 import { getLoginError } from './getLoginError';
-import { LoginSchema } from '../../types/loginSchema';
+import { AuthSchema } from '../../types/authSchema';
 
 describe('getLoginError', () => {
   test('shod return error', () => {
-    const state: DeepPartial<StateSchema | LoginSchema> = {
-      loginForm: {
+    const state: DeepPartial<StateSchema | AuthSchema> = {
+      auth: {
         error: 'error',
       },
     };

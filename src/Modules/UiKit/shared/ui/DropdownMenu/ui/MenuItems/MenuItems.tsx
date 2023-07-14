@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import Dropdown from "../Dropdown/Dropdown";
+import { useState, useEffect, useRef } from 'react';
+import Dropdown from '../Dropdown/Dropdown';
 
-import { Navigation } from "../../../Navigation/Navigation";
-import { DropdownMenuProps } from "../DropdownMenu/DropdownMenu";
+import { Navigation } from '../../../Navigation/Navigation';
+import { DropdownMenuProps } from '../DropdownMenu/DropdownMenu';
 
 interface MenuItemsProps {
   menuItems: DropdownMenuProps | any;
@@ -20,11 +20,11 @@ const MenuItems = ({ menuItems, depthLevel }: MenuItemsProps) => {
         setDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler);
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
     return () => {
-      document.removeEventListener("mousedown", handler);
-      document.removeEventListener("touchstart", handler);
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
     };
   }, [dropdown]);
 
@@ -48,18 +48,21 @@ const MenuItems = ({ menuItems, depthLevel }: MenuItemsProps) => {
       onMouseLeave={onMouseLeave}
       onClick={closeDropdown}
     >
-      {menuItems?.url && menuItems?.submenu ? (
+      {menuItems?.url && menuItems?.items ? (
         <>
           <button
             type="button"
             aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}
+            aria-expanded={dropdown ? 'true' : 'false'}
             onClick={() => setDropdown((prev) => !prev)}
           >
             {window.innerWidth < 300 && depthLevel === 0 ? (
-              menuItems?.title
+              menuItems?.label
             ) : (
-              <Navigation path={menuItems?.url || ""} name={menuItems?.title} />
+              <Navigation
+                path={menuItems?.command || ''}
+                name={menuItems?.label}
+              />
             )}
 
             {depthLevel > 0 && window.innerWidth < 300 ? null : depthLevel >
@@ -71,29 +74,29 @@ const MenuItems = ({ menuItems, depthLevel }: MenuItemsProps) => {
           </button>
           <Dropdown
             depthLevel={depthLevel}
-            submenus={menuItems.submenu}
+            submenus={menuItems.items}
             dropdown={dropdown}
           />
         </>
-      ) : !menuItems?.url && menuItems?.submenu ? (
+      ) : !menuItems?.command && menuItems?.items ? (
         <>
           <button
             type="button"
             aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}
+            aria-expanded={dropdown ? 'true' : 'false'}
             onClick={() => setDropdown((prev) => !prev)}
           >
-            {menuItems?.title}{" "}
+            {menuItems?.label}{' '}
             {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
           </button>
           <Dropdown
             depthLevel={depthLevel}
-            submenus={menuItems?.submenu}
+            submenus={menuItems?.items}
             dropdown={dropdown}
           />
         </>
       ) : (
-        <Navigation path={menuItems?.url || ""} name={menuItems?.title} />
+        <Navigation path={menuItems?.command || ''} name={menuItems?.label} />
       )}
     </li>
   );

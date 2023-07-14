@@ -6,14 +6,18 @@ import {
   Reducer,
   ReducersMapObject,
 } from '@reduxjs/toolkit';
+import { BreadCrumbsSchema } from 'Modules/UiKit';
 import { AxiosInstance } from 'axios';
 import { UserSchema } from 'entities/User';
-import { LoginSchema } from 'features/AuthByUser';
+import { AuthSchema } from 'features/AuthByUser';
 import { NavigateOptions, To } from 'react-router-dom';
+import { rtkApi } from 'shared/api/rtkApi';
 
 export interface StateSchema {
   user: UserSchema;
-  loginForm: LoginSchema;
+  auth: AuthSchema;
+  [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
+  breadCrumbs: BreadCrumbsSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

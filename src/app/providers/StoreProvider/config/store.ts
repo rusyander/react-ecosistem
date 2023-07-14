@@ -10,7 +10,9 @@ import { UserReducer } from 'entities/User';
 import { createReducerManager } from './reduserManaget';
 import { $api } from 'shared/api/api';
 import { NavigateOptions, To } from 'react-router-dom';
-import { LoginReducer } from 'features/AuthByUser/model/slice/loginSlice';
+import { AuthSliceReducer } from 'features/AuthByUser';
+import { BreadCrumbsReducer } from 'Modules/UiKit';
+import { rtkApi } from 'shared/api/rtkApi';
 
 export function createReduxStore(
   initialState?: StateSchema,
@@ -20,7 +22,9 @@ export function createReduxStore(
   const rootReduser: ReducersMapObject<StateSchema> = {
     ...asyncReducers,
     user: UserReducer,
-    loginForm: LoginReducer,
+    auth: AuthSliceReducer,
+    breadCrumbs: BreadCrumbsReducer,
+    [rtkApi.reducerPath]: rtkApi.reducer,
   };
 
   const reducerManager = createReducerManager(rootReduser);
@@ -39,7 +43,7 @@ export function createReduxStore(
         thunk: {
           extraArgument: extraArh,
         },
-      });
+      }).concat(rtkApi.middleware);
     },
   });
 

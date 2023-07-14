@@ -1,6 +1,5 @@
-import { Suspense, useCallback, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useTheme } from './providers/ThemeProvider';
-import { Sidebar } from 'widgets/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   UserActions,
@@ -8,14 +7,14 @@ import {
   getUserInitedSelectors,
   getUserIsAuth,
 } from 'entities/User';
-import { CoreApp } from 'Modules/Moduls/Core';
 import { LoginPage } from 'pages/LoginPage';
 import { classNames } from 'Modules/UiKit';
+import { MainPage } from 'pages/MainPage';
 
 export default function App() {
   const { theme } = useTheme();
   const dispatch = useDispatch();
-  const initedUser = useSelector(getUserInitedSelectors);
+
   const isAuth = useSelector(getUserIsAuth);
 
   const userData = useSelector(getUserAuthData);
@@ -24,21 +23,21 @@ export default function App() {
     dispatch(UserActions.initAuthData());
   }, [dispatch]);
 
-  const logout = useCallback(() => {
-    dispatch(UserActions.logout());
-  }, [dispatch]);
+  const initedUser = useSelector(getUserInitedSelectors);
+  const initialData = localStorage.getItem('user');
 
-  if (!userData) {
+  console.log('userData', userData);
+
+  if (!initialData && !userData) {
     return <LoginPage />;
   }
 
   return (
     <div className={classNames('app', {}, [theme])}>
       <Suspense fallback={''}>
-        {userData && (
+        {initialData && (
           <>
-            <Sidebar />
-            <CoreApp logout={logout} />
+            <MainPage />
           </>
         )}
       </Suspense>

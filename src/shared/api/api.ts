@@ -5,7 +5,10 @@ export const $api = axios.create({
   baseURL: __API__,
   headers: {
     'Content-Type': 'application/json',
-    authorization: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
+    // authorization: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
+    // user: localStorage.getItem(USER_LOCALSTORAGE_KEY[1]) || '',
+    // session: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
+    session: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
   },
 });
 
@@ -13,7 +16,7 @@ $api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(USER_LOCALSTORAGE_KEY);
     if (token) {
-      config.headers.authorization = token;
+      config.headers.session = token;
     }
     return config;
   }

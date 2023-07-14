@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import cls from './Input.module.scss';
 import { classNames } from '../../../lib/classNames/classNames';
+import { Icon } from '@iconify/react';
 
 type HTMLInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -21,6 +22,7 @@ interface InputProps extends HTMLInputProps {
   autoFocus?: boolean;
   label?: string;
   isLabel?: boolean;
+  search?: boolean;
 }
 
 export const Input = memo((props: InputProps) => {
@@ -33,6 +35,7 @@ export const Input = memo((props: InputProps) => {
     autoFocus,
     label,
     isLabel,
+    search = false,
     ...otherProps
   } = props;
 
@@ -72,20 +75,44 @@ export const Input = memo((props: InputProps) => {
 
   return (
     <div className={classNames(cls.InputWrapper, {}, [className])}>
-      {isLabel && <label className={cls.inputLabel}>{label}</label>}
+      {search ? (
+        <>
+          {isLabel && <label className={cls.inputLabel}>{label}</label>}
 
-      <input
-        ref={ref}
-        type={type}
-        placeholder={placeholder}
-        onChange={onChangeHandler}
-        value={value}
-        className={classNames(cls.input, mods, [className])}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onSelect={onSelect}
-        {...otherProps}
-      />
+          <div className={cls.searchInput}>
+            <input
+              ref={ref}
+              type={type}
+              placeholder={placeholder}
+              onChange={onChangeHandler}
+              value={value}
+              className={classNames(cls.inputs, mods, [className])}
+              onBlur={onBlur}
+              onFocus={onFocus}
+              onSelect={onSelect}
+              {...otherProps}
+            />
+            <Icon icon="ic:outline-search" className={cls.iconSearch} />
+          </div>
+        </>
+      ) : (
+        <>
+          {isLabel && <label className={cls.inputLabel}>{label}</label>}
+
+          <input
+            ref={ref}
+            type={type}
+            placeholder={placeholder}
+            onChange={onChangeHandler}
+            value={value}
+            className={classNames(cls.input, mods, [className])}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onSelect={onSelect}
+            {...otherProps}
+          />
+        </>
+      )}
     </div>
   );
 });

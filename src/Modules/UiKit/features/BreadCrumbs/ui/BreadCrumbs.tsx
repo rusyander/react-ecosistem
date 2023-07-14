@@ -21,13 +21,14 @@ export const BreadCrumbs = memo(() => {
     (state: { breadCrumbs: BreadCrumbsSchema }) =>
       state.breadCrumbs?.pathList || []
   );
+
   return (
     <div className={cls.BreadCrumbsElementsList}>
       {pathListData?.map((path: Paths) => (
         <div
           key={path.path}
           className={classNames('', {}, [
-            path.path === location.pathname
+            path.path === location.pathname.replaceAll('/', '')
               ? cls.activeBreadcrubm
               : cls.BreadCrumbsElement,
           ])}

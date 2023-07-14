@@ -4,7 +4,7 @@ import { getLoginPassword } from './getLoginPassword';
 describe('getLoginLoading', () => {
   test('shod password', () => {
     const state: DeepPartial<StateSchema> = {
-      loginForm: {
+      auth: {
         password: '123',
       },
     };

@@ -89,7 +89,7 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
-    'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
+    'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
     '@typescript-eslint/consistent-type-imports': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
@@ -111,6 +111,7 @@ module.exports = {
     'storybook/prefer-pascal-case': 'off',
     '@typescript-eslint/await-thenable': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',
+    'react/jsx-no-duplicate-props': 'off',
     curly: 'off',
   },
   globals: {

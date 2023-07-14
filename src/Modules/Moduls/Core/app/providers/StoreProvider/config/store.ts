@@ -18,7 +18,7 @@ export function createReduxStore(
   navigate?: (to: To, options?: NavigateOptions) => void
 ) {
   const rootReduser: ReducersMapObject<StateSchemaCore> = {
-    breadCrumbs: BreadCrumbsReducer,
+    // breadCrumbs: BreadCrumbsReducer,
     ...asyncReducers,
     [rtkApi.reducerPath]: rtkApi.reducer,
   };

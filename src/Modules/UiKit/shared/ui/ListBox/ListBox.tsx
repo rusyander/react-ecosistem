@@ -4,11 +4,13 @@ import { Mods, classNames } from '../../lib/classNames/classNames';
 import cls from './ListBox.module.scss';
 import { Listbox as HListbox } from '@headlessui/react';
 import { Button } from '../Button';
-import { HStack } from '../Stack';
+import { HStack, VStack } from '../Stack';
 import { DropdownDirection } from '../../types/ui';
+import { Texts } from '../Texts';
+import { Icon } from '@iconify/react';
 
 interface ListBoxItem {
-  value: string;
+  value: string | any;
   content: ReactNode;
   disabled?: boolean;
 }
@@ -16,9 +18,11 @@ interface ListBoxItem {
 interface ListBoxProps {
   className?: string;
   items?: ListBoxItem[];
-  value?: string;
+  value?: string | any;
   defaultValue?: string;
-  onChange?: <T extends string>(value: T) => void;
+  // onChange?: <T extends string>(value: T) => void;
+  onChange?: (value: any) => void;
+
   readonly?: boolean;
   label?: string;
   direction?: DropdownDirection;
@@ -46,7 +50,7 @@ export const ListBox = memo((props: ListBoxProps) => {
 
   const optionsClasses = [mapDirectionClass[direction]];
   return (
-    <HStack max gap="8">
+    <VStack max gap="8">
       {label && (
         <span
           className={classNames(
@@ -57,7 +61,7 @@ export const ListBox = memo((props: ListBoxProps) => {
             },
             []
           )}
-        >{`${label}>`}</span>
+        >{`${label}`}</span>
       )}
       <HListbox
         disabled={readonly}
@@ -67,7 +71,10 @@ export const ListBox = memo((props: ListBoxProps) => {
         onChange={onChange}
       >
         <HListbox.Button className={cls.trigger}>
-          <Button disabled={readonly}>{value ?? defaultValue}</Button>
+          <Button disabled={readonly} className={cls.button}>
+            <Texts text={value?.content ?? defaultValue} />
+            <Icon icon="ep:arrow-down" className={cls.icons} />
+          </Button>
         </HListbox.Button>
         <HListbox.Options
           className={classNames(cls.options, {}, optionsClasses)}
@@ -75,7 +82,7 @@ export const ListBox = memo((props: ListBoxProps) => {
           {items?.map((option) => (
             <HListbox.Option
               key={option.value}
-              value={option.value}
+              value={option}
               disabled={option.disabled}
               as={Fragment}
             >
@@ -83,11 +90,11 @@ export const ListBox = memo((props: ListBoxProps) => {
                 <li
                   className={classNames(
                     cls.item,
-                    { [cls.active]: active, [cls.disabled]: option.disabled },
+                    { [cls.active]: selected, [cls.disabled]: option.disabled },
                     []
                   )}
                 >
-                  {selected && <span className={cls.checkmark}>✓</span>}
+                  {/* {selected && <span className={cls.checkmark}>✓</span>} */}
                   {option.content}
                 </li>
               )}
@@ -95,6 +102,6 @@ export const ListBox = memo((props: ListBoxProps) => {
           ))}
         </HListbox.Options>
       </HListbox>
-    </HStack>
+    </VStack>
   );
 });

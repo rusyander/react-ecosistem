@@ -29,3 +29,39 @@
 .placeholder {
   margin-right: 5px;
 }
+.inputs {
+  background: transparent;
+  outline: none;
+  width: 100%;
+  color: var(--primary-color);
+  border: none;
+}
+.inputs:focus {
+  border: none;
+}
+
+.inputs:hover {
+  border: none;
+}
+.searchInput {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: none;
+  width: 100%;
+  color: var(--primary-color);
+  padding: 7px 10px;
+  opacity: 0.8;
+  display: flex;
+}
+
+.searchInput:focus {
+  border: 1px solid var(--primary-bg-color);
+}
+
+.searchInput:hover {
+  border: 1px solid var(--primary-bg-color);
+}
+.iconSearch {
+  font-size: 25px;
+}

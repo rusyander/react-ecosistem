@@ -1,5 +1,4 @@
 {
-  "Язык": "English",
   "Страница не найдена": "Page not found",
   "Произошла ошибка": "An error has occurred",
   "Обновить страницу": "Refresh page",
@@ -7,13 +6,20 @@
   "Главная": "Home page",
   "О сайте": "About",
   "Войти": "Sing In",
-  "Введите username": "Enter username",
+  "Введите логин": "Enter login",
   "Введите пароль": "Enter password",
   "Форма авторизации": "Authorization form",
   "Вы ввели неправельные данные": "You have entered incorrect data",
   "Выйти": "Sing Out",
-  "profilePage": "Profile page",
-  "profile": "Profile",
-  "Статьи": "Articles",
-  "Комментариев нет": "No comments"
+  "UserService.Error_Login": "Invalid login",
+  "UserService.Error_Password": "Invalid password",
+  "Системный администратор": "System administrator",
+  "Настройки": "Settings",
+  "Меню": "Menu",
+  "Роль": "Role",
+  "Избранное": "Favorites",
+  "Информация": "Information",
+  "Версия приложения": "Application version",
+  "Язык": "Language",
+  "Роль по умолчанию": "Default role"
 }

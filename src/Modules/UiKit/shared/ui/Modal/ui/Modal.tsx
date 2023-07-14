@@ -88,13 +88,13 @@ export const Modal = (props: ModalProps) => {
       >
         <div className={cls.overlay}>
           <div className={cls.content} onClick={onContentClick}>
-            <Button
+            {/* <Button
               theme="clear"
               className={cls.buttonClise}
               onClick={closeHandler}
             >
               &#9932;
-            </Button>
+            </Button> */}
             {children}
           </div>
         </div>

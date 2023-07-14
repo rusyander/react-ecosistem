@@ -35,3 +35,12 @@
 .sizeL .text {
   font: var(--font-l);
 }
+
+.sizeS {
+  .title {
+    font: var(--font-m);
+  }
+  .text {
+    font: var(--font-s);
+  }
+}
