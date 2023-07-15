@@ -10,8 +10,8 @@ import { Texts } from '../Texts';
 import { Icon } from '@iconify/react';
 
 interface ListBoxItem {
-  value: string | any;
-  content: ReactNode;
+  code: string | any;
+  name: ReactNode;
   disabled?: boolean;
 }
 
@@ -72,7 +72,7 @@ export const ListBox = memo((props: ListBoxProps) => {
       >
         <HListbox.Button className={cls.trigger}>
           <Button disabled={readonly} className={cls.button}>
-            <Texts text={value?.content ?? defaultValue} />
+            <Texts text={value?.name ?? defaultValue} />
             <Icon icon="ep:arrow-down" className={cls.icons} />
           </Button>
         </HListbox.Button>
@@ -81,7 +81,7 @@ export const ListBox = memo((props: ListBoxProps) => {
         >
           {items?.map((option) => (
             <HListbox.Option
-              key={option.value}
+              key={option.code}
               value={option}
               disabled={option.disabled}
               as={Fragment}
@@ -94,8 +94,8 @@ export const ListBox = memo((props: ListBoxProps) => {
                     []
                   )}
                 >
-                  {/* {selected && <span className={cls.checkmark}>✓</span>} */}
-                  {option.content}
+                  {/* {selected && <span className={cls.checkmark}>-----</span>} */}
+                  {option.name}
                 </li>
               )}
             </HListbox.Option>

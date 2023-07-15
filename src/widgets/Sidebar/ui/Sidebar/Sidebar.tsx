@@ -1,24 +1,21 @@
-import { memo, useMemo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import cls from './Sidebar.module.scss';
-import { SidebarItem } from '../SidebarItem/SidebarItem';
-import { ThemeSwitcher } from 'features/ThemeSwitcher';
-import { LanguageSwitcher } from 'features/LanguageSwitcher';
-import { getSidebarItems } from '../../model/selectors/getSidebarItems';
-import { useSelector } from 'react-redux';
+
 import {
   Button,
   HStack,
-  Input,
   Modal,
   Texts,
-  VStack,
   classNames,
   useHover,
 } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 import { AppVersionModal } from 'entities/AppVersionModal';
-import { SettingsModal } from 'features/SettingsModal';
+import { SettingsModal, settingsModalActions } from 'features/SettingsModal';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+import { SearchFavorite } from 'features/SearchFavorite';
+import { SearchRole } from 'features/SearchRole';
 
 interface SidebarProps {
   className?: string;
@@ -27,36 +24,21 @@ interface SidebarProps {
 
 export const Sidebar = memo(({ className, sidebarData }: SidebarProps) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      settingsModalActions.setRole({
+        name: sidebarData?.data?.userRoleInfo?.userRoleName,
+        code: sidebarData?.data?.userRoleInfo?.userRoleId,
+      })
+    );
+  }, []);
   const [collapsed, setCollapsed] = useState(true);
 
-  const sidebarItemsList = useSelector(getSidebarItems);
   const onToggle = () => {
     setCollapsed((prev) => !prev);
   };
-
-  const [search, setSearch] = useState('');
-  const [favorite, setFavorite] = useState('');
-
-  const searchValue = (value: string) => {
-    setSearch(value);
-  };
-
-  const searchFavorite = (value: string) => {
-    setFavorite(value);
-  };
-
-  const [selectedRole, setSelectedRole] = useState({ name: '', code: 0 });
-  const selectRoles = (value: { name: string; code: number }) => {
-    setSelectedRole(value);
-  };
-
-  const itemsList = useMemo(
-    () =>
-      sidebarItemsList.map((item) => (
-        <SidebarItem item={item} collapsed={collapsed} key={item.path} />
-      )),
-    [collapsed, sidebarItemsList]
-  );
 
   const [isHover, bindHover] = useHover();
 
@@ -84,6 +66,7 @@ export const Sidebar = memo(({ className, sidebarData }: SidebarProps) => {
   const [appSettingsModal, setAppSettingsModal] = useState(false);
   const openAppSettingsModal = () => {
     setAppSettingsModal(true);
+    setCollapsed(true);
   };
   const closeAppSettingsModal = () => {
     setAppSettingsModal(false);
@@ -112,7 +95,6 @@ export const Sidebar = memo(({ className, sidebarData }: SidebarProps) => {
       </Button>
       {!collapsed && (
         <div>
-          {/* Top sidebar */}
           <HStack
             max
             justify="between"
@@ -127,62 +109,11 @@ export const Sidebar = memo(({ className, sidebarData }: SidebarProps) => {
               className={cls.icons}
             />
           </HStack>
-          <VStack max className={cls.menuRole} gap="4">
-            <Texts size="sizeM" title={t('Роль')} className={cls.menu} />
-            <Texts
-              size="sizeS"
-              text={sidebarData?.data?.userRoleInfo?.userRoleName}
-              className={cls.menu}
-            />
-          </VStack>
 
-          <div className={cls.sidebarContent}>
-            <Input value={search} onChange={searchValue} search />
-          </div>
+          <SearchRole sidebarData={sidebarData} />
 
-          <div className={cls.divider} />
+          <SearchFavorite />
 
-          <div className={cls.selectRole}>
-            {/* <div className={cls.ItemSelect}>
-              <Texts size="sizeS" text="Суперпользователь системы" />
-            </div>
-            <div className={cls.ItemSelect}>
-              <Texts size="sizeS" text="Суперпользователь системы" />
-            </div> */}
-            {sidebarData?.data?.userRoles?.map((role: any) => (
-              <div
-                onClick={() => selectRoles(role)}
-                key={role?.code}
-                className={classNames(
-                  cls.ItemSelect,
-                  { [cls.ItemSelectActive]: role?.code === selectedRole?.code },
-                  [className]
-                )}
-              >
-                <Texts size="sizeS" text={role?.name} />
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom sidebar */}
-
-          <VStack max className={cls.menuFavorite} gap="4">
-            <Texts size="sizeM" title={t('Избранное')} className={cls.menu} />
-          </VStack>
-
-          <div className={cls.sidebarContent}>
-            <Input value={favorite} onChange={searchFavorite} search />
-          </div>
-
-          <div className={cls.divider} />
-
-          {/* Bottom sidebar */}
-
-          {/* <div className={cls.items}>{itemsList}</div>
-          <div className={cls.switchers}>
-            <ThemeSwitcher />
-            <LanguageSwitcher short={collapsed} className={cls.lang} />
-          </div> */}
           <Button
             theme="background"
             className={cls.button}

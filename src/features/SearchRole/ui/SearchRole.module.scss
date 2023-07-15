@@ -1,0 +1,27 @@
+.menuRole {
+  background-color: var(--light-blue);
+  padding: 10px 10px;
+  width: 100%;
+}
+
+.sidebarContent {
+  padding: 15px 15px;
+}
+.menu {
+  color: var(--primary-color);
+}
+.ItemSelect {
+  padding: 10px 10px;
+  width: 100%;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  &:hover {
+    background-color: var(--light-blue);
+    transition: all 0.2s;
+  }
+}
+.ItemSelectActive {
+  border-left: 3px solid var(--primary-bg-color);
+  background-color: var(--light-blue);
+  transition: all 0.2s;
+}

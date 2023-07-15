@@ -83,9 +83,6 @@ const LoginForm = memo(({ className }: LoginFormProps) => {
         onKeyUp={onKeyDown}
       >
         <Texts title={t('Форма авторизации')} />
-        {/* {error && (
-          <Texts theme="error" text={t('Вы ввели неправельные данные')} />
-        )} */}
         {error && <Texts theme="error" text={t(error)} />}
         <Input
           type="text"

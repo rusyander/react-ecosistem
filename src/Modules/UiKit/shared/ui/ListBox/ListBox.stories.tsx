@@ -36,20 +36,20 @@ export const Primary: Story = {
   args: {
     items: [
       {
-        content: 'Item 1',
-        value: 'Item 1',
+        name: 'Item 1',
+        code: 'Item 1',
       },
       {
-        content: 'Item 2',
-        value: 'Item 2',
+        name: 'Item 2',
+        code: 'Item 2',
       },
       {
-        content: 'Item 3',
-        value: 'Item 3',
+        name: 'Item 3',
+        code: 'Item 3',
       },
       {
-        content: 'Item 4',
-        value: 'Item 4',
+        name: 'Item 4',
+        code: 'Item 4',
       },
     ],
     defaultValue: 'Item 1',
@@ -77,20 +77,20 @@ export const TopRight: Story = {
   args: {
     items: [
       {
-        content: 'Item 1',
-        value: 'Item 1',
+        name: 'Item 1',
+        code: 'Item 1',
       },
       {
-        content: 'Item 2',
-        value: 'Item 2',
+        name: 'Item 2',
+        code: 'Item 2',
       },
       {
-        content: 'Item 3',
-        value: 'Item 3',
+        name: 'Item 3',
+        code: 'Item 3',
       },
       {
-        content: 'Item 4',
-        value: 'Item 4',
+        name: 'Item 4',
+        code: 'Item 4',
       },
     ],
     defaultValue: 'Item 1',
@@ -102,20 +102,20 @@ export const BottomLeft: Story = {
   args: {
     items: [
       {
-        content: 'Item 1',
-        value: 'Item 1',
+        name: 'Item 1',
+        code: 'Item 1',
       },
       {
-        content: 'Item 2',
-        value: 'Item 2',
+        name: 'Item 2',
+        code: 'Item 2',
       },
       {
-        content: 'Item 3',
-        value: 'Item 3',
+        name: 'Item 3',
+        code: 'Item 3',
       },
       {
-        content: 'Item 4',
-        value: 'Item 4',
+        name: 'Item 4',
+        code: 'Item 4',
       },
     ],
     defaultValue: 'Item 1',
@@ -127,20 +127,20 @@ export const BottomRight: Story = {
   args: {
     items: [
       {
-        content: 'Item 1',
-        value: 'Item 1',
+        name: 'Item 1',
+        code: 'Item 1',
       },
       {
-        content: 'Item 2',
-        value: 'Item 2',
+        name: 'Item 2',
+        code: 'Item 2',
       },
       {
-        content: 'Item 3',
-        value: 'Item 3',
+        name: 'Item 3',
+        code: 'Item 3',
       },
       {
-        content: 'Item 4',
-        value: 'Item 4',
+        name: 'Item 4',
+        code: 'Item 4',
       },
     ],
     defaultValue: 'Item 1',

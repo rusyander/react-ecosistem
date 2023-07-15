@@ -1,5 +1,22 @@
+export interface Language {
+  code: string | number;
+  name: string;
+}
+
+export interface Role {
+  code: string | number;
+  name: string;
+}
+
 export interface SettingsModalSchema {
   isLoading: boolean;
-  data?: any;
   error: string | undefined;
+
+  login: string;
+  password: string;
+  newPass: string;
+  confirmPassword: string;
+
+  language: Language | undefined;
+  role: Role | undefined;
 }

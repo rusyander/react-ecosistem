@@ -10,6 +10,7 @@ import { BreadCrumbsSchema } from 'Modules/UiKit';
 import { AxiosInstance } from 'axios';
 import { UserSchema } from 'entities/User';
 import { AuthSchema } from 'features/AuthByUser';
+import { SettingsModalSchema } from 'features/SettingsModal';
 import { NavigateOptions, To } from 'react-router-dom';
 import { rtkApi } from 'shared/api/rtkApi';
 
@@ -18,6 +19,7 @@ export interface StateSchema {
   auth: AuthSchema;
   [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
   breadCrumbs: BreadCrumbsSchema;
+  settingsModal?: SettingsModalSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

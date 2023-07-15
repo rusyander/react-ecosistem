@@ -21,5 +21,14 @@
   "Информация": "Information",
   "Версия приложения": "Application version",
   "Язык": "Language",
-  "Роль по умолчанию": "Default role"
+  "Роль по умолчанию": "Default role",
+  "Смена пароля": "Change password",
+  "Сохранить": "Save",
+  "Логин": "Login",
+  "Пароль": "Password",
+  "Новый пароль": "New password",
+  "Подтверждение пароля": "Password confirmation",
+  "Изменить": "Change",
+  "Новый пароль и Подтверждение пароля должны быть одинаковыми": "New password and password confirmation must be the same",
+  "Новый пароль должен отличаться от старого": "The new password must be different from the old one"
 }

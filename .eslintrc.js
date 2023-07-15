@@ -112,6 +112,7 @@ module.exports = {
     '@typescript-eslint/await-thenable': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',
     'react/jsx-no-duplicate-props': 'off',
+    'no-unneeded-ternary': 'off',
     curly: 'off',
   },
   globals: {

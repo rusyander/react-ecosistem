@@ -1,14 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SettingsModal } from './SettingsModal';
+
+import { SearchRole } from './SearchRole';
 import { StoreProvider } from 'app/providers/StoreProvider';
 import { Theme, ThemeProvider } from 'app/providers/ThemeProvider';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreDecorator } from 'shared/config/storybook/storeDecorator/StoreDecorator';
-const meta: Meta<typeof SettingsModal> = {
-  title: '***/SettingsModal',
-  component: SettingsModal,
+
+const meta: Meta<typeof SearchRole> = {
+  title: 'shared/SearchRole',
+  component: SearchRole,
   tags: ['autodocs'],
+
   decorators: [
     (Story) => (
       <Suspense fallback={''}>
@@ -25,8 +28,10 @@ const meta: Meta<typeof SettingsModal> = {
     ),
   ],
 };
+
 export default meta;
-type Story = StoryObj<typeof SettingsModal>;
+type Story = StoryObj<typeof SearchRole>;
+
 export const Primary: Story = {
   args: {},
 };
