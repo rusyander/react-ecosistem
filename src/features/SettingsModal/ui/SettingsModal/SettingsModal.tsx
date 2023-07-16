@@ -27,6 +27,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Language } from '../../model/types/settingsModal';
 import { UserActions } from 'entities/User';
+import { USER_LANGUAGE } from 'shared/const/localstorage';
 
 const redusers: ReducersList = {
   settingsModal: settingsModalReducer,
@@ -41,9 +42,12 @@ export interface SettingsModalProps {
 }
 
 const languageOptions = [
-  { code: 'ru', name: 'Русский', number: 1 },
-  { code: 'en', name: 'Английский', number: 2 },
-  { code: 'uz', name: 'Узбекский', number: 3 },
+  // { code: 'ru', name: 'Русский', number: '1' },
+  // { code: 'en', name: 'Английский', number: '3' },
+  // { code: 'uz', name: 'Узбекский', number: '2' },
+  { code: '1', name: 'Русский' },
+  { code: '2', name: 'Узбекский' },
+  { code: '3', name: 'Английский' },
 ];
 
 export const SettingsModal = memo(
@@ -63,16 +67,13 @@ export const SettingsModal = memo(
     // language
     const onChageLanguageHandler = useCallback(
       (lang: Language[] | any) => {
-        console.log('value', lang);
-        i18n.changeLanguage((i18n.language = lang.code));
         dispatch(settingsModalActions.setLanguage(lang));
       },
-      [dispatch, i18n]
+      [dispatch]
     );
 
     const onChageRoleHandler = useCallback(
       (role: Language) => {
-        console.log('value', role);
         dispatch(settingsModalActions.setRole(role));
       },
       [dispatch]
@@ -87,20 +88,36 @@ export const SettingsModal = memo(
     const closeChangePasswordModal = () => {
       setChangePasswordModal(false);
     };
-
+    console.log('language----------', language?.code);
+    console.log('i18n.language++++++++++++', i18n.language);
     const saveSettings = () => {
-      if (language?.code !== i18n.language) {
-        // changeLanguage({language: i18n.language})
-        changeLanguage?.(language?.number).then((res: any) => {
-          console.log('res*******************', res);
+      // if (language?.code !== i18n.language) {
+      if (language?.code !== undefined && language?.code !== i18n.language) {
+        // console.log('language++++++++++++', language?.code);
+        // console.log('i18n.language++++++++++++', i18n.language);
 
+        changeLanguage?.(language?.code).then((res: any) => {
+          localStorage.setItem(USER_LANGUAGE, String(language?.code));
           dispatch(UserActions.setGlobalData(res.data));
+          // onClose?.();
         });
+        i18n.changeLanguage((i18n.language = String(language?.code)));
       }
-      if (roles?.userRoleInfo?.userRoleName !== role?.name) {
-        // changeRole(role?.code);
+
+      // console.log('role++++++++++++', role?.code);
+      // console.log(
+      //   'roles?.userRoleInfo?.userRoleId++++++++++++',
+      //   roles?.userRoleInfo?.userRoleId
+      // );
+
+      if (
+        // roles?.userRoleInfo?.userRoleId !== role?.code ||
+        role?.code !== undefined
+        // roles?.userRoleInfo?.userRoleId !== undefined
+      ) {
         changeRole?.(role?.code).then((res: any) => {
           dispatch(UserActions.setGlobalData(res.data));
+          // onClose?.();
         });
       }
     };
@@ -118,7 +135,21 @@ export const SettingsModal = memo(
           <div className={cls.select}>
             <ListBox
               className={classNames('', {}, [className])}
-              defaultValue={languageOptions[0].name}
+              // defaultValue={languageOptions[0].name}
+              // defaultValue={
+              //   (i18n.language === '1' ?? 'Русский') ||
+              //   (i18n.language === '2' ?? 'Узбекский') ||
+              //   (i18n.language === '3' ?? 'Английский')
+              // }
+              defaultValue={
+                i18n.language === '1'
+                  ? 'Русский'
+                  : i18n.language === '2'
+                  ? 'Узбекский'
+                  : i18n.language === '3'
+                  ? 'Английский'
+                  : ''
+              }
               label={t('Язык')}
               onChange={onChageLanguageHandler}
               value={language}
@@ -133,7 +164,6 @@ export const SettingsModal = memo(
               label={t('Роль по умолчанию')}
               onChange={onChageRoleHandler}
               value={role}
-              // items={roles?.userRoles}
               items={initialData?.data?.userRoles}
             />
           </div>

@@ -1,14 +1,9 @@
 import { Suspense, useEffect } from 'react';
 import { useTheme } from './providers/ThemeProvider';
 import { useSelector } from 'react-redux';
-import {
-  UserActions,
-  getDefaultDataQ,
-  getUserAuthData,
-  getUserInitedSelectors,
-} from 'entities/User';
+import { UserActions, getDefaultDataQ, getUserAuthData } from 'entities/User';
 import { LoginPage } from 'pages/LoginPage';
-import { classNames } from 'Modules/UiKit';
+import { Loader, classNames } from 'Modules/UiKit';
 import { MainPage } from 'pages/MainPage';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 
@@ -18,16 +13,12 @@ export default function App() {
   console.log('data+++++', data);
 
   const dispatch = useAppDispatch();
-
   const userData = useSelector(getUserAuthData);
-
   useEffect(() => {
     dispatch(UserActions.initAuthData());
   }, [dispatch]);
 
   const initialData = localStorage.getItem('user');
-
-  console.log('userData', userData);
 
   if (!initialData && !userData) {
     return <LoginPage />;
@@ -35,7 +26,7 @@ export default function App() {
 
   return (
     <div className={classNames('app', {}, [theme])}>
-      <Suspense fallback={''}>
+      <Suspense fallback={<Loader />}>
         {initialData && (
           <>
             <MainPage />

@@ -14,8 +14,6 @@ interface NavbarProps {
 }
 
 export const Navbar = memo(({ className, navbarData }: NavbarProps) => {
-  console.log('navbarData', navbarData);
-
   const [t] = useTranslation();
 
   const dispatch = useDispatch();
@@ -53,7 +51,8 @@ export const Navbar = memo(({ className, navbarData }: NavbarProps) => {
           <div className={cls.logoutsInfo}>
             <Texts
               size="sizeS"
-              title={t('Системный администратор')}
+              // title={t('Системный администратор')}userRoleName
+              text={navbarData?.data?.userRoleInfo?.userRoleName}
               className={cls.bisnessSuite}
             />
             <Texts

@@ -36,8 +36,6 @@ export const Sidebar = memo(
       setCollapsed((prev) => !prev);
     };
     const [changeRole] = changeRoleM();
-    // console.log('data*********', data);
-
     const [changeLanguage] = changeLanguageM();
 
     // // --- modal app

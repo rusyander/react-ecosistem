@@ -1,22 +1,30 @@
 import axios from 'axios';
-import { USER_LOCALSTORAGE_KEY } from 'shared/const/localstorage';
+import {
+  USER_LOCALSTORAGE_KEY,
+  USER_LANGUAGE,
+} from 'shared/const/localstorage';
+const token: any = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
+const tok = token ? JSON.parse(token) : '';
+const language = localStorage.getItem(USER_LANGUAGE) || '';
+const session = { ...tok, lang: language !== '' ? language : '1' };
 
 export const $api = axios.create({
   baseURL: __API__,
   headers: {
     'Content-Type': 'application/json',
-    // authorization: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
-    // user: localStorage.getItem(USER_LOCALSTORAGE_KEY[1]) || '',
-    // session: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
-    session: localStorage.getItem(USER_LOCALSTORAGE_KEY) || '',
+    // session: token !== undefined ? JSON.stringify(session) : '',
+    session: token ? JSON.stringify(session) : '',
   },
 });
 
 $api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(USER_LOCALSTORAGE_KEY);
+    const token: any = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
+    const tok = token ? JSON.parse(token) : '';
+    const language = localStorage.getItem(USER_LANGUAGE) || '';
+    const session = { ...tok, lang: language !== '' ? language : '1' };
     if (token) {
-      config.headers.session = token;
+      config.headers.session = token ? JSON.stringify(session) : '';
     }
     return config;
   }
