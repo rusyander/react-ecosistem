@@ -46,7 +46,7 @@
 }
 
 .DropdownMenuItems .arrow::after {
-  content: "";
+  content: '';
   display: inline-block;
   margin-left: 0.28em;
   vertical-align: 0.09em;
@@ -94,4 +94,8 @@
 .DropdownMenuItems .content a {
   color: var(--red-dark);
   margin-right: 10px;
+}
+
+.DropdownMenuItems .colorBtn {
+  color: var(--seccondary-bg-color) !important;
 }

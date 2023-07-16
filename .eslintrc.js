@@ -113,6 +113,7 @@ module.exports = {
     '@typescript-eslint/no-confusing-void-expression': 'off',
     'react/jsx-no-duplicate-props': 'off',
     'no-unneeded-ternary': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
     curly: 'off',
   },
   globals: {

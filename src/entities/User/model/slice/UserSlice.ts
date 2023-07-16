@@ -6,6 +6,7 @@ const initialState: UserSchema = {
   _inited: false,
   isAuth: false,
   authData: undefined,
+  globalData: undefined,
 };
 
 const UserSlice = createSlice({
@@ -14,6 +15,9 @@ const UserSlice = createSlice({
   reducers: {
     setAuthData: (state, action) => {
       state.authData = action.payload;
+    },
+    setGlobalData: (state, action) => {
+      state.globalData = action.payload;
     },
     initAuthData: (state) => {
       // @ts-ignore

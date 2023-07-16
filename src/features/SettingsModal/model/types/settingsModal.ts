@@ -1,6 +1,7 @@
 export interface Language {
   code: string | number;
   name: string;
+  number?: number;
 }
 
 export interface Role {

@@ -1,21 +1,23 @@
 import { Suspense, useEffect } from 'react';
 import { useTheme } from './providers/ThemeProvider';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   UserActions,
+  getDefaultDataQ,
   getUserAuthData,
   getUserInitedSelectors,
-  getUserIsAuth,
 } from 'entities/User';
 import { LoginPage } from 'pages/LoginPage';
 import { classNames } from 'Modules/UiKit';
 import { MainPage } from 'pages/MainPage';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 
 export default function App() {
   const { theme } = useTheme();
-  const dispatch = useDispatch();
+  const { data } = getDefaultDataQ({});
+  console.log('data+++++', data);
 
-  const isAuth = useSelector(getUserIsAuth);
+  const dispatch = useAppDispatch();
 
   const userData = useSelector(getUserAuthData);
 
@@ -23,7 +25,6 @@ export default function App() {
     dispatch(UserActions.initAuthData());
   }, [dispatch]);
 
-  const initedUser = useSelector(getUserInitedSelectors);
   const initialData = localStorage.getItem('user');
 
   console.log('userData', userData);

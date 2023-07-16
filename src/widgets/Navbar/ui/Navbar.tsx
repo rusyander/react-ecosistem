@@ -14,6 +14,8 @@ interface NavbarProps {
 }
 
 export const Navbar = memo(({ className, navbarData }: NavbarProps) => {
+  console.log('navbarData', navbarData);
+
   const [t] = useTranslation();
 
   const dispatch = useDispatch();

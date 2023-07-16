@@ -8,4 +8,5 @@ export interface UserSchema {
   authData?: User;
   isAuth: boolean;
   _inited: boolean;
+  globalData?: any;
 }

@@ -85,8 +85,10 @@ const MenuItems = ({ menuItems, depthLevel }: MenuItemsProps) => {
             aria-haspopup="menu"
             aria-expanded={dropdown ? 'true' : 'false'}
             onClick={() => setDropdown((prev) => !prev)}
+            className={depthLevel === 0 ? 'colorBtn' : ''}
           >
-            {menuItems?.label}{' '}
+            {menuItems?.label}
+
             {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
           </button>
           <Dropdown

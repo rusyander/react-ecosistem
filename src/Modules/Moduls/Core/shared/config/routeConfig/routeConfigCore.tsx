@@ -1,17 +1,16 @@
 import { ErrorPage } from '../../../pages/ErrorPage';
-import { UserPage } from '../../../pages/UserPage';
 import { type RouteProps } from 'react-router-dom';
-import { CORE_AUDIT_ACTIONS } from 'Modules/Moduls/Core/pages/CORE_AUDIT_ACTIONS';
-import { CORE_AUDIT_FORMS } from 'Modules/Moduls/Core/pages/CORE_AUDIT_FORMS';
-import { CORE_AUDIT_LOGIN } from 'Modules/Moduls/Core/pages/CORE_AUDIT_LOGIN';
-import { CORE_AUDIT_SESSIONS } from 'Modules/Moduls/Core/pages/CORE_AUDIT_SESSIONS';
-import { CORE_ROLES } from 'Modules/Moduls/Core/pages/CORE_ROLES';
-import { CORE_SCHEDULER_ADMIN } from 'Modules/Moduls/Core/pages/CORE_SCHEDULER_ADMIN';
-import { CORE_SCHEDULER_TASKS } from 'Modules/Moduls/Core/pages/CORE_SCHEDULER_TASKS';
-import { CORE_SCHED_TASKS } from 'Modules/Moduls/Core/pages/CORE_SCHED_TASKS';
-import { CORE_SET_FORM_ACTION_AUDIT } from 'Modules/Moduls/Core/pages/CORE_SET_FORM_ACTION_AUDIT';
-import { CORE_SYS_PARAMS } from 'Modules/Moduls/Core/pages/CORE_SYS_PARAMS';
-import { CORE_USERS } from 'Modules/Moduls/Core/pages/CORE_USERS';
+import { CORE_AUDIT_ACTIONS } from '../../../pages/CORE_AUDIT_ACTIONS';
+import { CORE_AUDIT_FORMS } from '../../../pages/CORE_AUDIT_FORMS';
+import { CORE_AUDIT_LOGIN } from '../../../pages/CORE_AUDIT_LOGIN';
+import { CORE_AUDIT_SESSIONS } from '../../../pages/CORE_AUDIT_SESSIONS';
+import { CORE_ROLES } from '../../../pages/CORE_ROLES';
+import { CORE_SCHEDULER_ADMIN } from '../../../pages/CORE_SCHEDULER_ADMIN';
+import { CORE_SCHEDULER_TASKS } from '../../../pages/CORE_SCHEDULER_TASKS';
+import { CORE_SCHED_TASKS } from '../../../pages/CORE_SCHED_TASKS';
+import { CORE_SET_FORM_ACTION_AUDIT } from '../../../pages/CORE_SET_FORM_ACTION_AUDIT';
+import { CORE_SYS_PARAMS } from '../../../pages/CORE_SYS_PARAMS';
+import { CORE_USERS } from '../../../pages/CORE_USERS';
 import Main from '../../../pages/Main/Main';
 
 export type AppRoutePropsCore = RouteProps & {
@@ -20,7 +19,6 @@ export type AppRoutePropsCore = RouteProps & {
 
 export enum AppRoute {
   MAIN = 'main',
-  USER = 'user',
   CORE_AUDIT_LOGIN = 'CORE_AUDIT_LOGIN',
   CORE_AUDIT_FORMS = 'CORE_AUDIT_FORMS',
   CORE_AUDIT_ACTIONS = 'CORE_AUDIT_ACTIONS',
@@ -38,7 +36,6 @@ export enum AppRoute {
 
 export const RoutePath: Record<AppRoute, string> = {
   [AppRoute.MAIN]: '/',
-  [AppRoute.USER]: '/user',
   [AppRoute.CORE_AUDIT_LOGIN]: '/CORE_AUDIT_LOGIN',
   [AppRoute.CORE_AUDIT_FORMS]: '/CORE_AUDIT_FORMS',
   [AppRoute.CORE_AUDIT_ACTIONS]: '/CORE_AUDIT_ACTIONS',
@@ -58,12 +55,6 @@ export const routeConfigCore: Record<AppRoute, AppRoutePropsCore> = {
   [AppRoute.MAIN]: {
     path: RoutePath.main,
     element: <Main />,
-    authOnly: true,
-  },
-
-  [AppRoute.USER]: {
-    path: RoutePath.user,
-    element: <UserPage />,
     authOnly: true,
   },
   [AppRoute.CORE_AUDIT_LOGIN]: {

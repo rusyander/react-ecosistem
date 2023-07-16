@@ -25,7 +25,8 @@ import {
 } from '../../model/selectors/getSettingsModal/getSettingsModal';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import { Language, Role } from '../../model/types/settingsModal';
+import { Language } from '../../model/types/settingsModal';
+import { UserActions } from 'entities/User';
 
 const redusers: ReducersList = {
   settingsModal: settingsModalReducer,
@@ -33,17 +34,27 @@ const redusers: ReducersList = {
 export interface SettingsModalProps {
   className?: string;
   onClose?: () => void;
-  roles: Role[];
+  roles: any;
+  changeRole: any;
+  changeLanguage: any;
+  initialData?: any;
 }
 
 const languageOptions = [
-  { code: 'ru', name: 'Русский' },
-  { code: 'en', name: 'Английский' },
-  { code: 'uz', name: 'Узбекский' },
+  { code: 'ru', name: 'Русский', number: 1 },
+  { code: 'en', name: 'Английский', number: 2 },
+  { code: 'uz', name: 'Узбекский', number: 3 },
 ];
 
 export const SettingsModal = memo(
-  ({ className, onClose, roles }: SettingsModalProps) => {
+  ({
+    className,
+    onClose,
+    roles,
+    changeRole,
+    changeLanguage,
+    initialData,
+  }: SettingsModalProps) => {
     const { t, i18n } = useTranslation();
     const dispatch = useAppDispatch();
     const role = useSelector(getSettingsModalRole);
@@ -53,7 +64,7 @@ export const SettingsModal = memo(
     const onChageLanguageHandler = useCallback(
       (lang: Language[] | any) => {
         console.log('value', lang);
-        i18n.changeLanguage((i18n.language = lang.value));
+        i18n.changeLanguage((i18n.language = lang.code));
         dispatch(settingsModalActions.setLanguage(lang));
       },
       [dispatch, i18n]
@@ -75,6 +86,23 @@ export const SettingsModal = memo(
     };
     const closeChangePasswordModal = () => {
       setChangePasswordModal(false);
+    };
+
+    const saveSettings = () => {
+      if (language?.code !== i18n.language) {
+        // changeLanguage({language: i18n.language})
+        changeLanguage?.(language?.number).then((res: any) => {
+          console.log('res*******************', res);
+
+          dispatch(UserActions.setGlobalData(res.data));
+        });
+      }
+      if (roles?.userRoleInfo?.userRoleName !== role?.name) {
+        // changeRole(role?.code);
+        changeRole?.(role?.code).then((res: any) => {
+          dispatch(UserActions.setGlobalData(res.data));
+        });
+      }
     };
 
     return (
@@ -101,11 +129,12 @@ export const SettingsModal = memo(
           <div className={cls.select}>
             <ListBox
               className={classNames('', {}, [className])}
-              defaultValue={role?.name}
+              defaultValue={roles?.userRoleInfo?.userRoleName}
               label={t('Роль по умолчанию')}
               onChange={onChageRoleHandler}
               value={role}
-              items={roles}
+              // items={roles?.userRoles}
+              items={initialData?.data?.userRoles}
             />
           </div>
           <VStack gap="16">
@@ -116,10 +145,13 @@ export const SettingsModal = memo(
             >
               {t('Смена пароля')}
             </Button>
-            <Button theme="background">{t('Сохранить')}</Button>
+            <Button onClick={saveSettings} theme="background">
+              {t('Сохранить')}
+            </Button>
           </VStack>
 
           <Modal
+            lazy
             isOpen={changePasswordModal}
             onClose={closeChangePasswordModal}
           >

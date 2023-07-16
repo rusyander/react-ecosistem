@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "*": ["./src/*"]
+      // "@/*": ["./src/*"]
     },
     "strict": true,
     // esModuleInterop позволяет работать с пакетами, которые используют
@@ -36,7 +37,8 @@
     // ----------
     "skipDefaultLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "isolatedModules": true
   },
   "ts-node": {
     "compilerOptions": {
@@ -48,6 +50,9 @@
     "./src/**/*.ts",
     "./src/**/*.tsx",
     "./config/storybook/**/*",
-    "./config/jest/**/*"
+    "./config/jest/**/*",
+    "src/**/*",
+    "scripts/updateImports.ts",
+    "vite.config.ts"
   ]
 }

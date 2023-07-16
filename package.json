@@ -7,7 +7,8 @@
     "i": "npm i --force",
     "build": "webpack --config webpack.config.ts",
     "dev": "webpack serve --env port=9797",
-    "start": "npm run dev",
+    "start:webpack": "npm run dev",
+    "start": "vite --host 0.0.0.0 --port 9797",
     "build:prod": "webpack --env mode=production",
     "build:dev": "webpack --env mode=development",
     "lint:ts": "eslint \"**/*.{ts,tsx}\"",
@@ -20,7 +21,8 @@
     "test:ui:ci:full": "concurrently --kill-others --raw --success first \"npm run storybook\" \"npm run test:ui\" \"deelay\"",
     "test:ui:json": "node scripts/generate-visual-json-report.js",
     "test:ui:report": "npm run test:ui:json && npm run test:ui:html && npm run open",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "fix-imports": "ts-node ./scripts/updateImports.ts"
   },
   "author": "",
   "license": "ISC",
@@ -102,7 +104,11 @@
     "fork-ts-checker-webpack-plugin": "^8.0.0",
     "jest-html-reporters": "^3.1.4",
     "storybook-addon-mock": "^4.1.0",
-    "@headlessui/react": "^1.7.15"
+    "@headlessui/react": "^1.7.15",
+    "vite": "^4.4.4",
+    "vite-plugin-svgr": "^3.2.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "ts-morph": "^19.0.0"
   },
   "dependencies": {
     "@iconify/react": "^4.1.1",

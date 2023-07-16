@@ -12,6 +12,7 @@ export const CoreApp = ({ className }: CoreAppProps) => {
     <StoreProviderCore>
       <Suspense fallback={''}>
         <div className="contentMargin">
+          <h1>CORE</h1>
           <AppRouter />
         </div>
       </Suspense>

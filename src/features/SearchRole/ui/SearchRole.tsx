@@ -1,17 +1,32 @@
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './SearchRole.module.scss';
-import { Input, Texts, VStack, classNames } from 'Modules/UiKit';
+import { Input, Modal, Texts, VStack, classNames } from 'Modules/UiKit';
 import { Role } from 'features/SettingsModal';
+import { ChangeRoleModal } from 'entities/ChangeRoleModal';
 
 interface SearchRoleProps {
   className?: string;
   sidebarData: any;
+  changeRole?: (item: any) => void;
+  setCollapsed: any;
+  initialData?: any;
 }
 
 export const SearchRole = memo((props: SearchRoleProps) => {
-  const { className, sidebarData } = props;
+  const { className, sidebarData, changeRole, setCollapsed, initialData } =
+    props;
   const { t } = useTranslation();
+
+  // --- modal changeRole
+  const [appChangeRoleModal, setAppChangeRoleModal] = useState(false);
+  const openAppChangeRoleModal = () => {
+    setAppChangeRoleModal(true);
+    // setCollapsed(true);
+  };
+  const closeAppChangeRoleModal = () => {
+    setAppChangeRoleModal(false);
+  };
 
   useEffect(() => {
     setSelectedRole({
@@ -32,6 +47,10 @@ export const SearchRole = memo((props: SearchRoleProps) => {
   });
   const selectRoles = (value: { name: string; code: number }) => {
     setSelectedRole(value);
+    if (sidebarData?.data?.userRoleInfo?.userRoleId !== value.code) {
+      openAppChangeRoleModal();
+    }
+    //setCollapsed(false);
   };
 
   return (
@@ -51,7 +70,8 @@ export const SearchRole = memo((props: SearchRoleProps) => {
       <div className={cls.divider} />
 
       <div className={cls.selectRole}>
-        {sidebarData?.data?.userRoles?.map((role: any) => (
+        {/* {sidebarData?.data?.userRoles?.map((role: any) => ( */}
+        {initialData?.data?.userRoles?.map((role: any) => (
           <div
             onClick={() => selectRoles(role)}
             key={role?.code}
@@ -67,6 +87,13 @@ export const SearchRole = memo((props: SearchRoleProps) => {
           </div>
         ))}
       </div>
+      <Modal lazy isOpen={appChangeRoleModal} onClose={closeAppChangeRoleModal}>
+        <ChangeRoleModal
+          onClose={closeAppChangeRoleModal}
+          selectedRole={selectedRole}
+          changeRole={changeRole}
+        />
+      </Modal>
     </div>
   );
 });
