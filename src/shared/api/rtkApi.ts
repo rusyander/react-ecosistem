@@ -15,7 +15,7 @@ export const rtkApi = createApi({
       const session = { ...tok, lang: language !== '' ? language : '1' };
 
       if (token) {
-        headers.set('session', token ? JSON.stringify(session) : '');
+        headers.set('session', JSON.stringify(session));
       }
       return headers;
     },

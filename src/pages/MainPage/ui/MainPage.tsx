@@ -11,6 +11,7 @@ import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Os } from 'Modules/Moduls/Os';
 import {
   USER_LANGUAGE,
+  USER_LOCALSTORAGE_HEADER,
   USER_LOCALSTORAGE_KEY,
 } from 'shared/const/localstorage';
 
@@ -20,14 +21,15 @@ export default function MainPage() {
   const dispatch = useAppDispatch();
   const globalDataList = useSelector(globalData);
 
-  const token: any = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
-  const tok = JSON.parse(token);
-  const language = localStorage.getItem(USER_LANGUAGE) || '';
-  const session = { ...tok, lang: language !== '' ? language : '1' };
+  // const token: any = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
+  // const tok = JSON.parse(token);
+  // const language = localStorage.getItem(USER_LANGUAGE) || '';
+  // const session = { ...tok, lang: language !== '' ? language : '1' };
+  const session = localStorage.getItem(USER_LOCALSTORAGE_HEADER) || '';
 
   const setInitiadData = () => {
     if (session) {
-      getInitialData(JSON.stringify(session)).then((res: any) => {
+      getInitialData(session).then((res: any) => {
         dispatch(UserActions.setGlobalData(res?.data));
         setInitialData(res?.data);
       });
