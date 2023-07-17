@@ -1,0 +1,14 @@
+.menuHeight {
+  height: var(--navbar-height);
+  background-color: var(--primary-bg-color);
+  padding-right: 10px;
+}
+.icons {
+  color: var(--seccondary-bg-color);
+  font-size: 20px;
+  cursor: pointer;
+}
+.icons:hover {
+  opacity: 0.7;
+  transition: all 0.2s;
+}

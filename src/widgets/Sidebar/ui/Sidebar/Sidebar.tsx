@@ -1,15 +1,14 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import cls from './Sidebar.module.scss';
 
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import { Button, Modal, classNames } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@iconify/react';
-import { AppVersionModal } from 'entities/AppVersionModal';
 import { SettingsModal, settingsModalActions } from 'features/SettingsModal';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { SearchFavorite } from 'features/SearchFavorite';
 import { SearchRole } from 'features/SearchRole';
 import { changeRoleM, changeLanguageM } from '../../api/SidebarApi';
+import { SidebarHeader } from '../SidebarHeader/SidebarHeader';
 
 interface SidebarProps {
   className?: string;
@@ -37,15 +36,6 @@ export const Sidebar = memo(
     };
     const [changeRole] = changeRoleM();
     const [changeLanguage] = changeLanguageM();
-
-    // // --- modal app
-    const [appVersionModal, setAppVersionModal] = useState(false);
-    const openAppVersionModal = useCallback(() => {
-      setAppVersionModal(true);
-    }, []);
-    const closeAppVersionModal = useCallback(() => {
-      setAppVersionModal(false);
-    }, []);
 
     // --- modal settings
     const [appSettingsModal, setAppSettingsModal] = useState(false);
@@ -76,20 +66,11 @@ export const Sidebar = memo(
         </Button>
         {!collapsed && (
           <div>
-            <HStack
-              max
-              justify="between"
-              align="center"
-              className={cls.menuHeight}
-            >
-              <div />
-              <Texts size="sizeM" title={t('Меню')} className={cls.menu} />
-              <Icon
-                onClick={openAppVersionModal}
-                icon="fe:warning"
-                className={cls.icons}
-              />
-            </HStack>
+            <SidebarHeader
+              applicationVersion={
+                sidebarData?.data?.userRoleInfo?.applicationVersion
+              }
+            />
             <SearchRole
               sidebarData={sidebarData}
               changeRole={changeRole}
@@ -107,11 +88,6 @@ export const Sidebar = memo(
             </Button>
           </div>
         )}
-        <Modal lazy isOpen={appVersionModal} onClose={closeAppVersionModal}>
-          <AppVersionModal
-            appVerion={sidebarData?.data?.userRoleInfo?.applicationVersion}
-          />
-        </Modal>
         <Modal lazy isOpen={appSettingsModal} onClose={closeAppSettingsModal}>
           <SettingsModal
             onClose={closeAppSettingsModal}

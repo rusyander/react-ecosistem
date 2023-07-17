@@ -81,7 +81,6 @@ export const SearchRole = memo((props: SearchRoleProps) => {
       <div className={cls.divider} />
 
       <div className={cls.selectRole}>
-        {/* {sidebarData?.data?.userRoles?.map((role: any) => ( */}
         {initialData?.data?.userRoles?.map((role: any) => (
           <div
             onClick={() => selectRoles(role)}
