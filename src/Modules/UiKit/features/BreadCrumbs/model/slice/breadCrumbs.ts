@@ -29,6 +29,9 @@ const BreadCrumbs = createSlice({
       );
       state.pathList = pathList;
     },
+    clearPathListItem: (state) => {
+      state.pathList = [];
+    },
   },
 });
 

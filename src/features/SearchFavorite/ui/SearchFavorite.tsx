@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './SearchFavorite.module.scss';
 import { Input, Texts, VStack, classNames } from 'Modules/UiKit';
@@ -11,9 +11,9 @@ export const SearchFavorite = memo((props: SearchFavoriteProps) => {
   const { className } = props;
   const { t } = useTranslation();
   const [favorite, setFavorite] = useState('');
-  const searchFavorite = (value: string) => {
+  const searchFavorite = useCallback((value: string) => {
     setFavorite(value);
-  };
+  }, []);
 
   return (
     <div className={classNames(cls.searchFavorite, {}, [className])}>

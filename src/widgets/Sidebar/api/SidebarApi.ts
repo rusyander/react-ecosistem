@@ -19,7 +19,6 @@ const SidebarApi = rtkApi.injectEndpoints({
   }),
   overrideExisting: true,
 });
-//export const getName = name.useGetNameQuery;
 
 export const changeLanguageM = SidebarApi.useChangeLanguageMutation;
 export const changeRoleM = SidebarApi.useChangeRoleMutation;

@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './SearchRole.module.scss';
 import { Input, Modal, Texts, VStack, classNames } from 'Modules/UiKit';
@@ -9,24 +9,32 @@ interface SearchRoleProps {
   className?: string;
   sidebarData: any;
   changeRole?: (item: any) => void;
-  setCollapsed: any;
+  setCollapsed: (item: boolean) => void;
+  onToggle?: () => void;
   initialData?: any;
 }
 
 export const SearchRole = memo((props: SearchRoleProps) => {
-  const { className, sidebarData, changeRole, setCollapsed, initialData } =
-    props;
+  const {
+    className,
+    sidebarData,
+    changeRole,
+    setCollapsed,
+    onToggle = () => null,
+    initialData,
+  } = props;
   const { t } = useTranslation();
 
   // --- modal changeRole
   const [appChangeRoleModal, setAppChangeRoleModal] = useState(false);
-  const openAppChangeRoleModal = () => {
+  const openAppChangeRoleModal = useCallback(() => {
+    // onToggle();
     setAppChangeRoleModal(true);
     // setCollapsed(true);
-  };
-  const closeAppChangeRoleModal = () => {
+  }, []);
+  const closeAppChangeRoleModal = useCallback(() => {
     setAppChangeRoleModal(false);
-  };
+  }, []);
 
   useEffect(() => {
     setSelectedRole({
@@ -37,21 +45,24 @@ export const SearchRole = memo((props: SearchRoleProps) => {
 
   const [search, setSearch] = useState('');
 
-  const searchValue = (value: string) => {
+  const searchValue = useCallback((value: string) => {
     setSearch(value);
-  };
+  }, []);
 
   const [selectedRole, setSelectedRole] = useState<Role>({
     name: '',
     code: '0',
   });
-  const selectRoles = (value: { name: string; code: number }) => {
-    setSelectedRole(value);
-    if (sidebarData?.data?.userRoleInfo?.userRoleId !== value.code) {
-      openAppChangeRoleModal();
-    }
-    //setCollapsed(false);
-  };
+  const selectRoles = useCallback(
+    (value: { name: string; code: number }) => {
+      setSelectedRole(value);
+      if (sidebarData?.data?.userRoleInfo?.userRoleId !== value.code) {
+        openAppChangeRoleModal();
+      }
+      //setCollapsed(false);
+    },
+    [openAppChangeRoleModal, sidebarData?.data?.userRoleInfo?.userRoleId]
+  );
 
   return (
     <div className={classNames(cls.searchRole, {}, [className])}>

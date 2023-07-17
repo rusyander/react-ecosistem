@@ -98,7 +98,11 @@ const MenuItems = ({ menuItems, depthLevel }: MenuItemsProps) => {
           />
         </>
       ) : (
-        <Navigation path={menuItems?.command || ''} name={menuItems?.label} />
+        <Navigation
+          className={depthLevel === 0 ? 'colorBtn' : ''}
+          path={menuItems?.command || ''}
+          name={menuItems?.label}
+        />
       )}
     </li>
   );

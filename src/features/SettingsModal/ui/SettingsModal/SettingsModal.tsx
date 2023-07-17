@@ -2,6 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './SettingsModal.module.scss';
 import {
+  BreadCrumbsActions,
   Button,
   HStack,
   ListBox,
@@ -28,6 +29,7 @@ import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Language } from '../../model/types/settingsModal';
 import { UserActions } from 'entities/User';
 import { USER_LANGUAGE } from 'shared/const/localstorage';
+import { useNavigate } from 'react-router-dom';
 
 const redusers: ReducersList = {
   settingsModal: settingsModalReducer,
@@ -42,9 +44,6 @@ export interface SettingsModalProps {
 }
 
 const languageOptions = [
-  // { code: 'ru', name: 'Русский', number: '1' },
-  // { code: 'en', name: 'Английский', number: '3' },
-  // { code: 'uz', name: 'Узбекский', number: '2' },
   { code: '1', name: 'Русский' },
   { code: '2', name: 'Узбекский' },
   { code: '3', name: 'Английский' },
@@ -63,6 +62,7 @@ export const SettingsModal = memo(
     const dispatch = useAppDispatch();
     const role = useSelector(getSettingsModalRole);
     const language = useSelector(getSettingsModalLanguage);
+    const navigate = useNavigate();
 
     // language
     const onChageLanguageHandler = useCallback(
@@ -81,21 +81,16 @@ export const SettingsModal = memo(
 
     // modal change password
     const [changePasswordModal, setChangePasswordModal] = useState(false);
-    const openChangePasswordModal = () => {
+    const openChangePasswordModal = useCallback(() => {
       setChangePasswordModal(true);
       onClose?.();
-    };
-    const closeChangePasswordModal = () => {
+    }, [onClose]);
+    const closeChangePasswordModal = useCallback(() => {
       setChangePasswordModal(false);
-    };
-    console.log('language----------', language?.code);
-    console.log('i18n.language++++++++++++', i18n.language);
-    const saveSettings = () => {
+    }, []);
+    const saveSettings = useCallback(() => {
       // if (language?.code !== i18n.language) {
       if (language?.code !== undefined && language?.code !== i18n.language) {
-        // console.log('language++++++++++++', language?.code);
-        // console.log('i18n.language++++++++++++', i18n.language);
-
         changeLanguage?.(language?.code).then((res: any) => {
           localStorage.setItem(USER_LANGUAGE, String(language?.code));
           dispatch(UserActions.setGlobalData(res.data));
@@ -103,13 +98,6 @@ export const SettingsModal = memo(
         });
         i18n.changeLanguage((i18n.language = String(language?.code)));
       }
-
-      // console.log('role++++++++++++', role?.code);
-      // console.log(
-      //   'roles?.userRoleInfo?.userRoleId++++++++++++',
-      //   roles?.userRoleInfo?.userRoleId
-      // );
-
       if (
         // roles?.userRoleInfo?.userRoleId !== role?.code ||
         role?.code !== undefined
@@ -117,10 +105,20 @@ export const SettingsModal = memo(
       ) {
         changeRole?.(role?.code).then((res: any) => {
           dispatch(UserActions.setGlobalData(res.data));
+          dispatch(BreadCrumbsActions.clearPathListItem());
+          navigate('/');
           // onClose?.();
         });
       }
-    };
+    }, [
+      changeLanguage,
+      changeRole,
+      dispatch,
+      i18n,
+      language?.code,
+      navigate,
+      role?.code,
+    ]);
 
     return (
       <DynamicModuleLoader reducers={redusers} removeAfterUnmaunt>
@@ -135,12 +133,6 @@ export const SettingsModal = memo(
           <div className={cls.select}>
             <ListBox
               className={classNames('', {}, [className])}
-              // defaultValue={languageOptions[0].name}
-              // defaultValue={
-              //   (i18n.language === '1' ?? 'Русский') ||
-              //   (i18n.language === '2' ?? 'Узбекский') ||
-              //   (i18n.language === '3' ?? 'Английский')
-              // }
               defaultValue={
                 i18n.language === '1'
                   ? 'Русский'

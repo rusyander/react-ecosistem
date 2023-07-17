@@ -70,7 +70,7 @@ export const ListBox = memo((props: ListBoxProps) => {
         value={value}
         onChange={onChange}
       >
-        <HListbox.Button className={cls.trigger}>
+        <HListbox.Button as="div" className={cls.trigger}>
           <Button disabled={readonly} className={cls.button}>
             <Texts text={value?.name ?? defaultValue} />
             <Icon icon="ep:arrow-down" className={cls.icons} />

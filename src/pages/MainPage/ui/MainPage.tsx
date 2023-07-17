@@ -9,11 +9,7 @@ import { Sidebar } from 'widgets/Sidebar';
 import { getInitialDataList } from '../api/getInitialData';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Os } from 'Modules/Moduls/Os';
-import {
-  USER_LANGUAGE,
-  USER_LOCALSTORAGE_HEADER,
-  USER_LOCALSTORAGE_KEY,
-} from 'shared/const/localstorage';
+import { USER_LOCALSTORAGE_HEADER } from 'shared/const/localstorage';
 
 export default function MainPage() {
   const [initialData, setInitialData] = useState<any>();
@@ -21,20 +17,16 @@ export default function MainPage() {
   const dispatch = useAppDispatch();
   const globalDataList = useSelector(globalData);
 
-  // const token: any = localStorage.getItem(USER_LOCALSTORAGE_KEY) || '';
-  // const tok = JSON.parse(token);
-  // const language = localStorage.getItem(USER_LANGUAGE) || '';
-  // const session = { ...tok, lang: language !== '' ? language : '1' };
   const session = localStorage.getItem(USER_LOCALSTORAGE_HEADER) || '';
 
-  const setInitiadData = () => {
+  const setInitiadData = useCallback(() => {
     if (session) {
       getInitialData(session).then((res: any) => {
         dispatch(UserActions.setGlobalData(res?.data));
         setInitialData(res?.data);
       });
     }
-  };
+  }, [dispatch, getInitialData, session]);
 
   useEffect(() => {
     setInitiadData();

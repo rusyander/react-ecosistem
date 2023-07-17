@@ -1,10 +1,17 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './ChangeRoleModal.module.scss';
-import { Button, HStack, Texts, classNames } from 'Modules/UiKit';
+import {
+  BreadCrumbsActions,
+  Button,
+  HStack,
+  Texts,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { UserActions } from 'entities/User';
+import { useNavigate } from 'react-router-dom';
 
 interface ChangeRoleModalProps {
   className?: string;
@@ -17,13 +24,16 @@ export const ChangeRoleModal = memo((props: ChangeRoleModalProps) => {
   const { className, onClose, selectedRole, changeRole } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const changeRoleHandler = () => {
+  const changeRoleHandler = useCallback(() => {
     changeRole?.(selectedRole?.code).then((res: any) => {
       dispatch(UserActions.setGlobalData(res.data));
+      dispatch(BreadCrumbsActions.clearPathListItem());
+      navigate('/');
     });
     onClose?.();
-  };
+  }, [changeRole, dispatch, navigate, onClose, selectedRole?.code]);
 
   return (
     <div className={classNames(cls.changeRoleModal, {}, [className])}>

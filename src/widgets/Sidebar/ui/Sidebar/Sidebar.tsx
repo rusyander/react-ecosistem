@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import cls from './Sidebar.module.scss';
 
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
@@ -40,22 +40,22 @@ export const Sidebar = memo(
 
     // // --- modal app
     const [appVersionModal, setAppVersionModal] = useState(false);
-    const openAppVersionModal = () => {
+    const openAppVersionModal = useCallback(() => {
       setAppVersionModal(true);
-    };
-    const closeAppVersionModal = () => {
+    }, []);
+    const closeAppVersionModal = useCallback(() => {
       setAppVersionModal(false);
-    };
+    }, []);
 
     // --- modal settings
     const [appSettingsModal, setAppSettingsModal] = useState(false);
-    const openAppSettingsModal = () => {
+    const openAppSettingsModal = useCallback(() => {
       setAppSettingsModal(true);
       setCollapsed(true);
-    };
-    const closeAppSettingsModal = () => {
+    }, []);
+    const closeAppSettingsModal = useCallback(() => {
       setAppSettingsModal(false);
-    };
+    }, []);
 
     return (
       <menu
@@ -95,6 +95,7 @@ export const Sidebar = memo(
               changeRole={changeRole}
               setCollapsed={setCollapsed}
               initialData={initialData}
+              onToggle={onToggle}
             />
             <SearchFavorite />
             <Button

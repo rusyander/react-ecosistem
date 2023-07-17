@@ -34,6 +34,7 @@ export { TableRowContent } from './entities';
 
 // features
 export { BreadCrumbs } from './features';
+export { BreadCrumbsActions } from './features';
 export { Pagination } from './features';
 export { FilterBlock } from './features';
 export { TreeViewInPopup } from './features';
