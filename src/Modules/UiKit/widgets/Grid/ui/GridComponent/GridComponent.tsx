@@ -24,6 +24,12 @@ interface GridComponentProps {
   AddNewButtonComponents?: any[];
   isLoading?: boolean;
   hasOpenModal?: boolean;
+
+  canSort?: boolean;
+  columnSize?: any;
+  sortFields?: any;
+  setSortFields?: any;
+  setColumnSize?: any;
 }
 
 export const GridComponent = memo(
@@ -49,6 +55,12 @@ export const GridComponent = memo(
     hasOpenModal = false,
     AddNewButtonComponents,
     isLoading,
+    // ---
+    canSort,
+    columnSize,
+    sortFields,
+    setSortFields,
+    setColumnSize,
   }: GridComponentProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSizeElement, setPageSizeElement] = useState(defaultPageSize);
@@ -78,7 +90,10 @@ export const GridComponent = memo(
             />
           )}
 
-          <div className={cls.content} style={{ maxHeight: gridHeight }}>
+          <div
+            className={cls.content}
+            style={{ maxHeight: gridHeight, height: gridHeight - 15 }}
+          >
             <TableHeaderSort
               dataHeaders={headerData}
               minCellWidth={hasOpenModal ? 550 : 100}
@@ -98,6 +113,13 @@ export const GridComponent = memo(
               canOpenFilter={canOpenFilter}
               // loading
               isLoading={isLoading}
+              //---------
+
+              canSort={canSort}
+              setColumnSize={setColumnSize}
+              columnSize={columnSize}
+              sortFields={sortFields}
+              setSortFields={setSortFields}
             />
 
             <Pagination

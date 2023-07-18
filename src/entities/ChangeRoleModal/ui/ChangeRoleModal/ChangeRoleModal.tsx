@@ -30,9 +30,12 @@ export const ChangeRoleModal = memo((props: ChangeRoleModalProps) => {
     changeRole?.(selectedRole?.code).then((res: any) => {
       dispatch(UserActions.setGlobalData(res.data));
       dispatch(BreadCrumbsActions.clearPathListItem());
+      if (res?.data?.result === '1') {
+        onClose?.();
+      }
       navigate('/');
     });
-    onClose?.();
+    // onClose?.();
   }, [changeRole, dispatch, navigate, onClose, selectedRole?.code]);
 
   return (

@@ -25,6 +25,9 @@ interface GridInPopupProps {
   AddNewButtonComponents?: any[];
   isLoading?: boolean;
   placeholder: string;
+  canSort: boolean;
+  columnSize: any;
+  sortFields: any;
 }
 
 export const GridInPopup = (props: GridInPopupProps) => {
@@ -46,6 +49,10 @@ export const GridInPopup = (props: GridInPopupProps) => {
     AddNewButtonComponents,
     placeholder,
     isLoading,
+    // ----
+    canSort,
+    columnSize,
+    sortFields,
   } = props;
 
   return (
@@ -68,6 +75,9 @@ export const GridInPopup = (props: GridInPopupProps) => {
         AddNewButtonComponents={AddNewButtonComponents}
         placeholder={placeholder}
         isLoading={isLoading}
+        canSort={canSort}
+        columnSize={columnSize}
+        sortFields={sortFields}
       />
     </div>
   );

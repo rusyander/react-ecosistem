@@ -1,17 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './SettingsSelectRoleAndLanguage.module.scss';
-import {
-  BreadCrumbsActions,
-  Button,
-  ListBox,
-  VStack,
-  classNames,
-} from 'Modules/UiKit';
-import { UserActions } from 'entities/User';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { USER_LANGUAGE } from 'shared/const/localstorage';
+import { ListBox, classNames } from 'Modules/UiKit';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 
 export interface LanguageProps {
@@ -33,15 +23,10 @@ const languageOptions = [
 interface SettingsSelectRoleAndLanguageProps {
   className?: string;
   roles: any;
-  changeRole: (value: any) => any;
-  changeLanguage: (value: any) => any;
   initialData?: any;
-  setChangePasswordModal: (value: boolean) => void;
-  closeChangePasswordModal: () => void;
-  getSettingsModalRole: any;
-  getSettingsModalLanguage: any;
   settingsModalActions: any;
-  onClose?: () => void;
+  language: any;
+  role: any;
 }
 
 export const SettingsSelectRoleAndLanguage = memo(
@@ -49,25 +34,13 @@ export const SettingsSelectRoleAndLanguage = memo(
     const {
       className,
       roles,
-      changeRole,
-      changeLanguage,
       initialData,
-      setChangePasswordModal,
-      getSettingsModalRole,
-      getSettingsModalLanguage,
       settingsModalActions,
-      onClose,
+      language,
+      role,
     } = props;
     const { t, i18n } = useTranslation();
     const dispatch = useAppDispatch();
-    const role: RoleProps = useSelector(getSettingsModalRole);
-    const language: LanguageProps = useSelector(getSettingsModalLanguage);
-    const navigate = useNavigate();
-
-    const openChangePasswordModal = useCallback(() => {
-      setChangePasswordModal(true);
-      onClose?.();
-    }, [onClose, setChangePasswordModal]);
 
     const onChageLanguageHandler = useCallback(
       (lang: LanguageProps[] | any) => {
@@ -82,38 +55,6 @@ export const SettingsSelectRoleAndLanguage = memo(
       },
       [dispatch, settingsModalActions]
     );
-
-    const saveSettings = useCallback(() => {
-      // if (language?.code !== i18n.language) {
-      if (language?.code !== undefined && language?.code !== i18n.language) {
-        changeLanguage?.(language?.code).then((res: any) => {
-          localStorage.setItem(USER_LANGUAGE, String(language?.code));
-          dispatch(UserActions.setGlobalData(res.data));
-          // onClose?.();
-        });
-        i18n.changeLanguage((i18n.language = String(language?.code)));
-      }
-      if (
-        // roles?.userRoleInfo?.userRoleId !== role?.code ||
-        role?.code !== undefined
-        // roles?.userRoleInfo?.userRoleId !== undefined
-      ) {
-        changeRole?.(role?.code).then((res: any) => {
-          dispatch(UserActions.setGlobalData(res.data));
-          dispatch(BreadCrumbsActions.clearPathListItem());
-          navigate('/');
-          // onClose?.();
-        });
-      }
-    }, [
-      changeLanguage,
-      changeRole,
-      dispatch,
-      i18n,
-      language?.code,
-      navigate,
-      role?.code,
-    ]);
 
     return (
       <div
@@ -150,18 +91,6 @@ export const SettingsSelectRoleAndLanguage = memo(
             items={initialData?.data?.userRoles}
           />
         </div>
-        <VStack gap="16">
-          <Button
-            theme="background"
-            onClick={openChangePasswordModal}
-            className={cls.changePassword}
-          >
-            {t('Смена пароля')}
-          </Button>
-          <Button onClick={saveSettings} theme="background">
-            {t('Сохранить')}
-          </Button>
-        </VStack>
       </div>
     );
   }

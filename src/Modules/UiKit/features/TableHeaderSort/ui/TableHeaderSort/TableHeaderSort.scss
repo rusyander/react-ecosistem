@@ -2,12 +2,15 @@
   margin-bottom: 25px;
   border-radius: 6px;
 
-  transition: "all 0.2s ease";
+  transition: 'all 0.2s ease';
   flex-grow: 1;
 }
 
 table tr {
   position: fixed;
+}
+table thead tr {
+  height: 10px !important;
 }
 
 table thead,
@@ -43,7 +46,7 @@ table td {
 
 table th span,
 table td span {
-  white-space: nowrap;
+  // white-space: nowrap;
   text-overflow: ellipsis;
   display: block;
 }
@@ -58,7 +61,8 @@ table td span {
   z-index: 1;
   border-right: 2px solid transparent;
   background-color: var(--border-color-dark);
-  height: 43px !important;
+  // height: 48px !important;
+  height: 100% !important;
 }
 
 .resize-handle:hover {
@@ -98,7 +102,7 @@ th {
 }
 
 .colorTR {
-  display: flex;
+  // display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;

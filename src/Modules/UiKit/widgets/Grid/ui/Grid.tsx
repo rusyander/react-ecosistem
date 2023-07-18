@@ -28,6 +28,11 @@ interface GridProps {
   onRefresh?: () => void;
   AddNewButtonComponents?: any[];
   isLoading?: boolean;
+
+  canSort: boolean;
+  columnSize: any;
+  setColumnSize?: (value: string[]) => void;
+  setSortFields?: any;
 }
 
 export const Grid = (props: GridProps) => {
@@ -48,6 +53,10 @@ export const Grid = (props: GridProps) => {
     onRefresh,
     AddNewButtonComponents,
     isLoading,
+    canSort,
+    columnSize,
+    setSortFields,
+    setColumnSize,
   } = props;
 
   return (
@@ -69,6 +78,11 @@ export const Grid = (props: GridProps) => {
         onRefresh={onRefresh}
         AddNewButtonComponents={AddNewButtonComponents}
         isLoading={isLoading}
+        // ---
+        canSort={canSort}
+        columnSize={columnSize}
+        setColumnSize={setColumnSize}
+        setSortFields={setSortFields}
       />
     </div>
   );

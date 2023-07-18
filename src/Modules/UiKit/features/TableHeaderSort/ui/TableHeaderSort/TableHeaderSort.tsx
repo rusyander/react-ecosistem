@@ -21,6 +21,13 @@ interface TableHeaderSortProps {
   canOpenFilter?: boolean;
   isLoading?: boolean;
   hasOpenModal?: boolean;
+  // ----
+  canSort?: boolean;
+  columnSize?: any;
+  setColumnSize?: any;
+  // checkFormEnter(locations.pathname.replaceAll('/', ''));
+  sortFields?: any;
+  setSortFields?: any;
 }
 
 const createHeaders = (headers: TableHeadersProps[]) => {
@@ -49,12 +56,19 @@ export const TableHeaderSort = memo(
     },
     canOpenFilter = false,
     ModalContent = () => <div>Modal</div>,
+    // ----
+    canSort,
+    columnSize,
+    // checkFormEnter(locations.pathname.replaceAll('/', ''));
+    sortFields,
+    setSortFields,
+    setColumnSize,
   }: TableHeaderSortProps) => {
     const [tableHeights, setTableHeights] = useState(0);
     const [activeIndex, setActiveIndex] = useState(null);
     const tableElement: any = useRef<HTMLTableElement>(null);
     const divBlock: any = useRef<HTMLDivElement>(null);
-    const divRef = useRef<HTMLDivElement>(null);
+    const divRef: any = useRef<HTMLDivElement>(null);
     const [isModals, setIsModals] = useState(false);
     const columns = createHeaders?.(dataHeaders);
 
@@ -62,11 +76,18 @@ export const TableHeaderSort = memo(
       setActiveIndex(index);
     }, []);
 
+    const correctColumns = columns.filter(
+      (item: any) => item.accessorKey !== ''
+    );
+    useEffect(() => {
+      mouseMove(null);
+    }, []);
+
     const mouseMove = useCallback(
-      (e: MouseEvent) => {
+      (e: MouseEvent | any) => {
         const indexCurrent = activeIndex === null ? 0 : activeIndex;
         const screenWidth = window.innerWidth;
-        const gridColumns: any = columns.map((col: any, i: any) => {
+        const gridColumns: any = correctColumns.map((col: any, i: any) => {
           if (i === activeIndex) {
             const width = e.clientX - col.ref.current.offsetLeft;
             if (width >= minCellWidth) {
@@ -75,10 +96,18 @@ export const TableHeaderSort = memo(
           }
           return `${col.ref.current?.offsetWidth}px`;
         });
+        // console.log(columnSize, 'columnSize');
 
+        if (sortFields === null) {
+          // columnSize = gridColumns;
+          setColumnSize(gridColumns);
+        }
+        // console.log(columnSize, 'columnSize');
+
+        const currentSize = columnSize === null ? gridColumns : columnSize;
         // console.log(hasOpenModal, "hasOpenModal");
-        console.log(gridColumns, 'gridColumns');
-        console.log(screenWidth, 'screenWidth');
+        // console.log(gridColumns, 'gridColumns');
+        // console.log(screenWidth, 'screenWidth');
 
         if (hasOpenModal === true) {
           const gridColumnsInModal = gridColumns.map((col: any, i: any) => {
@@ -117,15 +146,26 @@ export const TableHeaderSort = memo(
           tableElement.current.style.gridTemplateColumns = `${gridColumnsInModal.join(
             ' '
           )}`;
-          console.log(gridColumnsInModal, 'gridColumnsInModal');
+          // console.log(gridColumnsInModal, 'gridColumnsInModal');
         }
         if (hasOpenModal === false) {
-          tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
+          tableElement.current.style.gridTemplateColumns = `${currentSize.join(
             ' '
           )}`;
         }
+        // columnSize = gridColumns;
+        setColumnSize(gridColumns);
       },
-      [activeIndex, columns, hasOpenModal, minCellWidth, canOpenFilter]
+      [
+        activeIndex,
+        correctColumns,
+        sortFields,
+        columnSize,
+        hasOpenModal,
+        setColumnSize,
+        minCellWidth,
+        canOpenFilter,
+      ]
     );
 
     const removeListeners = useCallback(() => {
@@ -151,7 +191,8 @@ export const TableHeaderSort = memo(
     }, [activeIndex, mouseMove, mouseUp, removeListeners]);
 
     const [sortFild, setSortFild] = useState('');
-    const [getSortDirections, setGetSortDirections] = useState('asc');
+    const [getSortDirections, setGetSortDirections] = useState('ASC');
+    const [sortedDatas, setSortedData]: any = useState([]);
 
     const selectFild = useCallback(
       (selectedFieldsElement: string) => {
@@ -162,41 +203,85 @@ export const TableHeaderSort = memo(
     );
 
     const sortByFields = useCallback(
-      (field: string) => {
-        let direction = 'asc';
+      (field: string, e: any) => {
+        let direction = 'ASC';
         if (sortFild === field) {
-          direction = getSortDirections === 'asc' ? 'desc' : 'asc';
+          direction = getSortDirections === 'ASC' ? 'DESC' : 'ASC';
         }
-        const sortedData = [...dataRowState].sort((a: any, b: any) => {
-          if (a[field] < b[field]) {
-            return direction === 'asc' ? -1 : 1;
-          }
-          if (a[field] > b[field]) {
-            return direction === 'asc' ? 1 : -1;
-          }
-          return 0;
-        });
-
-        setDataRowState(sortedData);
+        // const sortedData = [...dataRowState].sort((a: any, b: any) => {
+        //   if (a[field] < b[field]) {
+        //     return direction === 'ASC' ? -1 : 1;
+        //   }
+        //   if (a[field] > b[field]) {
+        //     return direction === 'ASC' ? 1 : -1;
+        //   }
+        //   return 0;
+        // });
+        const data = {
+          direction: direction,
+          property: field,
+        };
+        // setDataRowState(sortedData);
         setSortFild(field);
         setGetSortDirections(direction);
+
+        if (e.ctrlKey && e.button === 0) {
+          setSortedData((prev: any) => {
+            // console.log('prev', prev);
+
+            const pathList = [...prev, data];
+            const uniquePaths = [
+              ...new Set(
+                pathList.map((item) => {
+                  if (item.property === field) {
+                    return JSON.stringify({ ...item, direction: direction });
+                  }
+                  return JSON.stringify(item);
+                })
+              ),
+            ].map((item) => JSON.parse(item));
+
+            const updateSortFields: any = [];
+
+            uniquePaths.forEach((item: any) => {
+              if (item.property === field) {
+                updateSortFields.push({ ...item, direction: direction });
+              } else {
+                updateSortFields.push(item);
+              }
+            });
+
+            console.log(
+              'updateSortFields-*-*-*-*-*-*-*-*-*-*-*-*-*-',
+              updateSortFields
+            );
+            setSortFields(updateSortFields);
+            return [...updateSortFields];
+          });
+        } else {
+          setSortedData([]);
+          setSortedData((prev: any) => {
+            setSortFields([{ ...prev, data }.data]);
+            return [...prev, data];
+          });
+        }
       },
-      [dataRowState, getSortDirections, setDataRowState, sortFild]
+      [getSortDirections, setSortFields, sortFild]
     );
 
-    const renderSortIcon = useCallback(
-      (field: string) => {
-        if (field === sortFild) {
-          return getSortDirections === 'asc' ? (
-            <Icon className="sortIconsSecondary" icon="bx:sort-up" /> // Верхняя стрелка
-          ) : (
-            <Icon className="sortIconsSecondary" icon="bx:sort-down" /> // Нижняя стрелка
-          );
-        }
-        return null;
-      },
-      [getSortDirections, sortFild]
-    );
+    // const renderSortIcon = useCallback(
+    //   (field: string) => {
+    //     if (field === sortFild) {
+    //       return getSortDirections === 'ASC' ? (
+    //         <Icon className="sortIconsSecondary" icon="bx:sort-up" /> // Верхняя стрелка
+    //       ) : (
+    //         <Icon className="sortIconsSecondary" icon="bx:sort-down" /> // Нижняя стрелка
+    //       );
+    //     }
+    //     return null;
+    //   },
+    //   [getSortDirections, sortFild]
+    // );
 
     // ------
     const isModalOpen = useCallback(() => {
@@ -205,34 +290,50 @@ export const TableHeaderSort = memo(
     const onCloseModal = useCallback(() => {
       setIsModals(false);
     }, []);
+
+    // console.log('divRef.current?.offsetHeight', divRef.current?.offsetHeight);
+
     return (
       <div ref={divRef}>
         <div className="table-wrapper" ref={divBlock}>
           <table
             style={{
               display: 'grid',
-              gridTemplateColumns: `repeat(${columns.length},  minmax(${
+              // gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
+              //   hasOpenModal ? 100 : 100
+              // }px, 1fr))`,
+              // ------------------------------------
+
+              gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
                 hasOpenModal ? 100 : 100
               }px, 1fr))`,
-              height: `${tableHeight - 45}px`,
+
+              // ------------------------------------
+              // height: `${tableHeight - 45}px`,
+              // height: `${500 - 45}px`,
+              height: `${
+                divRef?.current?.offsetHeight - 45 > tableHeight - 45
+                  ? tableHeight - 45
+                  : ''
+              }px`,
             }}
             ref={tableElement}
           >
             <TableHeaderSortContent
-              columns={columns}
-              sortFild={sortFild}
+              columns={correctColumns}
               sortByFields={sortByFields}
-              renderSortIcon={renderSortIcon}
               tableHeights={tableHeights}
               mouseDown={mouseDown}
               activeIndex={activeIndex}
+              canSort={canSort}
+              sortedDatas={sortedDatas}
             />
 
             <TableRowContent
               tableData={dataRowState}
               selectFild={selectFild}
               selectedFild={selectedFild}
-              dataHeaders={dataHeaders}
+              dataHeaders={correctColumns}
               isModalOpen={isModalOpen}
               isLoading={isLoading}
             />

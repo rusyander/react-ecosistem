@@ -36,9 +36,9 @@ export const TableRowContent = ({
     );
   return (
     <tbody>
-      {tableData?.map((item: any) => (
+      {tableData?.map((item: any, index) => (
         <tr
-          key={item.id}
+          key={index}
           onClick={() => selectFild?.(item || '')}
           onDoubleClick={isModalOpen}
         >
@@ -47,15 +47,13 @@ export const TableRowContent = ({
               key={column.id}
               style={{
                 background: `${
-                  selectedFild?.id === item.id
+                  // selectedFild?.id === item.id
+                  JSON.stringify(selectedFild) === JSON.stringify(item)
                     ? 'var(--select-row-item-bg)'
                     : 'var(--seccondary-bg-color)'
                 }`,
               }}
             >
-              {/* <span className={cls.tableRowContent}>
-                {item[column?.accessorKey]}
-              </span> */}
               <Texts
                 text={item[column?.accessorKey]}
                 className={cls.tableRowContent}

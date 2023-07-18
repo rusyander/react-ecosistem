@@ -1,13 +1,13 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface TableHeaderSortContentProps {
   columns: any;
-  sortFild: string;
-  sortByFields: (sortFild: any) => void;
-  renderSortIcon: any;
+  sortByFields: (sortFild: any, e: any) => void;
   tableHeights: number;
   mouseDown: (mouseEvent: any) => void;
   activeIndex: string | number | any;
+  canSort: any;
+  sortedDatas: any;
 }
 
 export default function TableHeaderSortContent(
@@ -15,13 +15,14 @@ export default function TableHeaderSortContent(
 ) {
   const {
     columns,
-    sortFild,
     sortByFields,
-    renderSortIcon,
     tableHeights,
     mouseDown,
     activeIndex,
+    canSort = true,
+    sortedDatas,
   } = props;
+
   return (
     <thead>
       <tr>
@@ -29,29 +30,56 @@ export default function TableHeaderSortContent(
           <th
             ref={ref}
             key={header}
-            className={`tr colorTR ${
-              sortFild === accessorKey && "bgColorTRLast"
-            }`}
-            onClick={() => sortByFields(accessorKey)}
+            className={`tr  ${
+              JSON.stringify(sortedDatas).includes(accessorKey) &&
+              'bgColorTRLast'
+            } ${canSort && 'colorTR'}`}
+            onClick={(e) => (canSort ? sortByFields(accessorKey, e) : null)}
           >
             <div className="thFlex">
               <span className="tableTitleStyle">{header}</span>
 
-              <button
-                className="buttonTable"
-                // onClick={() => sortByFields(accessorKey)}
-              >
-                {renderSortIcon(accessorKey)}
-                {sortFild !== accessorKey && (
-                  <Icon className="sortIcons" icon="bx:sort-alt-2" />
-                )}
-              </button>
+              {canSort && (
+                <button
+                  className="buttonTable"
+                  onClick={(e) =>
+                    canSort ? sortByFields(accessorKey, e) : null
+                  }
+                >
+                  {sortedDatas.map((item: any) => {
+                    if (item.property === accessorKey) {
+                      if (item?.direction === 'ASC') {
+                        return (
+                          <Icon
+                            key={item}
+                            className="sortIconsSecondary"
+                            icon="bx:sort-up"
+                          />
+                        );
+                      }
+                      if (item?.direction === 'DESC') {
+                        return (
+                          <Icon
+                            key={item}
+                            className="sortIconsSecondary"
+                            icon="bx:sort-down"
+                          />
+                        );
+                      }
+                    }
+                    return null;
+                  })}
+                  {!JSON.stringify(sortedDatas).includes(accessorKey) && (
+                    <Icon className="sortIcons" icon="bx:sort-alt-2" />
+                  )}
+                </button>
+              )}
             </div>
             <div
               style={{ height: tableHeights }}
               onMouseDown={() => mouseDown(i)}
               className={`resize-handle ${
-                activeIndex === i ? "active" : "idle"
+                activeIndex === i ? 'active' : 'idle'
               }`}
             />
           </th>
