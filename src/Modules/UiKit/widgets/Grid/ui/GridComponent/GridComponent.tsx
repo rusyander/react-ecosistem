@@ -17,7 +17,7 @@ interface GridComponentProps {
   selectedFields?: (selectedField: string) => void;
   onPaginationPageChange?: (page: number, limit: number) => void;
   totalDataCount?: number;
-  FilterFormComponents?: () => JSX.Element;
+  FilterFormComponents?: any;
   isOpenFilter?: boolean;
   showRefreshButton?: boolean;
   onRefresh?: () => void;
@@ -92,7 +92,7 @@ export const GridComponent = memo(
 
           <div
             className={cls.content}
-            style={{ maxHeight: gridHeight, height: gridHeight - 15 }}
+            style={{ maxHeight: gridHeight, height: gridHeight - 5 }}
           >
             <TableHeaderSort
               dataHeaders={headerData}

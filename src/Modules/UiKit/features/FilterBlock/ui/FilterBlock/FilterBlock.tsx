@@ -1,9 +1,9 @@
 import cls from './FilterBlock.module.scss';
 import { classNames } from '../../../../shared';
-import { memo, useCallback } from 'react';
+import { ReactNode, memo, useCallback } from 'react';
 
 interface FilterBlockProps {
-  FilterFormComponents?: () => JSX.Element;
+  FilterFormComponents?: any;
   canOpenFilter?: boolean;
   setCanOpenFilter?: (canOpenFilter: boolean) => void;
 }

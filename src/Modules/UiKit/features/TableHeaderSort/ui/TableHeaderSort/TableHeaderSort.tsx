@@ -65,7 +65,7 @@ export const TableHeaderSort = memo(
     setColumnSize,
   }: TableHeaderSortProps) => {
     const [tableHeights, setTableHeights] = useState(0);
-    const [activeIndex, setActiveIndex] = useState(null);
+    const [activeIndex, setActiveIndex]: any = useState(null);
     const tableElement: any = useRef<HTMLTableElement>(null);
     const divBlock: any = useRef<HTMLDivElement>(null);
     const divRef: any = useRef<HTMLDivElement>(null);
@@ -79,12 +79,31 @@ export const TableHeaderSort = memo(
     const correctColumns = columns.filter(
       (item: any) => item.accessorKey !== ''
     );
-    useEffect(() => {
-      mouseMove(null);
-    }, []);
+
+    const columnSizeDefaultStyle = columnSize.map((col: any) => {
+      return `minmax(${col}, 1fr)`;
+    });
+    const styles = {
+      gridTemplateColumns: columnSizeDefaultStyle.join(' '),
+      height: `${
+        divRef?.current?.offsetHeight - 55 > tableHeight - 55
+          ? tableHeight - 55
+          : ''
+      }px`,
+      display: 'grid',
+    };
+    // console.log(columnSizeDefaultStyle, 'columnSizeDefaultStyle');
+
+    // useEffect(() => {}, [counter]);
+
+    // if (counter === 0) {
+    //   setCounter(1);
+    //   setActiveIndex(0);
+    // }
+    // console.log(activeIndex);
 
     const mouseMove = useCallback(
-      (e: MouseEvent | any) => {
+      (e?: MouseEvent | any) => {
         const indexCurrent = activeIndex === null ? 0 : activeIndex;
         const screenWidth = window.innerWidth;
         const gridColumns: any = correctColumns.map((col: any, i: any) => {
@@ -98,10 +117,10 @@ export const TableHeaderSort = memo(
         });
         // console.log(columnSize, 'columnSize');
 
-        if (sortFields === null) {
-          // columnSize = gridColumns;
-          setColumnSize(gridColumns);
-        }
+        // if (sortFields === null) {
+        //   // columnSize = gridColumns;
+        //   setColumnSize(gridColumns);
+        // }
         // console.log(columnSize, 'columnSize');
 
         const currentSize = columnSize === null ? gridColumns : columnSize;
@@ -149,9 +168,17 @@ export const TableHeaderSort = memo(
           // console.log(gridColumnsInModal, 'gridColumnsInModal');
         }
         if (hasOpenModal === false) {
-          tableElement.current.style.gridTemplateColumns = `${currentSize.join(
+          // if (counter === 0) {
+          //   setCounter(1);
+          //   tableElement.current.style.gridTemplateColumns = `${columnSize.join(
+          //     ' '
+          //   )}`;
+          // }
+          // if (counter !== 0) {
+          tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
             ' '
           )}`;
+          // }
         }
         // columnSize = gridColumns;
         setColumnSize(gridColumns);
@@ -159,7 +186,6 @@ export const TableHeaderSort = memo(
       [
         activeIndex,
         correctColumns,
-        sortFields,
         columnSize,
         hasOpenModal,
         setColumnSize,
@@ -251,10 +277,10 @@ export const TableHeaderSort = memo(
               }
             });
 
-            console.log(
-              'updateSortFields-*-*-*-*-*-*-*-*-*-*-*-*-*-',
-              updateSortFields
-            );
+            // console.log(
+            //   'updateSortFields-*-*-*-*-*-*-*-*-*-*-*-*-*-',
+            //   updateSortFields
+            // );
             setSortFields(updateSortFields);
             return [...updateSortFields];
           });
@@ -297,26 +323,27 @@ export const TableHeaderSort = memo(
       <div ref={divRef}>
         <div className="table-wrapper" ref={divBlock}>
           <table
-            style={{
-              display: 'grid',
-              // gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
-              //   hasOpenModal ? 100 : 100
-              // }px, 1fr))`,
-              // ------------------------------------
+            style={styles}
+            // style={{
+            //   display: 'grid',
+            //   gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
+            //     hasOpenModal ? 100 : 100
+            //   }px, 1fr))`,
+            //   height: `${
+            //     divRef?.current?.offsetHeight - 45 > tableHeight - 45
+            //       ? tableHeight - 45
+            //       : ''
+            //   }px`,
+            //   // height: `${tableHeight - 45}px`,
+            //   // height: `${500 - 45}px`,
+            //   // ------------------------------------
 
-              gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
-                hasOpenModal ? 100 : 100
-              }px, 1fr))`,
+            //   // gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
+            //   //   hasOpenModal ? 100 : 100
+            //   // }px, 1fr))`,
 
-              // ------------------------------------
-              // height: `${tableHeight - 45}px`,
-              // height: `${500 - 45}px`,
-              height: `${
-                divRef?.current?.offsetHeight - 45 > tableHeight - 45
-                  ? tableHeight - 45
-                  : ''
-              }px`,
-            }}
+            //   // ------------------------------------
+            // }}
             ref={tableElement}
           >
             <TableHeaderSortContent

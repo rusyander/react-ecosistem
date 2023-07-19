@@ -114,6 +114,7 @@ module.exports = {
     'react/jsx-no-duplicate-props': 'off',
     'no-unneeded-ternary': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
+    'object-shorthand': 'off',
     curly: 'off',
   },
   globals: {

@@ -11,7 +11,7 @@ export const Reload = memo(({ onRefresh }: ReloadProps) => {
   return (
     <div onClick={onRefresh}>
       <Button theme="background">
-        <Icon className={cls.iconSize} icon="oi:reload" />
+        <Icon width={20} className={cls.iconSize} icon="oi:reload" />
       </Button>
     </div>
   );

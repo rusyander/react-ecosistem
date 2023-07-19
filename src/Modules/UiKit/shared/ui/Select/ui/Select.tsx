@@ -37,7 +37,7 @@ export const Select = memo(
     const [selectedItem, setSelectedItem] = useState(options[0].label);
     const allCount = { value: totalCount, label: 'Все' };
 
-    const allOptions = [...options, allCount];
+    const allOptions = [...options];
 
     const handleSelect = (value: Option) => {
       setSelectedItem(value.label);

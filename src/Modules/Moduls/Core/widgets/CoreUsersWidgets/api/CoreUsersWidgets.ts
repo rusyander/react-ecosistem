@@ -1,4 +1,5 @@
 import { rtkApi } from 'shared/api/rtkApi';
+import { GridType } from '../model/types/coreUsersWidgets';
 const CoreUsersWidgetsApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
     checkFormEnter: build.mutation<any, any>({
@@ -9,7 +10,7 @@ const CoreUsersWidgetsApi = rtkApi.injectEndpoints({
       }),
     }),
 
-    getGridData: build.mutation<any, any>({
+    getGridData: build.mutation<any, GridType>({
       query: (arg) => ({
         url: '/api/core/user/getGridData',
         body: arg,

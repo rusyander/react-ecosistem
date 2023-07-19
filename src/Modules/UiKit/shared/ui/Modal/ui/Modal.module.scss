@@ -33,7 +33,7 @@
 .opened {
   pointer-events: auto;
   opacity: 1;
-  z-index: var(--modale-z-index);
+  // z-index: var(--modale-z-index);
 
   .content {
     transform: scale(1);

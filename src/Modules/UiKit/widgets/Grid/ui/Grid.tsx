@@ -1,5 +1,6 @@
 import { GridComponent } from './GridComponent/GridComponent';
 import { TableHeadersProps } from '..';
+import { ReactNode } from 'react';
 
 interface PageCountOptionsProps {
   value: number;
@@ -22,7 +23,7 @@ interface GridProps {
   selectedFields?: (selectedField: string) => void;
   onPaginationPageChange: (page: number, limit: number) => void;
   totalDataCount: number;
-  FilterFormComponents?: () => JSX.Element;
+  FilterFormComponents?: ReactNode;
   showIsOpenFilter: boolean;
   showRefreshButton: boolean;
   onRefresh?: () => void;

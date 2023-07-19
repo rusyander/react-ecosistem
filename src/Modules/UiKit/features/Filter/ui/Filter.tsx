@@ -20,7 +20,7 @@ export const Filter = memo((props: FilterProps) => {
 
   return (
     <Button onClick={openCloseFilter} theme="background">
-      <Icon className={cls.iconSize} icon="mdi:filter-outline" />
+      <Icon width={20} className={cls.iconSize} icon="mdi:filter-outline" />
     </Button>
   );
 });

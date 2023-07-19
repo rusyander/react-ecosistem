@@ -17,12 +17,20 @@ interface ModalProps {
   isOpen?: boolean;
   onClose?: () => void;
   lazy?: boolean;
+  zIndex?: number;
 }
 
 const ANIMATION_DELAY = 200;
 
 export const Modal = (props: ModalProps) => {
-  const { className = '', children, isOpen, onClose, lazy } = props;
+  const {
+    className = '',
+    children,
+    isOpen,
+    onClose,
+    lazy,
+    zIndex = 10,
+  } = props;
 
   const [isClosing, setIsClosing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -85,6 +93,7 @@ export const Modal = (props: ModalProps) => {
       <div
         className={classNames(cls.Modal, mods, [className, 'app_modal'])}
         onClick={closeHandler}
+        style={{ zIndex: zIndex }}
       >
         <div className={cls.overlay}>
           <div className={cls.content} onClick={onContentClick}>

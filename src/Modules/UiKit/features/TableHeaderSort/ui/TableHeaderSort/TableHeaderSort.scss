@@ -8,6 +8,7 @@
 
 table tr {
   position: fixed;
+  // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 table thead tr {
   height: 10px !important;
