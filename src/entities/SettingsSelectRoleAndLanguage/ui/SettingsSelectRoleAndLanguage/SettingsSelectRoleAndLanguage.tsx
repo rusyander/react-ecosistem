@@ -3,30 +3,21 @@ import { useTranslation } from 'react-i18next';
 import cls from './SettingsSelectRoleAndLanguage.module.scss';
 import { ListBox, classNames } from 'Modules/UiKit';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-
-export interface LanguageProps {
-  code: string | number;
-  name: string;
-}
-
-export interface RoleProps {
-  code: string | number;
-  name: string;
-}
+import { InitDataTypes, UserRoles } from 'shared/types/ititType';
 
 const languageOptions = [
-  { code: '1', name: 'Русский' },
-  { code: '2', name: 'Узбекский' },
-  { code: '3', name: 'Английский' },
+  { code: 1, name: 'Русский' },
+  { code: 2, name: 'Узбекский' },
+  { code: 3, name: 'Английский' },
 ];
 
 interface SettingsSelectRoleAndLanguageProps {
   className?: string;
-  roles: any;
-  initialData?: any;
+  roles: InitDataTypes;
+  initialData?: InitDataTypes;
   settingsModalActions: any;
-  language: any;
-  role: any;
+  language: UserRoles;
+  role: UserRoles;
 }
 
 export const SettingsSelectRoleAndLanguage = memo(
@@ -43,14 +34,14 @@ export const SettingsSelectRoleAndLanguage = memo(
     const dispatch = useAppDispatch();
 
     const onChageLanguageHandler = useCallback(
-      (lang: LanguageProps[] | any) => {
+      (lang: UserRoles) => {
         dispatch(settingsModalActions.setLanguage(lang));
       },
       [dispatch, settingsModalActions]
     );
 
     const onChageRoleHandler = useCallback(
-      (role: LanguageProps) => {
+      (role: UserRoles) => {
         dispatch(settingsModalActions.setRole(role));
       },
       [dispatch, settingsModalActions]
@@ -84,11 +75,11 @@ export const SettingsSelectRoleAndLanguage = memo(
         <div className={cls.select}>
           <ListBox
             className={classNames('', {}, [className])}
-            defaultValue={roles?.userRoleInfo?.userRoleName}
+            defaultValue={roles?.data?.userRoleInfo?.userRoleName}
             label={t('Роль по умолчанию')}
             onChange={onChageRoleHandler}
             value={role}
-            items={initialData?.data?.userRoles}
+            items={initialData?.data?.userRoles || []}
           />
         </div>
       </div>

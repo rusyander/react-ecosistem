@@ -1,6 +1,7 @@
 import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { changePassword } from '../services/fetchSettingsModal/changePassword';
-import { Language, Role, SettingsModalSchema } from '../types/settingsModal';
+import { SettingsModalSchema } from '../types/settingsModal';
+import { UserRoles } from 'shared/types/ititType';
 
 const initialState: SettingsModalSchema = {
   isLoading: false,
@@ -32,10 +33,10 @@ export const settingsModalSlice = createSlice({
       state.confirmPassword = payload;
     },
 
-    setLanguage: (state, { payload }: PayloadAction<Language>) => {
+    setLanguage: (state, { payload }: PayloadAction<UserRoles>) => {
       state.language = payload;
     },
-    setRole: (state, { payload }: PayloadAction<Role>) => {
+    setRole: (state, { payload }: PayloadAction<UserRoles>) => {
       state.role = payload;
     },
   },
@@ -45,20 +46,13 @@ export const settingsModalSlice = createSlice({
         state.error = undefined;
         state.isLoading = true;
       })
-      .addCase(
-        changePassword.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.isLoading = false;
-        }
-      )
+      .addCase(changePassword.fulfilled, (state) => {
+        state.isLoading = false;
+      })
       .addCase(changePassword.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
-    // .addMatcher(asError, (state, action: PayloadAction<string>) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // });
   },
 });
 

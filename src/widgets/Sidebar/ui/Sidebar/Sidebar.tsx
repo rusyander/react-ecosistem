@@ -1,6 +1,5 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import cls from './Sidebar.module.scss';
-
 import { Button, Modal, classNames } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 import { SettingsModal, settingsModalActions } from 'features/SettingsModal';
@@ -9,11 +8,12 @@ import { SearchFavorite } from 'features/SearchFavorite';
 import { SearchRole } from 'features/SearchRole';
 import { changeRoleM, changeLanguageM } from '../../api/SidebarApi';
 import { SidebarHeader } from '../SidebarHeader/SidebarHeader';
+import { InitDataTypes } from 'shared/types/ititType';
 
 interface SidebarProps {
   className?: string;
-  sidebarData?: any;
-  initialData?: any;
+  sidebarData?: InitDataTypes;
+  initialData?: InitDataTypes;
 }
 
 export const Sidebar = memo(
@@ -24,8 +24,8 @@ export const Sidebar = memo(
     useEffect(() => {
       dispatch(
         settingsModalActions.setRole({
-          name: sidebarData?.data?.userRoleInfo?.userRoleName,
-          code: sidebarData?.data?.userRoleInfo?.userRoleId,
+          name: sidebarData?.data?.userRoleInfo?.userRoleName || '',
+          code: sidebarData?.data?.userRoleInfo?.userRoleId || 0,
         })
       );
     }, []);
@@ -72,11 +72,10 @@ export const Sidebar = memo(
               }
             />
             <SearchRole
-              sidebarData={sidebarData}
+              sidebarData={sidebarData || {}}
               changeRole={changeRole}
               setCollapsed={setCollapsed}
               initialData={initialData}
-              onToggle={onToggle}
             />
             <SearchFavorite />
             <Button
@@ -91,7 +90,7 @@ export const Sidebar = memo(
         <Modal lazy isOpen={appSettingsModal} onClose={closeAppSettingsModal}>
           <SettingsModal
             onClose={closeAppSettingsModal}
-            roles={sidebarData?.data}
+            roles={sidebarData || {}}
             changeRole={changeRole}
             changeLanguage={changeLanguage}
             initialData={initialData}

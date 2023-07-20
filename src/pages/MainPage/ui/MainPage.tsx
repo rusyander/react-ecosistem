@@ -10,9 +10,10 @@ import { getInitialDataList } from '../api/getInitialData';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Os } from 'Modules/Moduls/Os';
 import { USER_LOCALSTORAGE_HEADER } from 'shared/const/localstorage';
+import { InitDataTypes } from 'shared/types/ititType';
 
 export default function MainPage() {
-  const [initialData, setInitialData] = useState<any>();
+  const [initialData, setInitialData] = useState<InitDataTypes>({});
   const [getInitialData] = getInitialDataList();
   const dispatch = useAppDispatch();
   const globalDataList = useSelector(globalData);
@@ -21,7 +22,7 @@ export default function MainPage() {
 
   const setInitiadData = useCallback(() => {
     if (session) {
-      getInitialData(session).then((res: any) => {
+      getInitialData(JSON.parse(session)).then((res: InitDataTypes | any) => {
         dispatch(UserActions.setGlobalData(res?.data));
         setInitialData(res?.data);
       });

@@ -1,15 +1,16 @@
 import { rtkApi } from 'shared/api/rtkApi';
+import { InitDataTypes } from 'shared/types/ititType';
 
 const SidebarApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
-    changeLanguage: build.mutation<any, { number: number }>({
+    changeLanguage: build.mutation<InitDataTypes, number>({
       query: (number) => ({
         url: '/api/core/desktop/changeLang',
         body: number,
         method: 'POST',
       }),
     }),
-    changeRole: build.mutation<any, { code: string }>({
+    changeRole: build.mutation<InitDataTypes, number>({
       query: (code) => ({
         url: '/api/core/desktop/changeRole',
         body: code,

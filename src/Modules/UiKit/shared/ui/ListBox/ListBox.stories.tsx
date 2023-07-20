@@ -37,19 +37,19 @@ export const Primary: Story = {
     items: [
       {
         name: 'Item 1',
-        code: 'Item 1',
+        code: 1,
       },
       {
         name: 'Item 2',
-        code: 'Item 2',
+        code: 2,
       },
       {
         name: 'Item 3',
-        code: 'Item 3',
+        code: 3,
       },
       {
         name: 'Item 4',
-        code: 'Item 4',
+        code: 4,
       },
     ],
     defaultValue: 'Item 1',
@@ -78,19 +78,19 @@ export const TopRight: Story = {
     items: [
       {
         name: 'Item 1',
-        code: 'Item 1',
+        code: 1,
       },
       {
         name: 'Item 2',
-        code: 'Item 2',
+        code: 2,
       },
       {
         name: 'Item 3',
-        code: 'Item 3',
+        code: 3,
       },
       {
         name: 'Item 4',
-        code: 'Item 4',
+        code: 4,
       },
     ],
     defaultValue: 'Item 1',
@@ -103,19 +103,19 @@ export const BottomLeft: Story = {
     items: [
       {
         name: 'Item 1',
-        code: 'Item 1',
+        code: 1,
       },
       {
         name: 'Item 2',
-        code: 'Item 2',
+        code: 2,
       },
       {
         name: 'Item 3',
-        code: 'Item 3',
+        code: 3,
       },
       {
         name: 'Item 4',
-        code: 'Item 4',
+        code: 4,
       },
     ],
     defaultValue: 'Item 1',
@@ -128,19 +128,19 @@ export const BottomRight: Story = {
     items: [
       {
         name: 'Item 1',
-        code: 'Item 1',
+        code: 1,
       },
       {
         name: 'Item 2',
-        code: 'Item 2',
+        code: 2,
       },
       {
         name: 'Item 3',
-        code: 'Item 3',
+        code: 3,
       },
       {
         name: 'Item 4',
-        code: 'Item 4',
+        code: 4,
       },
     ],
     defaultValue: 'Item 1',

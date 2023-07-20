@@ -2,28 +2,23 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './SearchRole.module.scss';
 import { Input, Modal, Texts, VStack, classNames } from 'Modules/UiKit';
-import { Role } from 'features/SettingsModal';
 import { ChangeRoleModal } from 'entities/ChangeRoleModal';
+import { InitDataTypes, UserRoles } from 'shared/types/ititType';
 
 interface SearchRoleProps {
   className?: string;
-  sidebarData: any;
-  changeRole?: (item: any) => void;
+  sidebarData: InitDataTypes;
+  changeRole?: (item: number) => any;
   setCollapsed: (item: boolean) => void;
-  onToggle?: () => void;
-  initialData?: any;
+  initialData?: InitDataTypes;
 }
 
 export const SearchRole = memo((props: SearchRoleProps) => {
-  const {
-    className,
-    sidebarData,
-    changeRole,
-    setCollapsed,
-    onToggle = () => null,
-    initialData,
-  } = props;
+  const { className, sidebarData, changeRole, setCollapsed, initialData } =
+    props;
   const { t } = useTranslation();
+
+  console.log('initialData ---------------------------', initialData);
 
   // --- modal changeRole
   const [appChangeRoleModal, setAppChangeRoleModal] = useState(false);
@@ -38,8 +33,8 @@ export const SearchRole = memo((props: SearchRoleProps) => {
 
   useEffect(() => {
     setSelectedRole({
-      name: sidebarData?.data?.userRoleInfo?.userRoleName,
-      code: sidebarData?.data?.userRoleInfo?.userRoleId,
+      name: sidebarData?.data?.userRoleInfo?.userRoleName || '',
+      code: sidebarData?.data?.userRoleInfo?.userRoleId || 0,
     });
   }, []);
 
@@ -49,12 +44,12 @@ export const SearchRole = memo((props: SearchRoleProps) => {
     setSearch(value);
   }, []);
 
-  const [selectedRole, setSelectedRole] = useState<Role>({
+  const [selectedRole, setSelectedRole] = useState<UserRoles>({
     name: '',
-    code: '0',
+    code: 0,
   });
   const selectRoles = useCallback(
-    (value: { name: string; code: number }) => {
+    (value: UserRoles) => {
       setSelectedRole(value);
       if (sidebarData?.data?.userRoleInfo?.userRoleId !== value.code) {
         openAppChangeRoleModal();
@@ -81,7 +76,7 @@ export const SearchRole = memo((props: SearchRoleProps) => {
       <div className={cls.divider} />
 
       <div className={cls.selectRole}>
-        {initialData?.data?.userRoles?.map((role: any) => (
+        {initialData?.data?.userRoles?.map((role: UserRoles) => (
           <div
             onClick={() => selectRoles(role)}
             key={role?.code}

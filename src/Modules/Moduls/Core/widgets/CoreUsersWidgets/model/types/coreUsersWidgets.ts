@@ -1,31 +1,21 @@
-export interface GridFilter {
-  colName: string;
-  condition: string;
-  dataType: number;
-  filterGroup: string;
-  itemName: string;
-  likePercSign: string;
-  upperSign: string;
-  values: string[];
+import { GridData, GridDataTypes } from '../../../../shared/types/GridTypes';
+
+export interface Content {
+  end_date?: string;
+  first_last_name?: string;
+  is_active_flag?: string;
+  is_active_flag_name?: string;
+  login?: string;
+  org_id?: number;
+  org_name?: string;
+  start_date?: string;
+  user_id?: number;
 }
 
-export interface GridSession {
-  lang: number;
-  loginId: string;
-  orgId: number;
-  userId: number;
-}
-export interface GridSort {
-  direction: string;
-  property: string;
+interface GridDatas extends GridData {
+  content?: Content[];
 }
 
-export interface GridType {
-  filter?: GridFilter[];
-  pageNumber?: number;
-  pageSize?: number;
-  params?: any;
-  session?: GridSession;
-  sort?: GridSort[];
-  totalCount?: number;
+export interface UserGridDataTypes extends GridDataTypes {
+  data?: GridDatas;
 }

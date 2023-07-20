@@ -1,28 +1,28 @@
 import { memo, useCallback } from 'react';
 import cls from './Navbar.module.scss';
-import { useTranslation } from 'react-i18next';
 import { Button, DropdownMenu, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { mutationLogout } from '../api/logout';
 import { UserActions } from 'entities/User';
+import { InitDataTypes } from 'shared/types/ititType';
 
 interface NavbarProps {
   className?: string;
-  navbarData?: any;
+  navbarData?: InitDataTypes;
 }
 
 export const Navbar = memo(({ className, navbarData }: NavbarProps) => {
-  const [t] = useTranslation();
-
   const dispatch = useDispatch();
   const [logout] = mutationLogout();
+  const navigate = useNavigate();
 
   const logouts = useCallback(() => {
     logout('');
     dispatch(UserActions.logout());
-  }, [dispatch, logout]);
+    navigate('/');
+  }, [dispatch, logout, navigate]);
 
   const dropdownMenuData =
     navbarData?.data?.menu !== undefined
@@ -51,7 +51,6 @@ export const Navbar = memo(({ className, navbarData }: NavbarProps) => {
           <div className={cls.logoutsInfo}>
             <Texts
               size="sizeS"
-              // title={t('Системный администратор')}userRoleName
               text={navbarData?.data?.userRoleInfo?.userRoleName}
               className={cls.bisnessSuite}
             />

@@ -12,12 +12,13 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { UserActions } from 'entities/User';
 import { useNavigate } from 'react-router-dom';
+import { InitDataTypes, UserRoles } from 'shared/types/ititType';
 
 interface ChangeRoleModalProps {
   className?: string;
   onClose?: () => void;
-  selectedRole?: any;
-  changeRole?: any;
+  selectedRole?: UserRoles;
+  changeRole?: (item: number) => any;
 }
 
 export const ChangeRoleModal = memo((props: ChangeRoleModalProps) => {
@@ -27,15 +28,16 @@ export const ChangeRoleModal = memo((props: ChangeRoleModalProps) => {
   const navigate = useNavigate();
 
   const changeRoleHandler = useCallback(() => {
-    changeRole?.(selectedRole?.code).then((res: any) => {
+    changeRole?.(selectedRole?.code || 0).then((res: InitDataTypes) => {
+      // @ts-ignore
+      const tsIgnoreInitData = res?.data?.result;
       dispatch(UserActions.setGlobalData(res.data));
       dispatch(BreadCrumbsActions.clearPathListItem());
-      if (res?.data?.result === '1') {
+      if (tsIgnoreInitData === '1') {
         onClose?.();
+        navigate('/');
       }
-      navigate('/');
     });
-    // onClose?.();
   }, [changeRole, dispatch, navigate, onClose, selectedRole?.code]);
 
   return (

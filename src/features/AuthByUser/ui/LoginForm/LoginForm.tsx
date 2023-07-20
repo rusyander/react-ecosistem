@@ -23,7 +23,7 @@ export interface LoginFormProps {
   className?: string;
 }
 
-const initialRedusers: ReducersList | any = {
+const initialRedusers: ReducersList = {
   auth: AuthSliceReducer,
 };
 

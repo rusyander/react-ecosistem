@@ -1,8 +1,10 @@
 import { rtkApi } from 'shared/api/rtkApi';
-import { GridType } from '../model/types/coreUsersWidgets';
+import { CheckFormEnter } from '../../../shared/types/CheckForm';
+import { GridType } from '../../../shared/types/GridTypes';
+import { UserGridDataTypes } from '../model/types/coreUsersWidgets';
 const CoreUsersWidgetsApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
-    checkFormEnter: build.mutation<any, any>({
+    checkFormEnter: build.mutation<CheckFormEnter, string>({
       query: (formCode: string) => ({
         url: '/api/core/security/checkFormEnter',
         body: formCode,
@@ -10,7 +12,7 @@ const CoreUsersWidgetsApi = rtkApi.injectEndpoints({
       }),
     }),
 
-    getGridData: build.mutation<any, GridType>({
+    getGridData: build.mutation<UserGridDataTypes, GridType>({
       query: (arg) => ({
         url: '/api/core/user/getGridData',
         body: arg,

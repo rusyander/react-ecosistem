@@ -1,12 +1,4 @@
-export interface Language {
-  code: string | number;
-  name: string;
-}
-
-export interface Role {
-  code: string | number;
-  name: string;
-}
+import { UserRoles } from 'shared/types/ititType';
 
 export interface SettingsModalSchema {
   isLoading: boolean;
@@ -17,6 +9,6 @@ export interface SettingsModalSchema {
   newPass: string;
   confirmPassword: string;
 
-  language: Language | undefined;
-  role: Role | undefined;
+  language: UserRoles | undefined;
+  role: UserRoles | undefined;
 }

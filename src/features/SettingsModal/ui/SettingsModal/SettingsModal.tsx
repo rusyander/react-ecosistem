@@ -30,6 +30,7 @@ import { useNavigate } from 'react-router-dom';
 import i18n from 'shared/config/i18n/i18n';
 import { USER_LANGUAGE } from 'shared/const/localstorage';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+import { InitDataTypes } from 'shared/types/ititType';
 
 const redusers: ReducersList = {
   settingsModal: settingsModalReducer,
@@ -37,10 +38,10 @@ const redusers: ReducersList = {
 export interface SettingsModalProps {
   className?: string;
   onClose?: () => void;
-  roles: any;
-  changeRole: (value: any) => any;
-  changeLanguage: (value: any) => any;
-  initialData?: any;
+  roles: InitDataTypes;
+  changeRole?: (item: number) => any;
+  changeLanguage: (value: number) => any;
+  initialData?: InitDataTypes;
 }
 
 export const SettingsModal = memo(
@@ -59,32 +60,34 @@ export const SettingsModal = memo(
     const navigate = useNavigate();
 
     const saveSettings = useCallback(() => {
-      // if (language?.code !== i18n.language) {
-      if (language?.code !== undefined && language?.code !== i18n.language) {
-        changeLanguage?.(language?.code).then((res: any) => {
+      if (
+        language?.code !== undefined &&
+        String(language?.code) !== i18n.language
+      ) {
+        changeLanguage?.(language?.code).then((res: InitDataTypes) => {
           localStorage.setItem(USER_LANGUAGE, String(language?.code));
           dispatch(UserActions.setGlobalData(res.data));
-          if (res?.data?.result === '1') {
+          // @ts-ignore
+          const tsIgnoreInitData = res?.data?.result;
+          if (tsIgnoreInitData === '1') {
             onClose?.();
           }
-          // onClose?.();
         });
         i18n.changeLanguage((i18n.language = String(language?.code)));
       }
-      if (
-        // roles?.userRoleInfo?.userRoleId !== role?.code ||
-        role?.code !== undefined
-        // roles?.userRoleInfo?.userRoleId !== undefined
-      ) {
-        changeRole?.(role?.code).then((res: any) => {
-          dispatch(UserActions.setGlobalData(res.data));
-          dispatch(BreadCrumbsActions.clearPathListItem());
-          if (res?.data?.result === '1') {
-            onClose?.();
-          }
-          navigate('/');
-          // onClose?.();
-        });
+      if (role?.code !== undefined) {
+        setTimeout(() => {
+          changeRole?.(role?.code || 0).then((res: InitDataTypes) => {
+            dispatch(UserActions.setGlobalData(res.data));
+            dispatch(BreadCrumbsActions.clearPathListItem());
+            // @ts-ignore
+            const tsIgnoreInitData = res?.data?.result;
+            if (tsIgnoreInitData === '1') {
+              onClose?.();
+            }
+            navigate('/');
+          });
+        }, 100);
       }
     }, [
       changeLanguage,
@@ -104,8 +107,7 @@ export const SettingsModal = memo(
 
     const openChangePasswordModal = useCallback(() => {
       setChangePasswordModal(true);
-      onClose?.();
-    }, [onClose, setChangePasswordModal]);
+    }, [setChangePasswordModal]);
 
     return (
       <DynamicModuleLoader reducers={redusers} removeAfterUnmaunt>
@@ -120,8 +122,8 @@ export const SettingsModal = memo(
             roles={roles}
             initialData={initialData}
             settingsModalActions={settingsModalActions}
-            language={language}
-            role={role}
+            language={language ?? {}}
+            role={role ?? {}}
           />
 
           <VStack gap="16">
@@ -141,6 +143,7 @@ export const SettingsModal = memo(
             lazy
             isOpen={changePasswordModal}
             onClose={closeChangePasswordModal}
+            zIndex={11}
           >
             <ChangePassword onClose={closeChangePasswordModal} />
           </Modal>

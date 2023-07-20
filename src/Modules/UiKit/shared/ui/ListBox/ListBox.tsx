@@ -1,17 +1,17 @@
-import { Fragment, ReactNode, memo, useState } from 'react';
+import { Fragment, ReactNode, memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Mods, classNames } from '../../lib/classNames/classNames';
+import { classNames } from '../../lib/classNames/classNames';
 import cls from './ListBox.module.scss';
 import { Listbox as HListbox } from '@headlessui/react';
 import { Button } from '../Button';
-import { HStack, VStack } from '../Stack';
+import { VStack } from '../Stack';
 import { DropdownDirection } from '../../types/ui';
 import { Texts } from '../Texts';
 import { Icon } from '@iconify/react';
 
 interface ListBoxItem {
-  code: string | any;
-  name: ReactNode;
+  code?: number;
+  name?: string | ReactNode;
   disabled?: boolean;
 }
 
@@ -20,7 +20,6 @@ interface ListBoxProps {
   items?: ListBoxItem[];
   value?: string | any;
   defaultValue?: string;
-  // onChange?: <T extends string>(value: T) => void;
   onChange?: (value: any) => void;
 
   readonly?: boolean;

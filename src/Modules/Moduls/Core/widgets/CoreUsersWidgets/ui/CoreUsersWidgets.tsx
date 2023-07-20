@@ -4,7 +4,6 @@ import cls from './CoreUsersWidgets.module.scss';
 import { Grid, classNames } from 'Modules/UiKit';
 import { checkFormEnterM, getGridDataM } from '../api/CoreUsersWidgets';
 import { useLocation } from 'react-router-dom';
-import { GridSort } from '../model/types/coreUsersWidgets';
 import {
   Add,
   Edit,
@@ -12,6 +11,8 @@ import {
   Roles,
 } from '../../../features/CORE_USERS_Features';
 import { headerGrid, pageCountOptions } from '../consts/consts';
+import { GridSort } from '../../../shared/types/GridTypes';
+import { Content } from '../model/types/coreUsersWidgets';
 export interface CoreUsersWidgetsProps {
   className?: string;
 }
@@ -34,7 +35,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
   const [getGridData, { data: grid, isLoading }] = getGridDataM();
 
   const [selected, setSelected] = useState(null);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageLimit, setPageLimit] = useState(100);
   const [isOpenFilter, setIsOpenFilter] = useState(true);
@@ -71,7 +72,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
       getGridData(gridParamsData);
       setCurrentPageNumber(currentPage ?? 1);
       setPageLimit(pageSizeElement ?? 100);
-      setTotalCount(grid?.data?.totalElements);
+      setTotalCount(grid?.data?.totalElements ?? 0);
     },
     [getGridData, grid?.data?.totalElements, gridParamsData]
   );
@@ -106,7 +107,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
       <Grid
         // for grid data
         headerData={headerGrid}
-        rowData={grid?.data?.content}
+        rowData={grid?.data?.content as Content[]}
         // for grid height
         gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
         columnSize={size}
