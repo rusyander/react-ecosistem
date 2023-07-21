@@ -10,7 +10,7 @@ interface GridInPopupComponentProps {
   rowData: any[];
   headerData: TableHeadersProps[];
   gridHeight: number;
-  gridIsOpenModal: boolean;
+  hasOpenGridRowModal?: boolean;
   pageCountOptions: PageCountOptionsProps[];
   ModalContent?: () => JSX.Element;
   defaultPageSize?: number;
@@ -35,7 +35,7 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
     rowData = [],
     headerData = [],
     gridHeight = 0,
-    gridIsOpenModal = false,
+    hasOpenGridRowModal = false,
     ModalContent,
     pageCountOptions,
     defaultPageSize = 0,
@@ -118,7 +118,7 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
             pageCountOptions={pageCountOptions}
             rowData={rowData}
             gridHeight={gridHeight}
-            gridIsOpenModal={gridIsOpenModal}
+            hasOpenGridRowModal={hasOpenGridRowModal}
             defaultPageSize={defaultPageSize}
             selectedFields={(value: any) => setSelectedFild(value)}
             onPaginationPageChange={onPaginationPageChange}

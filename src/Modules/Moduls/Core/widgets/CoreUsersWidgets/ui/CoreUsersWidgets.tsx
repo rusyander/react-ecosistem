@@ -25,7 +25,7 @@ const currentGridHeight =
   screenHeight - (navbarHeight + breadcrumbsHeight + paginationHeight);
 
 const ModalContents = () => {
-  return <div>modal</div>;
+  return <div>modal s ss</div>;
 };
 
 export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
@@ -35,10 +35,9 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
   const [getGridData, { data: grid, isLoading }] = getGridDataM();
 
   const [selected, setSelected] = useState(null);
-  const [totalCount, setTotalCount] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number | null>(null);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageLimit, setPageLimit] = useState(100);
-  const [isOpenFilter, setIsOpenFilter] = useState(true);
 
   // --------------------
 
@@ -49,8 +48,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         currentPageNumber !== null && currentPageNumber !== undefined
           ? currentPageNumber
           : 1,
-      pageSize:
-        pageLimit !== null && currentPageNumber !== pageLimit ? pageLimit : 100,
+      pageSize: pageLimit !== null && pageLimit !== undefined ? pageLimit : 100,
       params: [],
       sort: [],
       totalCount:
@@ -69,29 +67,43 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
 
   const onPaginationPageChange = useCallback(
     async (currentPage?: number, pageSizeElement?: number) => {
-      getGridData(gridParamsData);
-      setCurrentPageNumber(currentPage ?? 1);
-      setPageLimit(pageSizeElement ?? 100);
-      setTotalCount(grid?.data?.totalElements ?? 0);
+      const pageElements = {
+        filter: [],
+        pageNumber: currentPage ?? 1,
+        pageSize: pageSizeElement ?? 100,
+        params: [],
+        sort: [],
+        totalCount: grid?.data?.totalElements,
+      };
+
+      getGridData(pageElements);
+
+      if (grid?.result === '1') {
+        if (grid?.data?.totalElements) {
+          setCurrentPageNumber(currentPage ?? 1);
+          setPageLimit(pageSizeElement ?? 100);
+          setTotalCount(grid?.data?.totalElements);
+        }
+      }
     },
-    [getGridData, grid?.data?.totalElements, gridParamsData]
+    [getGridData, grid?.data?.totalElements, grid?.result]
   );
 
   const sortData = useCallback(
     (sorted: GridSort[]) => {
       const gridParamsData = {
         filter: [],
-        pageNumber: 1,
-        pageSize: 100,
+        pageNumber: currentPageNumber,
+        pageSize: pageLimit,
         params: null,
         sort: sorted,
-        totalCount: totalCount,
+        totalCount: totalCount ?? 0,
       };
       getGridData(gridParamsData);
     },
-    [getGridData, totalCount]
+    [currentPageNumber, getGridData, pageLimit, totalCount]
   );
-  const [size, setSize] = useState([
+  const [columnSize, setColumnSize] = useState([
     '560px',
     '260px',
     '103px',
@@ -110,24 +122,21 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         rowData={grid?.data?.content as Content[]}
         // for grid height
         gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
-        columnSize={size}
-        setColumnSize={setSize}
+        columnSize={columnSize}
+        setColumnSize={setColumnSize}
         // for modal
-        gridIsOpenModal={true}
         ModalContent={ModalContents}
+        selectedFields={(selected: any) => setSelected(selected)}
         // pagination
         pageCountOptions={pageCountOptions}
         defaultPageSize={100}
-        selectedFields={(selected: any) => setSelected(selected)}
         onPaginationPageChange={onPaginationPageChange}
-        totalDataCount={totalCount}
-        // filter button
-        showIsOpenFilter={isOpenFilter}
+        totalDataCount={grid?.data?.totalElements}
+        // filter form
         FilterFormComponents={Filters}
-        canSort={true}
+        // sort function
         setSortFields={sortData}
-        // refresh Buttons
-        showRefreshButton={true}
+        // refresh function
         onRefresh={refreshButtonFunction}
         // new button
         AddNewButtonComponents={[
@@ -137,6 +146,17 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         ]}
         // loading
         isLoading={isLoading}
+        // optional components
+        // pagination
+        isPagination={true}
+        // filter button
+        showIsOpenFilter={true}
+        // sort
+        canSort={true}
+        // refresh Buttons
+        showRefreshButton={true}
+        // can open modal when double click on grid row
+        hasOpenGridRowModal={true}
       />
     </div>
   );

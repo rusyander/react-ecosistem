@@ -8,7 +8,7 @@ interface GridInPopupProps {
 
   gridHeight: number;
 
-  gridIsOpenModal: boolean;
+  hasOpenGridRowModal: boolean;
 
   pageCountOptions: PageCountOptionsProps[];
 
@@ -35,7 +35,7 @@ export const GridInPopup = (props: GridInPopupProps) => {
     rowData = [],
     headerData = [],
     gridHeight = 0,
-    gridIsOpenModal = false,
+    hasOpenGridRowModal = false,
     ModalContent,
     pageCountOptions,
     defaultPageSize = 0,
@@ -63,7 +63,7 @@ export const GridInPopup = (props: GridInPopupProps) => {
         pageCountOptions={pageCountOptions}
         rowData={rowData}
         gridHeight={gridHeight}
-        gridIsOpenModal={gridIsOpenModal}
+        hasOpenGridRowModal={hasOpenGridRowModal}
         defaultPageSize={defaultPageSize}
         selectedFields={selectedFields}
         onPaginationPageChange={onPaginationPageChange}

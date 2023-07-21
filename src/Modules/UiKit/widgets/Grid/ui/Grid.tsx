@@ -8,32 +8,34 @@ interface PageCountOptionsProps {
 }
 
 interface GridProps {
+  // pagination
+  defaultPageSize?: number;
+  pageCountOptions?: PageCountOptionsProps[];
+  onPaginationPageChange?: (page: number, limit: number) => void;
+  totalDataCount?: number | any;
+  isPagination?: boolean;
+
+  // row data
   rowData: any[];
   headerData: TableHeadersProps[];
 
   gridHeight: number;
 
-  gridIsOpenModal: boolean;
-
-  pageCountOptions: PageCountOptionsProps[];
-
   ModalContent?: () => JSX.Element;
 
-  defaultPageSize: number;
   selectedFields?: (selectedField: string) => void;
-  onPaginationPageChange: (page: number, limit: number) => void;
-  totalDataCount: number;
   FilterFormComponents?: ReactNode;
-  showIsOpenFilter: boolean;
-  showRefreshButton: boolean;
+  showIsOpenFilter?: boolean;
+  showRefreshButton?: boolean;
   onRefresh?: () => void;
   AddNewButtonComponents?: any[];
   isLoading?: boolean;
 
-  canSort: boolean;
-  columnSize: any;
+  canSort?: boolean;
+  columnSize?: any;
   setColumnSize?: (value: string[]) => void;
   setSortFields?: any;
+  hasOpenGridRowModal?: boolean;
 }
 
 export const Grid = (props: GridProps) => {
@@ -41,7 +43,6 @@ export const Grid = (props: GridProps) => {
     rowData = [],
     headerData = [],
     gridHeight = 0,
-    gridIsOpenModal = false,
     ModalContent,
     pageCountOptions,
     defaultPageSize = 0,
@@ -58,6 +59,8 @@ export const Grid = (props: GridProps) => {
     columnSize,
     setSortFields,
     setColumnSize,
+    isPagination,
+    hasOpenGridRowModal,
   } = props;
 
   return (
@@ -68,7 +71,6 @@ export const Grid = (props: GridProps) => {
         pageCountOptions={pageCountOptions}
         rowData={rowData}
         gridHeight={gridHeight}
-        gridIsOpenModal={gridIsOpenModal}
         defaultPageSize={defaultPageSize}
         selectedFields={selectedFields}
         onPaginationPageChange={onPaginationPageChange}
@@ -79,6 +81,8 @@ export const Grid = (props: GridProps) => {
         onRefresh={onRefresh}
         AddNewButtonComponents={AddNewButtonComponents}
         isLoading={isLoading}
+        isPagination={isPagination}
+        hasOpenGridRowModal={hasOpenGridRowModal}
         // ---
         canSort={canSort}
         columnSize={columnSize}

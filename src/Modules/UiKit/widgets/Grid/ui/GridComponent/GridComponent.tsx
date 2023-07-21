@@ -9,14 +9,13 @@ import { PageCountOptionsProps } from '../../model/types/gridSchema';
 interface GridComponentProps {
   headerData: TableHeadersProps[];
   ModalContent?: () => JSX.Element;
-  pageCountOptions: PageCountOptionsProps[];
+  pageCountOptions?: PageCountOptionsProps[];
   rowData: any;
   gridHeight: number;
-  gridIsOpenModal: boolean;
   defaultPageSize: number;
   selectedFields?: (selectedField: string) => void;
   onPaginationPageChange?: (page: number, limit: number) => void;
-  totalDataCount?: number;
+  totalDataCount?: number | any;
   FilterFormComponents?: any;
   isOpenFilter?: boolean;
   showRefreshButton?: boolean;
@@ -25,11 +24,14 @@ interface GridComponentProps {
   isLoading?: boolean;
   hasOpenModal?: boolean;
 
+  isPagination?: boolean;
+
   canSort?: boolean;
   columnSize?: any;
   sortFields?: any;
   setSortFields?: any;
   setColumnSize?: any;
+  hasOpenGridRowModal?: boolean;
 }
 
 export const GridComponent = memo(
@@ -39,9 +41,8 @@ export const GridComponent = memo(
     pageCountOptions,
     rowData,
     gridHeight = 100,
-    gridIsOpenModal,
     defaultPageSize,
-    totalDataCount = 100,
+    totalDataCount,
     FilterFormComponents,
     selectedFields = () => {
       return null;
@@ -61,9 +62,9 @@ export const GridComponent = memo(
     sortFields,
     setSortFields,
     setColumnSize,
+    isPagination,
+    hasOpenGridRowModal,
   }: GridComponentProps) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSizeElement, setPageSizeElement] = useState(defaultPageSize);
     const [dataRowState, setDataRowState] = useState();
     useEffect(() => {
       setDataRowState(rowData);
@@ -103,7 +104,6 @@ export const GridComponent = memo(
               //height
               tableHeight={gridHeight}
               //modal
-              hasModal={gridIsOpenModal}
               ModalContent={ModalContent}
               setSelectedFild={setSelectedFild}
               selectedFild={selectedFild}
@@ -120,20 +120,16 @@ export const GridComponent = memo(
               columnSize={columnSize}
               sortFields={sortFields}
               setSortFields={setSortFields}
+              hasOpenGridRowModal={hasOpenGridRowModal}
             />
-
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalDataCount}
-              pageSize={pageSizeElement}
-              onPageChange={(page: number) => {
-                setCurrentPage(page);
-              }}
-              pageCountOptions={pageCountOptions}
-              pageSizeElement={pageSizeElement}
-              setPageSizeElement={setPageSizeElement}
-              onPaginationPageChange={onPaginationPageChange}
-            />
+            {isPagination && (
+              <Pagination
+                pageCountOptions={pageCountOptions}
+                totalCount={totalDataCount}
+                defaultPageSize={defaultPageSize}
+                onPaginationPageChange={onPaginationPageChange}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -338,7 +338,7 @@ export const Primary: Story = {
   args: {
     headerData: rowHeaderElements,
     rowData: rowDataElements,
-    gridIsOpenModal: true,
+    hasOpenGridRowModal: true,
     pageCountOptions: selectOptions,
     defaultPageSize: 10,
     totalDataCount: rowDataElements.length,

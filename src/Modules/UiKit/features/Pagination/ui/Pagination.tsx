@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Icon } from '@iconify/react';
 
 import cls from './Pagination.module.scss';
@@ -6,48 +6,43 @@ import { DOTS, usePagination } from '../../../shared/lib/hook/usePagination';
 import { Select, classNames } from '../../../shared';
 
 interface PaginationProps {
-  onPageChange: (selectedItem: number) => void;
   totalCount: number;
   siblingCount?: number;
-  currentPage: number;
-  pageSize: number;
   className?: string;
   pageCountOptions: Array<{ value: number; label: string }> | any;
-
-  pageSizeElement: number;
-  setPageSizeElement: (value: number) => void;
   onPaginationPageChange?: (page: number, limit: number) => void;
+  defaultPageSize?: number;
 }
 
 interface PaginationRangeProps {
   currentPage: number;
   totalCount: number;
   siblingCount: number;
-  pageSize: number;
-  pageSizeElement?: number;
+  pageSizeElement?: number | any;
 }
 
 export const Pagination = memo((props: PaginationProps) => {
   const {
-    onPageChange,
     totalCount,
     siblingCount = 1,
-    currentPage,
-    pageSize,
     className,
     pageCountOptions,
-    pageSizeElement = 0,
-    setPageSizeElement,
+    defaultPageSize,
     onPaginationPageChange = () => {
       return null;
     },
   } = props;
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSizeElement, setPageSizeElement] = useState(defaultPageSize || 0);
+  const onPageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
   const paginationRange: PaginationRangeProps[] | any = usePagination({
     currentPage,
-    totalCount,
+    totalCount: 100,
     siblingCount,
-    pageSize,
     pageSizeElement,
   });
 
@@ -102,7 +97,8 @@ export const Pagination = memo((props: PaginationProps) => {
   );
 
   return (
-    <div className={cls.pagination}>
+    <div className={classNames(cls.pagination, {}, [className])}>
+      <div></div>
       <div className={cls.pageCount}>
         <p>
           {pageCountStart} -{' '}
@@ -140,7 +136,7 @@ export const Pagination = memo((props: PaginationProps) => {
             />
           </button>
           {/* --------------- */}
-          {paginationRange.map((pageNumber: any, index: any) => {
+          {paginationRange?.map((pageNumber: any, index: any) => {
             if (pageNumber === DOTS) {
               return (
                 <li key={index} className={(cls.paginationItem, cls.dots)}>
@@ -171,9 +167,9 @@ export const Pagination = memo((props: PaginationProps) => {
               className={classNames(
                 cls.singleArrowColor,
                 {
-                  [cls.singleArrow]: currentPage !== paginationRange.at(-1),
+                  [cls.singleArrow]: currentPage !== paginationRange?.at(-1),
                   [cls.singleArrowDisabled]:
-                    currentPage === paginationRange.at(-1),
+                    currentPage === paginationRange?.at(-1),
                 },
                 [className]
               )}
@@ -185,9 +181,9 @@ export const Pagination = memo((props: PaginationProps) => {
               className={classNames(
                 cls.doubleArrowColor,
                 {
-                  [cls.doubleArrow]: currentPage !== paginationRange.at(-1),
+                  [cls.doubleArrow]: currentPage !== paginationRange?.at(-1),
                   [cls.doubleArrowDisabled]:
-                    currentPage === paginationRange.at(-1),
+                    currentPage === paginationRange?.at(-1),
                 },
                 [className]
               )}

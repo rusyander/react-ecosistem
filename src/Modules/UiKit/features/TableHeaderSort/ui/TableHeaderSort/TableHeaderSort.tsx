@@ -1,5 +1,4 @@
 import { useRef, memo, useState, useCallback, useEffect } from 'react';
-import { Icon } from '@iconify/react';
 import { TableHeadersProps } from '../../../../widgets/Grid';
 import './TableHeaderSort.scss';
 import { Modal } from '../../../../shared/ui/Modal';
@@ -11,7 +10,6 @@ interface TableHeaderSortProps {
   minCellWidth?: number;
   dataHeaders?: TableHeadersProps[];
   tableHeight?: number;
-  hasModal?: boolean;
   ModalContent?: () => JSX.Element;
   dataRowState?: any[];
   setDataRowState?: any;
@@ -28,6 +26,7 @@ interface TableHeaderSortProps {
   // checkFormEnter(locations.pathname.replaceAll('/', ''));
   sortFields?: any;
   setSortFields?: any;
+  hasOpenGridRowModal?: boolean;
 }
 
 const createHeaders = (headers: TableHeadersProps[]) => {
@@ -46,7 +45,6 @@ export const TableHeaderSort = memo(
     dataRowState = [],
     setDataRowState,
     tableHeight = 0,
-    hasModal = false,
     setSelectedFild,
     selectedFild,
     isLoading = false,
@@ -63,6 +61,7 @@ export const TableHeaderSort = memo(
     sortFields,
     setSortFields,
     setColumnSize,
+    hasOpenGridRowModal,
   }: TableHeaderSortProps) => {
     const [tableHeights, setTableHeights] = useState(0);
     const [activeIndex, setActiveIndex]: any = useState(null);
@@ -366,13 +365,10 @@ export const TableHeaderSort = memo(
             />
           </table>
 
-          {hasModal && (
+          {hasOpenGridRowModal && (
             <Modal isOpen={isModals} onClose={onCloseModal} lazy>
               {isModals && (
                 <div>
-                  <div>
-                    Modal <h1>{selectedFild.id}</h1>
-                  </div>
                   <ModalContent />
                 </div>
               )}
