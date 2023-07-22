@@ -8,7 +8,7 @@ import { SearchFavorite } from 'features/SearchFavorite';
 import { SearchRole } from 'features/SearchRole';
 import { changeRoleM, changeLanguageM } from '../../api/SidebarApi';
 import { SidebarHeader } from '../SidebarHeader/SidebarHeader';
-import { InitDataTypes } from 'shared/types/ititType';
+import { InitDataTypes } from 'shared/types/initType';
 
 interface SidebarProps {
   className?: string;

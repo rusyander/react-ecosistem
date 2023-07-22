@@ -30,7 +30,7 @@ import { useNavigate } from 'react-router-dom';
 import i18n from 'shared/config/i18n/i18n';
 import { USER_LANGUAGE } from 'shared/const/localstorage';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import { InitDataTypes } from 'shared/types/ititType';
+import { InitDataTypes } from 'shared/types/initType';
 
 const redusers: ReducersList = {
   settingsModal: settingsModalReducer,

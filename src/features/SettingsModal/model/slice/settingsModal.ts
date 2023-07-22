@@ -1,7 +1,7 @@
 import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { changePassword } from '../services/fetchSettingsModal/changePassword';
 import { SettingsModalSchema } from '../types/settingsModal';
-import { UserRoles } from 'shared/types/ititType';
+import { UserRoles } from 'shared/types/initType';
 
 const initialState: SettingsModalSchema = {
   isLoading: false,

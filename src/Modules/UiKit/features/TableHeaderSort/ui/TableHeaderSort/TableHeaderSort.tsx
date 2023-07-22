@@ -5,6 +5,7 @@ import { Modal } from '../../../../shared/ui/Modal';
 import { TableRowContent } from '../../../../entities/TableRowContent';
 // @ts-ignore
 import TableHeaderSortContent from '../TableHeaderSortContent/TableHeaderSortContent';
+import { useThrottle } from 'Modules/UiKit/shared';
 
 interface TableHeaderSortProps {
   minCellWidth?: number;
@@ -23,10 +24,10 @@ interface TableHeaderSortProps {
   canSort?: boolean;
   columnSize?: any;
   setColumnSize?: any;
-  // checkFormEnter(locations.pathname.replaceAll('/', ''));
   sortFields?: any;
   setSortFields?: any;
   hasOpenGridRowModal?: boolean;
+  fromModalForGrid?: boolean;
 }
 
 const createHeaders = (headers: TableHeadersProps[]) => {
@@ -43,7 +44,6 @@ export const TableHeaderSort = memo(
     minCellWidth = 0,
     dataHeaders = [],
     dataRowState = [],
-    setDataRowState,
     tableHeight = 0,
     setSelectedFild,
     selectedFild,
@@ -57,11 +57,10 @@ export const TableHeaderSort = memo(
     // ----
     canSort,
     columnSize,
-    // checkFormEnter(locations.pathname.replaceAll('/', ''));
-    sortFields,
     setSortFields,
     setColumnSize,
     hasOpenGridRowModal,
+    fromModalForGrid = false,
   }: TableHeaderSortProps) => {
     const [tableHeights, setTableHeights] = useState(0);
     const [activeIndex, setActiveIndex]: any = useState(null);
@@ -91,106 +90,29 @@ export const TableHeaderSort = memo(
       }px`,
       display: 'grid',
     };
-    // console.log(columnSizeDefaultStyle, 'columnSizeDefaultStyle');
-
-    // useEffect(() => {}, [counter]);
-
-    // if (counter === 0) {
-    //   setCounter(1);
-    //   setActiveIndex(0);
-    // }
-    // console.log(activeIndex);
-
     const mouseMove = useCallback(
-      (e?: MouseEvent | any) => {
-        const indexCurrent = activeIndex === null ? 0 : activeIndex;
-        const screenWidth = window.innerWidth;
+      useThrottle((e: MouseEvent) => {
+        const screenWidth = divRef?.current?.offsetWidth;
+        const percentage = 23;
+        const result = (percentage / 100) * screenWidth;
+
         const gridColumns: any = correctColumns.map((col: any, i: any) => {
           if (i === activeIndex) {
-            const width = e.clientX - col.ref.current.offsetLeft;
+            const width = fromModalForGrid
+              ? e.clientX - (col.ref.current.offsetLeft + result + 15)
+              : e.clientX - (col.ref.current.offsetLeft - 6);
             if (width >= minCellWidth) {
               return `${canOpenFilter === true ? width - 300 : width}px`;
             }
           }
           return `${col.ref.current?.offsetWidth}px`;
         });
-        // console.log(columnSize, 'columnSize');
-
-        // if (sortFields === null) {
-        //   // columnSize = gridColumns;
-        //   setColumnSize(gridColumns);
-        // }
-        // console.log(columnSize, 'columnSize');
-
-        const currentSize = columnSize === null ? gridColumns : columnSize;
-        // console.log(hasOpenModal, "hasOpenModal");
-        // console.log(gridColumns, 'gridColumns');
-        // console.log(screenWidth, 'screenWidth');
-
-        if (hasOpenModal === true) {
-          const gridColumnsInModal = gridColumns.map((col: any, i: any) => {
-            if (i === indexCurrent) {
-              const toNumber = col.split('px')[0];
-              // return `${Math.floor(Number(toNumber) / 1.575)}px`;
-              // return `${Math.floor(Number(toNumber) - 84)}px`;
-              // return `${Math.floor(Number(toNumber) - 331)}px`;
-              if (screenWidth <= 1100) {
-                return `${Math.floor(Number(toNumber) - 35)}px`;
-              }
-              if (screenWidth <= 1200) {
-                return `${Math.floor(Number(toNumber) - 79)}px`;
-              }
-              if (screenWidth <= 1200) {
-                return `${Math.floor(Number(toNumber) - 142)}px`;
-              }
-              if (screenWidth <= 1300) {
-                return `${Math.floor(Number(toNumber) - 183)}px`;
-              }
-              if (screenWidth <= 1400) {
-                return `${Math.floor(Number(toNumber) - 223)}px`;
-              }
-              if (screenWidth <= 1500) {
-                return `${Math.floor(Number(toNumber) - 290)}px`;
-              }
-              if (screenWidth <= 1650) {
-                return `${Math.floor(Number(toNumber) - 330)}px`;
-              }
-              if (screenWidth <= 1922) {
-                return `${Math.floor(Number(toNumber) - 455)}px`;
-              }
-            }
-            return `${col}`;
-          });
-          tableElement.current.style.gridTemplateColumns = `${gridColumnsInModal.join(
-            ' '
-          )}`;
-          // console.log(gridColumnsInModal, 'gridColumnsInModal');
-        }
-        if (hasOpenModal === false) {
-          // if (counter === 0) {
-          //   setCounter(1);
-          //   tableElement.current.style.gridTemplateColumns = `${columnSize.join(
-          //     ' '
-          //   )}`;
-          // }
-          // if (counter !== 0) {
-          tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
-            ' '
-          )}`;
-          // }
-        }
-        // columnSize = gridColumns;
+        tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
+          ' '
+        )}`;
         setColumnSize(gridColumns);
-      },
-      [
-        activeIndex,
-        correctColumns,
-        columnSize,
-        hasOpenModal,
-        setColumnSize,
-        minCellWidth,
-        canOpenFilter,
-      ]
+      }, 20),
+      [activeIndex, columns, hasOpenModal, minCellWidth, canOpenFilter]
     );
 
     const removeListeners = useCallback(() => {
@@ -233,27 +155,15 @@ export const TableHeaderSort = memo(
         if (sortFild === field) {
           direction = getSortDirections === 'ASC' ? 'DESC' : 'ASC';
         }
-        // const sortedData = [...dataRowState].sort((a: any, b: any) => {
-        //   if (a[field] < b[field]) {
-        //     return direction === 'ASC' ? -1 : 1;
-        //   }
-        //   if (a[field] > b[field]) {
-        //     return direction === 'ASC' ? 1 : -1;
-        //   }
-        //   return 0;
-        // });
         const data = {
           direction: direction,
           property: field,
         };
-        // setDataRowState(sortedData);
         setSortFild(field);
         setGetSortDirections(direction);
 
         if (e.ctrlKey && e.button === 0) {
           setSortedData((prev: any) => {
-            // console.log('prev', prev);
-
             const pathList = [...prev, data];
             const uniquePaths = [
               ...new Set(
@@ -275,11 +185,6 @@ export const TableHeaderSort = memo(
                 updateSortFields.push(item);
               }
             });
-
-            // console.log(
-            //   'updateSortFields-*-*-*-*-*-*-*-*-*-*-*-*-*-',
-            //   updateSortFields
-            // );
             setSortFields(updateSortFields);
             return [...updateSortFields];
           });
@@ -293,30 +198,12 @@ export const TableHeaderSort = memo(
       },
       [getSortDirections, setSortFields, sortFild]
     );
-
-    // const renderSortIcon = useCallback(
-    //   (field: string) => {
-    //     if (field === sortFild) {
-    //       return getSortDirections === 'ASC' ? (
-    //         <Icon className="sortIconsSecondary" icon="bx:sort-up" /> // Верхняя стрелка
-    //       ) : (
-    //         <Icon className="sortIconsSecondary" icon="bx:sort-down" /> // Нижняя стрелка
-    //       );
-    //     }
-    //     return null;
-    //   },
-    //   [getSortDirections, sortFild]
-    // );
-
-    // ------
     const isModalOpen = useCallback(() => {
       setIsModals(true);
     }, []);
     const onCloseModal = useCallback(() => {
       setIsModals(false);
     }, []);
-
-    // console.log('divRef.current?.offsetHeight', divRef.current?.offsetHeight);
 
     return (
       <div ref={divRef}>

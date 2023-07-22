@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import cls from './SettingsSelectRoleAndLanguage.module.scss';
 import { ListBox, classNames } from 'Modules/UiKit';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import { InitDataTypes, UserRoles } from 'shared/types/ititType';
+import { InitDataTypes, UserRoles } from 'shared/types/initType';
 
 const languageOptions = [
   { code: 1, name: 'Русский' },

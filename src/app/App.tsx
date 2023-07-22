@@ -23,7 +23,6 @@ export default function App() {
   if (!initialData && !userData) {
     return <LoginPage />;
   }
-
   return (
     <div className={classNames('app', {}, [theme])}>
       <Suspense fallback={<Loader />}>

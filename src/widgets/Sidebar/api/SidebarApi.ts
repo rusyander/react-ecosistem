@@ -1,5 +1,5 @@
 import { rtkApi } from 'shared/api/rtkApi';
-import { InitDataTypes } from 'shared/types/ititType';
+import { InitDataTypes } from 'shared/types/initType';
 
 const SidebarApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import cls from './SearchRole.module.scss';
 import { Input, Modal, Texts, VStack, classNames } from 'Modules/UiKit';
 import { ChangeRoleModal } from 'entities/ChangeRoleModal';
-import { InitDataTypes, UserRoles } from 'shared/types/ititType';
+import { InitDataTypes, UserRoles } from 'shared/types/initType';
 
 interface SearchRoleProps {
   className?: string;

@@ -25,6 +25,7 @@ interface GridComponentProps {
   hasOpenModal?: boolean;
 
   isPagination?: boolean;
+  fromModalForGrid?: boolean;
 
   canSort?: boolean;
   columnSize?: any;
@@ -64,6 +65,7 @@ export const GridComponent = memo(
     setColumnSize,
     isPagination,
     hasOpenGridRowModal,
+    fromModalForGrid,
   }: GridComponentProps) => {
     const [dataRowState, setDataRowState] = useState();
     useEffect(() => {
@@ -121,6 +123,7 @@ export const GridComponent = memo(
               sortFields={sortFields}
               setSortFields={setSortFields}
               hasOpenGridRowModal={hasOpenGridRowModal}
+              fromModalForGrid={fromModalForGrid}
             />
             {isPagination && (
               <Pagination

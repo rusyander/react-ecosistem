@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { mutationLogout } from '../api/logout';
 import { UserActions } from 'entities/User';
-import { InitDataTypes } from 'shared/types/ititType';
+import { InitDataTypes } from 'shared/types/initType';
 
 interface NavbarProps {
   className?: string;

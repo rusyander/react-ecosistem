@@ -10,7 +10,7 @@ import { getInitialDataList } from '../api/getInitialData';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Os } from 'Modules/Moduls/Os';
 import { USER_LOCALSTORAGE_HEADER } from 'shared/const/localstorage';
-import { InitDataTypes } from 'shared/types/ititType';
+import { InitDataTypes } from 'shared/types/initType';
 
 export default function MainPage() {
   const [initialData, setInitialData] = useState<InitDataTypes>({});

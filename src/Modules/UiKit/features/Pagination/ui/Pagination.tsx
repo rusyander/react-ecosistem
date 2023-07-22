@@ -98,7 +98,6 @@ export const Pagination = memo((props: PaginationProps) => {
 
   return (
     <div className={classNames(cls.pagination, {}, [className])}>
-      <div></div>
       <div className={cls.pageCount}>
         <p>
           {pageCountStart} -{' '}

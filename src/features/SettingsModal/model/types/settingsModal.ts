@@ -1,4 +1,4 @@
-import { UserRoles } from 'shared/types/ititType';
+import { UserRoles } from 'shared/types/initType';
 
 export interface SettingsModalSchema {
   isLoading: boolean;

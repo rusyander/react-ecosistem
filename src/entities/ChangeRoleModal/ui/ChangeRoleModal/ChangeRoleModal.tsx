@@ -12,7 +12,7 @@ import { Icon } from '@iconify/react';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { UserActions } from 'entities/User';
 import { useNavigate } from 'react-router-dom';
-import { InitDataTypes, UserRoles } from 'shared/types/ititType';
+import { InitDataTypes, UserRoles } from 'shared/types/initType';
 
 interface ChangeRoleModalProps {
   className?: string;

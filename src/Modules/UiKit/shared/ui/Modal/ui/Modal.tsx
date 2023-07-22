@@ -18,6 +18,7 @@ interface ModalProps {
   onClose?: () => void;
   lazy?: boolean;
   zIndex?: number;
+  isGrid?: boolean;
 }
 
 const ANIMATION_DELAY = 200;
@@ -30,6 +31,7 @@ export const Modal = (props: ModalProps) => {
     onClose,
     lazy,
     zIndex = 10,
+    isGrid = false,
   } = props;
 
   const [isClosing, setIsClosing] = useState(false);
@@ -95,8 +97,19 @@ export const Modal = (props: ModalProps) => {
         onClick={closeHandler}
         style={{ zIndex: zIndex }}
       >
-        <div className={cls.overlay}>
-          <div className={cls.content} onClick={onContentClick}>
+        {/* className={cls.overlay} */}
+        <div
+          className={classNames('', {}, [
+            isGrid ? cls.overlayGrrid : cls.overlay,
+          ])}
+        >
+          {/* className={cls.content} */}
+          <div
+            className={classNames('', {}, [
+              isGrid ? cls.contentGrid : cls.content,
+            ])}
+            onClick={onContentClick}
+          >
             {/* <Button
               theme="clear"
               className={cls.buttonClise}
