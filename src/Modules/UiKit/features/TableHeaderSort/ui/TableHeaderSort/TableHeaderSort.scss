@@ -21,13 +21,13 @@ table tr {
   display: contents;
 }
 tr:hover td {
-  /* background: var(--scroll-color) !important; */
-  background: var(--select-row-item-bg) !important;
-  /* color: var(--bg-color) !important; */
+  // background: var(--select-row-item-bg) !important;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
-
+.trColor:hover td {
+  background: var(--select-row-item-bg) !important;
+}
 table th {
   position: relative;
   font-size: 18px;

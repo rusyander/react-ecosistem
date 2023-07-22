@@ -1,5 +1,4 @@
 import { GridComponent } from './GridComponent/GridComponent';
-import { TableHeadersProps } from '..';
 import { ReactNode } from 'react';
 
 interface PageCountOptionsProps {
@@ -13,35 +12,34 @@ interface GridProps {
   pageCountOptions?: PageCountOptionsProps[];
   onPaginationPageChange?: (page: number, limit: number) => void;
   totalDataCount?: number | any;
-  isPagination?: boolean;
+  isPageable?: boolean;
 
   // row data
   rowData: any[];
-  headerData: TableHeadersProps[];
+  gridCols: any[];
 
   gridHeight: number;
 
   ModalContent?: () => JSX.Element;
 
   selectedFields?: (selectedField: string) => void;
-  FilterFormComponents?: ReactNode;
+  FilterFormComponents?: JSX.Element | ReactNode;
   showIsOpenFilter?: boolean;
   showRefreshButton?: boolean;
   onRefresh?: () => void;
   AddNewButtonComponents?: any[];
   isLoading?: boolean;
 
-  canSort?: boolean;
-  columnSize?: any;
-  setColumnSize?: (value: string[]) => void;
+  disableSorting?: boolean;
   setSortFields?: any;
   hasOpenGridRowModal?: boolean;
+
+  isSelectable?: boolean;
 }
 
 export const Grid = (props: GridProps) => {
   const {
     rowData = [],
-    headerData = [],
     gridHeight = 0,
     ModalContent,
     pageCountOptions,
@@ -55,18 +53,17 @@ export const Grid = (props: GridProps) => {
     onRefresh,
     AddNewButtonComponents,
     isLoading,
-    canSort,
-    columnSize,
+    disableSorting,
     setSortFields,
-    setColumnSize,
-    isPagination,
+    isPageable,
     hasOpenGridRowModal,
+    gridCols,
+    isSelectable,
   } = props;
 
   return (
     <div>
       <GridComponent
-        headerData={headerData}
         ModalContent={ModalContent}
         pageCountOptions={pageCountOptions}
         rowData={rowData}
@@ -81,13 +78,13 @@ export const Grid = (props: GridProps) => {
         onRefresh={onRefresh}
         AddNewButtonComponents={AddNewButtonComponents}
         isLoading={isLoading}
-        isPagination={isPagination}
+        isPagination={isPageable}
         hasOpenGridRowModal={hasOpenGridRowModal}
         // ---
-        canSort={canSort}
-        columnSize={columnSize}
-        setColumnSize={setColumnSize}
+        canSort={disableSorting}
         setSortFields={setSortFields}
+        gridCols={gridCols}
+        isSelectable={isSelectable}
       />
     </div>
   );

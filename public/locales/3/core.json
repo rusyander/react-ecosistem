@@ -7,5 +7,10 @@
   "Логин": "Login",
   "Начало действия": "Start date",
   "Окончание действия": "End date",
-  "Активен": "Active"
+  "Активен": "Active",
+  "e.firstLastName": "First name",
+  "e.login": "Login",
+  "e.isActiveFlagCode": "Active?",
+  "Применить": "Apply",
+  "Очистить": "Clear"
 }

@@ -19,19 +19,14 @@
   border: none;
 }
 .FilterModulHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 .title {
   font-size: var(--font-line-m);
   font-weight: 700;
 }
 .closeButton {
-  background: none;
-  font-size: 30px;
-  border: none;
-  transform: rotate(45deg);
   color: var(--primary-color);
   cursor: pointer;
 }

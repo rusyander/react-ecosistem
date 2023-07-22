@@ -9,6 +9,11 @@
   z-index: 9;
 }
 
+.SidebarWidthDelete:hover {
+  width: 0px;
+  transition: width 0.3s;
+}
+
 .switchers {
   position: absolute;
   bottom: 20px;
@@ -35,14 +40,14 @@
 
 .collapseBtn {
   position: absolute;
-  right: -20px;
+  right: -10px;
   bottom: 50%;
 }
-
 .collapsed {
   transition: all 0.3s;
   width: var(--collapsed-sidebar-width);
   background: var(--border-color-dark);
+  cursor: pointer;
 
   .switchers {
     flex-direction: column;
@@ -53,6 +58,7 @@
     margin-left: 0;
   }
 }
+
 .button {
   width: 100%;
   position: absolute;

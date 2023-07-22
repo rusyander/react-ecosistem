@@ -336,7 +336,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    headerData: rowHeaderElements,
+    // headerData: rowHeaderElements,
     rowData: rowDataElements,
     hasOpenGridRowModal: true,
     pageCountOptions: selectOptions,
@@ -348,7 +348,15 @@ export const Primary: Story = {
     onPaginationPageChange: (page: number, limit: number) => {
       return null;
     },
-    canSort: true,
-    columnSize: ['285px', '260px', '183px', '183px', '183px', '183px'],
+    disableSorting: true,
+    gridCols: [
+      { field: 'org_name', size: '220px', is_sortable_flag: true },
+      { field: 'first_last_name', size: '220px', is_sortable_flag: true },
+      { field: 'login', size: '140px', is_sortable_flag: true },
+      { field: 'start_date', size: '100px', is_sortable_flag: true },
+      { field: 'end_date', size: '200px', is_sortable_flag: true },
+      { field: 'is_active_flag_name', size: '70px', is_sortable_flag: true },
+    ],
+    // columnSize: ['285px', '260px', '183px', '183px', '183px', '183px'],
   },
 };

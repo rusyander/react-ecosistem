@@ -1,4 +1,4 @@
-import { t } from 'i18next';
+import { GridRow } from '../../../shared/types/filterBlock';
 
 export const pageCountOptions = [
   { value: 2, label: '2' },
@@ -8,16 +8,11 @@ export const pageCountOptions = [
   { value: 75, label: '75' },
   { value: 100, label: '100' },
 ];
-
-export const headerGrid = [
-  { id: '1', accessorKey: 'org_name', header: t('Организация') },
-  { id: '2', accessorKey: 'first_last_name', header: t('ФИО') },
-  { id: '3', accessorKey: 'login', header: 'Логин' },
-  { id: '4', accessorKey: 'start_date', header: t('Начало действия') },
-  { id: '5', accessorKey: 'end_date', header: t('Окончание действия') },
-  { id: '6', accessorKey: 'is_active_flag_name', header: t('Активен') },
-  // ---- not used
-  { id: '', accessorKey: '', header: '' },
-  { id: '', accessorKey: '', header: '' },
-  { id: '', accessorKey: '', header: '' },
+export const gridCols: GridRow[] = [
+  { field: 'org_name', size: '220px', is_sortable_flag: true },
+  { field: 'first_last_name', size: '220px', is_sortable_flag: true },
+  { field: 'login', size: '140px', is_sortable_flag: true },
+  { field: 'start_date', size: '100px', is_sortable_flag: true },
+  { field: 'end_date', size: '200px', is_sortable_flag: true },
+  { field: 'is_active_flag_name', size: '70px', is_sortable_flag: true },
 ];

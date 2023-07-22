@@ -7,7 +7,7 @@ import { TableHeaderSort } from '../../../../features/TableHeaderSort';
 import { PageCountOptionsProps } from '../../model/types/gridSchema';
 
 interface GridComponentProps {
-  headerData: TableHeadersProps[];
+  headerData?: TableHeadersProps[];
   ModalContent?: () => JSX.Element;
   pageCountOptions?: PageCountOptionsProps[];
   rowData: any;
@@ -28,11 +28,11 @@ interface GridComponentProps {
   fromModalForGrid?: boolean;
 
   canSort?: boolean;
-  columnSize?: any;
   sortFields?: any;
   setSortFields?: any;
-  setColumnSize?: any;
   hasOpenGridRowModal?: boolean;
+  gridCols?: any[];
+  isSelectable?: boolean;
 }
 
 export const GridComponent = memo(
@@ -59,13 +59,13 @@ export const GridComponent = memo(
     isLoading,
     // ---
     canSort,
-    columnSize,
     sortFields,
     setSortFields,
-    setColumnSize,
     isPagination,
     hasOpenGridRowModal,
     fromModalForGrid,
+    gridCols,
+    isSelectable,
   }: GridComponentProps) => {
     const [dataRowState, setDataRowState] = useState();
     useEffect(() => {
@@ -99,7 +99,8 @@ export const GridComponent = memo(
           >
             <TableHeaderSort
               dataHeaders={headerData}
-              minCellWidth={hasOpenModal ? 550 : 100}
+              // minCellWidth={hasOpenModal ? 550 : 100}
+              minCellWidth={100}
               dataRowState={dataRowState}
               setDataRowState={setDataRowState}
               //sort
@@ -118,12 +119,12 @@ export const GridComponent = memo(
               //---------
 
               canSort={canSort}
-              setColumnSize={setColumnSize}
-              columnSize={columnSize}
               sortFields={sortFields}
               setSortFields={setSortFields}
               hasOpenGridRowModal={hasOpenGridRowModal}
               fromModalForGrid={fromModalForGrid}
+              gridCols={gridCols}
+              isSelectable={isSelectable}
             />
             {isPagination && (
               <Pagination

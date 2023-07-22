@@ -37,6 +37,7 @@ export default function MainPage() {
   return (
     <div className={cls.formSize}>
       <Sidebar sidebarData={globalDataList} initialData={initialData} />
+
       <>
         <Navbar navbarData={globalDataList} />
         <BreadCrumbs />

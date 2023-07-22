@@ -26,7 +26,6 @@ interface GridInPopupProps {
   isLoading?: boolean;
   placeholder: string;
   canSort: boolean;
-  columnSize: any;
   sortFields: any;
 }
 
@@ -51,7 +50,6 @@ export const GridInPopup = (props: GridInPopupProps) => {
     isLoading,
     // ----
     canSort,
-    columnSize,
     sortFields,
   } = props;
 
@@ -76,7 +74,6 @@ export const GridInPopup = (props: GridInPopupProps) => {
         placeholder={placeholder}
         isLoading={isLoading}
         canSort={canSort}
-        columnSize={columnSize}
         sortFields={sortFields}
       />
     </div>

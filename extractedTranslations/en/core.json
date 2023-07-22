@@ -1,5 +1,16 @@
 {
+  "e": {
+    "firstLastName": "firstLastName",
+    "isActiveFlagCode": "isActiveFlagCode",
+    "login": "login"
+  },
+  "firstLastName": "firstLastName",
+  "isActiveFlagCode": "isActiveFlagCode",
+  "login": "login",
   "Добавить": "Добавить",
+  "Очистить": "Очистить",
+  "Применить": "Применить",
   "Редактировать": "Редактировать",
-  "Роли": "Роли"
+  "Роли": "Роли",
+  "фильтер": "фильтер"
 }

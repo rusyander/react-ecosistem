@@ -350,7 +350,6 @@ export const Primary: Story = {
     },
     placeholder: 'value',
     canSort: true,
-    columnSize: ['285px', '260px', '183px', '183px', '183px', '183px'],
     sortFields: [],
   },
 };

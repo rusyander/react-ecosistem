@@ -12,7 +12,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'background'
     | 'backgroundInverted';
   square?: boolean;
-  size?: 'size_l' | 'size_m' | 'size_xl';
+  size?: 'size_l' | 'size_m' | 'size_xl' | 'size_s';
   disabled?: boolean;
   children: React.ReactNode;
 }

@@ -1,6 +1,6 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import cls from './Sidebar.module.scss';
-import { Button, Modal, classNames } from 'Modules/UiKit';
+import { Button, Modal, classNames, useHover } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 import { SettingsModal, settingsModalActions } from 'features/SettingsModal';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
@@ -47,14 +47,29 @@ export const Sidebar = memo(
       setAppSettingsModal(false);
     }, []);
 
+    const divRef = useRef<any>(null);
+    const [isHover, bindHover] = useHover();
+
+    useEffect(() => {
+      if (isHover) {
+        setCollapsed(false);
+      }
+      if (!isHover) {
+        setCollapsed(true);
+      }
+      //
+    }, [isHover]);
+
     return (
       <menu
+        ref={divRef}
         data-testid="sidebar"
         className={classNames(cls.Sidebar, { [cls.collapsed]: collapsed }, [
           className,
         ])}
+        {...bindHover}
       >
-        <Button
+        {/* <Button
           data-testid="sidebar-toggle"
           onClick={onToggle}
           className={cls.collapseBtn}
@@ -63,7 +78,7 @@ export const Sidebar = memo(
           square
         >
           {collapsed ? '>' : '<'}
-        </Button>
+        </Button> */}
         {!collapsed && (
           <div>
             <SidebarHeader

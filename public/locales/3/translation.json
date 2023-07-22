@@ -34,5 +34,14 @@
   "Внимание": "Attention",
   "Вы действительно хотите сменить роль?": "Are you sure you want to change the role?",
   "Да": "Yes",
-  "Нет": "No"
+  "Нет": "No",
+  "фильтр": "Filter",
+
+  "///////////////////CORE_USERS": "CORE_USERS",
+  "org_name": "Organization",
+  "first_last_name": "Full Name",
+  "login": "Login",
+  "start_date": "Action beginning",
+  "end_date": "End date",
+  "is_active_flag_name": "Active?"
 }

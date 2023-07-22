@@ -41,7 +41,7 @@ export const Pagination = memo((props: PaginationProps) => {
 
   const paginationRange: PaginationRangeProps[] | any = usePagination({
     currentPage,
-    totalCount: 100,
+    totalCount,
     siblingCount,
     pageSizeElement,
   });
@@ -100,7 +100,7 @@ export const Pagination = memo((props: PaginationProps) => {
     <div className={classNames(cls.pagination, {}, [className])}>
       <div className={cls.pageCount}>
         <p>
-          {pageCountStart} -{' '}
+          {pageCountStart + 1} -{' '}
           {pageCountEnd > totalCount ? totalCount : pageCountEnd} из{' '}
           {totalCount}
         </p>

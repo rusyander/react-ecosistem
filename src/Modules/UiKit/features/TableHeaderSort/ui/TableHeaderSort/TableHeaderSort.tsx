@@ -22,27 +22,28 @@ interface TableHeaderSortProps {
   hasOpenModal?: boolean;
   // ----
   canSort?: boolean;
-  columnSize?: any;
-  setColumnSize?: any;
+
   sortFields?: any;
   setSortFields?: any;
   hasOpenGridRowModal?: boolean;
   fromModalForGrid?: boolean;
+  gridCols?: any[];
+  isSelectable?: boolean;
 }
 
-const createHeaders = (headers: TableHeadersProps[]) => {
-  return headers?.map((item) => ({
-    header: item.header,
+const createHeaders = (headers: any) => {
+  return headers?.map((item: any) => ({
     ref: useRef(),
-    id: item.id,
-    accessorKey: item.accessorKey,
+    id: item.field,
+    accessorKey: item.field,
+    header: item.header !== undefined ? item.header : item.field,
+    is_sortable_flag: item.is_sortable_flag,
   }));
 };
 
 export const TableHeaderSort = memo(
   ({
     minCellWidth = 0,
-    dataHeaders = [],
     dataRowState = [],
     tableHeight = 0,
     setSelectedFild,
@@ -56,11 +57,11 @@ export const TableHeaderSort = memo(
     ModalContent = () => <div>Modal</div>,
     // ----
     canSort,
-    columnSize,
     setSortFields,
-    setColumnSize,
     hasOpenGridRowModal,
     fromModalForGrid = false,
+    gridCols,
+    isSelectable,
   }: TableHeaderSortProps) => {
     const [tableHeights, setTableHeights] = useState(0);
     const [activeIndex, setActiveIndex]: any = useState(null);
@@ -68,21 +69,22 @@ export const TableHeaderSort = memo(
     const divBlock: any = useRef<HTMLDivElement>(null);
     const divRef: any = useRef<HTMLDivElement>(null);
     const [isModals, setIsModals] = useState(false);
-    const columns = createHeaders?.(dataHeaders);
+    const columns = createHeaders?.(gridCols);
+
+    const columnSizeGrid = gridCols?.map((col: any) => {
+      return col.size;
+    });
+    const [columnSizeGrids, setColumnSizeGrid] = useState<any>(columnSizeGrid);
 
     const mouseDown = useCallback((index: any) => {
       setActiveIndex(index);
     }, []);
 
-    const correctColumns = columns.filter(
-      (item: any) => item.accessorKey !== ''
-    );
-
-    const columnSizeDefaultStyle = columnSize.map((col: any) => {
+    const columnSizeDefaultStyle = columnSizeGrids?.map((col: any) => {
       return `minmax(${col}, 1fr)`;
     });
     const styles = {
-      gridTemplateColumns: columnSizeDefaultStyle.join(' '),
+      gridTemplateColumns: columnSizeDefaultStyle?.join(' '),
       height: `${
         divRef?.current?.offsetHeight - 55 > tableHeight - 55
           ? tableHeight - 55
@@ -96,11 +98,11 @@ export const TableHeaderSort = memo(
         const percentage = 23;
         const result = (percentage / 100) * screenWidth;
 
-        const gridColumns: any = correctColumns.map((col: any, i: any) => {
+        const gridColumns: any = columns?.map((col: any, i: any) => {
           if (i === activeIndex) {
             const width = fromModalForGrid
-              ? e.clientX - (col.ref.current.offsetLeft + result + 15)
-              : e.clientX - (col.ref.current.offsetLeft - 6);
+              ? e.clientX - (col?.ref?.current?.offsetLeft + result + 15)
+              : e.clientX - (col?.ref?.current?.offsetLeft + 10);
             if (width >= minCellWidth) {
               return `${canOpenFilter === true ? width - 300 : width}px`;
             }
@@ -110,7 +112,7 @@ export const TableHeaderSort = memo(
         tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
           ' '
         )}`;
-        setColumnSize(gridColumns);
+        // setColumnSizeGrid(gridColumns);
       }, 20),
       [activeIndex, columns, hasOpenModal, minCellWidth, canOpenFilter]
     );
@@ -208,32 +210,9 @@ export const TableHeaderSort = memo(
     return (
       <div ref={divRef}>
         <div className="table-wrapper" ref={divBlock}>
-          <table
-            style={styles}
-            // style={{
-            //   display: 'grid',
-            //   gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
-            //     hasOpenModal ? 100 : 100
-            //   }px, 1fr))`,
-            //   height: `${
-            //     divRef?.current?.offsetHeight - 45 > tableHeight - 45
-            //       ? tableHeight - 45
-            //       : ''
-            //   }px`,
-            //   // height: `${tableHeight - 45}px`,
-            //   // height: `${500 - 45}px`,
-            //   // ------------------------------------
-
-            //   // gridTemplateColumns: `repeat(${correctColumns.length},  minmax(${
-            //   //   hasOpenModal ? 100 : 100
-            //   // }px, 1fr))`,
-
-            //   // ------------------------------------
-            // }}
-            ref={tableElement}
-          >
+          <table style={styles} ref={tableElement}>
             <TableHeaderSortContent
-              columns={correctColumns}
+              columns={columns}
               sortByFields={sortByFields}
               tableHeights={tableHeights}
               mouseDown={mouseDown}
@@ -246,9 +225,10 @@ export const TableHeaderSort = memo(
               tableData={dataRowState}
               selectFild={selectFild}
               selectedFild={selectedFild}
-              dataHeaders={correctColumns}
+              dataHeaders={columns}
               isModalOpen={isModalOpen}
               isLoading={isLoading}
+              isSelectable={isSelectable}
             />
           </table>
 

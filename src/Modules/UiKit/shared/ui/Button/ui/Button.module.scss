@@ -80,6 +80,11 @@
   height: var(--font-line-xl);
   font-size: var(--font-line-xl);
 }
+.size_s {
+  font-size: var(--font-line-s);
+  padding: 0;
+  padding: 4px 8px;
+}
 
 .size_m {
   font-size: var(--font-line-m);

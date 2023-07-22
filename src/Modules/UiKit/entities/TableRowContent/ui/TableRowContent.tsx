@@ -10,6 +10,7 @@ interface TableRowContentProps {
   dataHeaders?: TableHeadersProps[];
   isModalOpen: () => void;
   isLoading?: boolean;
+  isSelectable?: boolean;
 }
 
 export const TableRowContent = ({
@@ -19,7 +20,15 @@ export const TableRowContent = ({
   selectedFild,
   isModalOpen,
   isLoading,
+  isSelectable,
 }: TableRowContentProps) => {
+  const trStyles: any = {
+    '&:hover td': {
+      backgroundColor: 'red !important',
+      // Другие стили
+    },
+  };
+
   if (isLoading)
     return (
       <tbody>
@@ -38,6 +47,8 @@ export const TableRowContent = ({
     <tbody>
       {tableData?.map((item: any, index) => (
         <tr
+          style={trStyles}
+          className={isSelectable ? 'trColor' : ''}
           key={index}
           onClick={() => selectFild?.(item || '')}
           onDoubleClick={isModalOpen}
@@ -48,7 +59,8 @@ export const TableRowContent = ({
               style={{
                 background: `${
                   // selectedFild?.id === item.id
-                  JSON.stringify(selectedFild) === JSON.stringify(item)
+                  JSON.stringify(selectedFild) === JSON.stringify(item) &&
+                  isSelectable
                     ? 'var(--select-row-item-bg)'
                     : 'var(--seccondary-bg-color)'
                 }`,

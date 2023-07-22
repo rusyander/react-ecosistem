@@ -26,7 +26,6 @@ interface GridInPopupComponentProps {
   isLoading?: boolean;
 
   canSort?: boolean;
-  columnSize?: any;
   sortFields?: any;
 }
 
@@ -49,9 +48,7 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
     AddNewButtonComponents,
     placeholder,
     isLoading,
-
     canSort,
-    columnSize,
     sortFields,
   } = props;
 
@@ -132,7 +129,6 @@ export const GridInPopupComponent = (props: GridInPopupComponentProps) => {
             hasOpenModal={hasOpenModal}
             // ---
             canSort={canSort}
-            columnSize={columnSize}
             sortFields={sortFields}
           />
         </div>
