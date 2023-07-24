@@ -3,7 +3,7 @@ export interface FilterBlock {
   colName: string;
   value?: string;
   displayType: 'F' | 'FH' | 'DQ' | 'FF' | 'TA' | 'L' | 'FB' | 'DQF' | 'CH';
-  dataType: 1 | 2 | 4 | 68; //1-string 2-number 3-сравнение 1 по 10 68- дата в коротком формате
+  dataType: 1 | 2 | 4 | 68; //1-string 2-number 4-сравнение 1 по 10 68- дата в коротком формате
   condition?: 'LIKE' | 'BETWEEN' | '=';
   upperSign?: 'NONE' | 'BOTH' | 'VALUE'; // только для строк
   likePercSign?: 'NONE' | 'RIGHT' | 'LEFT' | 'ALL'; // dataType 1 condition like - Kyда подставить процент % NONE / RIGHT/ LEFT /ALL

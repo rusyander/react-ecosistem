@@ -3,8 +3,45 @@ import { useTranslation } from 'react-i18next';
 import cls from './Filters.module.scss';
 import { Button, HStack, VStack, classNames } from 'Modules/UiKit';
 import { FilterBlock } from '../../../../shared/types/filterBlock';
-import { CORE_USERS_Filter } from 'Modules/Moduls/Core/entities/CORE_USERS_Filter';
-import { getFilterDataGridInitM } from '../../api/filterApi';
+import { CORE_USERS_Filter } from '../../../../entities/CORE_USERS_Filter';
+import { filterBlock } from '../../consts/filterBlock';
+import { getTreePartDataSprM } from 'Modules/Moduls/Core/shared/globalApi/globalApi';
+
+const UseFilterPayload = (
+  data: FilterBlock[],
+  setUpdateData: any,
+  index: number,
+  value: string
+) => {
+  const updatedData = [...data];
+  updatedData[index] = { ...updatedData[index], value };
+  setUpdateData(updatedData);
+
+  // if (updatedData) {
+  const changedData = updatedData.map((item) => {
+    if (item.value !== '' && item.value !== undefined) {
+      const payloadDataMap = {
+        itemName: item.itemName,
+        colName: item.colName,
+        dataType: item.dataType,
+        condition: item.condition,
+        upperSign: item.upperSign,
+        likePercSign: item.likePercSign,
+
+        filterGroup: 'ALL',
+        // values: [item.value],
+        values: item.condition === 'BETWEEN' ? item.value : [item.value],
+      };
+      return payloadDataMap;
+    }
+    return undefined;
+  });
+
+  const currentData = changedData.filter((item) => item !== undefined);
+  // setNewDataArray(currentData as FilterBlock[]);
+  // }
+  return currentData;
+};
 
 interface FiltersProps {
   className?: string;
@@ -14,58 +51,15 @@ interface FiltersProps {
 export const Filters = memo((props: FiltersProps) => {
   const { className, getGridData } = props;
   const { t } = useTranslation('core');
-  const [filterGridInit] = getFilterDataGridInitM();
-
-  const payloadData = {
-    itemName: 'login',
-    colName: 'e.login',
-    dataType: 1,
-    condition: 'LIKE',
-    upperSign: 'BOTH',
-    likePercSign: 'ALL',
-
-    filterGroup: 'ALL',
-    values: ['USER'],
-
-    // для дропдауна
-    //likePercSign: "NONE"
-    //upperSign:"NONE"
-    // values:["Y"]
+  const [getTreePartDataSpr, { data }] = getTreePartDataSprM();
+  const click = () => {
+    getTreePartDataSpr('-1');
+    console.log('data', data);
   };
 
-  const [filterColsData, setFilterColsData] = useState<FilterBlock[]>([
-    {
-      itemName: 'first_last_name',
-      colName: 'e.firstLastName',
-      dataType: 1,
-      condition: 'LIKE',
-      upperSign: 'BOTH',
-      likePercSign: 'ALL',
-      value: '',
-      displayType: 'F',
-    },
-    {
-      itemName: 'login',
-      colName: 'e.login',
-      dataType: 1,
-      condition: 'LIKE',
-      upperSign: 'BOTH',
-      likePercSign: 'ALL',
-      value: '',
-      displayType: 'F',
-    },
-    {
-      itemName: 'is_active_flag_name',
-      colName: 'e.isActiveFlagCode',
-      condition: '=',
-      dataType: 1,
-      displayType: 'L',
-      dictCode: 'TEST',
-      codeProperty: 'code',
-      nameProperty: 'name',
-      attrCode: 'YES_NO',
-    },
-  ]);
+  const [filterColsData, setFilterColsData] = useState<FilterBlock[]>(
+    filterBlock as FilterBlock[]
+  );
 
   const [newDataArray, setNewDataArray] = useState<FilterBlock[] | undefined>(
     undefined
@@ -81,36 +75,21 @@ export const Filters = memo((props: FiltersProps) => {
   };
 
   const handleInputChange = (index: number, value: string) => {
-    const updatedData = [...filterColsData];
-    updatedData[index] = { ...updatedData[index], value };
-    setFilterColsData(updatedData);
-
-    if (updatedData) {
-      const changedData = updatedData.map((item) => {
-        if (item.value !== '' && item.value !== undefined) {
-          const payloadDataMap = {
-            itemName: item.itemName,
-            colName: item.colName,
-            dataType: item.dataType,
-            condition: item.condition,
-            upperSign: item.upperSign,
-            likePercSign: item.likePercSign,
-
-            filterGroup: 'ALL',
-            values: [item.value],
-          };
-          return payloadDataMap;
-        }
-        return undefined;
-      });
-
-      const currentData = changedData.filter((item) => item !== undefined);
-      setNewDataArray(currentData as FilterBlock[]);
-    }
+    const data = UseFilterPayload(
+      filterColsData,
+      setFilterColsData,
+      index,
+      value
+    );
+    setNewDataArray(data as any);
   };
 
   const handleFilter = () => {
     getGridData?.(newFilterPayload);
+  };
+
+  const clear = () => {
+    setFilterColsData(filterBlock as any);
   };
 
   return (
@@ -118,13 +97,13 @@ export const Filters = memo((props: FiltersProps) => {
       <VStack gap="16">
         <CORE_USERS_Filter data={filterColsData} onChange={handleInputChange} />
       </VStack>
-      <button onClick={filterGridInit}>click</button>
+      <button onClick={click}>---------------click</button>
 
       <HStack align="center" justify="around" className={cls.buttons}>
         <Button size="size_s" theme="background" onClick={handleFilter}>
           {t('Применить')}
         </Button>
-        <Button size="size_s" theme="background">
+        <Button onClick={clear} size="size_s" theme="background">
           {t('Очистить')}
         </Button>
       </HStack>

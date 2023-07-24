@@ -22,7 +22,8 @@
     "test:ui:json": "node scripts/generate-visual-json-report.js",
     "test:ui:report": "npm run test:ui:json && npm run test:ui:html && npm run open",
     "prepare": "husky install",
-    "fix-imports": "ts-node ./scripts/updateImports.ts"
+    "fix-imports": "ts-node ./scripts/updateImports.ts",
+    "postinstall": "node scripts/postinstall.js"
   },
   "author": "",
   "license": "ISC",

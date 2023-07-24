@@ -9,6 +9,8 @@ export const pageCountOptions = [
   { value: 100, label: '100' },
 ];
 export const gridCols: GridRow[] = [
+  { field: 'user_id', size: '220px', is_sortable_flag: true },
+
   { field: 'org_name', size: '220px', is_sortable_flag: true },
   { field: 'first_last_name', size: '220px', is_sortable_flag: true },
   { field: 'login', size: '140px', is_sortable_flag: true },

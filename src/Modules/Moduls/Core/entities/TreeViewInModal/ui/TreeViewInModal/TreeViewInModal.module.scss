@@ -1,0 +1,52 @@
+.treeViewInModal {
+}
+.treeViewForm {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.trashIcons {
+  margin-left: 2px;
+  font-size: 25px;
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+.trashIcons:hover {
+  color: var(--red-light);
+}
+
+.treeViewIcons {
+  margin-left: 2px;
+  font-size: 25px;
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+.treeViewIcons:hover {
+  color: var(--primary-bg-color);
+}
+.inputPointer {
+  cursor: pointer;
+}
+.treeViewMaxWidth {
+  width: 1000px;
+  //   min-width: 800px;
+  //   max-width: 1000px;
+  min-height: 700px;
+  border: 1px solid var(--border-color-dark);
+  border-radius: 8px;
+  padding: 5px 10px 5px 10px;
+}
+.selectButton {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.closeIcon {
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+}

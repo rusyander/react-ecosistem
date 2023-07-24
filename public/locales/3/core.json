@@ -12,5 +12,6 @@
   "e.login": "Login",
   "e.isActiveFlagCode": "Active?",
   "Применить": "Apply",
-  "Очистить": "Clear"
+  "Очистить": "Clear",
+  "e.organizationId": "Organization"
 }

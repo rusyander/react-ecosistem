@@ -4,16 +4,20 @@
   cursor: pointer;
   padding-left: 10px;
   margin-top: 5px;
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
   padding: 5px 10px;
 }
 
 .treeNode:hover {
   background-color: var(--primary-bg-color);
   color: var(--seccondary-bg-color);
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 
+// .treeNode.selected {
+//   background-color: var(--primary-bg-color);
+//   color: var(--primary-color);
+// }
 .treeNode.selected {
   background-color: var(--primary-bg-color);
   color: var(--seccondary-bg-color);

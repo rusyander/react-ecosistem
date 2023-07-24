@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreUsersWidgets.module.scss';
 import { Grid, classNames } from 'Modules/UiKit';
-import { checkFormEnterM, getGridDataM } from '../api/CoreUsersWidgets';
+
 import { useLocation } from 'react-router-dom';
 import {
   Add,
@@ -13,6 +13,10 @@ import {
 import { gridCols, pageCountOptions } from '../consts/consts';
 import { GridSort } from '../../../shared/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
+import {
+  checkFormEnterM,
+  getGridDataM,
+} from '../../../shared/globalApi/globalApi';
 export interface CoreUsersWidgetsProps {
   className?: string;
 }

@@ -10,14 +10,14 @@ import { Texts } from '../Texts';
 import { Icon } from '@iconify/react';
 
 interface ListBoxItem {
-  code?: number;
+  code?: number | string;
   name?: string | ReactNode;
   disabled?: boolean;
 }
 
 interface ListBoxProps {
   className?: string;
-  items?: ListBoxItem[];
+  items?: ListBoxItem[] | any;
   value?: string | any;
   defaultValue?: string;
   onChange?: (value: any) => void;
@@ -78,7 +78,7 @@ export const ListBox = memo((props: ListBoxProps) => {
         <HListbox.Options
           className={classNames(cls.options, {}, optionsClasses)}
         >
-          {items?.map((option) => (
+          {items?.map((option: any) => (
             <HListbox.Option
               key={option.code}
               value={option}

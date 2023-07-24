@@ -1,6 +1,13 @@
 .ListBox {
   position: relative;
   width: 100%;
+  border: 1px solid var(--border-color-dark);
+  border-radius: 8px;
+}
+.ListBox:hover {
+  border: 1px solid var(--primary-bg-color);
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 .trigger {
   background: none;
@@ -18,10 +25,6 @@
   box-shadow: 4px 4px 8px var(--listbox-bg);
   cursor: pointer;
   min-width: 100%;
-
-  //   .optionsBottom{
-
-  //   }
 }
 .item {
   padding: 10px 20px;
@@ -55,6 +58,7 @@
 }
 .label {
   color: var(--primary-color);
+  margin: 0;
 }
 
 .optionsTopRight {
@@ -78,7 +82,11 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  border: 1px solid transparent;
 }
+// .button:hover {
+//   border: 1px solid var(--primary-bg-color);
+// }
 .icons {
   font-size: 20px;
   color: var(--primary-color);
