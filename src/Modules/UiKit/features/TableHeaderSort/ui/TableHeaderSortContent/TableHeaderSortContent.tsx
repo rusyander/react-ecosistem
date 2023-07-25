@@ -44,8 +44,8 @@ export default function TableHeaderSortContent(
               }
             >
               <div className="thFlex">
+                {/* <span className="tableTitleStyle">{t(header)}</span> */}
                 <span className="tableTitleStyle">{t(header)}</span>
-
                 {canSort && is_sortable_flag && (
                   <button
                     className="buttonTable"

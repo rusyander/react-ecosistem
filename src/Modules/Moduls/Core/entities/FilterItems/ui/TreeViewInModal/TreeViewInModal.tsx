@@ -27,6 +27,9 @@ interface TreeViewInModalPropsProps {
   index?: number;
   onChange?: (index: any, value: any) => void;
   updateTreeData?: any;
+  sendTreeDataFirst?: any;
+  loadingTree?: boolean;
+  modalTitle?: string;
 }
 
 export const TreeViewInModal = memo(
@@ -39,14 +42,15 @@ export const TreeViewInModal = memo(
     index,
     onChange,
     updateTreeData,
+    sendTreeDataFirst,
+    loadingTree,
+    modalTitle,
   }: TreeViewInModalPropsProps) => {
     const [hasOpenModal, setHasOpenModal] = useState(false);
     const [selectedFild, setSelectedFild]: any = useState('');
     const [inputValue, setInputValue] = useState(selectedFild);
     const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
     const [clearInputValue, setClearInputValue] = useState(true);
-
-    console.log('selectedFild', selectedFild);
 
     const { t } = useTranslation();
 
@@ -58,7 +62,8 @@ export const TreeViewInModal = memo(
 
     const OnClickOpenModal = useCallback(() => {
       setHasOpenModal(true);
-    }, []);
+      sendTreeDataFirst?.();
+    }, [sendTreeDataFirst]);
 
     const OnClearFilds = useCallback(() => {
       inputValueRef.current = null;
@@ -80,7 +85,7 @@ export const TreeViewInModal = memo(
       selectTreeItems?.(selectedFild);
       setHasOpenModal(false);
       onChange?.(index, selectedFild?.organizationId);
-    }, [index, onChange, selectTreeItems, selectedFild, updateTreeData]);
+    }, [index, onChange, selectTreeItems, selectedFild]);
 
     return (
       <div className={classNames('', {}, [className])}>
@@ -115,7 +120,7 @@ export const TreeViewInModal = memo(
         <Modal isOpen={hasOpenModal} lazy onClose={OnClickCloseModal}>
           <VStack>
             <HStack max align="center" justify="between">
-              <Texts title="Справочник" />
+              <Texts title={modalTitle} />
               <Icon
                 onClick={OnClickCloseModal}
                 width={25}
@@ -139,6 +144,7 @@ export const TreeViewInModal = memo(
                 selectTreeItems={(value: any) => setSelectedFild(value)}
                 selectedFild={selectedFild}
                 updateTreeData={updateTreeData}
+                loadingTree={loadingTree}
               />
             </div>
           </VStack>

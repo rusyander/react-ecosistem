@@ -67,3 +67,30 @@ export interface Pageble {
   sort: { empty: boolean; sorted: boolean; unsorted: boolean };
   unpaged: boolean;
 }
+
+// -----------------------------------------
+export interface GetAttrValues {
+  comment: string | null;
+  result: string;
+  data: AttrValuesData[];
+}
+
+interface AttrValuesData {
+  code: string;
+  name: string;
+}
+
+export interface GetTreePartDataSpr {
+  comment: string | null;
+  result: string;
+  data: GetTreePartDataSprData[];
+}
+
+interface GetTreePartDataSprData {
+  organizationId: number;
+  organizationCode: string;
+  name: string;
+  iconCode: null | string | number;
+  childCount: number;
+  parentOrganizationId: null | string | number;
+}

@@ -1,6 +1,6 @@
 import { memo, useCallback, useState } from 'react';
 import cls from './TreeViewComponents.module.scss';
-import { classNames } from '../../../..';
+import { Skeleton, classNames } from '../../../..';
 import { Icon } from '@iconify/react';
 
 interface TreeDataTypes {
@@ -14,6 +14,7 @@ interface TreeViewComponentsProps {
   selectTreeItems?: (node: TreeDataTypes) => void;
   selectedFild?: any;
   updateTreeData?: any;
+  loadingTree?: boolean;
 }
 
 export const TreeViewComponents = ({
@@ -23,22 +24,26 @@ export const TreeViewComponents = ({
   },
   selectedFild,
   updateTreeData,
+  loadingTree,
 }: TreeViewComponentsProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = useCallback(
     (node: any) => {
       setIsOpen(!isOpen);
-      selectTreeItems(node);
+      selectTreeItems(node[0] ? node[0] : node);
       updateTreeData?.(node?.organizationId);
+      // console.log(
+      //   'node--------------------------------------------',
+      //   node?.organizationId
+      // );
     },
     [isOpen, selectTreeItems, updateTreeData]
   );
 
   const saveData = (node: any) => {
-    console.log('node', node);
-
-    selectTreeItems(node);
+    // console.log('node', node);
+    // selectTreeItems(node[0] ? node[0] : node);
   };
 
   return (
@@ -46,14 +51,11 @@ export const TreeViewComponents = ({
       <div
         className={classNames(cls.treeNode, {
           [cls.selected]: selectedFild?.organizationId === node?.organizationId,
-          // [cls.selected]: selectedNode === node.organizationId,
-          // [cls.treeNode]: selectedNode !== node.id,
         })}
         onClick={() => handleToggle(node)}
       >
-        <h2>{/* {selectedFild?.organizationId}---{node?.organizationId} */}</h2>
         <div>
-          {node.childCount > 0 && (
+          {node?.childCount > 0 && (
             <span>
               <Icon className={cls.iconTree} icon="ep:arrow-down-bold" />
             </span>
@@ -62,20 +64,26 @@ export const TreeViewComponents = ({
         </div>
       </div>
       <div className={cls.treeNodeChildren}>
-        {isOpen && node.children && (
+        {isOpen && node?.children && (
           <>
-            {node.children.map((childNode: any) => (
+            {node?.children.map((childNode: any) => (
               <div
                 onClick={() => saveData(childNode)}
-                key={childNode.organizationId}
+                key={childNode?.organizationId}
                 className={cls.childrenMargin}
               >
+                {/* {loadingTree ? (
+                  <div>
+                    <Skeleton width={300} height={30} />
+                  </div>
+                ) : ( */}
                 <TreeViewComponents
                   node={childNode}
                   selectTreeItems={selectTreeItems}
                   selectedFild={selectedFild}
                   updateTreeData={updateTreeData}
                 />
+                {/* )} */}
               </div>
             ))}
           </>

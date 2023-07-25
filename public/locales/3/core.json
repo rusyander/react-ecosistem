@@ -11,7 +11,9 @@
   "e.firstLastName": "First name",
   "e.login": "Login",
   "e.isActiveFlagCode": "Active?",
-  "Применить": "Apply",
-  "Очистить": "Clear",
-  "e.organizationId": "Organization"
+
+  "e.organizationId": "Organization",
+  "e.roles": "Roles"
 }
+// "Применить": "Apply",
+// "Очистить": "Clear",

@@ -4,19 +4,15 @@ import cls from './CoreUsersWidgets.module.scss';
 import { Grid, classNames } from 'Modules/UiKit';
 
 import { useLocation } from 'react-router-dom';
-import {
-  Add,
-  Edit,
-  Filters,
-  Roles,
-} from '../../../features/CORE_USERS_Features';
-import { gridCols, pageCountOptions } from '../consts/consts';
+import { Add, Edit, Roles } from '../../../features/CORE_USERS_Features';
+import { gridCols, pageCountOptions, standartInputs } from '../consts/consts';
 import { GridSort } from '../../../shared/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
 import {
   checkFormEnterM,
   getGridDataM,
 } from '../../../shared/globalApi/globalApi';
+import { Filters } from '../../../features/Filter';
 export interface CoreUsersWidgetsProps {
   className?: string;
 }
@@ -96,7 +92,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
     [currentPageNumber, getGridData, pageLimit, totalCount]
   );
 
-  console.log('grid+++++++++++++++++', grid);
+  console.log('grid+++++++++++++++++', grid, standartInputs);
 
   return (
     <div className={classNames(cls.coreUsersWidgets, {}, [className])}>
@@ -115,7 +111,15 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         onPaginationPageChange={onPaginationPageChange}
         totalDataCount={grid?.data?.totalElements}
         // filter form
-        FilterFormComponents={<Filters getGridData={getGridData} />}
+        FilterFormComponents={
+          <Filters
+            getGridData={getGridData}
+            filterData={standartInputs}
+            modalTitle={t('Справочник')}
+            isFilter={false}
+            setInputsValues={(data: any) => console.log('dataInputs', data)}
+          />
+        }
         // sort function
         setSortFields={sortData}
         // refresh function

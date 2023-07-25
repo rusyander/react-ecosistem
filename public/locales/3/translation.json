@@ -44,5 +44,15 @@
   "login": "Login",
   "start_date": "Action beginning",
   "end_date": "End date",
-  "is_active_flag_name": "Active?"
+  "is_active_flag_name": "Active?",
+
+  "e.firstLastName": "Full Name",
+  "e.login": "Login",
+  "e.isActiveFlagCode": "Active?",
+
+  "Применить": "Apply",
+  "Очистить": "Clear",
+  "e.organizationId": "Organization",
+
+  "Справочник": "Directory"
 }

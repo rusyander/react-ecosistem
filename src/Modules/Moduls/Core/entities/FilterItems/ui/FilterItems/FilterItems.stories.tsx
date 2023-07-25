@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CORE_USERS_Filter } from './CORE_USERS_Filter';
+import { FilterItems } from './FilterItems';
 import { StoreProvider } from 'app/providers/StoreProvider';
 import { Theme, ThemeProvider } from 'app/providers/ThemeProvider';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreDecorator } from 'shared/config/storybook/storeDecorator/StoreDecorator';
 
-const meta: Meta<typeof CORE_USERS_Filter> = {
-  title: 'shared/CORE_USERS_Filter',
-  component: CORE_USERS_Filter,
+const meta: Meta<typeof FilterItems> = {
+  title: 'shared/FilterItems',
+  component: FilterItems,
   tags: ['autodocs'],
 
   decorators: [
@@ -30,7 +30,7 @@ const meta: Meta<typeof CORE_USERS_Filter> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof CORE_USERS_Filter>;
+type Story = StoryObj<typeof FilterItems>;
 
 export const Primary: Story = {
   args: {},

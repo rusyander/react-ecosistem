@@ -4,13 +4,19 @@
     "isActiveFlagCode": "isActiveFlagCode",
     "login": "login"
   },
+  "end_date": "end_date",
   "firstLastName": "firstLastName",
+  "first_last_name": "first_last_name",
   "isActiveFlagCode": "isActiveFlagCode",
+  "is_active_flag_name": "is_active_flag_name",
   "login": "login",
+  "org_name": "org_name",
+  "start_date": "start_date",
   "Добавить": "Добавить",
   "Очистить": "Очистить",
   "Применить": "Применить",
   "Редактировать": "Редактировать",
   "Роли": "Роли",
+  "Справочник": "Справочник",
   "фильтер": "фильтер"
 }

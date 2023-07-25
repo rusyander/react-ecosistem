@@ -23,6 +23,7 @@ interface InputProps extends HTMLInputProps {
   label?: string;
   isLabel?: boolean;
   search?: boolean;
+  requered?: boolean;
 }
 
 export const Input = memo((props: InputProps) => {
@@ -36,6 +37,7 @@ export const Input = memo((props: InputProps) => {
     label,
     isLabel,
     search = false,
+    requered = false,
     ...otherProps
   } = props;
 
@@ -97,7 +99,11 @@ export const Input = memo((props: InputProps) => {
         </>
       ) : (
         <>
-          {isLabel && <label className={cls.inputLabel}>{label}</label>}
+          {isLabel && (
+            <label className={cls.inputLabel}>
+              {label} {requered && <sup className={cls.required}>*</sup>}
+            </label>
+          )}
 
           <input
             ref={ref}

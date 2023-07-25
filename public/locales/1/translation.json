@@ -45,5 +45,15 @@
   "login": "Логин",
   "start_date": "Дата начала",
   "end_date": "Дата окончания",
-  "is_active_flag_name": "Активен"
+  "is_active_flag_name": "Активен?",
+
+  "e.firstLastName": "ФИО",
+  "e.login": "Логин",
+  "e.isActiveFlagCode": "Активен?",
+
+  "Применить": "Применить",
+  "Очистить": "Очистить",
+  "e.organizationId": "Организация",
+
+  "Справочник": "Справочник"
 }

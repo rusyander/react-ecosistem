@@ -9,6 +9,7 @@ export interface TreeDataTypes {
   selectedFild?: any;
   data?: any;
   updateTreeData?: any;
+  loadingTree?: boolean;
 }
 
 export const TreeView = memo(
@@ -17,6 +18,7 @@ export const TreeView = memo(
     selectTreeItems,
     selectedFild,
     updateTreeData,
+    loadingTree,
   }: TreeDataTypes | any) => {
     // console.log('data+++++++++', data);
 
@@ -29,6 +31,7 @@ export const TreeView = memo(
             selectTreeItems={selectTreeItems}
             selectedFild={selectedFild}
             updateTreeData={updateTreeData}
+            loadingTree={loadingTree}
           />
         ))}
       </>

@@ -16,6 +16,7 @@ export const $api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     session: token !== undefined ? JSON.stringify(sessionHeader) : '',
+    Accept: 'application/json',
     // session: session ? session : '',
   },
 });

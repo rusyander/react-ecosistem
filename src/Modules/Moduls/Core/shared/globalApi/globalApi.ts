@@ -1,7 +1,11 @@
 import { rtkApi } from 'shared/api/rtkApi';
 import { CheckFormEnter } from '../types/CheckForm';
 import { UserGridDataTypes } from '../../widgets/CoreUsersWidgets/model/types/coreUsersWidgets';
-import { GridType } from '../types/GridTypes';
+import {
+  GetAttrValues,
+  GetTreePartDataSpr,
+  GridType,
+} from '../types/GridTypes';
 
 const CoreGlobalApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
@@ -21,7 +25,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
       }),
     }),
 
-    getAttrValues: build.mutation<any, string>({
+    getAttrValues: build.mutation<GetAttrValues, string>({
       query: (atrCode) => ({
         url: '/api/core/attr/getAttrValues',
         body: [{ code: atrCode }],
@@ -29,10 +33,10 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
       }),
     }),
 
-    getTreePartDataSpr: build.mutation<any, string>({
+    getTreePartDataSpr: build.mutation<GetTreePartDataSpr, string>({
       query: (paramsId) => ({
         url: '/api/os/org/getTreePartDataSpr',
-        body: '-1',
+        body: paramsId,
         method: 'POST',
       }),
     }),
