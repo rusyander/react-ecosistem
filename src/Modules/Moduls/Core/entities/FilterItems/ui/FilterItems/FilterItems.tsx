@@ -51,13 +51,17 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   const [getTreePartDataSpr, { data: getTreePartData }] = getTreePartDataSprM();
 
   const [selectTree, setSelectTree] = useState<any>('');
-  const [treeData, setTreeData]: any = useState(getTreePartData?.data);
+  const [treeData, setTreeData]: any = useState([]);
+  const [selectedTreeDataFildId, setSelectedTreeDataFildId] = useState<any>('');
 
-  const sendTreeDataFirst = () => {
+  const sendTreeDataFirst = useCallback(() => {
     getTreePartDataSpr('-1');
-    // console.log('getTreePartData', getTreePartData);
-    setTreeData(getTreePartData?.data);
-  };
+    if (treeData === undefined || treeData.length === 0) {
+      setTreeData(getTreePartData?.data);
+    }
+  }, [getTreePartData?.data, getTreePartDataSpr, treeData]);
+  // console.log(treeData);
+  // console.log(getTreePartData?.data);
 
   useEffect(() => {
     sendTreeDataFirst();
@@ -107,12 +111,18 @@ export const FilterItems = memo((props: FilterItemsProps) => {
 
   const handleItemClick = useCallback(
     (id: number) => {
-      fetchDataFromBackend(id);
+      setSelectedTreeDataFildId((prev: any) => {
+        const uniqueID = [...new Set(prev)];
+        return [...uniqueID, id];
+      });
+      if (!selectedTreeDataFildId.includes(id)) {
+        fetchDataFromBackend(id);
+      }
     },
-    [fetchDataFromBackend]
+    [fetchDataFromBackend, selectedTreeDataFildId]
   );
 
-  // console.log('treeData', treeData);
+  // console.log('selectedTreeDataFildId', selectedTreeDataFildId);
 
   return (
     <div className={classNames(cls.coreUsersFilter, {}, [className])}>

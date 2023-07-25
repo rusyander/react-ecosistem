@@ -1,6 +1,6 @@
 import { memo, useCallback, useState } from 'react';
 import cls from './TreeViewComponents.module.scss';
-import { Skeleton, classNames } from '../../../..';
+import { HStack, Skeleton, classNames } from '../../../..';
 import { Icon } from '@iconify/react';
 
 interface TreeDataTypes {
@@ -31,7 +31,7 @@ export const TreeViewComponents = ({
   const handleToggle = useCallback(
     (node: any) => {
       setIsOpen(!isOpen);
-      selectTreeItems(node[0] ? node[0] : node);
+      // selectTreeItems(node[0] ? node[0] : node);
       updateTreeData?.(node?.organizationId);
       // console.log(
       //   'node--------------------------------------------',
@@ -41,9 +41,16 @@ export const TreeViewComponents = ({
     [isOpen, selectTreeItems, updateTreeData]
   );
 
-  const saveData = (node: any) => {
-    // console.log('node', node);
+  const selectItem = (node: any) => {
+    // console.log('selectItem', node);
+
     // selectTreeItems(node[0] ? node[0] : node);
+    selectTreeItems(node);
+  };
+
+  const saveData = (node: any) => {
+    // selectTreeItems(node[0] ? node[0] : node);
+    selectTreeItems(node);
   };
 
   return (
@@ -52,23 +59,22 @@ export const TreeViewComponents = ({
         className={classNames(cls.treeNode, {
           [cls.selected]: selectedFild?.organizationId === node?.organizationId,
         })}
-        onClick={() => handleToggle(node)}
       >
-        <div>
+        <HStack>
           {node?.childCount > 0 && (
-            <span>
+            <span onClick={() => handleToggle(node)}>
               <Icon className={cls.iconTree} icon="ep:arrow-down-bold" />
             </span>
           )}
-          {node?.name}
-        </div>
+          <div onClick={() => selectItem(node)}>{node?.name}</div>
+        </HStack>
       </div>
       <div className={cls.treeNodeChildren}>
         {isOpen && node?.children && (
           <>
             {node?.children.map((childNode: any) => (
               <div
-                onClick={() => saveData(childNode)}
+                // onClick={() => saveData(childNode)}
                 key={childNode?.organizationId}
                 className={cls.childrenMargin}
               >
@@ -77,6 +83,7 @@ export const TreeViewComponents = ({
                     <Skeleton width={300} height={30} />
                   </div>
                 ) : ( */}
+                {/* <h1>s</h1> */}
                 <TreeViewComponents
                   node={childNode}
                   selectTreeItems={selectTreeItems}

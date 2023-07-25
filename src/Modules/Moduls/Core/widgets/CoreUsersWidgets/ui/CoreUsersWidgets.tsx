@@ -5,7 +5,12 @@ import { Grid, classNames } from 'Modules/UiKit';
 
 import { useLocation } from 'react-router-dom';
 import { Add, Edit, Roles } from '../../../features/CORE_USERS_Features';
-import { gridCols, pageCountOptions, standartInputs } from '../consts/consts';
+import {
+  filterBlock,
+  gridCols,
+  pageCountOptions,
+  standartInputs,
+} from '../consts/consts';
 import { GridSort } from '../../../shared/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
 import {
@@ -114,9 +119,10 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         FilterFormComponents={
           <Filters
             getGridData={getGridData}
-            filterData={standartInputs}
+            // filterData={standartInputs}
+            filterData={filterBlock}
             modalTitle={t('Справочник')}
-            isFilter={false}
+            isFilter={true}
             setInputsValues={(data: any) => console.log('dataInputs', data)}
           />
         }
