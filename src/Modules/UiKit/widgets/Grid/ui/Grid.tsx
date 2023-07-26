@@ -35,6 +35,7 @@ interface GridProps {
   hasOpenGridRowModal?: boolean;
 
   isSelectable?: boolean;
+  isModalGrid?: boolean;
 }
 
 export const Grid = (props: GridProps) => {
@@ -59,6 +60,7 @@ export const Grid = (props: GridProps) => {
     hasOpenGridRowModal,
     gridCols,
     isSelectable,
+    isModalGrid,
   } = props;
 
   return (
@@ -85,6 +87,7 @@ export const Grid = (props: GridProps) => {
         setSortFields={setSortFields}
         gridCols={gridCols}
         isSelectable={isSelectable}
+        isModalGrid={isModalGrid}
       />
     </div>
   );

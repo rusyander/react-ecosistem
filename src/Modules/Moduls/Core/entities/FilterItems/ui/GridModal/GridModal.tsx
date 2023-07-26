@@ -1,14 +1,13 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './GridModal.module.scss';
-import { Button, Grid, Input, Modal, classNames } from 'Modules/UiKit';
+import { Button, Grid, HStack, Input, Modal, classNames } from 'Modules/UiKit';
 import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
 import { ModalHeader } from '../../../ModalHeader';
 import {
   checkFormEnterM,
-  getGridDataM,
+  getDataPagedM,
 } from '../../../../shared/globalApi/globalApi';
-import { useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { GridSort } from '../../../../shared/types/GridTypes';
 
@@ -17,7 +16,7 @@ interface GridModalProps {
   placeholder?: string;
   selectTreeItems?: (value: any) => void;
   index?: number;
-  onChange?: (value: any) => void;
+  onChange?: any;
   modalTitle?: string;
 }
 
@@ -32,41 +31,43 @@ export const GridModal = memo((props: GridModalProps) => {
   } = props;
   const { t } = useTranslation();
 
-  const locations = useLocation();
   const [checkFormEnter] = checkFormEnterM();
-  const [getGridData, { data: grid, isLoading }] = getGridDataM();
+  const [getDataPaged, { data: grid, isLoading }] = getDataPagedM();
 
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected]: any = useState('');
   const [totalCount, setTotalCount] = useState<number | null>(null);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageLimit, setPageLimit] = useState(100);
+  console.log(selected);
+
+  const headerData = [
+    { field: 'full_name', size: '220px', is_sortable_flag: true },
+    { field: 'org_name', size: '220px', is_sortable_flag: true },
+  ];
 
   // --------------------
   const gridParamsData = useMemo(() => {
     return {
-      filter: [],
-      pageNumber: currentPageNumber ?? 1,
-      pageSize: pageLimit ?? 100,
-      params: [],
-      sort: [],
-      totalCount: totalCount ?? 0,
+      dictCode: 'OS_EMPLOYEES',
+      grid: {
+        filter: [],
+        pageNumber: currentPageNumber ?? 1,
+        pageSize: pageLimit ?? 100,
+        sort: [],
+        totalCount: totalCount ?? 0,
+      },
     };
   }, [currentPageNumber, pageLimit, totalCount]);
 
-  useEffect(() => {
-    checkFormEnter(locations.pathname.replaceAll('/', ''));
-    onPaginationPageChange();
-  }, []);
-
   const refreshButtonFunction = useCallback(() => {
     if (gridParamsData) {
-      getGridData(gridParamsData);
+      getDataPaged(gridParamsData);
     }
-  }, [getGridData, gridParamsData]);
+  }, [getDataPaged, gridParamsData]);
 
   const onPaginationPageChange = useCallback(
     async (currentPage?: number, pageSizeElement?: number) => {
-      getGridData(gridParamsData);
+      getDataPaged(gridParamsData);
 
       if (grid?.result === '1') {
         if (grid?.data?.totalElements) {
@@ -76,22 +77,24 @@ export const GridModal = memo((props: GridModalProps) => {
         }
       }
     },
-    [getGridData, grid?.data?.totalElements, grid?.result, gridParamsData]
+    [getDataPaged, grid?.data?.totalElements, grid?.result, gridParamsData]
   );
 
   const sortData = useCallback(
     (sorted: GridSort[]) => {
       const gridParamsData = {
-        filter: [],
-        pageNumber: currentPageNumber,
-        pageSize: pageLimit,
-        params: null,
-        sort: sorted,
-        totalCount: totalCount ?? 0,
+        dictCode: 'OS_EMPLOYEES',
+        grid: {
+          filter: [],
+          pageNumber: currentPageNumber,
+          pageSize: pageLimit,
+          sort: sorted,
+          totalCount: totalCount ?? 0,
+        },
       };
-      getGridData(gridParamsData);
+      getDataPaged(gridParamsData);
     },
-    [currentPageNumber, getGridData, pageLimit, totalCount]
+    [currentPageNumber, getDataPaged, pageLimit, totalCount]
   );
 
   // ------------------------------------------------------------
@@ -103,38 +106,43 @@ export const GridModal = memo((props: GridModalProps) => {
   const [clearInputValue, setClearInputValue] = useState(true);
 
   useEffect(() => {
-    setInputValue(selectedFild);
     inputValueRef.current = selectedFild;
     selectTreeItems?.(selectedFild);
   }, [selectTreeItems, selectedFild]);
 
   const OnClickOpenModal = useCallback(() => {
     setHasOpenModal(true);
-  }, []);
+    checkFormEnter('CORE_USER_ADD_EDIT');
+    onPaginationPageChange();
+  }, [checkFormEnter, onPaginationPageChange]);
+
   const OnClearFilds = useCallback(() => {
     inputValueRef.current = null;
-    setInputValue('');
-    setSelectedFild('');
+    setInputValue(null);
+    setSelectedFild(null);
     setClearInputValue(false);
-
-    setTimeout(() => {
-      setClearInputValue(true);
-    }, 100);
   }, []);
+
   const OnClickCloseModal = useCallback(() => {
     setHasOpenModal(false);
   }, []);
 
+  const selectRow = useCallback(() => {
+    setClearInputValue(true);
+    setInputValue(selectedFild);
+    onChange?.(index, selected.employee_id);
+    OnClickCloseModal();
+  }, [OnClickCloseModal, index, onChange, selected.employee_id, selectedFild]);
+
   return (
     <div className={classNames(cls.gridModal, {}, [className])}>
-      <div className={cls.gridForm}>
+      <HStack max className={cls.gridForm}>
         <Input
           readOnly
           className={cls.inputPointer}
           placeholder={placeholder}
           onChange={(e: any) => setInputValue(e.target.value)}
-          value={clearInputValue === true ? inputValue?.email : ''}
-          onClick={OnClickOpenModal}
+          value={clearInputValue === true ? selected?.full_name : ''}
         />
         {/* delete */}
         <Icon
@@ -146,13 +154,12 @@ export const GridModal = memo((props: GridModalProps) => {
         <Icon
           onClick={OnClickOpenModal}
           icon="uis:grid"
-          className={cls.gridIcons}
+          className={cls.treeViewIcons}
         />
-      </div>
+      </HStack>
 
       <Modal
         isGrid
-        lazy
         zIndex={101}
         isOpen={hasOpenModal}
         onClose={OnClickCloseModal}
@@ -166,85 +173,44 @@ export const GridModal = memo((props: GridModalProps) => {
           size="size_s"
           theme="background"
           className={cls.selectButton}
-          // onClick={selectRow}
+          onClick={selectRow}
         >
           {t('Выбрать')}
         </Button>
-        <div className={cls.GridComponentMaxWidth}>
-          {/* <GridComponent
-            headerData={headerData}
-            ModalContent={ModalContent}
-            pageCountOptions={pageCountOptions}
-            rowData={rowData}
-            gridHeight={gridHeight}
-            gridIsOpenModal={gridIsOpenModal}
-            defaultPageSize={defaultPageSize}
-            selectedFields={(value: any) => setSelectedFild(value)}
-            onPaginationPageChange={onPaginationPageChange}
-            totalDataCount={totalDataCount}
-            FilterFormComponents={FilterFormComponents}
-            isOpenFilter={isOpenFilter}
-            showRefreshButton={showRefreshButton}
-            onRefresh={onRefresh}
-            AddNewButtonComponents={AddNewButtonComponents}
-            isLoading={isLoading}
-            hasOpenModal={hasOpenModal}
-          /> */}
-
-          <Grid
-            // for grid data
-            // gridCols={gridCols}
-            gridCols={[]}
-            // rowData={grid?.data?.content as Content[]}
-            rowData={[]}
-            // for grid height
-            gridHeight={700}
-            // for modal
-            // ModalContent={ModalContents}
-            selectedFields={(selected: any) => setSelected(selected)}
-            // pagination
-            pageCountOptions={pageCountOptions}
-            defaultPageSize={100}
-            onPaginationPageChange={onPaginationPageChange}
-            totalDataCount={grid?.data?.totalElements}
-            // filter form
-            // FilterFormComponents={
-            //   <Filters
-            //     getGridData={getGridData}
-            //     // filterData={standartInputs}
-            //     filterData={filterBlock}
-            //     modalTitle={t('Справочник')}
-            //     isFilter={true}
-            //     setInputsValues={(data: any) => console.log('dataInputs', data)}
-            //   />
-            // }
-            // sort function
-            setSortFields={sortData}
-            // refresh function
-            onRefresh={refreshButtonFunction}
-            // new button
-            // AddNewButtonComponents={[
-            //   <Add key={1} />,
-            //   <Edit key={2} />,
-            //   <Roles key={3} />,
-            // ]}
-            // loading
-            isLoading={isLoading}
-            // optional components
-            // pagination
-            isPageable={true}
-            // filter button
-            showIsOpenFilter={true}
-            // sort
-            disableSorting={true}
-            // refresh Buttons
-            showRefreshButton={true}
-            // can open modal when double click on grid row
-            hasOpenGridRowModal={false}
-            //isSelectable
-            isSelectable={true}
-          />
-        </div>
+        <Grid
+          // for grid data
+          gridCols={headerData}
+          rowData={grid?.data?.content as any}
+          // for grid height
+          gridHeight={630}
+          selectedFields={(selected: any) => setSelected(selected)}
+          // pagination
+          pageCountOptions={pageCountOptions}
+          defaultPageSize={100}
+          onPaginationPageChange={onPaginationPageChange}
+          totalDataCount={grid?.data?.totalElements}
+          // sort function
+          setSortFields={sortData}
+          // refresh function
+          onRefresh={refreshButtonFunction}
+          // loading
+          isLoading={isLoading}
+          // optional components
+          // pagination
+          isPageable={true}
+          // filter button
+          showIsOpenFilter={true}
+          // sort
+          disableSorting={true}
+          // refresh Buttons
+          showRefreshButton={true}
+          // can open modal when double click on grid row
+          hasOpenGridRowModal={false}
+          //isSelectable
+          isSelectable={true}
+          // isModalGrid
+          isModalGrid={true}
+        />
       </Modal>
     </div>
   );

@@ -29,6 +29,7 @@ interface TableHeaderSortProps {
   fromModalForGrid?: boolean;
   gridCols?: any[];
   isSelectable?: boolean;
+  isModalGrid?: boolean;
 }
 
 const createHeaders = (headers: any) => {
@@ -62,6 +63,7 @@ export const TableHeaderSort = memo(
     fromModalForGrid = false,
     gridCols,
     isSelectable,
+    isModalGrid = false,
   }: TableHeaderSortProps) => {
     const [tableHeights, setTableHeights] = useState(0);
     const [activeIndex, setActiveIndex]: any = useState(null);
@@ -95,13 +97,20 @@ export const TableHeaderSort = memo(
     const mouseMove = useCallback(
       useThrottle((e: MouseEvent) => {
         const screenWidth = divRef?.current?.offsetWidth;
-        const percentage = 23;
+        const screenWidthWindow = window.innerWidth;
+        // console.log('screenWidth', screenWidth);
+        const currentWidth = (screenWidthWindow - screenWidth) / 2.1;
+        // console.log('currentWidth', currentWidth);
+
+        // const percentage = 23;
+        const percentage = 47;
+
         const result = (percentage / 100) * screenWidth;
 
         const gridColumns: any = columns?.map((col: any, i: any) => {
           if (i === activeIndex) {
-            const width = fromModalForGrid
-              ? e.clientX - (col?.ref?.current?.offsetLeft + result + 15)
+            const width = isModalGrid
+              ? e.clientX - (col?.ref?.current?.offsetLeft + currentWidth + 15)
               : e.clientX - (col?.ref?.current?.offsetLeft + 10);
             if (width >= minCellWidth) {
               return `${canOpenFilter === true ? width - 300 : width}px`;

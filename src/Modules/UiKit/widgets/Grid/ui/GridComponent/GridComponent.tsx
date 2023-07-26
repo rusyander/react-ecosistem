@@ -33,6 +33,7 @@ interface GridComponentProps {
   hasOpenGridRowModal?: boolean;
   gridCols?: any[];
   isSelectable?: boolean;
+  isModalGrid?: boolean;
 }
 
 export const GridComponent = memo(
@@ -66,6 +67,7 @@ export const GridComponent = memo(
     fromModalForGrid,
     gridCols,
     isSelectable,
+    isModalGrid,
   }: GridComponentProps) => {
     const [dataRowState, setDataRowState] = useState();
     useEffect(() => {
@@ -125,6 +127,7 @@ export const GridComponent = memo(
               fromModalForGrid={fromModalForGrid}
               gridCols={gridCols}
               isSelectable={isSelectable}
+              isModalGrid={isModalGrid}
             />
             {isPagination && (
               <Pagination

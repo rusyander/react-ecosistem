@@ -57,14 +57,18 @@
   background: var(--overlay-color);
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
 }
 .contentGrid {
   padding: 20px;
   border-radius: 12px;
   background: var(--seccondary-bg-color);
-  transition: 0.3s transform;
-  transform: scale(0.5);
-  width: 1000px;
-  margin-left: 23%;
+  transition: 0.3s all;
+  height: 800px;
+  // transform: scale(1);
+  max-width: 950px;
+  // width: 100%;
+  // margin-left: 23%;
+  // margin-left: 400px;
 }

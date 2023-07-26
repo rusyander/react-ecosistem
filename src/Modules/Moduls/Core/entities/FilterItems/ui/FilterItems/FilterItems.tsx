@@ -385,18 +385,13 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         ? true
                         : false && <sup className={cls.required}>*</sup>}
                     </label>
-                    {/* <GridModal
-                      // data={treeData}
+                    <GridModal
                       selectTreeItems={(value: any) => setSelectGrid(value)}
                       placeholder={t(inputs?.colName)}
                       index={index}
                       onChange={onChange}
-                      // valueData={inputs?.value}
-                      // updateTreeData={handleItemClick}
-                      // sendTreeDataFirst={sendTreeDataFirst}
-                      // loadingTree={loadingTree}
                       modalTitle={props.modalTitle}
-                    /> */}
+                    />
                   </VStack>
                 )}
                 {/* </div>

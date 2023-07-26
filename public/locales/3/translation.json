@@ -54,5 +54,7 @@
   "Очистить": "Clear",
   "e.organizationId": "Organization",
 
-  "Справочник": "Directory"
+  "Справочник": "Directory",
+
+  "full_name": "Full Name"
 }

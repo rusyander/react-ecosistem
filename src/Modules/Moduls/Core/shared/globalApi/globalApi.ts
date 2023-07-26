@@ -40,6 +40,14 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+
+    getDataPaged: build.mutation<any, any>({
+      query: (data) => ({
+        url: '/api/core/dict/getDataPaged',
+        body: data,
+        method: 'POST',
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -47,3 +55,4 @@ export const checkFormEnterM = CoreGlobalApi.useCheckFormEnterMutation;
 export const getGridDataM = CoreGlobalApi.useGetGridDataMutation;
 export const getAttrValuesM = CoreGlobalApi.useGetAttrValuesMutation;
 export const getTreePartDataSprM = CoreGlobalApi.useGetTreePartDataSprMutation;
+export const getDataPagedM = CoreGlobalApi.useGetDataPagedMutation;

@@ -1,6 +1,35 @@
 .gridModal {
+  width: 100%;
+}
+.inputPointer {
+  cursor: pointer;
+  width: 100%;
 }
 .selectButton {
   margin-top: 20px;
   margin-bottom: 10px;
+}
+.trashIcons {
+  margin-left: 2px;
+  font-size: 25px;
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+.trashIcons:hover {
+  color: var(--red-light);
+}
+
+.treeViewIcons {
+  margin-left: 2px;
+  font-size: 25px;
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+.treeViewIcons:hover {
+  color: var(--primary-bg-color);
+}
+.gridForm {
+  width: 100%;
 }
