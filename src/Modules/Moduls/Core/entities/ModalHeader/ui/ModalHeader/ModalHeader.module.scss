@@ -1,0 +1,11 @@
+.modalHeader {
+  min-width: 900px;
+}
+.closeIcon {
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+}

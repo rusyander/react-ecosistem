@@ -13,7 +13,8 @@
   "e.isActiveFlagCode": "Active?",
 
   "e.organizationId": "Organization",
-  "e.roles": "Roles"
+  "e.roles": "Roles",
+  "Реквизиты пользователя": "User details"
 }
 // "Применить": "Apply",
 // "Очистить": "Clear",

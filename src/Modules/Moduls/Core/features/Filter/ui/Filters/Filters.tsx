@@ -4,48 +4,8 @@ import cls from './Filters.module.scss';
 import { Button, HStack, VStack, classNames } from 'Modules/UiKit';
 import { FilterBlock } from '../../../../shared/types/filterBlock';
 import { FilterItems } from '../../../../entities/FilterItems';
-
-const UseFilterPayload = (
-  data: FilterBlock[],
-  setUpdateData: any,
-  index: number,
-  value: string,
-  isFilter?: boolean
-) => {
-  const updatedData = [...data];
-  updatedData[index] = { ...updatedData[index], value };
-  setUpdateData(updatedData);
-
-  // if (updatedData) {
-  const changedData = updatedData.map((item) => {
-    if (isFilter && item.value !== '' && item.value !== undefined) {
-      const payloadDataMap = {
-        itemName: item.itemName,
-        colName: item.colName,
-        dataType: item.dataType,
-        condition: item.condition,
-        upperSign: item.upperSign,
-        likePercSign: item.likePercSign,
-
-        filterGroup: 'ALL',
-        values: item.condition === 'BETWEEN' ? item.value : [item.value],
-      };
-      return payloadDataMap;
-    }
-    if (!isFilter) {
-      const payloadDataMap = {
-        fildName: item.itemName,
-        fildValue: item.value,
-      };
-      return payloadDataMap;
-    }
-    return undefined;
-  });
-
-  const currentData = changedData.filter((item) => item !== undefined);
-  // }
-  return currentData;
-};
+import { UseFilterPayload } from '../../functions/normalizePayload';
+import { convertArrayToObject } from '../../functions/arrayToObject';
 
 interface FiltersProps {
   className?: string;
@@ -55,6 +15,8 @@ interface FiltersProps {
   isFilter?: boolean;
   // if not filter
   setInputsValues?: (data: any) => void;
+  attrData?: any;
+  requiredLength?: (length: number) => void;
 }
 
 export const Filters = memo((props: FiltersProps) => {
@@ -65,6 +27,8 @@ export const Filters = memo((props: FiltersProps) => {
     modalTitle,
     isFilter = true,
     setInputsValues,
+    attrData,
+    requiredLength,
   } = props;
   const { t } = useTranslation();
 
@@ -74,6 +38,9 @@ export const Filters = memo((props: FiltersProps) => {
   const [newDataArray, setNewDataArray] = useState<FilterBlock[] | undefined>(
     undefined
   );
+
+  // console.log('filterColsData', filterColsData);
+  // --------------------------
 
   // filter payload
   const newFilterPayload = useMemo(
@@ -88,23 +55,18 @@ export const Filters = memo((props: FiltersProps) => {
     [newDataArray]
   );
 
-  const convertArrayToObject = (array: any) => {
-    const result: any = {};
-    array.forEach((item: any) => {
-      result[item.fildName] = item.fildValue;
-    });
-    return result;
-  };
-
   // function for input change and update data
   const handleInputChange = useCallback(
     (index: number, value: string) => {
       const data = UseFilterPayload(
+        // isFilter ? filterColsData : noFilterInputsData,
+        // isFilter ? setFilterColsData : setNoFilterInputsData,
         filterColsData,
         setFilterColsData,
         index,
         value,
-        isFilter
+        isFilter,
+        requiredLength
       );
       if (isFilter) {
         setNewDataArray(data as any);
@@ -124,7 +86,7 @@ export const Filters = memo((props: FiltersProps) => {
     if (isFilter) {
       getGridData?.(newFilterPayload);
     }
-  }, [getGridData, newFilterPayload]);
+  }, [getGridData, isFilter, newFilterPayload]);
 
   // function for clear filter
   const clear = useCallback(() => {
@@ -157,20 +119,25 @@ export const Filters = memo((props: FiltersProps) => {
     >
       <VStack gap="16">
         <FilterItems
+          // data={isFilter ? filterColsData : noFilterInputsData}
           data={filterColsData}
           onChange={handleInputChange}
           modalTitle={modalTitle}
+          isFilter={isFilter}
+          attrData={attrData}
         />
       </VStack>
 
-      <HStack align="center" justify="around" className={cls.buttons}>
-        <Button size="size_s" theme="background" onClick={handleFilter}>
-          {t('Применить')}
-        </Button>
-        <Button onClick={clear} size="size_s" theme="background">
-          {t('Очистить')}
-        </Button>
-      </HStack>
+      {isFilter && (
+        <HStack align="center" justify="around" className={cls.buttons}>
+          <Button size="size_s" theme="background" onClick={handleFilter}>
+            {t('Применить')}
+          </Button>
+          <Button onClick={clear} size="size_s" theme="background">
+            {t('Очистить')}
+          </Button>
+        </HStack>
+      )}
     </div>
   );
 });

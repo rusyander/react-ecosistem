@@ -5,13 +5,12 @@ import { Icon } from '@iconify/react';
 import {
   Button,
   classNames,
-  HStack,
   Input,
   Modal,
-  Texts,
   TreeView,
   VStack,
 } from 'Modules/UiKit';
+import { ModalHeader } from '../../../ModalHeader';
 
 interface DataElement {
   label: string;
@@ -117,17 +116,14 @@ export const TreeViewInModal = memo(
             className={cls.treeViewIcons}
           />
         </div>
-        <Modal isOpen={hasOpenModal} lazy onClose={OnClickCloseModal}>
+        <Modal
+          zIndex={100}
+          isOpen={hasOpenModal}
+          lazy
+          onClose={OnClickCloseModal}
+        >
           <VStack>
-            <HStack max align="center" justify="between">
-              <Texts title={modalTitle} />
-              <Icon
-                onClick={OnClickCloseModal}
-                width={25}
-                className={cls.closeIcon}
-                icon="ep:close-bold"
-              />
-            </HStack>
+            <ModalHeader title={modalTitle || ''} onClose={OnClickCloseModal} />
 
             <Button
               size="size_s"

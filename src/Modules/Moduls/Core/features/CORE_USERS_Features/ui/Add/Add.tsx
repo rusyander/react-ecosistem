@@ -1,8 +1,11 @@
-import { memo, useCallback, useState, lazy } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Add.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
+import { ModalHeader } from '../../../../entities/ModalHeader';
+import { Filters } from '../../../Filter';
+import { attrDataNoBD, fildListAddNew, inputsData } from '../../consts/const';
 
 interface AddProps {
   className?: string;
@@ -22,6 +25,27 @@ export const Add = memo((props: AddProps) => {
     setOpenAddModal(false);
   }, [setOpenAddModal]);
 
+  // ----------------------------------
+
+  const [noFilterInputsData, setNoFilterInputsData] = useState([]);
+
+  const reconfigurateNoFilterInputsData = useCallback(() => {
+    const addNewValueFields: any = inputsData.map((item: any) => {
+      return {
+        ...item,
+        value: '',
+      };
+    });
+    setNoFilterInputsData(addNewValueFields);
+  }, []);
+  useEffect(() => {
+    reconfigurateNoFilterInputsData();
+  }, []);
+
+  // ----------------------------------
+  const [requiredLength, setRequiredLength] = useState(0);
+  console.log('requiredLength-------------------', requiredLength);
+
   return (
     <div className={classNames(cls.add, {}, [className])}>
       <Button
@@ -35,7 +59,25 @@ export const Add = memo((props: AddProps) => {
         </HStack>
       </Button>
 
-      <Modal isOpen={openAddModal} onClose={closeModalFunction} lazy></Modal>
+      <Modal isOpen={openAddModal} onClose={closeModalFunction} lazy>
+        <ModalHeader
+          title={t('Реквизиты пользователя') || ''}
+          onClose={closeModalFunction}
+          width={900}
+        />
+
+        {/* ----------- */}
+
+        <Filters
+          filterData={fildListAddNew}
+          // filterData={noFilterInputsData}
+          // attrData={attrDataNoBD}
+          modalTitle={t('Справочник')}
+          isFilter={false}
+          setInputsValues={(data: any) => console.log('dataInputs', data)}
+          requiredLength={(data: any) => setRequiredLength(data)}
+        />
+      </Modal>
     </div>
   );
 });

@@ -8,16 +8,23 @@ import {
 } from '../../../../shared/globalApi/globalApi';
 import { $api } from 'shared/api/api';
 import { TreeViewInModal } from '../TreeViewInModal/TreeViewInModal';
+import { HStack } from './../../../../../../UiKit/shared/ui/Stack/HStack/HStack';
+import { GridModal } from '../GridModal/GridModal';
 
 interface FilterItemsProps {
   className?: string;
   data: any;
   onChange: any;
   modalTitle?: string;
+  isFilter?: boolean;
+  attrData?: any;
 }
 
 export const FilterItems = memo((props: FilterItemsProps) => {
-  const { className, data, onChange } = props;
+  const { className, data, onChange, isFilter, attrData } = props;
+
+  console.log('data++++++++++++++++++++++', data);
+
   const [getAttrValues, { data: dropdownDatas }] = getAttrValuesM();
 
   const { t } = useTranslation();
@@ -43,8 +50,10 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   }, [data, getAttrValues]);
 
   useEffect(() => {
+    // if (isFilter) {
     getDropdawnData();
-  }, []);
+    // }
+  }, [getDropdawnData, isFilter]);
 
   // ---------------------------------------------------------- For tree data
 
@@ -64,7 +73,9 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   // console.log(getTreePartData?.data);
 
   useEffect(() => {
+    // if (isFilter) {
     sendTreeDataFirst();
+    // }
   }, []);
   const [loadingTree, setLoadingTree] = useState(false);
 
@@ -124,89 +135,275 @@ export const FilterItems = memo((props: FilterItemsProps) => {
 
   // console.log('selectedTreeDataFildId', selectedTreeDataFildId);
 
+  // grid
+  const [selectGrid, setSelectGrid] = useState<any>('');
+
   return (
     <div className={classNames(cls.coreUsersFilter, {}, [className])}>
       {data?.map((inputs: any, index: any) => {
         return (
-          <VStack key={index} className={cls.inputFilds}>
-            {inputs.displayType === 'F' &&
-              inputs.condition !== 'BETWEEN' &&
-              inputs.dataType !== 4 && (
-                <Input
-                  onChange={(value) => onChange(index, value)}
-                  value={inputs.value}
-                  isLabel
-                  label={t(inputs.colName)}
-                  className={cls.input}
-                  placeholder={t(inputs.colName)}
-                  requered={inputs.required}
-                />
-              )}
+          <div key={index}>
+            {isFilter ? (
+              <VStack className={cls.inputFilds}>
+                {inputs?.displayType === 'F' &&
+                  inputs?.condition !== 'BETWEEN' &&
+                  inputs?.dataType !== 4 && (
+                    <Input
+                      onChange={(value) => onChange(index, value)}
+                      value={inputs?.value}
+                      isLabel
+                      label={t(inputs?.colName)}
+                      className={cls.input}
+                      placeholder={t(inputs?.colName)}
+                    />
+                  )}
 
-            {inputs.displayType === 'F' && inputs.condition === 'BETWEEN' && (
+                {inputs?.displayType === 'F' &&
+                  inputs?.condition === 'BETWEEN' && (
+                    <VStack>
+                      <Input
+                        onChange={(value) => setBetween1(value)}
+                        onClick={() => setBetweenIndex(index)}
+                        value={between1}
+                        isLabel
+                        label={t(inputs?.colName)}
+                        className={cls.input}
+                        placeholder={t(inputs?.colName)}
+                      />
+                      <Input
+                        onChange={(value) => setBetween2(value)}
+                        onClick={() => setBetweenIndex(index)}
+                        value={between2}
+                        isLabel
+                        label={t(inputs?.colName)}
+                        className={cls.input}
+                        placeholder={t(inputs?.colName)}
+                      />
+                    </VStack>
+                  )}
+                {inputs?.displayType === 'L' && (
+                  <VStack className={cls.input}>
+                    <label htmlFor="">{t(inputs?.colName)}</label>
+                    <ListBox
+                      defaultValue={t(inputs?.colName)}
+                      onChange={(value) => {
+                        setDropdawnValue(value);
+                        onChange(index, value.code);
+                      }}
+                      value={dropdawnValue}
+                      // items={options || []}
+                      items={dropdownDatas?.data[inputs?.attrCode] || []}
+                    />
+                  </VStack>
+                )}
+
+                {inputs?.displayType === 'FB' && (
+                  <VStack className={cls.input}>
+                    <label htmlFor="">{t(inputs?.colName)}</label>
+                    <TreeViewInModal
+                      data={treeData}
+                      selectTreeItems={(value: any) => setSelectTree(value)}
+                      placeholder={t(inputs?.colName)}
+                      valueData={inputs?.value}
+                      index={index}
+                      onChange={onChange}
+                      updateTreeData={handleItemClick}
+                      sendTreeDataFirst={sendTreeDataFirst}
+                      loadingTree={loadingTree}
+                      modalTitle={props.modalTitle}
+                    />
+                  </VStack>
+                )}
+              </VStack>
+            ) : (
+              // --------------------------------------------------------------------------
+              // --------------------------------------------------------------------------
               <VStack>
-                <Input
-                  onChange={(value) => setBetween1(value)}
-                  onClick={() => setBetweenIndex(index)}
-                  value={between1}
-                  isLabel
-                  label={t(inputs.colName)}
-                  className={cls.input}
-                  placeholder={t(inputs.colName)}
-                  requered={inputs.required}
-                />
-                <Input
-                  onChange={(value) => setBetween2(value)}
-                  onClick={() => setBetweenIndex(index)}
-                  value={between2}
-                  isLabel
-                  label={t(inputs.colName)}
-                  className={cls.input}
-                  placeholder={t(inputs.colName)}
-                  requered={inputs.required}
-                />
-              </VStack>
-            )}
-            {inputs.displayType === 'L' && (
-              <VStack className={cls.input}>
-                <label htmlFor="">
-                  {t(inputs.colName)}{' '}
-                  {inputs.required && <sup className={cls.required}>*</sup>}
-                </label>
-                <ListBox
-                  defaultValue={t(inputs.colName)}
-                  onChange={(value) => {
-                    setDropdawnValue(value);
-                    onChange(index, value.code);
-                  }}
-                  value={dropdawnValue}
-                  // items={options || []}
-                  items={dropdownDatas?.data[inputs?.attrCode] || []}
-                />
-              </VStack>
-            )}
+                {/* <div className="container">
+                <div className="row"> */}
+                {inputs?.displayTypeCode === 'F' &&
+                  !inputs?.widthItem &&
+                  !inputs?.maxlength &&
+                  inputs?.dataTypeId !== 4 && (
+                    <Input
+                      onChange={(value) => onChange(index, value)}
+                      value={inputs?.value}
+                      isLabel
+                      label={inputs?.name}
+                      className={cls.input}
+                      placeholder={inputs?.name}
+                      requered={inputs?.isNullableFlag === 'N' ? true : false}
+                      style={{ width: inputs?.widthItem }}
+                    />
+                  )}
 
-            {inputs.displayType === 'FB' && (
-              <VStack className={cls.input}>
-                <label htmlFor="">
-                  {t(inputs.colName)}{' '}
-                  {inputs.required && <sup className={cls.required}>*</sup>}
-                </label>
-                <TreeViewInModal
-                  data={treeData}
-                  selectTreeItems={(value: any) => setSelectTree(value)}
-                  placeholder={t(inputs.colName)}
-                  valueData={inputs.value}
-                  index={index}
-                  onChange={onChange}
-                  updateTreeData={handleItemClick}
-                  sendTreeDataFirst={sendTreeDataFirst}
-                  loadingTree={loadingTree}
-                  modalTitle={props.modalTitle}
-                />
+                {inputs?.displayTypeCode === 'F' &&
+                  inputs?.maxlength &&
+                  inputs?.dataTypeId !== 4 && (
+                    <Input
+                      onChange={(value) => onChange(index, value)}
+                      value={inputs?.value}
+                      maxLength={inputs?.maxlength}
+                      isLabel
+                      label={inputs?.name}
+                      className={cls.input}
+                      placeholder={inputs?.name}
+                      requered={inputs?.isNullableFlag === 'N' ? true : false}
+                      style={{ width: inputs?.widthItem }}
+                    />
+                  )}
+                {inputs?.displayTypeCode === 'F' &&
+                  inputs?.widthItem &&
+                  inputs?.dataTypeId !== 4 && (
+                    <Input
+                      onChange={(value) => onChange(index, value)}
+                      value={inputs?.value}
+                      isLabel
+                      label={inputs?.name}
+                      // className={cls.input}
+                      // className="col-6"
+                      placeholder={inputs?.name}
+                      requered={inputs?.isNullableFlag === 'N' ? true : false}
+                    />
+                  )}
+                {inputs?.displayTypeCode === 'F' &&
+                  inputs?.condition === 'BETWEEN' && (
+                    <VStack>
+                      <Input
+                        onChange={(value) => setBetween1(value)}
+                        onClick={() => setBetweenIndex(index)}
+                        value={between1}
+                        isLabel
+                        label={inputs?.name}
+                        className={cls.input}
+                        placeholder={inputs?.name}
+                        requered={inputs?.isNullableFlag === 'N' ? true : false}
+                      />
+                      <Input
+                        onChange={(value) => setBetween2(value)}
+                        onClick={() => setBetweenIndex(index)}
+                        value={between2}
+                        isLabel
+                        label={inputs?.name}
+                        className={cls.input}
+                        placeholder={inputs?.name}
+                        requered={inputs?.isNullableFlag === 'N' ? true : false}
+                      />
+                    </VStack>
+                  )}
+                {inputs?.displayTypeCode === 'L' && (
+                  <VStack className={cls.input}>
+                    <label htmlFor="">
+                      {inputs?.name}
+                      {inputs?.isNullableFlag === 'N'
+                        ? true
+                        : false && <sup className={cls.required}>*</sup>}
+                    </label>
+                    <ListBox
+                      defaultValue={t(inputs?.value)}
+                      onChange={(value) => {
+                        setDropdawnValue(value);
+                        onChange(index, value.code);
+                      }}
+                      value={dropdawnValue}
+                      items={attrData?.[inputs?.attributeCode] || []}
+                    />
+                  </VStack>
+                )}
+
+                {inputs?.displayTypeCode === 'FB' && (
+                  <VStack max className={cls.input}>
+                    <label htmlFor="">
+                      {inputs?.name}
+                      {inputs?.isNullableFlag === 'N'
+                        ? true
+                        : false && <sup className={cls.required}>*</sup>}
+                    </label>
+                    <TreeViewInModal
+                      data={treeData}
+                      selectTreeItems={(value: any) => setSelectTree(value)}
+                      placeholder={t(inputs?.colName)}
+                      valueData={inputs?.value}
+                      index={index}
+                      onChange={onChange}
+                      updateTreeData={handleItemClick}
+                      sendTreeDataFirst={sendTreeDataFirst}
+                      loadingTree={loadingTree}
+                      modalTitle={props.modalTitle}
+                      className={cls.dataTree}
+                    />
+                  </VStack>
+                )}
+
+                {inputs?.displayTypeCode === 'CH' && (
+                  <VStack max align="start" className={cls.input}>
+                    <label htmlFor={inputs?.token}>{inputs?.name}</label>
+                    {/* <input
+                      type="checkbox"
+                      className={cls.checkbox}
+                      checked={
+                        inputs?.value ? inputs?.value : inputs?.default_value
+                      }
+                      onChange={(e) => onChange(index, e.target.checked)}
+                    /> */}
+
+                    <label className={cls.checkbox}>
+                      <input
+                        type="checkbox"
+                        checked={
+                          inputs?.value ? inputs?.value : inputs?.default_value
+                        }
+                        onChange={(e) => onChange(index, e.target.checked)}
+                      />
+                      <span></span>
+                    </label>
+                  </VStack>
+                )}
+
+                {inputs?.displayTypeCode === 'F' &&
+                  inputs?.dataTypeId === 4 && (
+                    <Input
+                      onChange={(value) => onChange(index, value)}
+                      value={inputs?.value}
+                      isLabel
+                      type="date"
+                      form="dd.MM.yyyy"
+                      pattern="\d{4}-\d{2}-\d{2}"
+                      label={inputs?.name}
+                      className={cls.input}
+                      placeholder={inputs?.name}
+                      requered={inputs?.isNullableFlag === 'N' ? true : false}
+                      style={{ width: inputs?.widthItem }}
+                    />
+                  )}
+
+                {inputs?.displayTypeCode === 'DQ' && (
+                  <VStack className={cls.input}>
+                    <label htmlFor="">
+                      {inputs?.name}
+                      {inputs?.isNullableFlag === 'N'
+                        ? true
+                        : false && <sup className={cls.required}>*</sup>}
+                    </label>
+                    {/* <GridModal
+                      // data={treeData}
+                      selectTreeItems={(value: any) => setSelectGrid(value)}
+                      placeholder={t(inputs?.colName)}
+                      index={index}
+                      onChange={onChange}
+                      // valueData={inputs?.value}
+                      // updateTreeData={handleItemClick}
+                      // sendTreeDataFirst={sendTreeDataFirst}
+                      // loadingTree={loadingTree}
+                      modalTitle={props.modalTitle}
+                    /> */}
+                  </VStack>
+                )}
+                {/* </div>
+              </div> */}
               </VStack>
             )}
-          </VStack>
+          </div>
         );
       })}
     </div>
