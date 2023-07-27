@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import cls from './Roles.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
+import { CheckFormEnterM } from 'Modules/Moduls/Core/entities/CheckFormE';
+import { ModalHeader } from 'Modules/Moduls/Core/entities/ModalHeader';
+import { RoleGrid } from '../RoleGrid/RoleGrid';
 
 interface RolesProps {
   className?: string;
@@ -35,7 +38,14 @@ export const Roles = memo((props: RolesProps) => {
         </HStack>
       </Button>
 
-      <Modal isOpen={openRoleModal} onClose={closeModalFunction} lazy></Modal>
+      <Modal isOpen={openRoleModal} onClose={closeModalFunction} lazy>
+        <CheckFormEnterM checkFormEnterName="CORE_USER_ROLES" />
+        <ModalHeader
+          title={t('Роли пользователя') || ''}
+          onClose={closeModalFunction}
+        />
+        <RoleGrid />
+      </Modal>
     </div>
   );
 });

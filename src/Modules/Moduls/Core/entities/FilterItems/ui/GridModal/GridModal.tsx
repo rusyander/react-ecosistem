@@ -4,12 +4,10 @@ import cls from './GridModal.module.scss';
 import { Button, Grid, HStack, Input, Modal, classNames } from 'Modules/UiKit';
 import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
 import { ModalHeader } from '../../../ModalHeader';
-import {
-  checkFormEnterM,
-  getDataPagedM,
-} from '../../../../shared/globalApi/globalApi';
+import { getDataPagedM } from '../../../../shared/globalApi/globalApi';
 import { Icon } from '@iconify/react';
 import { GridSort } from '../../../../shared/types/GridTypes';
+import { CheckFormEnterM } from '../../../CheckFormE';
 
 interface GridModalProps {
   className?: string;
@@ -18,6 +16,7 @@ interface GridModalProps {
   index?: number;
   onChange?: any;
   modalTitle?: string;
+  defaultValuesData?: any;
 }
 
 export const GridModal = memo((props: GridModalProps) => {
@@ -28,17 +27,28 @@ export const GridModal = memo((props: GridModalProps) => {
     onChange,
     index,
     modalTitle,
+    defaultValuesData,
   } = props;
   const { t } = useTranslation();
 
-  const [checkFormEnter] = checkFormEnterM();
   const [getDataPaged, { data: grid, isLoading }] = getDataPagedM();
+  console.log(
+    'defaultValuesData-------------------------------+++++++++',
+    defaultValuesData
+  );
 
-  const [selected, setSelected]: any = useState('');
+  const [selected, setSelected]: any = useState(
+    defaultValuesData
+      ? {
+          full_name: defaultValuesData?.data?.employeeIdName,
+          employee_id: defaultValuesData?.data?.employeeId,
+          org_name: 'Головная организация',
+        }
+      : ''
+  );
   const [totalCount, setTotalCount] = useState<number | null>(null);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageLimit, setPageLimit] = useState(100);
-  console.log(selected);
 
   const headerData = [
     { field: 'full_name', size: '220px', is_sortable_flag: true },
@@ -100,10 +110,13 @@ export const GridModal = memo((props: GridModalProps) => {
   // ------------------------------------------------------------
 
   const [hasOpenModal, setHasOpenModal] = useState(false);
-  const [selectedFild, setSelectedFild]: any = useState('');
+  const [selectedFild, setSelectedFild]: any = useState();
   const [inputValue, setInputValue] = useState(selectedFild);
   const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
   const [clearInputValue, setClearInputValue] = useState(true);
+
+  const [valueToInput, setValueToInput]: any = useState();
+  const [forClean, setForClean] = useState(false);
 
   useEffect(() => {
     inputValueRef.current = selectedFild;
@@ -112,12 +125,14 @@ export const GridModal = memo((props: GridModalProps) => {
 
   const OnClickOpenModal = useCallback(() => {
     setHasOpenModal(true);
-    checkFormEnter('CORE_USER_ADD_EDIT');
+
     onPaginationPageChange();
-  }, [checkFormEnter, onPaginationPageChange]);
+  }, [onPaginationPageChange]);
 
   const OnClearFilds = useCallback(() => {
     inputValueRef.current = null;
+    setForClean(true);
+    setValueToInput(null);
     setInputValue(null);
     setSelectedFild(null);
     setClearInputValue(false);
@@ -128,22 +143,42 @@ export const GridModal = memo((props: GridModalProps) => {
   }, []);
 
   const selectRow = useCallback(() => {
+    setForClean(false);
+    setValueToInput(selected);
     setClearInputValue(true);
     setInputValue(selectedFild);
     onChange?.(index, selected.employee_id);
     OnClickCloseModal();
   }, [OnClickCloseModal, index, onChange, selected.employee_id, selectedFild]);
 
+  console.log('selected', selected);
+
   return (
     <div className={classNames(cls.gridModal, {}, [className])}>
+      <CheckFormEnterM checkFormEnterName={'CORE_USER_ADD_EDIT'} />
       <HStack max className={cls.gridForm}>
         <Input
           readOnly
           className={cls.inputPointer}
           placeholder={placeholder}
           onChange={(e: any) => setInputValue(e.target.value)}
-          value={clearInputValue === true ? selected?.full_name : ''}
+          // value={clearInputValue === true ? selected?.full_name : ''}
+          // value={
+          //   valueToInput?.full_name
+          //     ? valueToInput?.full_name
+          //     : defaultValuesData?.data?.employeeIdName
+          //     ? defaultValuesData?.data?.employeeIdName
+          //     : ''
+          // }
+          value={
+            valueToInput?.full_name
+              ? valueToInput?.full_name
+              : forClean
+              ? ''
+              : defaultValuesData?.data?.employeeIdName
+          }
         />
+        {/* defaultValuesData?.data?.employeeIdName */}
         {/* delete */}
         <Icon
           onClick={OnClearFilds}

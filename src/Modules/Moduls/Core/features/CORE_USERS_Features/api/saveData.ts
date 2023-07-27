@@ -1,0 +1,92 @@
+import { rtkApi } from 'shared/api/rtkApi';
+
+const SaveDataApi = rtkApi.injectEndpoints({
+  endpoints: (build) => ({
+    saveData: build.mutation<any, any>({
+      query: (formData) => ({
+        url: '/api/core/user/saveData',
+        body: formData,
+        method: 'POST',
+      }),
+    }),
+    getData: build.mutation<any, any>({
+      query: (id) => ({
+        url: '/api/core/user/getData',
+        body: id,
+        method: 'POST',
+      }),
+    }),
+  }),
+  overrideExisting: true,
+});
+export const SaveDataM = SaveDataApi.useSaveDataMutation;
+export const GetDataM = SaveDataApi.useGetDataMutation;
+
+const ddd = [
+  {
+    fieldName: 'user_role_name',
+    applicationCode: 'CORE',
+    name: 'Наименование пользовательской роли',
+    width: 300,
+    displayOrder: 1,
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'e.name1',
+    isSortableFlagCode: 'Y',
+    filterCondition: 'LIKE',
+    filterColName: 'e.name1',
+    filterUpperSign: 'BOTH',
+    filterLikePercSign: 'ALL',
+    filterGroup: null,
+    filterDisplayTypeCode: 'F',
+    filterAttributeCode: 'F_STR',
+    filterDictCode: null,
+    filterCodeProperty: null,
+    filterNameProperty: null,
+    filterDictFormClassRefName: null,
+  },
+  {
+    fieldName: 'application_name',
+    applicationCode: 'CORE',
+    name: 'Приложение',
+    width: 250,
+    displayOrder: 2,
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'a.name1',
+    isSortableFlagCode: 'Y',
+    filterCondition: '=',
+    filterColName: 'a.applicationCode',
+    filterUpperSign: null,
+    filterLikePercSign: null,
+    filterGroup: null,
+    filterDisplayTypeCode: 'L',
+    filterAttributeCode: 'CORE_APPLICATIONS',
+    filterDictCode: null,
+    filterCodeProperty: 'code',
+    filterNameProperty: 'name',
+    filterDictFormClassRefName: null,
+  },
+  {
+    fieldName: 'role_name',
+    applicationCode: 'CORE',
+    name: 'Наименование роли',
+    width: 250,
+    displayOrder: 3,
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'r.name1',
+    isSortableFlagCode: 'Y',
+    filterCondition: 'LIKE',
+    filterColName: 'r.name1',
+    filterUpperSign: 'BOTH',
+    filterLikePercSign: 'ALL',
+    filterGroup: null,
+    filterDisplayTypeCode: 'F',
+    filterAttributeCode: 'F_STR',
+    filterDictCode: null,
+    filterCodeProperty: null,
+    filterNameProperty: null,
+    filterDictFormClassRefName: null,
+  },
+];

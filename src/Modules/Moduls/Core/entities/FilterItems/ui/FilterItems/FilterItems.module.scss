@@ -1,42 +1,23 @@
 .coreUsersFilter {
   width: 100%;
-  // display: flex;
-  // flex-wrap: wrap;
 }
 .input {
   padding: 10px 10px;
   width: 100%;
-  // width: 800px;
-
   margin: 0;
 }
 .required {
   color: var(--red-light);
   font-size: 20px;
-  position: absolute;
   margin-left: 3px;
 }
 
-.inputFildssss {
-  // display: flex;
-  // width: 100%;
-  // flex-wrap: wrap;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Делит контейнер на две равные части */
-  gap: 10px; /* Пространство между элементами */
-  padding: 20px;
-}
 .dataTree {
   width: 1000px !important;
 }
 
 // ---------------------------------------------
-// .checkbox {
-//   width: 20px;
-//   height: 20px;
-//   background-color: #fff;
-// }
+
 .checkbox {
   display: inline-flex;
   cursor: pointer;
@@ -82,4 +63,9 @@
 
 .checkbox > input:active {
   border: 2px solid #34495e;
+}
+.errorText {
+  margin-left: 10px;
+  color: var(--red-light);
+  align-items: start;
 }

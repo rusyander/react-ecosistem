@@ -18,6 +18,7 @@ import {
   getGridDataM,
 } from '../../../shared/globalApi/globalApi';
 import { Filters } from '../../../features/Filter';
+import { CheckFormEnterM } from '../../../entities/CheckFormE';
 export interface CoreUsersWidgetsProps {
   className?: string;
 }
@@ -57,7 +58,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
   }, [currentPageNumber, pageLimit, totalCount]);
 
   useEffect(() => {
-    checkFormEnter(locations.pathname.replaceAll('/', ''));
+    // checkFormEnter(locations.pathname.replaceAll('/', ''));
     onPaginationPageChange();
   }, []);
 
@@ -97,10 +98,11 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
     [currentPageNumber, getGridData, pageLimit, totalCount]
   );
 
-  console.log('grid+++++++++++++++++', grid, standartInputs);
+  // console.log('grid+++++++++++++++++', grid);
 
   return (
     <div className={classNames(cls.coreUsersWidgets, {}, [className])}>
+      <CheckFormEnterM />
       <Grid
         // for grid data
         gridCols={gridCols}
@@ -123,7 +125,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
             filterData={filterBlock}
             modalTitle={t('Справочник')}
             isFilter={true}
-            setInputsValues={(data: any) => console.log('dataInputs', data)}
+            // setInputsValues={(data: any) => console.log('dataInputs', data)}
           />
         }
         // sort function
@@ -133,7 +135,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         // new button
         AddNewButtonComponents={[
           <Add key={1} />,
-          <Edit key={2} />,
+          <Edit key={2} selectedField={selected} />,
           <Roles key={3} />,
         ]}
         // loading

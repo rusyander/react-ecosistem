@@ -9,6 +9,7 @@ import React, {
 import cls from './Input.module.scss';
 import { classNames } from '../../../lib/classNames/classNames';
 import { Icon } from '@iconify/react';
+import { HStack } from '../../Stack';
 
 type HTMLInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -54,7 +55,7 @@ export const Input = memo((props: InputProps) => {
 
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.target.value);
+      onChange?.(e.target.value.trim());
       setCaretPosition(e.target.value.length);
     },
     [onChange]
@@ -100,9 +101,9 @@ export const Input = memo((props: InputProps) => {
       ) : (
         <>
           {isLabel && (
-            <label className={cls.inputLabel}>
-              {label} {requered && <sup className={cls.required}>*</sup>}
-            </label>
+            <HStack className={cls.inputLabel}>
+              {label} {requered && <p className={cls.required}>*</p>}
+            </HStack>
           )}
 
           <input

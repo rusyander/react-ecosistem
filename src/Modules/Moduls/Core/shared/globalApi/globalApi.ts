@@ -48,6 +48,21 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+
+    getDataGrid: build.mutation<any, any>({
+      query: (path) => ({
+        url: '/api/core/grid/getData',
+        body: path,
+        method: 'POST',
+      }),
+    }),
+    getGridDataInit: build.mutation<any, string>({
+      query: (path) => ({
+        url: '/api/core/grid/init',
+        body: path,
+        method: 'POST',
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -56,3 +71,5 @@ export const getGridDataM = CoreGlobalApi.useGetGridDataMutation;
 export const getAttrValuesM = CoreGlobalApi.useGetAttrValuesMutation;
 export const getTreePartDataSprM = CoreGlobalApi.useGetTreePartDataSprMutation;
 export const getDataPagedM = CoreGlobalApi.useGetDataPagedMutation;
+export const getDataGridM = CoreGlobalApi.useGetDataGridMutation;
+export const getGridDataInitM = CoreGlobalApi.useGetGridDataInitMutation;

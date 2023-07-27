@@ -18,6 +18,10 @@
   padding: 7px 10px;
   opacity: 0.8;
 }
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  font-size: 22px;
+}
 .input:focus {
   border: 1px solid var(--primary-bg-color);
 }
@@ -68,6 +72,6 @@
 .required {
   color: var(--red-light);
   font-size: 20px;
-  position: absolute;
+  // position: absolute;
   margin-left: 3px;
 }

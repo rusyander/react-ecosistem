@@ -29,6 +29,7 @@ interface TreeViewInModalPropsProps {
   sendTreeDataFirst?: any;
   loadingTree?: boolean;
   modalTitle?: string;
+  defaultValues?: any;
 }
 
 export const TreeViewInModal = memo(
@@ -44,14 +45,27 @@ export const TreeViewInModal = memo(
     sendTreeDataFirst,
     loadingTree,
     modalTitle,
+    defaultValues = undefined,
   }: TreeViewInModalPropsProps) => {
     const [hasOpenModal, setHasOpenModal] = useState(false);
-    const [selectedFild, setSelectedFild]: any = useState('');
+    const [selectedFild, setSelectedFild]: any = useState(
+      defaultValues
+        ? {
+            name: defaultValues?.data?.organizationIdName,
+            organizationId: defaultValues?.data?.organizationId,
+          }
+        : ''
+    );
     const [inputValue, setInputValue] = useState(selectedFild);
     const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
     const [clearInputValue, setClearInputValue] = useState(true);
 
+    console.log('selectedFild', selectedFild);
+
     const { t } = useTranslation();
+
+    const [selectedForInput, setSelectedForInput]: any = useState(null);
+    const [forClean, setForClean] = useState(false);
 
     useEffect(() => {
       // setInputValue(selectedFild);
@@ -65,6 +79,8 @@ export const TreeViewInModal = memo(
     }, [sendTreeDataFirst]);
 
     const OnClearFilds = useCallback(() => {
+      setSelectedForInput(null);
+      setForClean(true);
       inputValueRef.current = null;
       setInputValue('');
       setSelectedFild('');
@@ -80,6 +96,8 @@ export const TreeViewInModal = memo(
     }, []);
 
     const selectRow = useCallback(() => {
+      setForClean(false);
+      setSelectedForInput(selectedFild);
       setInputValue(selectedFild);
       selectTreeItems?.(selectedFild);
       setHasOpenModal(false);
@@ -95,10 +113,24 @@ export const TreeViewInModal = memo(
             placeholder={placeholder}
             onChange={(e: any) => setInputValue(e.target.value)}
             // value={clearInputValue === true ? inputValue?.label : ''}valueData
+            // value={
+            //   valueData === selectedFild?.organizationId
+            //     ? selectedFild?.name
+            //     : ''
+            // }
+            // value={
+            //   selectedForInput?.name
+            //     ? selectedForInput?.name
+            //     : defaultValues?.data?.organizationIdName
+            //     ? defaultValues?.data?.organizationIdName
+            //     : ''
+            // }
             value={
-              valueData === selectedFild?.organizationId
-                ? selectedFild?.name
-                : ''
+              selectedForInput?.name
+                ? selectedForInput?.name
+                : forClean
+                ? ''
+                : defaultValues?.data?.organizationIdName
             }
 
             // onClick={OnClickOpenModal}

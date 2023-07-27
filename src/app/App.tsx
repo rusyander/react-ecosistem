@@ -10,7 +10,6 @@ import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 export default function App() {
   const { theme } = useTheme();
   const { data } = getDefaultDataQ({});
-  console.log('data+++++', data);
 
   const dispatch = useAppDispatch();
   const userData = useSelector(getUserAuthData);

@@ -5,7 +5,9 @@ import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { ModalHeader } from '../../../../entities/ModalHeader';
 import { Filters } from '../../../Filter';
-import { attrDataNoBD, fildListAddNew, inputsData } from '../../consts/const';
+import { fildListAddNew } from '../../consts/const';
+import { SubmitFormFooter } from '../../../../entities/SubmitFormFooter';
+import { SaveDataM } from '../../api/saveData';
 
 interface AddProps {
   className?: string;
@@ -25,26 +27,52 @@ export const Add = memo((props: AddProps) => {
     setOpenAddModal(false);
   }, [setOpenAddModal]);
 
+  const [saveData, { data: saveDataQ }] = SaveDataM();
+  console.log('saveDataQ', saveDataQ);
+
   // ----------------------------------
 
   const [noFilterInputsData, setNoFilterInputsData] = useState([]);
 
   const reconfigurateNoFilterInputsData = useCallback(() => {
-    const addNewValueFields: any = inputsData.map((item: any) => {
+    const addNewValueFields: any = fildListAddNew.map((item: any) => {
       return {
         ...item,
-        value: '',
+        value: null,
       };
     });
     setNoFilterInputsData(addNewValueFields);
   }, []);
   useEffect(() => {
-    reconfigurateNoFilterInputsData();
+    // reconfigurateNoFilterInputsData();
   }, []);
 
   // ----------------------------------
   const [requiredLength, setRequiredLength] = useState(0);
-  console.log('requiredLength-------------------', requiredLength);
+  const [allRequeredLength, setAllRequeredLength] = useState(0);
+  const [inputsValue, setInputsValue] = useState([]);
+  // console.log('requiredLength-------------------', requiredLength);
+  // console.log('allRequeredLength-------------------', allRequeredLength);
+  console.log('saveDataQ-------------------', saveDataQ);
+
+  const handleSubmit = useCallback(() => {
+    const data = inputsValue;
+    // console.log('data++++++++ ---- ****', data);
+    // if (allRequeredLength === requiredLength) {
+    // console.log('data++++++++ ---- ****', data);
+    saveData(data);
+    // }
+    if (saveDataQ?.result === '1') {
+      closeModalFunction();
+    }
+  }, [
+    saveData,
+    allRequeredLength,
+    closeModalFunction,
+    inputsValue,
+    requiredLength,
+    saveDataQ?.result,
+  ]);
 
   return (
     <div className={classNames(cls.add, {}, [className])}>
@@ -63,19 +91,21 @@ export const Add = memo((props: AddProps) => {
         <ModalHeader
           title={t('Реквизиты пользователя') || ''}
           onClose={closeModalFunction}
-          width={900}
         />
-
-        {/* ----------- */}
-
         <Filters
+          className={cls.filters}
           filterData={fildListAddNew}
-          // filterData={noFilterInputsData}
-          // attrData={attrDataNoBD}
           modalTitle={t('Справочник')}
           isFilter={false}
-          setInputsValues={(data: any) => console.log('dataInputs', data)}
+          // setInputsValues={(data: any) => console.log('setInputsValues', data)}
+          setInputsValues={(data: any) => setInputsValue(data)}
           requiredLength={(data: any) => setRequiredLength(data)}
+          allRequeredLength={(data: any) => setAllRequeredLength(data)}
+          errorData={saveDataQ?.data}
+        />
+        <SubmitFormFooter
+          onClose={closeModalFunction}
+          onSubmit={handleSubmit}
         />
       </Modal>
     </div>

@@ -56,5 +56,11 @@
 
   "Справочник": "Directory",
 
-  "full_name": "Full Name"
+  "full_name": "Full Name",
+
+  "Отмена": "Cancel",
+  "Повтор пароля": "Repeat password",
+  "user_role_name": "User role name",
+  "application_name": "Application name",
+  "role_name": "Role name"
 }
