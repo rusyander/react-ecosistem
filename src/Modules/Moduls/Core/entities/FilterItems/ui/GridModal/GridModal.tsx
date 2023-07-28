@@ -32,10 +32,10 @@ export const GridModal = memo((props: GridModalProps) => {
   const { t } = useTranslation();
 
   const [getDataPaged, { data: grid, isLoading }] = getDataPagedM();
-  console.log(
-    'defaultValuesData-------------------------------+++++++++',
-    defaultValuesData
-  );
+  // console.log(
+  //   'defaultValuesData-------------------------------+++++++++',
+  //   defaultValuesData
+  // );
 
   const [selected, setSelected]: any = useState(
     defaultValuesData
@@ -151,7 +151,7 @@ export const GridModal = memo((props: GridModalProps) => {
     OnClickCloseModal();
   }, [OnClickCloseModal, index, onChange, selected.employee_id, selectedFild]);
 
-  console.log('selected', selected);
+  // console.log('selected', selected);
 
   return (
     <div className={classNames(cls.gridModal, {}, [className])}>

@@ -56,7 +56,7 @@ export const Filters = memo((props: FiltersProps) => {
   //   setFilterColsData(filterData as FilterBlock[]);
   // }, [filterColsData, filterData]);
 
-  console.log('filterData++++++++++++++++++', filterData);
+  // console.log('filterData++++++++++++++++++', filterData);
   // --------------------------
 
   // filter payload
@@ -92,7 +92,11 @@ export const Filters = memo((props: FiltersProps) => {
       }
 
       // if (!isFilter) {
-      setInputsValues?.(convertArrayToObject(data));
+      // console.log('data-------------------', data);
+
+      // setInputsValues?.(convertArrayToObject(data, defaultValuesData));
+      setInputsValues?.(data);
+
       // }
     },
     [

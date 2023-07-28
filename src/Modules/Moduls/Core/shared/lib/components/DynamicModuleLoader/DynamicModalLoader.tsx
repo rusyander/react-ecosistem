@@ -23,7 +23,10 @@ export const DynamicModuleLoader: FC<DynamicModuleLoaderProps> = (props) => {
     const mountedReducers: any = store.reducerManager.getReducerMap();
     Object.entries(reducers).forEach(([name, reducer]) => {
       if (!mountedReducers[name as StateSchemaCoreKey]) {
-        store.reducerManager.add(name as StateSchemaCoreKey | any, reducer);
+        store.reducerManager.add(
+          name as StateSchemaCoreKey | any,
+          reducer as any
+        );
         dispatch({ type: `@Init- ${name} reduser` });
       }
     });

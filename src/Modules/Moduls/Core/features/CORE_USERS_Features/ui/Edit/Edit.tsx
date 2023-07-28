@@ -8,6 +8,7 @@ import { SubmitFormFooter } from 'Modules/Moduls/Core/entities/SubmitFormFooter'
 import { Filters } from '../../../Filter';
 import { fildListAddNewEdit } from '../../consts/const';
 import { GetDataM, SaveDataM } from '../../api/saveData';
+import { convertArrayToObject } from '../../../Filter/functions/arrayToObject';
 
 interface EditProps {
   className?: string;
@@ -18,17 +19,14 @@ export const Edit = memo((props: EditProps) => {
   const { className, selectedField } = props;
   const { t } = useTranslation('core');
   const [saveData, { data: saveDataQ }] = SaveDataM();
+  // const [getData, { data: getDataQ }] = GetDataM();
   const [getData, { data: getDataQ }] = GetDataM();
-
-  // console.log('getDataQ', getDataQ);
 
   const [openEditModal, setOpenEditModal] = useState(false);
   const [noFilterInputsData, setNoFilterInputsData] = useState([]);
-  // console.log('noFilterInputsData', noFilterInputsData);
 
   const reconfigurateNoFilterInputsData = useCallback(() => {
     const addNewValueFields: any = fildListAddNewEdit.map((item: any) => {
-      // console.log('*********************', getDataQ?.data);
       return {
         ...item,
         value: getDataQ?.data?.[item.token] || null,
@@ -40,9 +38,12 @@ export const Edit = memo((props: EditProps) => {
 
   const openModalFunction = () => {
     setOpenEditModal(true);
-    getData(selectedField?.user_id);
-    // if (getDataQ?.result === '1') {
+    // getData(selectedField?.user_id);
     reconfigurateNoFilterInputsData();
+    getData(selectedField?.user_id).then((res: any) => {
+      setDefaultData(res.data);
+    });
+    // if (getDataQ?.result === '1') {
     // }
   };
 
@@ -53,39 +54,84 @@ export const Edit = memo((props: EditProps) => {
   // ----------------------------------
 
   useEffect(() => {
-    reconfigurateNoFilterInputsData();
+    console.log('selectedField1111111', selectedField);
+
+    // getData(selectedField?.user_id).then((res: any) => {
+    //   setDefaultData(res.data);
+    // });
+    // reconfigurateNoFilterInputsData();
+    // getData(selectedField?.user_id);
+    // if (getDataQ?.data) {
+    //   setDefaultData(getDataQ?.data);
+    // }
   }, []);
 
   // ----------------------------------
   const [requiredLength, setRequiredLength] = useState(0);
   const [allRequeredLength, setAllRequeredLength] = useState(0);
   const [inputsValue, setInputsValue] = useState([]);
+
+  const [defaultData, setDefaultData] = useState<any>(getDataQ?.data);
   // console.log('requiredLength-------------------', requiredLength);
   // console.log('allRequeredLength-------------------', allRequeredLength);
-  console.log('inputsValue-------------------', inputsValue);
+  // console.log('inputsValue-------------------', inputsValue);
+  // console.log('getDataQ?.data-------------------', getDataQ?.data);
 
+  console.log('selectedField22222222222', selectedField);
   const handleSubmit = useCallback(() => {
-    const data = inputsValue;
-    const addUserId = { ...data, userId: selectedField?.user_id };
+    const updateValue = inputsValue;
+    // if (defaultData) {
+    //   updateValue?.forEach((item: any) => {
+    //     if (item.fildValue === null || item.fildValue === undefined) {
+    //       item.fildValue = defaultData?.[item.fildName];
+    //     }
+    //   });
+    // }
+
+    getData(selectedField?.user_id).then((res: any) => {
+      updateValue?.forEach((item: any) => {
+        if (item.fildValue === null || item.fildValue === undefined) {
+          item.fildValue = res?.data?.[item.fildName];
+        }
+      });
+
+      const value = convertArrayToObject(updateValue);
+      const addUserId = { ...value, userId: selectedField?.user_id };
+      saveData(addUserId);
+      // console.log('addUserId ++++++++++++++++', addUserId);
+    });
+
+    // const data = inputsValue;
+    // const addUserId = { ...data, userId: selectedField?.user_id };
     // console.log('data++++++++ ---- ****', data);selectedField
     // if (allRequeredLength === requiredLength) {
-    console.log('addUserId++++++++ ---- ****', addUserId);
-    saveData(addUserId);
+    // --------------------------------------------------------------------------
+    // const data = inputsValue;
+    // const findNulAndChangeIT = data?.map((item: any) => {
+    //   if (item?.value === null) {
+    //     return { ...item, value: '' };
+    //   }
+    //   return item;
+    // });
+    // const addUserId = { ...data, userId: selectedField?.user_id };
+    // if (defaultData) {
+    //   saveData(addUserId);
+    // }
     // }
     if (saveDataQ?.result === '1') {
       closeModalFunction();
     }
   }, [
-    saveData,
-    allRequeredLength,
-    closeModalFunction,
+    getData,
+    selectedField?.user_id,
     inputsValue,
-    requiredLength,
     saveDataQ?.result,
+    saveData,
+    closeModalFunction,
   ]);
 
   const seee = () => {
-    console.log('*********************', getDataQ?.data);
+    // console.log('*********************', getDataQ?.data);
   };
   // ******************************************************************
   const [dataEdit, setDataEdit] = useState(fildListAddNewEdit ?? []);

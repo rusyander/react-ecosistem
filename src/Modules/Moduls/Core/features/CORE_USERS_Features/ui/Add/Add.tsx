@@ -28,7 +28,7 @@ export const Add = memo((props: AddProps) => {
   }, [setOpenAddModal]);
 
   const [saveData, { data: saveDataQ }] = SaveDataM();
-  console.log('saveDataQ', saveDataQ);
+  // console.log('saveDataQ', saveDataQ);
 
   // ----------------------------------
 
@@ -53,7 +53,7 @@ export const Add = memo((props: AddProps) => {
   const [inputsValue, setInputsValue] = useState([]);
   // console.log('requiredLength-------------------', requiredLength);
   // console.log('allRequeredLength-------------------', allRequeredLength);
-  console.log('saveDataQ-------------------', saveDataQ);
+  // console.log('saveDataQ-------------------', saveDataQ);
 
   const handleSubmit = useCallback(() => {
     const data = inputsValue;

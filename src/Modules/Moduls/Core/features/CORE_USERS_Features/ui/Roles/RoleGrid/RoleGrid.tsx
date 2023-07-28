@@ -173,36 +173,3 @@ export const RoleGrid = memo((props: RoleGridProps) => {
     </div>
   );
 });
-
-// {
-//   "firstLastName": "TEST1",
-//   "login": "TEST1",
-//   "changePasswordFlagCode": "N",
-//   "addInfo": "TEST1",
-//   "emailAddress": "123",
-//   "address": null,
-//   "telefon": null,
-//   "fax": null,
-//   "startDate": "22.10.2001",
-//   "endDate": "22.10.2030",
-//   "employeeId": 4,
-//   "organizationId": 1,
-//   "isActiveFlagCode": "Y",
-//   "userId": 5
-// }
-// {
-//   "firstLastName": "TEST2",
-//   "login": "TEST2",
-//   "changePasswordFlagCode": "N",
-//   "addInfo": "TEST2",
-//   "emailAddress": null,
-//   "password": null,
-//   "address": null,
-//   "telefon": null,
-//   "fax": null,
-//   "startDate": "28.07.2023",
-//   "endDate": null,
-//   "employeeId": null,
-//   "organizationId": 47,
-//   "isActiveFlagCode": "Y"
-// }

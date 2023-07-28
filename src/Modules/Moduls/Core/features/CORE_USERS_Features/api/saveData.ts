@@ -9,7 +9,7 @@ const SaveDataApi = rtkApi.injectEndpoints({
         method: 'POST',
       }),
     }),
-    getData: build.mutation<any, any>({
+    getData: build.mutation({
       query: (id) => ({
         url: '/api/core/user/getData',
         body: id,
@@ -22,71 +22,40 @@ const SaveDataApi = rtkApi.injectEndpoints({
 export const SaveDataM = SaveDataApi.useSaveDataMutation;
 export const GetDataM = SaveDataApi.useGetDataMutation;
 
-const ddd = [
-  {
-    fieldName: 'user_role_name',
-    applicationCode: 'CORE',
-    name: 'Наименование пользовательской роли',
-    width: 300,
-    displayOrder: 1,
-    dataTypeId: 1,
-    colTypeCode: 'STANDARD',
-    sortColName: 'e.name1',
-    isSortableFlagCode: 'Y',
-    filterCondition: 'LIKE',
-    filterColName: 'e.name1',
-    filterUpperSign: 'BOTH',
-    filterLikePercSign: 'ALL',
-    filterGroup: null,
-    filterDisplayTypeCode: 'F',
-    filterAttributeCode: 'F_STR',
-    filterDictCode: null,
-    filterCodeProperty: null,
-    filterNameProperty: null,
-    filterDictFormClassRefName: null,
-  },
-  {
-    fieldName: 'application_name',
-    applicationCode: 'CORE',
-    name: 'Приложение',
-    width: 250,
-    displayOrder: 2,
-    dataTypeId: 1,
-    colTypeCode: 'STANDARD',
-    sortColName: 'a.name1',
-    isSortableFlagCode: 'Y',
-    filterCondition: '=',
-    filterColName: 'a.applicationCode',
-    filterUpperSign: null,
-    filterLikePercSign: null,
-    filterGroup: null,
-    filterDisplayTypeCode: 'L',
-    filterAttributeCode: 'CORE_APPLICATIONS',
-    filterDictCode: null,
-    filterCodeProperty: 'code',
-    filterNameProperty: 'name',
-    filterDictFormClassRefName: null,
-  },
-  {
-    fieldName: 'role_name',
-    applicationCode: 'CORE',
-    name: 'Наименование роли',
-    width: 250,
-    displayOrder: 3,
-    dataTypeId: 1,
-    colTypeCode: 'STANDARD',
-    sortColName: 'r.name1',
-    isSortableFlagCode: 'Y',
-    filterCondition: 'LIKE',
-    filterColName: 'r.name1',
-    filterUpperSign: 'BOTH',
-    filterLikePercSign: 'ALL',
-    filterGroup: null,
-    filterDisplayTypeCode: 'F',
-    filterAttributeCode: 'F_STR',
-    filterDictCode: null,
-    filterCodeProperty: null,
-    filterNameProperty: null,
-    filterDictFormClassRefName: null,
-  },
-];
+// create -
+
+// {
+//   "firstLastName": "2",
+//   "login": "2",
+//   "changePasswordFlagCode": "N",
+//   "addInfo": "2",
+//   "emailAddress": "2",
+//   "address": "2",
+//   "fax": "2",
+//   "startDate": "28.07.2023",
+//   "endDate": "29.07.2023",
+//   "employeeId": 1,
+//   "organizationId": 47,
+//   "isActiveFlagCode": "Y"
+//   "password": "2",
+// }
+
+// edit -
+// {
+//   "firstLastName": "2",
+//   "login": "2",
+//   "changePasswordFlagCode": "N",
+//   "addInfo": "2",
+//   "isActiveFlagCode": "Y",
+//   "emailAddress": "2",
+//   "address": "2",
+//   "fax": "2",
+//   "startDate": "28.07.2023"
+//   "endDate": "29.07.2023",
+//   "employeeId": 1,
+//   "employeeIdName": "ADMIN",
+//   "userId": 22,
+//   "organizationIdName": "Головная организация 10",
+//   "organizationId": 47,
+//   "telefon": null,
+// }

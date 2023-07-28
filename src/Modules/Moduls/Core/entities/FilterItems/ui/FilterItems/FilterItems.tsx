@@ -191,7 +191,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   // console.log('inputValue', inputValue);
 
   // console.log(errorData?.[0].field);
-  console.log('defaultValuesData---', defaultValuesData);
+  // console.log('defaultValuesData---', defaultValuesData);
 
   return (
     <div className={classNames(cls.coreUsersFilter, {}, [className])}>

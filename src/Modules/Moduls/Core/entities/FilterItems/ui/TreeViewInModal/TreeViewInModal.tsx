@@ -60,7 +60,7 @@ export const TreeViewInModal = memo(
     const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
     const [clearInputValue, setClearInputValue] = useState(true);
 
-    console.log('selectedFild', selectedFild);
+    // console.log('selectedFild', selectedFild);
 
     const { t } = useTranslation();
 

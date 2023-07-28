@@ -6,13 +6,13 @@ import {
   Reducer,
   ReducersMapObject,
 } from '@reduxjs/toolkit';
-import { rtkApi } from '../../../../shared/api/rtkApi';
+// import { rtkApi } from '../../../../shared/api/rtkApi';
 import { BreadCrumbsSchema } from 'Modules/UiKit';
 import { AxiosInstance } from 'axios';
 import { NavigateOptions, To } from 'react-router-dom';
 
 export interface StateSchemaCore {
-  [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
+  // [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
   // breadCrumbs: BreadCrumbsSchema;
   // async redusers
   // profile?: ProfileSchema;

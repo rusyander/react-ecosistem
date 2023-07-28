@@ -9,7 +9,7 @@ import { StateSchemaCore, ThunkExtraArg } from './StateSchemaCore';
 import { createReducerManager } from './reduserManaget';
 import { $api } from 'shared/api/api';
 import { NavigateOptions, To } from 'react-router-dom';
-import { rtkApi } from '../../../../shared/api/rtkApi';
+// import { rtkApi } from '../../../../shared/api/rtkApi';
 
 export function createReduxStore(
   initialState?: StateSchemaCore,
@@ -18,7 +18,7 @@ export function createReduxStore(
 ) {
   const rootReduser: ReducersMapObject<StateSchemaCore> = {
     ...asyncReducers,
-    [rtkApi.reducerPath]: rtkApi.reducer,
+    // [rtkApi.reducerPath]: rtkApi.reducer,
   };
 
   const reducerManager = createReducerManager(rootReduser);
@@ -37,7 +37,8 @@ export function createReduxStore(
         thunk: {
           extraArgument: extraArh,
         },
-      }).concat(rtkApi.middleware);
+      });
+      // .concat(rtkApi.middleware);
     },
   });
 

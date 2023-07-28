@@ -35,7 +35,7 @@ export const UseFilterPayload = (
   //   };
   // });
 
-  console.log('data', data);
+  // console.log('data', data);
 
   const updatedData = [...data];
   updatedData[index] = { ...updatedData[index], value };
@@ -71,21 +71,22 @@ export const UseFilterPayload = (
         allRequireNumber += 1;
       }
 
-      if (
-        item.isNullableFlag === 'N' &&
-        item.value !== '' &&
-        item.value !== undefined &&
-        item.value !== null
-      ) {
-        isRequiredList.push(item.token);
-        const uniqueRequiredToken = [...new Set(isRequiredList)];
-        requiredLength?.(uniqueRequiredToken.length);
-        allRequeredLength?.(allRequireNumber);
-        return payloadDataMap;
-      }
-      if (item.isNullableFlag !== 'N') {
-        return payloadDataMap;
-      }
+      // if (
+      //   item.isNullableFlag === 'N' &&
+      //   item.value !== '' &&
+      //   item.value !== undefined &&
+      //   item.value !== null
+      // ) {
+      //   isRequiredList.push(item.token);
+      //   const uniqueRequiredToken = [...new Set(isRequiredList)];
+      //   requiredLength?.(uniqueRequiredToken.length);
+      //   allRequeredLength?.(allRequireNumber);
+      //   return payloadDataMap;
+      // }
+      // if (item.isNullableFlag !== 'N') {
+      //   return payloadDataMap;
+      // }
+      return payloadDataMap;
     }
     return undefined;
   });

@@ -6,8 +6,10 @@ import {
 
 export const rtkApi = createApi({
   reducerPath: 'api',
+
   baseQuery: fetchBaseQuery({
     baseUrl: __API__,
+
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -26,5 +28,6 @@ export const rtkApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({}),
 });

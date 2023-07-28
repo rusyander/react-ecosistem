@@ -9,13 +9,13 @@ interface CoreAppProps {
 
 export const CoreApp = ({ className }: CoreAppProps) => {
   return (
-    <StoreProviderCore>
-      <Suspense fallback={''}>
-        <div className="contentMargin">
-          {/* <h1>CORE</h1> */}
-          <AppRouter />
-        </div>
-      </Suspense>
-    </StoreProviderCore>
+    // <StoreProviderCore>
+    <Suspense fallback={''}>
+      <div className="contentMargin">
+        {/* <h1>CORE</h1> */}
+        <AppRouter />
+      </div>
+    </Suspense>
+    // </StoreProviderCore>
   );
 };
