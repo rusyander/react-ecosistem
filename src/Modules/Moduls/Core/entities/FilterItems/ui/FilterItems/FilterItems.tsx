@@ -39,7 +39,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
     defaultValuesData,
   } = props;
   const [getAttrValues, { data: dropdownDatas }] = getAttrValuesM();
-
   const { t } = useTranslation();
 
   // for BETWEEN
@@ -82,11 +81,8 @@ export const FilterItems = memo((props: FilterItemsProps) => {
       setTreeData(getTreePartData?.data);
     }
   }, [getTreePartData?.data, getTreePartDataSpr, treeData]);
-  // console.log(treeData);
-  // console.log(getTreePartData?.data);
 
   useEffect(() => {
-    // if (isFilter) {
     sendTreeDataFirst();
     // }
   }, []);
@@ -98,14 +94,12 @@ export const FilterItems = memo((props: FilterItemsProps) => {
         const updatedData = { ...data, children: newFields };
         if (newFields.childCount > 0) {
           updatedData.children = [
-            // ...(data.children || []),
             ...(data.children || []),
             ...newFields.children,
           ];
         }
 
         return { ...updatedData, ...newFields };
-        // return { ...updatedData };
       } else if (data.children && data.children.length > 0) {
         return { ...data, children: data.children.map(findAndAddData) };
       }
@@ -139,17 +133,12 @@ export const FilterItems = memo((props: FilterItemsProps) => {
         const uniqueID = [...new Set(prev)];
         return [...uniqueID, id];
       });
-      if (
-        // selectedTreeDataFildId?.childCount !== 0 &&
-        !selectedTreeDataFildId.includes(id)
-      ) {
+      if (!selectedTreeDataFildId.includes(id)) {
         fetchDataFromBackend(id);
       }
     },
     [fetchDataFromBackend, selectedTreeDataFildId]
   );
-
-  // console.log('selectedTreeDataFildId', selectedTreeDataFildId);
 
   // grid
   const [selectGrid, setSelectGrid] = useState<any>('');
@@ -166,32 +155,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   }, [password, passwordConf]);
 
   // ------------------- fatePicker
-
-  // const [inputValue, setInputValue] = useState('');
-
-  // // Функция для форматирования даты в виде "дд,мм,гггг"
-  // const formatDate = (dateString: any) => {
-  //   const date = new Date(dateString);
-  //   const day = date.getDate().toString().padStart(2, '0');
-  //   const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  //   const year = date.getFullYear().toString();
-  //   return `${day}.${month}.${year}`;
-  // };
-
-  // // Функция для обработки ввода даты
-  // const handleInputChange = (value: any) => {
-  //   // Удаляем все, кроме цифр и точек, чтобы получить только числа и разделители
-  //   const cleanedValue = value.replace(/[^\d.]/g, '');
-
-  //   // Форматируем дату в виде "дд,мм,гггг" и обновляем состояние
-  //   const formattedDate = formatDate(value);
-  //   setInputValue(formattedDate);
-  // };
-
-  // console.log('inputValue', inputValue);
-
-  // console.log(errorData?.[0].field);
-  // console.log('defaultValuesData---', defaultValuesData);
 
   return (
     <div className={classNames(cls.coreUsersFilter, {}, [className])}>
@@ -329,11 +292,8 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 )}
               </VStack>
             ) : (
-              // --------------------------------------------------------------------------
-              // --------------------------------------------------------------------------
+              // -------------------------------------------
               <VStack max>
-                {/* <div className="container">
-                <div className="row"> */}
                 {inputs?.displayTypeCode === 'F' &&
                   inputs?.token !== 'password' &&
                   !inputs?.widthItem &&
@@ -342,7 +302,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
-                        // value={inputs?.value}
                         value={
                           !inputs?.value
                             ? defaultValuesData?.data?.[inputs?.token]
@@ -372,9 +331,9 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       <Input
                         onChange={(value) => onChange(index, value)}
                         value={
-                          !inputs?.value
-                            ? defaultValuesData?.data?.[inputs?.token]
-                            : inputs?.value
+                          inputs?.value
+                            ? inputs?.value
+                            : defaultValuesData?.data?.[inputs?.token]
                         }
                         maxLength={inputs?.maxlength}
                         isLabel
@@ -384,9 +343,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                         style={{ width: inputs?.widthItem }}
                       />
-
-                      {/* defaultValuesData?.data?.[item.token], */}
-
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
@@ -401,7 +357,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start" justify="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
-                        // value={inputs?.value}
                         value={
                           !inputs?.value
                             ? defaultValuesData?.data?.[inputs?.token]
@@ -409,8 +364,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         }
                         isLabel
                         label={inputs?.name}
-                        // className={cls.input}
-                        // className="col-6"
                         placeholder={inputs?.name}
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                       />
@@ -533,22 +486,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       <label className={cls.checkbox}>
                         <input
                           type="checkbox"
-                          checked={
-                            // inputs?.value ? inputs?.value : inputs?.default_value
-                            defaultValuesData?.changePasswordFlagCode === 'N'
-                              ? true
-                              : inputs?.default_value === 'N'
-                              ? true
-                              : inputs?.value === 'N'
-                              ? true
-                              : false
-
-                            // inputs?.default_value === 'N'
-                            //   ? true
-                            //   : inputs?.value === 'N'
-                            //   ? true
-                            //   : false
-                          }
+                          checked={inputs?.value === 'N' ? true : false}
                           onChange={(e: any) =>
                             onChange(
                               index,
@@ -572,7 +510,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   inputs?.dataTypeId === 4 && (
                     <VStack max>
                       <Input
-                        // onChange={(value) => onChange(index, value)}
                         onChange={(value) => {
                           const date = new Date(value);
                           const day = date
@@ -586,10 +523,8 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                           const dateValue = `${day}.${month}.${year}`;
 
                           return onChange(index, dateValue);
-                          // return handleInputChange(dateValue);
                         }}
                         id="dateInput"
-                        // value={inputs?.value}
                         value={
                           inputs?.value
                             ? inputs?.value?.split('.').reverse().join('.')
@@ -614,8 +549,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       )}
                     </VStack>
                   )}
-                {/* <h1>{inputs?.value}</h1>
-                <h1>{inputs?.value?.split('.').reverse().join('.')}</h1> */}
 
                 {inputs?.displayTypeCode === 'DQ' && (
                   <VStack max>

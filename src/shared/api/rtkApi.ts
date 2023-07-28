@@ -19,9 +19,6 @@ export const rtkApi = createApi({
       const tok = token ? JSON.parse(token) : '';
       const language = localStorage.getItem(USER_LANGUAGE) || '';
       const session = { ...tok, lang: language !== '' ? language : '1' };
-      // 'Content-Type': 'application/json',
-      // Accept: 'application/json',
-
       if (token) {
         headers.set('session', JSON.stringify(session));
       }

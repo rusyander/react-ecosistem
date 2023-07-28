@@ -32,7 +32,6 @@ export default function MainPage() {
   useEffect(() => {
     setInitiadData();
   }, []);
-  console.log('globalDataList', globalDataList);
 
   return (
     <div className={cls.formSize}>

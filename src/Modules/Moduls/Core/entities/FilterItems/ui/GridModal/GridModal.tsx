@@ -32,10 +32,6 @@ export const GridModal = memo((props: GridModalProps) => {
   const { t } = useTranslation();
 
   const [getDataPaged, { data: grid, isLoading }] = getDataPagedM();
-  // console.log(
-  //   'defaultValuesData-------------------------------+++++++++',
-  //   defaultValuesData
-  // );
 
   const [selected, setSelected]: any = useState(
     defaultValuesData
@@ -162,14 +158,6 @@ export const GridModal = memo((props: GridModalProps) => {
           className={cls.inputPointer}
           placeholder={placeholder}
           onChange={(e: any) => setInputValue(e.target.value)}
-          // value={clearInputValue === true ? selected?.full_name : ''}
-          // value={
-          //   valueToInput?.full_name
-          //     ? valueToInput?.full_name
-          //     : defaultValuesData?.data?.employeeIdName
-          //     ? defaultValuesData?.data?.employeeIdName
-          //     : ''
-          // }
           value={
             valueToInput?.full_name
               ? valueToInput?.full_name

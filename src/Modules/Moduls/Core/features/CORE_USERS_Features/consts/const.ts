@@ -454,26 +454,7 @@ const values = {
   startDate: '07.02.2007',
 };
 
-// {
-//   "isActiveFlagCode": "Y",
-//   "address": null,
-//   "changePasswordFlagCode": "N",
-//   "endDate": null,
-//   "employeeIdName": null,
-//   "employeeId": null,
-//   "addInfo": "description",
-//   "login": "USER",
-//   "userId": 6,
-//   "organizationIdName": "Головная организация",
-//   "organizationId": 1,
-//   "firstLastName": "user",
-//   "emailAddress": null,
-//   "telefon": null,
-//   "fax": null,
-//   "startDate": "25.11.2022"
-// }
-
-const ddd = [
+const test = [
   {
     fieldName: 'user_role_name',
     applicationCode: 'CORE',

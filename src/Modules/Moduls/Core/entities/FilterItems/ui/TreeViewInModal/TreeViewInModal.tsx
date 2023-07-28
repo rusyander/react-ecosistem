@@ -60,17 +60,13 @@ export const TreeViewInModal = memo(
     const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
     const [clearInputValue, setClearInputValue] = useState(true);
 
-    // console.log('selectedFild', selectedFild);
-
     const { t } = useTranslation();
 
     const [selectedForInput, setSelectedForInput]: any = useState(null);
     const [forClean, setForClean] = useState(false);
 
     useEffect(() => {
-      // setInputValue(selectedFild);
       inputValueRef.current = selectedFild;
-      // selectTreeItems?.(selectedFild);
     }, [selectTreeItems, selectedFild]);
 
     const OnClickOpenModal = useCallback(() => {
@@ -112,19 +108,6 @@ export const TreeViewInModal = memo(
             className={cls.inputPointer}
             placeholder={placeholder}
             onChange={(e: any) => setInputValue(e.target.value)}
-            // value={clearInputValue === true ? inputValue?.label : ''}valueData
-            // value={
-            //   valueData === selectedFild?.organizationId
-            //     ? selectedFild?.name
-            //     : ''
-            // }
-            // value={
-            //   selectedForInput?.name
-            //     ? selectedForInput?.name
-            //     : defaultValues?.data?.organizationIdName
-            //     ? defaultValues?.data?.organizationIdName
-            //     : ''
-            // }
             value={
               selectedForInput?.name
                 ? selectedForInput?.name
@@ -132,8 +115,6 @@ export const TreeViewInModal = memo(
                 ? ''
                 : defaultValues?.data?.organizationIdName
             }
-
-            // onClick={OnClickOpenModal}
           />
           {/* delete */}
           <Icon

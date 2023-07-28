@@ -8,7 +8,6 @@ import {
 } from 'Modules/Moduls/Core/shared/globalApi/globalApi';
 import { GridSort } from 'Modules/Moduls/Core/shared/types/GridTypes';
 import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
-import { Filters } from 'Modules/Moduls/Core/features/Filter';
 
 interface RoleGridProps {
   className?: string;
@@ -22,18 +21,11 @@ export const RoleGrid = memo((props: RoleGridProps) => {
     getGridDataInit,
     { data: gridDataInit, isLoading: gridDataInitLoading },
   ] = getGridDataInitM();
-  // console.log('gridDataInit*-*-*-*-*-*-*-*-', gridDataInit);
 
   const [selected, setSelected]: any = useState('');
   const [totalCount, setTotalCount] = useState<number | null>(null);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageLimit, setPageLimit] = useState(100);
-
-  // const headerData = [
-  //   { field: 'user_role_name', size: '300px', is_sortable_flag: true },
-  //   { field: 'application_name', size: '250px', is_sortable_flag: true },
-  //   { field: 'role_name', size: '250px', is_sortable_flag: true },
-  // ];
   const headerData = [
     {
       field: 'user_role_name',
@@ -51,9 +43,6 @@ export const RoleGrid = memo((props: RoleGridProps) => {
       is_sortable_flag: true,
     },
   ];
-  // console.log('headerData', headerData);
-
-  // --------------------`${gridDataInit?.data?.cols?[0]?.width }px` 250 250
 
   useEffect(() => {
     onPaginationPageChange();

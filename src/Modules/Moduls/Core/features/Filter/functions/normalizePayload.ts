@@ -1,22 +1,3 @@
-const values: any = {
-  isActiveFlagCode: 'Y',
-  address: null,
-  changePasswordFlagCode: 'N',
-  endDate: null,
-  employeeIdName: 'EMP3',
-  employeeId: 3,
-  addInfo: null,
-  login: 'ADMIN',
-  userId: 1,
-  organizationIdName: 'Головная организация',
-  organizationId: 1,
-  firstLastName: 'Системный администратор',
-  emailAddress: null,
-  telefon: null,
-  fax: null,
-  startDate: '07.02.2007',
-};
-
 export const UseFilterPayload = (
   data: any,
   setUpdateData: any,
@@ -24,19 +5,8 @@ export const UseFilterPayload = (
   value: string,
   isFilter?: boolean,
   requiredLength?: (length: any) => void,
-  allRequeredLength?: (length: any) => void,
-  defaultValuesData?: any
+  allRequeredLength?: (length: any) => void
 ) => {
-  // const newsData = data.map((item: any) => {
-  //   return {
-  //     ...item,
-  //     value: defaultValuesData?.data?.[item.token],
-  //     // value: values?.[item.token],
-  //   };
-  // });
-
-  // console.log('data', data);
-
   const updatedData = [...data];
   updatedData[index] = { ...updatedData[index], value };
   setUpdateData(updatedData);

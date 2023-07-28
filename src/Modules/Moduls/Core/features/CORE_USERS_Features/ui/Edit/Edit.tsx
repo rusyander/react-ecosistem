@@ -21,6 +21,7 @@ export const Edit = memo((props: EditProps) => {
   const [saveData, { data: saveDataQ }] = SaveDataM();
   // const [getData, { data: getDataQ }] = GetDataM();
   const [getData, { data: getDataQ }] = GetDataM();
+  const [defaultData, setDefaultData] = useState<any>([]);
 
   const [openEditModal, setOpenEditModal] = useState(false);
   const [noFilterInputsData, setNoFilterInputsData] = useState([]);
@@ -35,16 +36,16 @@ export const Edit = memo((props: EditProps) => {
 
     setNoFilterInputsData(addNewValueFields);
   }, [getDataQ?.data]);
+  useEffect(() => {
+    reconfigurateNoFilterInputsData();
+  }, []);
 
   const openModalFunction = () => {
     setOpenEditModal(true);
-    // getData(selectedField?.user_id);
-    reconfigurateNoFilterInputsData();
+
     getData(selectedField?.user_id).then((res: any) => {
       setDefaultData(res.data);
     });
-    // if (getDataQ?.result === '1') {
-    // }
   };
 
   const closeModalFunction = useCallback(() => {
@@ -52,32 +53,15 @@ export const Edit = memo((props: EditProps) => {
   }, [setOpenEditModal]);
 
   // ----------------------------------
-
-  useEffect(() => {
-    console.log('selectedField1111111', selectedField);
-
-    // getData(selectedField?.user_id).then((res: any) => {
-    //   setDefaultData(res.data);
-    // });
-    // reconfigurateNoFilterInputsData();
-    // getData(selectedField?.user_id);
-    // if (getDataQ?.data) {
-    //   setDefaultData(getDataQ?.data);
-    // }
-  }, []);
-
-  // ----------------------------------
   const [requiredLength, setRequiredLength] = useState(0);
   const [allRequeredLength, setAllRequeredLength] = useState(0);
   const [inputsValue, setInputsValue] = useState([]);
 
-  const [defaultData, setDefaultData] = useState<any>(getDataQ?.data);
   // console.log('requiredLength-------------------', requiredLength);
   // console.log('allRequeredLength-------------------', allRequeredLength);
   // console.log('inputsValue-------------------', inputsValue);
   // console.log('getDataQ?.data-------------------', getDataQ?.data);
 
-  console.log('selectedField22222222222', selectedField);
   const handleSubmit = useCallback(() => {
     const updateValue = inputsValue;
     // if (defaultData) {
@@ -100,24 +84,6 @@ export const Edit = memo((props: EditProps) => {
       saveData(addUserId);
       // console.log('addUserId ++++++++++++++++', addUserId);
     });
-
-    // const data = inputsValue;
-    // const addUserId = { ...data, userId: selectedField?.user_id };
-    // console.log('data++++++++ ---- ****', data);selectedField
-    // if (allRequeredLength === requiredLength) {
-    // --------------------------------------------------------------------------
-    // const data = inputsValue;
-    // const findNulAndChangeIT = data?.map((item: any) => {
-    //   if (item?.value === null) {
-    //     return { ...item, value: '' };
-    //   }
-    //   return item;
-    // });
-    // const addUserId = { ...data, userId: selectedField?.user_id };
-    // if (defaultData) {
-    //   saveData(addUserId);
-    // }
-    // }
     if (saveDataQ?.result === '1') {
       closeModalFunction();
     }
@@ -133,8 +99,6 @@ export const Edit = memo((props: EditProps) => {
   const seee = () => {
     // console.log('*********************', getDataQ?.data);
   };
-  // ******************************************************************
-  const [dataEdit, setDataEdit] = useState(fildListAddNewEdit ?? []);
 
   return (
     <div className={classNames(cls.edit, {}, [className])}>
@@ -168,10 +132,8 @@ export const Edit = memo((props: EditProps) => {
             setInputsValues={(data: any) => setInputsValue(data)}
             requiredLength={(data: any) => setRequiredLength(data)}
             allRequeredLength={(data: any) => setAllRequeredLength(data)}
-            defaultValuesData={getDataQ}
+            defaultValuesData={defaultData}
             // ----
-            setDataEdit={setDataEdit}
-            dataEdit={dataEdit}
             errorData={saveDataQ?.data}
           />
 
@@ -184,3 +146,26 @@ export const Edit = memo((props: EditProps) => {
     </div>
   );
 });
+
+// {
+//   "result": "1",
+//   "data": {
+//       "isActiveFlagCode": "Y",
+//       "address": null,
+//       "changePasswordFlagCode": "N",
+//       "endDate": null,
+//       "employeeIdName": null,
+//       "employeeId": null,
+//       "addInfo": "TEST2",
+//       "login": "TEST2",
+//       "userId": 5,
+//       "organizationIdName": "Головная организация 9",
+//       "organizationId": 46,
+//       "firstLastName": "TEST2",
+//       "emailAddress": "12333",
+//       "telefon": null,
+//       "fax": null,
+//       "startDate": "28.07.2023"
+//   },
+//   "comments": null
+// }

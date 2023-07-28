@@ -51,28 +51,14 @@ export const Add = memo((props: AddProps) => {
   const [requiredLength, setRequiredLength] = useState(0);
   const [allRequeredLength, setAllRequeredLength] = useState(0);
   const [inputsValue, setInputsValue] = useState([]);
-  // console.log('requiredLength-------------------', requiredLength);
-  // console.log('allRequeredLength-------------------', allRequeredLength);
-  // console.log('saveDataQ-------------------', saveDataQ);
 
   const handleSubmit = useCallback(() => {
     const data = inputsValue;
-    // console.log('data++++++++ ---- ****', data);
-    // if (allRequeredLength === requiredLength) {
-    // console.log('data++++++++ ---- ****', data);
     saveData(data);
-    // }
     if (saveDataQ?.result === '1') {
       closeModalFunction();
     }
-  }, [
-    saveData,
-    allRequeredLength,
-    closeModalFunction,
-    inputsValue,
-    requiredLength,
-    saveDataQ?.result,
-  ]);
+  }, [saveData, closeModalFunction, inputsValue, saveDataQ?.result]);
 
   return (
     <div className={classNames(cls.add, {}, [className])}>

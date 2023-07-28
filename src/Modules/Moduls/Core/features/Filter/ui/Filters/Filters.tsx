@@ -20,10 +20,6 @@ interface FiltersProps {
   allRequeredLength?: (length: number) => void;
   errorData?: any;
   defaultValuesData?: any;
-  // -----------
-
-  setDataEdit?: any;
-  dataEdit?: any;
 }
 
 export const Filters = memo((props: FiltersProps) => {
@@ -39,9 +35,6 @@ export const Filters = memo((props: FiltersProps) => {
     allRequeredLength,
     errorData,
     defaultValuesData,
-    // ---------------
-    setDataEdit,
-    dataEdit,
   } = props;
   const { t } = useTranslation();
 
@@ -52,12 +45,6 @@ export const Filters = memo((props: FiltersProps) => {
   const [newDataArray, setNewDataArray] = useState<FilterBlock[] | undefined>(
     undefined
   );
-  // useEffect(() => {
-  //   setFilterColsData(filterData as FilterBlock[]);
-  // }, [filterColsData, filterData]);
-
-  // console.log('filterData++++++++++++++++++', filterData);
-  // --------------------------
 
   // filter payload
   const newFilterPayload = useMemo(
@@ -76,16 +63,13 @@ export const Filters = memo((props: FiltersProps) => {
   const handleInputChange = useCallback(
     (index: number, value: string) => {
       const data = UseFilterPayload(
-        // isFilter ? filterColsData : noFilterInputsData,
-        // isFilter ? setFilterColsData : setNoFilterInputsData,
         filterColsData,
         setFilterColsData,
         index,
         value,
         isFilter,
         requiredLength,
-        allRequeredLength,
-        defaultValuesData
+        allRequeredLength
       );
       if (isFilter) {
         setNewDataArray(data as any);
@@ -94,7 +78,7 @@ export const Filters = memo((props: FiltersProps) => {
       // if (!isFilter) {
       // console.log('data-------------------', data);
 
-      // setInputsValues?.(convertArrayToObject(data, defaultValuesData));
+      // setInputsValues?.(convertArrayToObject(data));
       setInputsValues?.(data);
 
       // }
@@ -108,14 +92,6 @@ export const Filters = memo((props: FiltersProps) => {
       setInputsValues,
     ]
   );
-
-  // useEffect(() => {
-  //   console.log('********-*----*****************************************');
-
-  //   // handleInputChange(0, '');
-  // }, []);
-
-  // console.log('newDataArray ----------------', newDataArray);
 
   // function for filter and update data
   const handleFilter = useCallback(() => {
@@ -155,7 +131,6 @@ export const Filters = memo((props: FiltersProps) => {
     >
       <VStack gap="16">
         <FilterItems
-          // data={isFilter ? filterColsData : noFilterInputsData}
           data={filterColsData}
           onChange={handleInputChange}
           modalTitle={modalTitle}
