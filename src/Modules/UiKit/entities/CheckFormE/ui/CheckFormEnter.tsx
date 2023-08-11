@@ -1,8 +1,8 @@
 import { memo, useEffect } from 'react';
 import cls from './CheckFormEnter.module.scss';
 import { classNames } from 'Modules/UiKit';
-import { checkFormEnterM } from '../../../shared/globalApi/globalApi';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { checkFormEnterM } from 'shared/Globals/globalApi/globalApi';
 
 interface CheckFormEnterProps {
   className?: string;

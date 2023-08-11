@@ -1,13 +1,20 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './GridModal.module.scss';
-import { Button, Grid, HStack, Input, Modal, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  CheckFormEnterM,
+  Grid,
+  HStack,
+  Input,
+  Modal,
+  ModalHeader,
+  classNames,
+} from 'Modules/UiKit';
 import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
-import { ModalHeader } from '../../../ModalHeader';
-import { getDataPagedM } from '../../../../shared/globalApi/globalApi';
 import { Icon } from '@iconify/react';
-import { GridSort } from '../../../../shared/types/GridTypes';
-import { CheckFormEnterM } from '../../../CheckFormE';
+import { getDataPagedM } from 'shared/Globals/globalApi/globalApi';
+import { GridSort } from 'shared/Globals/types/GridTypes';
 
 interface GridModalProps {
   className?: string;

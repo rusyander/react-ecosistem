@@ -1,4 +1,7 @@
-import { GridData, GridDataTypes } from '../../../../shared/types/GridTypes';
+import {
+  GridData,
+  GridDataTypes,
+} from '../../../../../../../shared/Globals/types/GridTypes';
 
 export interface Content {
   end_date?: string;

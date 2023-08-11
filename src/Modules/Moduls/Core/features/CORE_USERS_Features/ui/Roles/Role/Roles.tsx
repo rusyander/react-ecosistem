@@ -1,10 +1,17 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Roles.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  CheckFormEnterM,
+  HStack,
+  Modal,
+  ModalHeader,
+  Texts,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { CheckFormEnterM } from 'Modules/Moduls/Core/entities/CheckFormE';
-import { ModalHeader } from 'Modules/Moduls/Core/entities/ModalHeader';
+
 import { RoleGrid } from '../RoleGrid/RoleGrid';
 
 interface RolesProps {

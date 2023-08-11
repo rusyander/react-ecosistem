@@ -7,10 +7,10 @@ import {
   classNames,
   Input,
   Modal,
+  ModalHeader,
   TreeView,
   VStack,
 } from 'Modules/UiKit';
-import { ModalHeader } from '../../../ModalHeader';
 
 interface DataElement {
   label: string;

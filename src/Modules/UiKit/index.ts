@@ -31,6 +31,9 @@ export { addQueryParams } from './shared';
 
 // entities
 export { TableRowContent } from './entities';
+export { SubmitFormFooter } from './entities';
+export { ModalHeader } from './entities';
+export { CheckFormEnterM } from './entities';
 
 // features
 export { BreadCrumbs } from './features';

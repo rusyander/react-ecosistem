@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InputsForm } from './InputsForm';
+import { InputsFields } from './InputsFields';
 import { StoreProvider } from 'app/providers/StoreProvider';
 import { Theme, ThemeProvider } from 'app/providers/ThemeProvider';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreDecorator } from 'shared/config/storybook/storeDecorator/StoreDecorator';
 
-const meta: Meta<typeof InputsForm> = {
+const meta: Meta<typeof InputsFields> = {
   title: 'shared/InputsForm',
-  component: InputsForm,
+  component: InputsFields,
   tags: ['autodocs'],
 
   decorators: [
@@ -30,7 +30,7 @@ const meta: Meta<typeof InputsForm> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof InputsForm>;
+type Story = StoryObj<typeof InputsFields>;
 
 export const Primary: Story = {
   args: {},

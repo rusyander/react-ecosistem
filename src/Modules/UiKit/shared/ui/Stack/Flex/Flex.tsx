@@ -55,7 +55,7 @@ export const Flex = (props: FlexProps) => {
     align = 'center',
     direction = 'row',
     gap,
-    max,
+    max = true,
   } = props;
 
   const classes = [

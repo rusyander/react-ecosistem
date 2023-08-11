@@ -1,13 +1,19 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Add.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  Modal,
+  ModalHeader,
+  SubmitFormFooter,
+  Texts,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { ModalHeader } from '../../../../entities/ModalHeader';
-import { Filters } from '../../../Filter';
 import { fildListAddNew } from '../../consts/const';
-import { SubmitFormFooter } from '../../../../entities/SubmitFormFooter';
 import { SaveDataM } from '../../api/saveData';
+import { InputsFields, convertArrayToObject } from 'widgets/InputsFields';
 
 interface AddProps {
   className?: string;
@@ -32,20 +38,20 @@ export const Add = memo((props: AddProps) => {
 
   // ----------------------------------
 
-  const [noFilterInputsData, setNoFilterInputsData] = useState([]);
+  // const [noFilterInputsData, setNoFilterInputsData] = useState([]);
 
-  const reconfigurateNoFilterInputsData = useCallback(() => {
-    const addNewValueFields: any = fildListAddNew.map((item: any) => {
-      return {
-        ...item,
-        value: null,
-      };
-    });
-    setNoFilterInputsData(addNewValueFields);
-  }, []);
-  useEffect(() => {
-    // reconfigurateNoFilterInputsData();
-  }, []);
+  // const reconfigurateNoFilterInputsData = useCallback(() => {
+  //   const addNewValueFields: any = fildListAddNew.map((item: any) => {
+  //     return {
+  //       ...item,
+  //       value: null,
+  //     };
+  //   });
+  //   setNoFilterInputsData(addNewValueFields);
+  // }, []);
+  // useEffect(() => {
+  //   // reconfigurateNoFilterInputsData();
+  // }, []);
 
   // ----------------------------------
   const [requiredLength, setRequiredLength] = useState(0);
@@ -54,7 +60,8 @@ export const Add = memo((props: AddProps) => {
 
   const handleSubmit = useCallback(() => {
     const data = inputsValue;
-    saveData(data);
+    const value = convertArrayToObject(inputsValue);
+    saveData(value);
     if (saveDataQ?.result === '1') {
       closeModalFunction();
     }
@@ -78,7 +85,7 @@ export const Add = memo((props: AddProps) => {
           title={t('Реквизиты пользователя') || ''}
           onClose={closeModalFunction}
         />
-        <Filters
+        <InputsFields
           className={cls.filters}
           filterData={fildListAddNew}
           modalTitle={t('Справочник')}

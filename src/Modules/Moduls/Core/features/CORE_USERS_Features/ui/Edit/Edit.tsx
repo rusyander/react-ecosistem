@@ -1,14 +1,21 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Edit.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  Modal,
+  ModalHeader,
+  SubmitFormFooter,
+  Texts,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { ModalHeader } from 'Modules/Moduls/Core/entities/ModalHeader';
-import { SubmitFormFooter } from 'Modules/Moduls/Core/entities/SubmitFormFooter';
-import { Filters } from '../../../Filter';
+
 import { fildListAddNewEdit } from '../../consts/const';
 import { GetDataM, SaveDataM } from '../../api/saveData';
-import { convertArrayToObject } from '../../../Filter/functions/arrayToObject';
+import { InputsFields, convertArrayToObject } from 'widgets/InputsFields';
+import { Filters } from 'widgets/InputsFields/ui/Filters/Filters';
 
 interface EditProps {
   className?: string;
@@ -20,25 +27,25 @@ export const Edit = memo((props: EditProps) => {
   const { t } = useTranslation('core');
   const [saveData, { data: saveDataQ }] = SaveDataM();
   // const [getData, { data: getDataQ }] = GetDataM();
-  const [getData, { data: getDataQ }] = GetDataM();
+  const [getData] = GetDataM();
   const [defaultData, setDefaultData] = useState<any>([]);
 
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [noFilterInputsData, setNoFilterInputsData] = useState([]);
+  // const [noFilterInputsData, setNoFilterInputsData] = useState([]);
 
-  const reconfigurateNoFilterInputsData = useCallback(() => {
-    const addNewValueFields: any = fildListAddNewEdit.map((item: any) => {
-      return {
-        ...item,
-        value: getDataQ?.data?.[item.token] || null,
-      };
-    });
+  // const reconfigurateNoFilterInputsData = useCallback(() => {
+  //   const addNewValueFields: any = fildListAddNewEdit.map((item: any) => {
+  //     return {
+  //       ...item,
+  //       value: getDataQ?.data?.[item.token] || null,
+  //     };
+  //   });
 
-    setNoFilterInputsData(addNewValueFields);
-  }, [getDataQ?.data]);
-  useEffect(() => {
-    reconfigurateNoFilterInputsData();
-  }, []);
+  //   setNoFilterInputsData(addNewValueFields);
+  // }, [getDataQ?.data]);
+  // useEffect(() => {
+  //   reconfigurateNoFilterInputsData();
+  // }, []);
 
   const openModalFunction = () => {
     setOpenEditModal(true);
@@ -62,36 +69,100 @@ export const Edit = memo((props: EditProps) => {
   // console.log('inputsValue-------------------', inputsValue);
   // console.log('getDataQ?.data-------------------', getDataQ?.data);
 
+  // if (defaultData) {
+  //   updateValue?.forEach((item: any) => {
+  //     if (item.fildValue === null || item.fildValue === undefined) {
+  //       item.fildValue = defaultData?.[item.fildName];
+  //     }
+  //   });
+  // }
+
+  // const handleSubmit = useCallback(() => {
+  //   const updateValue = inputsValue;
+  //   console.log(inputsValue, 'inputsValue');
+
+  //   getData(selectedField?.user_id).then((res: any) => {
+  //     updateValue?.forEach((item: any) => {
+  //       if (item.fildValue === null || item.fildValue === undefined) {
+  //         // console.log(res, 'res');
+  //         console.log(item, 'item', res?.data?.data?.[item.fildName]);
+  //         item.fildValue =
+  //           item.fildValue === null || item.fildValue === undefined
+  //             ? res?.data?.[item.fildName]
+  //             : item.fildValue;
+  //       }
+  //     });
+
+  //     const value = convertArrayToObject(updateValue);
+  //     const addUserId = { ...value, userId: selectedField?.user_id };
+  //     console.log(addUserId, 'addUserId');
+
+  //     saveData(addUserId);
+  //   });
+  //   if (saveDataQ?.result === '1') {
+  //     closeModalFunction();
+  //   }
+  // }, [
+  //   getData,
+  //   selectedField?.user_id,
+  //   inputsValue,
+  //   saveDataQ?.result,
+  //   saveData,
+  //   closeModalFunction,
+  // ]);
   const handleSubmit = useCallback(() => {
     const updateValue = inputsValue;
-    // if (defaultData) {
-    //   updateValue?.forEach((item: any) => {
-    //     if (item.fildValue === null || item.fildValue === undefined) {
-    //       item.fildValue = defaultData?.[item.fildName];
-    //     }
-    //   });
-    // }
+    const data: any = {
+      isActiveFlagCode: 'Y',
+      address: null,
+      changePasswordFlagCode: 'N',
+      endDate: null,
+      employeeIdName: null,
+      employeeId: null,
+      addInfo: 'TEST2',
+      login: 'TEST2',
+      userId: 5,
+      organizationIdName: 'Головная организация 9',
+      organizationId: 46,
+      firstLastName: 'TEST2',
+      emailAddress: '12333',
+      telefon: null,
+      fax: null,
+      startDate: '28.07.2023',
+    };
 
     getData(selectedField?.user_id).then((res: any) => {
-      updateValue?.forEach((item: any) => {
+      // if (res !== undefined) {
+      const resData = res?.data?.data;
+
+      // console.log(resData, 'resData');
+      inputsValue?.forEach((item: any) => {
         if (item.fildValue === null || item.fildValue === undefined) {
-          item.fildValue = res?.data?.[item.fildName];
+          // item.fildValue =
+          //   item.fildValue === null
+          //     ? res?.data?.[item.fildName]
+          //     : item.fildValue;
+          // item.fildValue = res.data?.[item.fildName];
+          item.fildValue = resData?.[item.fildName];
         }
       });
 
-      const value = convertArrayToObject(updateValue);
+      const value = convertArrayToObject(inputsValue);
+
       const addUserId = { ...value, userId: selectedField?.user_id };
+      console.log(addUserId, 'addUserId');
+
       saveData(addUserId);
-      // console.log('addUserId ++++++++++++++++', addUserId);
+      setInputsValue([]);
+      if (res?.data.result === '1') {
+        closeModalFunction();
+      }
+      // }
     });
-    if (saveDataQ?.result === '1') {
-      closeModalFunction();
-    }
   }, [
     getData,
     selectedField?.user_id,
     inputsValue,
-    saveDataQ?.result,
     saveData,
     closeModalFunction,
   ]);
@@ -122,10 +193,10 @@ export const Edit = memo((props: EditProps) => {
             onClose={closeModalFunction}
           />
 
-          <Filters
+          <InputsFields
             className={cls.filters}
-            // filterData={fildListAddNewEdit}
-            filterData={noFilterInputsData}
+            filterData={fildListAddNewEdit}
+            // filterData={noFilterInputsData}
             modalTitle={t('Справочник')}
             isFilter={false}
             // setInputsValues={(data: any) => console.log('setInputsValues', data)}

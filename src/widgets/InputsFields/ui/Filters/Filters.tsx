@@ -2,10 +2,11 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Filters.module.scss';
 import { Button, HStack, VStack, classNames } from 'Modules/UiKit';
-import { FilterBlock } from '../../../../shared/types/filterBlock';
-import { FilterItems } from '../../../../entities/FilterItems';
+
 import { UseFilterPayload } from '../../functions/normalizePayload';
 import { convertArrayToObject } from '../../functions/arrayToObject';
+import { FilterBlock } from 'shared/Globals/types/filterBlock';
+import { FilterItems } from 'features/FilterItems';
 
 interface FiltersProps {
   className?: string;
@@ -85,7 +86,6 @@ export const Filters = memo((props: FiltersProps) => {
     },
     [
       allRequeredLength,
-      defaultValuesData,
       filterColsData,
       isFilter,
       requiredLength,
@@ -127,7 +127,7 @@ export const Filters = memo((props: FiltersProps) => {
   return (
     <div
       className={classNames(cls.filters, {}, [className])}
-      onKeyUp={onKeyDown}
+      onKeyDown={onKeyDown}
     >
       <VStack gap="16">
         <FilterItems

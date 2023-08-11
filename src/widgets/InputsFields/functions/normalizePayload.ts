@@ -16,15 +16,24 @@ export const UseFilterPayload = (
   const changedData = updatedData.map((item) => {
     if (isFilter && item.value !== '' && item.value !== undefined) {
       const payloadDataMap = {
-        itemName: item.itemName,
-        colName: item.colName,
-        dataType: item.dataType,
-        condition: item.condition,
-        upperSign: item.upperSign,
-        likePercSign: item.likePercSign,
+        // itemName: item.itemName,
+        // colName: item.colName,
+        // dataType: item.dataType,
+        // condition: item.condition,
+        // upperSign: item.upperSign,
+        // likePercSign: item.likePercSign,
+
+        // filterGroup: 'ALL',
+        // values: item.condition === 'BETWEEN' ? item.value : [item.value],
+        itemName: item.fieldName,
+        colName: item.name,
+        dataType: item.dataTypeId,
+        condition: item.filterCondition,
+        upperSign: item.filterUpperSign,
+        likePercSign: item.filterLikePercSign,
 
         filterGroup: 'ALL',
-        values: item.condition === 'BETWEEN' ? item.value : [item.value],
+        values: item.filterCondition === 'BETWEEN' ? item.value : [item.value],
       };
       return payloadDataMap;
     }

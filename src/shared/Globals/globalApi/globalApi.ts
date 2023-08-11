@@ -1,11 +1,11 @@
 import { rtkApi } from 'shared/api/rtkApi';
 import { CheckFormEnter } from '../types/CheckForm';
-import { UserGridDataTypes } from '../../widgets/CoreUsersWidgets/model/types/coreUsersWidgets';
 import {
   GetAttrValues,
   GetTreePartDataSpr,
   GridType,
 } from '../types/GridTypes';
+import { UserGridDataTypes } from 'Modules/Moduls/Core';
 
 const CoreGlobalApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({

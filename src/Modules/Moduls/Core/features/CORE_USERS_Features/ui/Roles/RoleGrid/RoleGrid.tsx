@@ -2,12 +2,14 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './RoleGrid.module.scss';
 import { Grid, classNames } from 'Modules/UiKit';
+
+import { GridSort } from 'shared/Globals/types/GridTypes';
+import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
 import {
   getDataGridM,
   getGridDataInitM,
-} from 'Modules/Moduls/Core/shared/globalApi/globalApi';
-import { GridSort } from 'Modules/Moduls/Core/shared/types/GridTypes';
-import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
+} from 'shared/Globals/globalApi/globalApi';
+import { InputsFields } from 'widgets/InputsFields';
 
 interface RoleGridProps {
   className?: string;
@@ -120,18 +122,18 @@ export const RoleGrid = memo((props: RoleGridProps) => {
           onPaginationPageChange={onPaginationPageChange}
           totalDataCount={grid?.data?.totalElements}
           // filter form
-          // FilterFormComponents={
-          //   <Filters
-          //     getGridData={getDataGrid}
-          //     // filterData={standartInputs}
-          //     // filterData={gridDataInit?.data?.cols}
-          //     filterData={[]}
-          //     attrData={gridDataInit?.data?.attr}
-          //     modalTitle={t('Справочник')}
-          //     isFilter={true}
-          //     // setInputsValues={(data: any) => console.log('dataInputs', data)}
-          //   />
-          // }
+          FilterFormComponents={
+            <InputsFields
+              getGridData={getDataGrid}
+              // filterData={standartInputs}
+              filterData={gridDataInit?.data?.cols}
+              // filterData={[]}
+              attrData={gridDataInit?.data?.attr}
+              modalTitle={t('Справочник')}
+              isFilter={true}
+              // setInputsValues={(data: any) => console.log('dataInputs', data)}
+            />
+          }
           // sort function
           setSortFields={sortData}
           // refresh function

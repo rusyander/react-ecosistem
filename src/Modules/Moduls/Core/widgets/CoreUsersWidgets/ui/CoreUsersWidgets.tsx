@@ -1,19 +1,19 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreUsersWidgets.module.scss';
-import { Grid, classNames } from 'Modules/UiKit';
+import { CheckFormEnterM, Grid, classNames } from 'Modules/UiKit';
 
 import { useLocation } from 'react-router-dom';
 import { Add, Edit, Roles } from '../../../features/CORE_USERS_Features';
 import { filterBlock, gridCols, pageCountOptions } from '../consts/consts';
-import { GridSort } from '../../../shared/types/GridTypes';
+import { GridSort } from '../../../../../../shared/Globals/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
+
 import {
   checkFormEnterM,
   getGridDataM,
-} from '../../../shared/globalApi/globalApi';
-import { Filters } from '../../../features/Filter';
-import { CheckFormEnterM } from '../../../entities/CheckFormE';
+} from 'shared/Globals/globalApi/globalApi';
+import { InputsFields } from 'widgets/InputsFields';
 export interface CoreUsersWidgetsProps {
   className?: string;
 }
@@ -113,7 +113,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         totalDataCount={grid?.data?.totalElements}
         // filter form
         FilterFormComponents={
-          <Filters
+          <InputsFields
             getGridData={getGridData}
             // filterData={standartInputs}
             filterData={filterBlock}

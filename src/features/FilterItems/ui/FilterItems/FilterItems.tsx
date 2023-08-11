@@ -9,13 +9,14 @@ import {
   VStack,
   classNames,
 } from 'Modules/UiKit';
-import {
-  getAttrValuesM,
-  getTreePartDataSprM,
-} from '../../../../shared/globalApi/globalApi';
+
 import { $api } from 'shared/api/api';
 import { TreeViewInModal } from '../TreeViewInModal/TreeViewInModal';
 import { GridModal } from '../GridModal/GridModal';
+import {
+  getAttrValuesM,
+  getTreePartDataSprM,
+} from 'shared/Globals/globalApi/globalApi';
 
 interface FilterItemsProps {
   className?: string;
@@ -40,6 +41,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   } = props;
   const [getAttrValues, { data: dropdownDatas }] = getAttrValuesM();
   const { t } = useTranslation();
+  // console.log('data ----------------', data);
 
   // for BETWEEN
   const [between1, setBetween1] = useState('');
@@ -52,20 +54,25 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   }, [between1, between2]);
 
   //--------- For dropdown data
+  const [dropdownData, setDropdownData] = useState<any>([]);
 
   const getDropdawnData = useCallback(() => {
     data?.forEach((item: any) => {
-      if (item.displayType === 'L') {
-        getAttrValues(item?.attrCode);
+      if (item.filterDisplayTypeCode === 'L') {
+        // getAttrValues(item?.attrCode);
+        getAttrValues(item?.filterAttributeCode).then((res: any) => {
+          setDropdownData(res?.data?.data);
+        });
+        // setDropdownData(dropdownDatas?.data);
       }
     });
   }, [data, getAttrValues]);
 
   useEffect(() => {
-    // if (isFilter) {
     getDropdawnData();
-    // }
-  }, [getDropdawnData, isFilter]);
+  }, [getDropdawnData]);
+
+  // console.log('attrData', attrData);
 
   // ---------------------------------------------------------- For tree data
 
@@ -163,70 +170,70 @@ export const FilterItems = memo((props: FilterItemsProps) => {
           <div key={index}>
             {/* errorData */}
             {isFilter ? (
-              <VStack className={cls.inputFilds}>
-                {inputs?.displayType === 'F' &&
-                  inputs?.condition !== 'BETWEEN' &&
-                  inputs?.dataType !== 4 && (
-                    <VStack gap="8">
+              <VStack max className={cls.inputFilds}>
+                {inputs?.filterDisplayTypeCode === 'F' &&
+                  inputs?.filterCondition !== 'BETWEEN' &&
+                  inputs?.dataTypeId !== 4 && (
+                    <VStack max gap="8">
                       <Input
                         onChange={(value) => onChange(index, value)}
                         value={inputs?.value}
                         isLabel
-                        label={t(inputs?.colName)}
+                        label={t(inputs?.name)}
                         className={cls.input}
-                        placeholder={t(inputs?.colName)}
+                        placeholder={t(inputs?.name)}
                       />
                     </VStack>
                   )}
 
                 <p>{errorData?.field}</p>
 
-                {inputs?.displayType === 'F' &&
-                  inputs?.condition === 'BETWEEN' && (
-                    <VStack>
+                {inputs?.filterDisplayTypeCode === 'F' &&
+                  inputs?.filterCondition === 'BETWEEN' && (
+                    <VStack max>
                       <Input
                         onChange={(value) => setBetween1(value)}
                         onClick={() => setBetweenIndex(index)}
                         value={between1}
                         isLabel
-                        label={t(inputs?.colName)}
+                        label={t(inputs?.name)}
                         className={cls.input}
-                        placeholder={t(inputs?.colName)}
+                        placeholder={t(inputs?.name)}
                       />
                       <Input
                         onChange={(value) => setBetween2(value)}
                         onClick={() => setBetweenIndex(index)}
                         value={between2}
                         isLabel
-                        label={t(inputs?.colName)}
+                        label={t(inputs?.name)}
                         className={cls.input}
-                        placeholder={t(inputs?.colName)}
+                        placeholder={t(inputs?.name)}
                       />
                     </VStack>
                   )}
-                {inputs?.displayType === 'L' && (
-                  <VStack className={cls.input}>
-                    <label htmlFor="">{t(inputs?.colName)}</label>
+                {inputs?.filterDisplayTypeCode === 'L' && (
+                  <VStack max className={cls.input}>
+                    <label htmlFor="">{t(inputs?.name)}</label>
                     <ListBox
-                      defaultValue={t(inputs?.colName)}
+                      defaultValue={t(inputs?.value)}
                       onChange={(value) => {
                         setDropdawnValue(value);
                         onChange(index, value.code);
                       }}
                       value={dropdawnValue}
-                      // items={options || []}
-                      items={dropdownDatas?.data[inputs?.attrCode] || []}
+                      // items={attrData?.[inputs?.filterAttributeCode] || []}
+                      items={dropdownData?.[inputs?.filterAttributeCode] || []}
                     />
                   </VStack>
                 )}
 
-                {inputs?.displayType === 'FB' && (
-                  <VStack className={cls.input}>
-                    <label htmlFor="">{t(inputs?.colName)}</label>
+                {inputs?.filterDisplayTypeCode === 'FB' && (
+                  <VStack max className={cls.input}>
+                    <label htmlFor="">{t(inputs?.name)}</label>
                     <TreeViewInModal
                       data={treeData}
                       selectTreeItems={(value: any) => setSelectTree(value)}
-                      placeholder={t(inputs?.colName)}
+                      placeholder={t(inputs?.name)}
                       valueData={inputs?.value}
                       index={index}
                       onChange={onChange}
@@ -238,7 +245,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   </VStack>
                 )}
 
-                {inputs?.displayType === 'CH' && (
+                {inputs?.filterDisplayTypeCode === 'CH' && (
                   <VStack max align="start" className={cls.input}>
                     <HStack>{inputs?.name}</HStack>
                     <label className={cls.checkbox}>
@@ -256,24 +263,25 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   </VStack>
                 )}
 
-                {inputs?.displayType === 'F' && inputs?.dataType === 4 && (
-                  <Input
-                    onChange={(value) => onChange(index, value)}
-                    value={inputs?.value}
-                    isLabel
-                    type="date"
-                    form="dd.MM.yyyy"
-                    data-slots="dmy"
-                    pattern="\d{4}-\d{2}-\d{2}"
-                    label={inputs?.name}
-                    className={cls.input}
-                    placeholder={inputs?.name}
-                    requered={inputs?.isNullableFlag === 'N' ? true : false}
-                    style={{ width: inputs?.widthItem }}
-                  />
-                )}
+                {inputs?.filterDisplayTypeCode === 'F' &&
+                  inputs?.dataTypeId === 4 && (
+                    <Input
+                      onChange={(value) => onChange(index, value)}
+                      value={inputs?.value}
+                      isLabel
+                      type="date"
+                      form="dd.MM.yyyy"
+                      data-slots="dmy"
+                      pattern="\d{4}-\d{2}-\d{2}"
+                      label={inputs?.name}
+                      className={cls.input}
+                      placeholder={inputs?.name}
+                      requered={inputs?.isNullableFlag === 'N' ? true : false}
+                      style={{ width: inputs?.widthItem }}
+                    />
+                  )}
 
-                {inputs?.displayType === 'DQ' && (
+                {inputs?.filterDisplayTypeCode === 'DQ' && (
                   <VStack className={cls.input}>
                     <label htmlFor="">
                       {inputs?.name}
@@ -283,7 +291,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     </label>
                     <GridModal
                       selectTreeItems={(value: any) => setSelectGrid(value)}
-                      placeholder={t(inputs?.colName)}
+                      placeholder={t(inputs?.name)}
                       index={index}
                       onChange={onChange}
                       modalTitle={props.modalTitle}
@@ -302,11 +310,17 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
+                        // value={
+                        //   !inputs?.value
+                        //     ? defaultValuesData?.data?.[inputs?.token]
+                        //     : inputs?.value
+                        // }
                         value={
-                          !inputs?.value
+                          defaultValuesData?.data?.[inputs?.token]
                             ? defaultValuesData?.data?.[inputs?.token]
                             : inputs?.value
                         }
+                        // value={inputs?.value}
                         isLabel
                         label={inputs?.name}
                         className={cls.input}
@@ -330,11 +344,19 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
+                        // value={
+                        //   inputs?.value
+                        //     ? inputs?.value
+                        //     : defaultValuesData?.data?.[inputs?.token]
+                        // }
                         value={
-                          inputs?.value
+                          defaultValuesData?.data?.[inputs?.token]
+                            ? defaultValuesData?.data?.[inputs?.token]
+                            : inputs?.value
                             ? inputs?.value
-                            : defaultValuesData?.data?.[inputs?.token]
+                            : ''
                         }
+                        // value={inputs?.value}
                         maxLength={inputs?.maxlength}
                         isLabel
                         label={inputs?.name}
@@ -343,6 +365,9 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                         style={{ width: inputs?.widthItem }}
                       />
+                      {/* {inputs?.value} ---
+                      {inputs?.name} ----
+                      {defaultValuesData?.data?.[inputs?.token]} */}
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
@@ -357,11 +382,17 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start" justify="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
+                        // value={
+                        //   !inputs?.value
+                        //     ? defaultValuesData?.data?.[inputs?.token]
+                        //     : inputs?.value
+                        // }
                         value={
-                          !inputs?.value
+                          defaultValuesData?.data?.[inputs?.token]
                             ? defaultValuesData?.data?.[inputs?.token]
                             : inputs?.value
                         }
+                        // value={inputs?.value}
                         isLabel
                         label={inputs?.name}
                         placeholder={inputs?.name}
@@ -530,17 +561,27 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                             ? inputs?.value?.split('.').reverse().join('.')
                             : ''
                         }
+                        // value={defaultValuesData?.data?.[inputs?.token]
+                        //   .split('.')
+                        //   .reverse()
+                        //   .join('.')}
                         isLabel
                         type="date"
-                        form="dd.MM.yyyy"
-                        data-slots="dmy"
+                        // form="dd.MM.yyyy"
+                        // data-slots="dmy"
                         maxLength={10}
-                        pattern="\d{4}-\d{2}-\d{2}"
+                        // pattern="\d{4}-\d{2}-\d{2}"
                         label={inputs?.name}
                         className={cls.input}
                         placeholder={inputs?.name}
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                       />
+                      {/* {inputs?.value} ---
+                      {defaultValuesData?.data?.[inputs?.token]} --- */}
+                      {/* {defaultValuesData?.data?.[inputs?.token]
+                        .split('.')
+                        .reverse()
+                        .join('.')} */}
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
