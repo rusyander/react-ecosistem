@@ -82,6 +82,8 @@ export const Filters = memo((props: FiltersProps) => {
       // setInputsValues?.(convertArrayToObject(data));
       setInputsValues?.(data);
 
+      // console.log('data-------------------', data);
+
       // }
     },
     [

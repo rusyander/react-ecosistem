@@ -62,98 +62,31 @@ export const Edit = memo((props: EditProps) => {
   // ----------------------------------
   const [requiredLength, setRequiredLength] = useState(0);
   const [allRequeredLength, setAllRequeredLength] = useState(0);
-  const [inputsValue, setInputsValue] = useState([]);
+  const [inputsValue, setInputsValue]: any = useState([]);
 
-  // console.log('requiredLength-------------------', requiredLength);
-  // console.log('allRequeredLength-------------------', allRequeredLength);
-  // console.log('inputsValue-------------------', inputsValue);
-  // console.log('getDataQ?.data-------------------', getDataQ?.data);
-
-  // if (defaultData) {
-  //   updateValue?.forEach((item: any) => {
-  //     if (item.fildValue === null || item.fildValue === undefined) {
-  //       item.fildValue = defaultData?.[item.fildName];
-  //     }
-  //   });
-  // }
-
-  // const handleSubmit = useCallback(() => {
-  //   const updateValue = inputsValue;
-  //   console.log(inputsValue, 'inputsValue');
-
-  //   getData(selectedField?.user_id).then((res: any) => {
-  //     updateValue?.forEach((item: any) => {
-  //       if (item.fildValue === null || item.fildValue === undefined) {
-  //         // console.log(res, 'res');
-  //         console.log(item, 'item', res?.data?.data?.[item.fildName]);
-  //         item.fildValue =
-  //           item.fildValue === null || item.fildValue === undefined
-  //             ? res?.data?.[item.fildName]
-  //             : item.fildValue;
-  //       }
-  //     });
-
-  //     const value = convertArrayToObject(updateValue);
-  //     const addUserId = { ...value, userId: selectedField?.user_id };
-  //     console.log(addUserId, 'addUserId');
-
-  //     saveData(addUserId);
-  //   });
-  //   if (saveDataQ?.result === '1') {
-  //     closeModalFunction();
-  //   }
-  // }, [
-  //   getData,
-  //   selectedField?.user_id,
-  //   inputsValue,
-  //   saveDataQ?.result,
-  //   saveData,
-  //   closeModalFunction,
-  // ]);
   const handleSubmit = useCallback(() => {
     const updateValue = inputsValue;
-    const data: any = {
-      isActiveFlagCode: 'Y',
-      address: null,
-      changePasswordFlagCode: 'N',
-      endDate: null,
-      employeeIdName: null,
-      employeeId: null,
-      addInfo: 'TEST2',
-      login: 'TEST2',
-      userId: 5,
-      organizationIdName: 'Головная организация 9',
-      organizationId: 46,
-      firstLastName: 'TEST2',
-      emailAddress: '12333',
-      telefon: null,
-      fax: null,
-      startDate: '28.07.2023',
-    };
 
     getData(selectedField?.user_id).then((res: any) => {
       // if (res !== undefined) {
       const resData = res?.data?.data;
 
       // console.log(resData, 'resData');
-      inputsValue?.forEach((item: any) => {
+      updateValue?.forEach((item: any) => {
         if (item.fildValue === null || item.fildValue === undefined) {
-          // item.fildValue =
-          //   item.fildValue === null
-          //     ? res?.data?.[item.fildName]
-          //     : item.fildValue;
-          // item.fildValue = res.data?.[item.fildName];
           item.fildValue = resData?.[item.fildName];
         }
       });
 
-      const value = convertArrayToObject(inputsValue);
+      const value = convertArrayToObject(updateValue);
 
       const addUserId = { ...value, userId: selectedField?.user_id };
       console.log(addUserId, 'addUserId');
 
       saveData(addUserId);
       setInputsValue([]);
+      console.log('updateValue', updateValue);
+
       if (res?.data.result === '1') {
         closeModalFunction();
       }
@@ -166,10 +99,6 @@ export const Edit = memo((props: EditProps) => {
     saveData,
     closeModalFunction,
   ]);
-
-  const seee = () => {
-    // console.log('*********************', getDataQ?.data);
-  };
 
   return (
     <div className={classNames(cls.edit, {}, [className])}>
@@ -240,3 +169,21 @@ export const Edit = memo((props: EditProps) => {
 //   },
 //   "comments": null
 // }
+// const data: any = {
+//   isActiveFlagCode: 'Y',
+//   address: null,
+//   changePasswordFlagCode: 'N',
+//   endDate: null,
+//   employeeIdName: null,
+//   employeeId: null,
+//   addInfo: 'TEST2',
+//   login: 'TEST2',
+//   userId: 5,
+//   organizationIdName: 'Головная организация 9',
+//   organizationId: 46,
+//   firstLastName: 'TEST2',
+//   emailAddress: '12333',
+//   telefon: null,
+//   fax: null,
+//   startDate: '28.07.2023',
+// };
