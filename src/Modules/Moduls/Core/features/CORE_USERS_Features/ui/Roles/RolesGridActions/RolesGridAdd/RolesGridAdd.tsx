@@ -1,15 +1,15 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import cls from './Add.module.scss';
+import cls from './RolesGridAdd.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { AddModalContent } from '../AddModalContent/AddModalContent';
+import { RolesGridAddModalContent } from '../RolesGridAddModalContent/RolesGridAddModalContent';
 
-interface AddProps {
+interface RolesGridAddProps {
   className?: string;
 }
 
-export const Add = memo((props: AddProps) => {
+export const RolesGridAdd = memo((props: RolesGridAddProps) => {
   const { className } = props;
   const { t } = useTranslation('core');
 
@@ -24,7 +24,7 @@ export const Add = memo((props: AddProps) => {
   }, [setOpenAddModal]);
 
   return (
-    <div className={classNames(cls.add, {}, [className])}>
+    <div className={classNames(cls.rolesGridAdd, {}, [className])}>
       <Button
         onClick={openModalFunction}
         theme="background"
@@ -36,9 +36,14 @@ export const Add = memo((props: AddProps) => {
         </HStack>
       </Button>
 
-      <Modal isOpen={openAddModal} onClose={closeModalFunction} lazy>
+      <Modal
+        isOpen={openAddModal}
+        zIndex={113}
+        onClose={closeModalFunction}
+        lazy
+      >
         {openAddModal && (
-          <AddModalContent closeModalFunction={closeModalFunction} />
+          <RolesGridAddModalContent closeModalFunction={closeModalFunction} />
         )}
       </Modal>
     </div>

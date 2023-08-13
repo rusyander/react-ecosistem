@@ -3,68 +3,49 @@ export const UseFilterPayload = (
   setUpdateData: any,
   index: number,
   value: string,
-  isFilter?: boolean,
-  requiredLength?: (length: any) => void,
-  allRequeredLength?: (length: any) => void
+  isFilter?: boolean
 ) => {
   const updatedData = [...data];
   updatedData[index] = { ...updatedData[index], value };
   setUpdateData(updatedData);
-  const isRequiredList: any = [];
-  let allRequireNumber: any = 0;
 
   const changedData = updatedData.map((item) => {
     if (isFilter && item.value !== '' && item.value !== undefined) {
-      const payloadDataMap = {
-        // itemName: item.itemName,
-        // colName: item.colName,
-        // dataType: item.dataType,
-        // condition: item.condition,
-        // upperSign: item.upperSign,
-        // likePercSign: item.likePercSign,
+      if (item.filterUpperSign && item.filterLikePercSign) {
+        const payloadDataMap = {
+          itemName: item.fieldName,
+          colName: item.name,
+          dataType: item.dataTypeId,
+          condition: item.filterCondition,
+          upperSign: item.filterUpperSign,
+          likePercSign: item.filterLikePercSign,
 
-        // filterGroup: 'ALL',
-        // values: item.condition === 'BETWEEN' ? item.value : [item.value],
-        itemName: item.fieldName,
-        colName: item.name,
-        dataType: item.dataTypeId,
-        condition: item.filterCondition,
-        upperSign: item.filterUpperSign,
-        likePercSign: item.filterLikePercSign,
+          filterGroup: 'ALL',
+          values:
+            item.filterCondition === 'BETWEEN' ? item.value : [item.value],
+        };
+        return payloadDataMap;
+      } else {
+        const payloadDataMap = {
+          itemName: item.fieldName,
+          colName: item.filterColName,
+          dataType: item.dataTypeId,
+          condition: item.filterCondition,
+          upperSign: 'NONE',
+          likePercSign: 'NONE',
 
-        filterGroup: 'ALL',
-        values: item.filterCondition === 'BETWEEN' ? item.value : [item.value],
-      };
-      return payloadDataMap;
+          filterGroup: 'ALL',
+          values:
+            item.filterCondition === 'BETWEEN' ? item.value : [item.value],
+        };
+        return payloadDataMap;
+      }
     }
     if (!isFilter) {
       const payloadDataMap = {
         fildName: item.token,
         fildValue: item?.value,
-        // fildValue: !item?.value
-        //   ? defaultValuesData?.data?.[item.token]
-        //   : item?.value,
       };
-
-      if (item.isNullableFlag === 'N') {
-        allRequireNumber += 1;
-      }
-
-      // if (
-      //   item.isNullableFlag === 'N' &&
-      //   item.value !== '' &&
-      //   item.value !== undefined &&
-      //   item.value !== null
-      // ) {
-      //   isRequiredList.push(item.token);
-      //   const uniqueRequiredToken = [...new Set(isRequiredList)];
-      //   requiredLength?.(uniqueRequiredToken.length);
-      //   allRequeredLength?.(allRequireNumber);
-      //   return payloadDataMap;
-      // }
-      // if (item.isNullableFlag !== 'N') {
-      //   return payloadDataMap;
-      // }
       return payloadDataMap;
     }
     return undefined;

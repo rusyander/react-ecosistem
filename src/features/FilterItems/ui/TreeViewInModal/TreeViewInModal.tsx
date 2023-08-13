@@ -130,7 +130,7 @@ export const TreeViewInModal = memo(
           />
         </div>
         <Modal
-          zIndex={100}
+          zIndex={1000}
           isOpen={hasOpenModal}
           lazy
           onClose={OnClickCloseModal}

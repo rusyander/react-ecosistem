@@ -7,11 +7,10 @@ interface InputsFieldsProps {
   filterData?: any;
   modalTitle?: string;
   isFilter?: boolean;
+  payloadData?: any;
   // if not filter
   setInputsValues?: (data: any) => void;
   attrData?: any;
-  requiredLength?: (length: number) => void;
-  allRequeredLength?: (length: number) => void;
   errorData?: any;
   defaultValuesData?: any;
 }
@@ -24,25 +23,15 @@ export const InputsFields = memo((props: InputsFieldsProps) => {
     getGridData,
     isFilter,
     modalTitle,
-    requiredLength,
     setInputsValues,
-    allRequeredLength,
     defaultValuesData,
     errorData,
+    payloadData,
   } = props;
 
   const [noFilterInputsData, setNoFilterInputsData] = useState(null);
-  // console.log(defaultValuesData, 'defaultValuesData');
 
   const reconfigurateNoFilterInputsData = useCallback(() => {
-    // const addNewValueFields: any = filterData?.map((item: any) => {
-    //   return {
-    //     ...item,
-    //     // value: getDataQ?.data?.[item.token] || null,
-    //     value: null,
-    //   };
-    // });
-
     const addNewValueFields: any = filterData?.map((item: any) => {
       return {
         ...item,
@@ -59,26 +48,23 @@ export const InputsFields = memo((props: InputsFieldsProps) => {
   }, [reconfigurateNoFilterInputsData]);
 
   return (
-    <div>
+    <>
       {noFilterInputsData !== null && (
         <Filters
           className={className}
           getGridData={getGridData}
           filterData={isFilter ? filterData : noFilterInputsData}
-          // filterData={filterData}
-          // filterData={noFilterInputsData}
           modalTitle={modalTitle}
           isFilter={isFilter}
+          payloadData={payloadData}
           // if not filter
           setInputsValues={setInputsValues}
           attrData={attrData}
-          requiredLength={requiredLength}
-          allRequeredLength={allRequeredLength}
           defaultValuesData={defaultValuesData}
           errorData={errorData}
         />
       )}
       {noFilterInputsData === null && <h1>no data</h1>}
-    </div>
+    </>
   );
 });

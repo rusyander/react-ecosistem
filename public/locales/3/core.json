@@ -14,7 +14,11 @@
 
   "e.organizationId": "Organization",
   "e.roles": "Roles",
-  "Реквизиты пользователя": "User details"
+  "Реквизиты пользователя": "User details",
+
+  "Реквизиты пользовательской роли": "User role details",
+  "Удалить": "Delete",
+  "Отмена": "Cancel"
 }
 // "Применить": "Apply",
 // "Очистить": "Clear",

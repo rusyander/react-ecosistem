@@ -4,7 +4,6 @@ import cls from './Filters.module.scss';
 import { Button, HStack, VStack, classNames } from 'Modules/UiKit';
 
 import { UseFilterPayload } from '../../functions/normalizePayload';
-import { convertArrayToObject } from '../../functions/arrayToObject';
 import { FilterBlock } from 'shared/Globals/types/filterBlock';
 import { FilterItems } from 'features/FilterItems';
 
@@ -17,10 +16,9 @@ interface FiltersProps {
   // if not filter
   setInputsValues?: (data: any) => void;
   attrData?: any;
-  requiredLength?: (length: number) => void;
-  allRequeredLength?: (length: number) => void;
   errorData?: any;
   defaultValuesData?: any;
+  payloadData?: any;
 }
 
 export const Filters = memo((props: FiltersProps) => {
@@ -32,10 +30,9 @@ export const Filters = memo((props: FiltersProps) => {
     isFilter = true,
     setInputsValues,
     attrData,
-    requiredLength,
-    allRequeredLength,
     errorData,
     defaultValuesData,
+    payloadData,
   } = props;
   const { t } = useTranslation();
 
@@ -47,18 +44,41 @@ export const Filters = memo((props: FiltersProps) => {
     undefined
   );
 
+  // payloadData
+
   // filter payload
-  const newFilterPayload = useMemo(
-    () => ({
-      filter: newDataArray,
-      pageNumber: 1,
-      pageSize: 100,
-      params: null,
-      sort: [],
-      totalCount: null,
-    }),
-    [newDataArray]
-  );
+  // const newFilterPayload = useMemo(
+  //   () => ({
+  //     filter: newDataArray,
+  //     pageNumber: 1,
+  //     pageSize: 100,
+  //     params: null,
+  //     sort: [],
+  //     totalCount: null,
+  //   }),
+  //   [newDataArray]
+  // );
+  // const newFilterPayload = useMemo(
+  //   () => ({ ...payloadData, filter: newDataArray }),
+  //   [newDataArray, payloadData]
+  // );
+  const newFilterPayload = useMemo(() => {
+    if (isFilter) {
+      if (payloadData.filter !== undefined) {
+        return { ...payloadData, filter: newDataArray };
+      } else {
+        const updatedGridRequest = {
+          ...payloadData.gridRequest,
+          filter: newDataArray,
+        };
+
+        return {
+          ...payloadData,
+          gridRequest: updatedGridRequest,
+        };
+      }
+    }
+  }, [isFilter, newDataArray, payloadData]);
 
   // function for input change and update data
   const handleInputChange = useCallback(
@@ -68,31 +88,14 @@ export const Filters = memo((props: FiltersProps) => {
         setFilterColsData,
         index,
         value,
-        isFilter,
-        requiredLength,
-        allRequeredLength
+        isFilter
       );
       if (isFilter) {
         setNewDataArray(data as any);
       }
-
-      // if (!isFilter) {
-      // console.log('data-------------------', data);
-
-      // setInputsValues?.(convertArrayToObject(data));
       setInputsValues?.(data);
-
-      // console.log('data-------------------', data);
-
-      // }
     },
-    [
-      allRequeredLength,
-      filterColsData,
-      isFilter,
-      requiredLength,
-      setInputsValues,
-    ]
+    [filterColsData, isFilter, setInputsValues]
   );
 
   // function for filter and update data
@@ -111,7 +114,6 @@ export const Filters = memo((props: FiltersProps) => {
   const onKeyDown = useCallback(
     (e: KeyboardEvent | any) => {
       if (e.key === 'Enter') {
-        console.log('onKeyDown');
         handleFilter();
       }
     },

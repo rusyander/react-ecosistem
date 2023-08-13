@@ -77,3 +77,9 @@ body {
 .col-4 {
   flex-basis: 33.33%; /* Элемент занимает 1/3 ширины строки */
 }
+
+// ----
+.formContent {
+  max-height: 600px;
+  overflow-y: auto;
+}

@@ -1,18 +1,9 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Roles.module.scss';
-import {
-  Button,
-  CheckFormEnterM,
-  HStack,
-  Modal,
-  ModalHeader,
-  Texts,
-  classNames,
-} from 'Modules/UiKit';
+import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-
-import { RoleGrid } from '../RoleGrid/RoleGrid';
+import { RoleModalContent } from '../RoleModalContent/RoleModalContent';
 
 interface RolesProps {
   className?: string;
@@ -46,12 +37,9 @@ export const Roles = memo((props: RolesProps) => {
       </Button>
 
       <Modal isOpen={openRoleModal} onClose={closeModalFunction} lazy>
-        <CheckFormEnterM checkFormEnterName="CORE_USER_ROLES" />
-        <ModalHeader
-          title={t('Роли пользователя') || ''}
-          onClose={closeModalFunction}
-        />
-        <RoleGrid />
+        {openRoleModal && (
+          <RoleModalContent closeModalFunction={closeModalFunction} />
+        )}
       </Modal>
     </div>
   );

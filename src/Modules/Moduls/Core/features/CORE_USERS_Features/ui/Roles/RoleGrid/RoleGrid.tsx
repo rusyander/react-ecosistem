@@ -10,14 +10,19 @@ import {
   getGridDataInitM,
 } from 'shared/Globals/globalApi/globalApi';
 import { InputsFields } from 'widgets/InputsFields';
+import { RolesGridAdd } from '../RolesGridActions/RolesGridAdd/RolesGridAdd';
+import { RolesGridEdit } from '../RolesGridActions/RolesGridEdit/RolesGridEdit';
+import { RolesGridDelete } from '../RolesGridActions/RolesGridDelete/RolesGridDelete';
+import { RolesCancel } from '../RolesGridActions/RolesCancel/RolesCancel';
 
 interface RoleGridProps {
   className?: string;
+  closeModalFunction?: () => void;
 }
 
 export const RoleGrid = memo((props: RoleGridProps) => {
-  const { className } = props;
-  const { t } = useTranslation();
+  const { className, closeModalFunction } = props;
+  const { t } = useTranslation('core');
   const [getDataGrid, { data: grid, isLoading }] = getDataGridM();
   const [
     getGridDataInit,
@@ -59,7 +64,7 @@ export const RoleGrid = memo((props: RoleGridProps) => {
         pageNumber: currentPageNumber ?? 1,
         pageSize: pageLimit ?? 100,
         sort: [],
-        params: [5],
+        params: [1],
         totalCount: totalCount ?? 0,
       },
     };
@@ -104,6 +109,21 @@ export const RoleGrid = memo((props: RoleGridProps) => {
     [currentPageNumber, getDataGrid, pageLimit, totalCount]
   );
 
+  const inputFoldsPayload = useMemo(
+    () => ({
+      gridCode: 'CORE_USER_ROLES',
+      gridRequest: {
+        params: [1],
+        pageNumber: 1,
+        pageSize: 100,
+        totalCount: null,
+        sort: [],
+        filter: null,
+      },
+    }),
+    []
+  );
+
   return (
     <div className={classNames(cls.roleGrid, {}, [className])}>
       {gridDataInit && (
@@ -125,13 +145,11 @@ export const RoleGrid = memo((props: RoleGridProps) => {
           FilterFormComponents={
             <InputsFields
               getGridData={getDataGrid}
-              // filterData={standartInputs}
               filterData={gridDataInit?.data?.cols}
-              // filterData={[]}
+              payloadData={inputFoldsPayload}
               attrData={gridDataInit?.data?.attr}
               modalTitle={t('Справочник')}
               isFilter={true}
-              // setInputsValues={(data: any) => console.log('dataInputs', data)}
             />
           }
           // sort function
@@ -139,11 +157,12 @@ export const RoleGrid = memo((props: RoleGridProps) => {
           // refresh function
           onRefresh={refreshButtonFunction}
           // new button
-          // AddNewButtonComponents={[
-          //   <Add key={1} />,
-          //   <Edit key={2} selectedField={selected} />,
-          //   <Roles key={3} />,
-          // ]}
+          AddNewButtonComponents={[
+            <RolesGridAdd key={1} />,
+            <RolesGridEdit key={2} selectedField={selected} />,
+            <RolesGridDelete key={3} selectedField={selected} />,
+            <RolesCancel key={4} closeModalFunction={closeModalFunction} />,
+          ]}
           // loading
           isLoading={isLoading}
           // optional components

@@ -48,7 +48,8 @@ export const FilterBlock = memo((props: FilterBlockProps) => {
         />
       </HStack>
       {/* <FilterFormComponents /> */}
-      {FilterFormComponents}
+
+      {canOpenFilter && FilterFormComponents}
     </div>
   );
 });

@@ -186,7 +186,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     </VStack>
                   )}
 
-                <p>{errorData?.field}</p>
+                {/* <p>{errorData?.field}</p> */}
 
                 {inputs?.filterDisplayTypeCode === 'F' &&
                   inputs?.filterCondition === 'BETWEEN' && (
@@ -301,6 +301,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
               </VStack>
             ) : (
               // -------------------------------------------
+
               <VStack max>
                 {inputs?.displayTypeCode === 'F' &&
                   inputs?.token !== 'password' &&
@@ -398,6 +399,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         placeholder={inputs?.name}
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                       />
+
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
@@ -446,19 +448,29 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.displayTypeCode === 'L' && (
                   <VStack max>
                     <VStack max className={cls.input}>
-                      <HStack max>
+                      <HStack>
                         {inputs?.name}
-                        {inputs?.isNullableFlag === 'N'
-                          ? true
-                          : false && <sup className={cls.required}>*</sup>}
+                        {inputs?.isNullableFlag === 'N' && (
+                          <sup className={cls.required}>*</sup>
+                        )}
                       </HStack>
                       <ListBox
-                        defaultValue={t(inputs?.value)}
+                        // defaultValue={t(inputs?.value)}
+                        defaultValue={
+                          inputs?.value
+                            ? t(inputs?.value)
+                            : inputs?.defValData?.name
+                            ? inputs?.defValData?.name
+                            : defaultValuesData?.data?.roleCodeName
+                          // : defaultValuesData?.data?.[inputs?.token]
+                        }
                         onChange={(value) => {
                           setDropdawnValue(value);
                           onChange(index, value.code);
                         }}
-                        value={dropdawnValue}
+                        value={
+                          dropdawnValue ? dropdawnValue : inputs?.defValData
+                        }
                         items={attrData?.[inputs?.attributeCode] || []}
                       />
                     </VStack>
@@ -474,7 +486,13 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.displayTypeCode === 'FB' && (
                   <VStack max>
                     <VStack max className={cls.input}>
-                      <HStack max>
+                      {/* <HStack max>
+                        {inputs?.name}
+                        {inputs?.isNullableFlag === 'N' && (
+                          <sup className={cls.required}>*</sup>
+                        )}
+                      </HStack> */}
+                      <HStack>
                         {inputs?.name}
                         {inputs?.isNullableFlag === 'N' && (
                           <sup className={cls.required}>*</sup>
@@ -525,7 +543,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                             )
                           }
                         />
-                        <span></span>
                       </label>
                     </VStack>
                     {JSON.stringify(errorData)?.includes(inputs?.token) && (
@@ -594,12 +611,18 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.displayTypeCode === 'DQ' && (
                   <VStack max>
                     <VStack className={cls.input} max>
-                      <label htmlFor="">
+                      {/* <label htmlFor="">
                         {inputs?.name}
                         {inputs?.isNullableFlag === 'N' && (
                           <sup className={cls.required}>*</sup>
                         )}
-                      </label>
+                      </label> */}
+                      <HStack>
+                        {inputs?.name}
+                        {inputs?.isNullableFlag === 'N' && (
+                          <sup className={cls.required}>*</sup>
+                        )}
+                      </HStack>
                       <GridModal
                         selectTreeItems={(value: any) => setSelectGrid(value)}
                         placeholder={t(inputs?.colName)}

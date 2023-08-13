@@ -3,16 +3,11 @@ import { useTranslation } from 'react-i18next';
 import cls from './CoreUsersWidgets.module.scss';
 import { CheckFormEnterM, Grid, classNames } from 'Modules/UiKit';
 
-import { useLocation } from 'react-router-dom';
 import { Add, Edit, Roles } from '../../../features/CORE_USERS_Features';
 import { filterBlock, gridCols, pageCountOptions } from '../consts/consts';
 import { GridSort } from '../../../../../../shared/Globals/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
-
-import {
-  checkFormEnterM,
-  getGridDataM,
-} from 'shared/Globals/globalApi/globalApi';
+import { getGridDataM } from 'shared/Globals/globalApi/globalApi';
 import { InputsFields } from 'widgets/InputsFields';
 export interface CoreUsersWidgetsProps {
   className?: string;
@@ -31,9 +26,8 @@ const ModalContents = () => {
 
 export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
   const { t } = useTranslation('core');
-  const locations = useLocation();
-  const [checkFormEnter] = checkFormEnterM();
   const [getGridData, { data: grid, isLoading }] = getGridDataM();
+  const [showFilters, setShowFilters] = useState(false);
 
   const [selected, setSelected] = useState(null);
   const [totalCount, setTotalCount] = useState<number | null>(null);
@@ -94,6 +88,18 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
 
   // console.log('grid+++++++++++++++++', grid);
 
+  const inputFoldsPayload = useMemo(
+    () => ({
+      filter: null,
+      pageNumber: 1,
+      pageSize: 100,
+      params: null,
+      sort: [],
+      totalCount: null,
+    }),
+    []
+  );
+
   return (
     <div className={classNames(cls.coreUsersWidgets, {}, [className])}>
       <CheckFormEnterM />
@@ -104,7 +110,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         // for grid height
         gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
         // for modal
-        ModalContent={ModalContents}
+        // ModalContent={ModalContents}
         selectedFields={(selected: any) => setSelected(selected)}
         // pagination
         pageCountOptions={pageCountOptions}
@@ -115,6 +121,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         FilterFormComponents={
           <InputsFields
             getGridData={getGridData}
+            payloadData={inputFoldsPayload}
             // filterData={standartInputs}
             filterData={filterBlock}
             modalTitle={t('Справочник')}

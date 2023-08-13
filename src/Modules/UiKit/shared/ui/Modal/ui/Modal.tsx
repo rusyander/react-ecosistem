@@ -19,6 +19,7 @@ interface ModalProps {
   lazy?: boolean;
   zIndex?: number;
   isGrid?: boolean;
+  width?: number;
 }
 
 const ANIMATION_DELAY = 200;
@@ -32,6 +33,7 @@ export const Modal = (props: ModalProps) => {
     lazy,
     zIndex = 10,
     isGrid = false,
+    width = 950,
   } = props;
 
   const [isClosing, setIsClosing] = useState(false);
@@ -108,6 +110,7 @@ export const Modal = (props: ModalProps) => {
             className={classNames('', {}, [
               isGrid ? cls.contentGrid : cls.content,
             ])}
+            // style={{ width: width }}
             onClick={onContentClick}
           >
             {/* <Button
