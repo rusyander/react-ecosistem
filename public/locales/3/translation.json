@@ -62,5 +62,7 @@
   "Повтор пароля": "Repeat password",
   "user_role_name": "User role name",
   "application_name": "Application name",
-  "role_name": "Role name"
+  "role_name": "Role name",
+  "fromDAte": "from:",
+  "toDate": "to:"
 }

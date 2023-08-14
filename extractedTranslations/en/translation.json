@@ -1,5 +1,7 @@
 {
+  "fromDAte": "fromDAte",
   "profilePage": "profilePage",
+  "toDate": "toDate",
   "Активен": "Активен",
   "Ваш никнейм": "Ваш никнейм",
   "Ваша аватарка": "Ваша аватарка",

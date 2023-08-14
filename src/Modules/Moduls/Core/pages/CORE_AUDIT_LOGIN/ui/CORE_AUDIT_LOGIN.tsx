@@ -1,3 +1,4 @@
+import { CoreAuditLoginWidgets } from 'Modules/Moduls/Core/widgets/CoreAuditLoginWidgets';
 import { Page } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,9 @@ export default function CORE_AUDIT_LOGIN() {
 
   return (
     <Page>
-      <div>CORE_AUDIT_LOGIN</div>
+      <div>
+        <CoreAuditLoginWidgets />
+      </div>
     </Page>
   );
 }

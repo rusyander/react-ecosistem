@@ -62,18 +62,6 @@ export const EditModalContent = memo((props: EditModalContentProps) => {
     closeModalFunction,
   ]);
 
-  const inputFoldsPayload = useMemo(
-    () => ({
-      filter: null,
-      pageNumber: 1,
-      pageSize: 100,
-      params: null,
-      sort: [],
-      totalCount: null,
-    }),
-    []
-  );
-
   return (
     <div className={classNames(cls.editModalContent, {}, [className])}>
       <ModalHeader
@@ -87,7 +75,6 @@ export const EditModalContent = memo((props: EditModalContentProps) => {
           // filterData={noFilterInputsData}
           modalTitle={t('Справочник')}
           isFilter={false}
-          payloadData={inputFoldsPayload}
           // setInputsValues={(data: any) => console.log('setInputsValues', data)}
           setInputsValues={(data: any) => setInputsValue(data)}
           defaultValuesData={defaultData}

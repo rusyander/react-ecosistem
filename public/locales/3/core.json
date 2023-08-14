@@ -20,5 +20,8 @@
   "Удалить": "Delete",
   "Отмена": "Cancel",
   "Внимание": "Attention",
-  "Вы уверены?": "Are you sure?"
+  "Вы уверены?": "Are you sure?",
+  "Вы действительно хотите завершить сеанс Системный администратор?": "Are you sure you want to logout?",
+  "Завершить сеанс": "Logout",
+  "Вы действительно хотите удалить роль": "Are you sure you want to delete role"
 }

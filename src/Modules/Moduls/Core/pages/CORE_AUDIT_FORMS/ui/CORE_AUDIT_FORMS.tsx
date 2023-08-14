@@ -1,3 +1,4 @@
+import { CoreAuditFormsWidgets } from 'Modules/Moduls/Core/widgets/CoreAuditFormsWidgets';
 import { Page } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,9 @@ export default function CORE_AUDIT_FORMS() {
 
   return (
     <Page>
-      <div>CORE_AUDIT_FORMS</div>
+      <div>
+        <CoreAuditFormsWidgets />
+      </div>
     </Page>
   );
 }

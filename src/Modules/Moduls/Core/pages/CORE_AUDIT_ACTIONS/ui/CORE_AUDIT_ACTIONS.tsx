@@ -1,3 +1,4 @@
+import { CoreAuditActionsWidgets } from 'Modules/Moduls/Core/widgets/CoreAuditActionsWidgets';
 import { Page } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,9 @@ export default function CORE_AUDIT_ACTIONS() {
 
   return (
     <Page>
-      <div>CORE_AUDIT_ACTIONS</div>
+      <div>
+        <CoreAuditActionsWidgets />
+      </div>
     </Page>
   );
 }

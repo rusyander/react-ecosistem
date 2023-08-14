@@ -1,3 +1,4 @@
+import { CoreRolesWidgets } from 'Modules/Moduls/Core/widgets/CoreRolesWidgets';
 import { Page } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,9 @@ export default function CORE_ROLES() {
 
   return (
     <Page>
-      <div>CORE_ROLES</div>
+      <div>
+        <CoreRolesWidgets />
+      </div>
     </Page>
   );
 }
