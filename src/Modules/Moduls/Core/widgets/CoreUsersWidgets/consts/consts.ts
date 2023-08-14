@@ -1,13 +1,5 @@
 import { GridRow } from '../../../../../../shared/Globals/types/filterBlock';
 
-export const pageCountOptions = [
-  { value: 2, label: '2' },
-  { value: 10, label: '10' },
-  { value: 25, label: '25' },
-  { value: 50, label: '50' },
-  { value: 75, label: '75' },
-  { value: 100, label: '100' },
-];
 export const gridCols: GridRow[] = [
   // { field: 'user_id', size: '220px', is_sortable_flag: true },
   { field: 'org_name', size: '220px', is_sortable_flag: true },
@@ -57,7 +49,7 @@ export const filterBlock = [
     applicationCode: 'CORE',
     colTypeCode: 'STANDARD',
     sortColName: 'a.name1',
-    filterColName: 'a.applicationCode',
+    filterColName: 'user_id',
     filterGroup: null,
     filterAttributeCode: null,
     filterNameProperty: 'name',
@@ -81,7 +73,7 @@ export const filterBlock = [
     dataTypeId: 1,
     colTypeCode: 'STANDARD',
     sortColName: 'a.name1',
-    filterColName: 'a.applicationCode',
+    filterColName: 'e.firstLastName',
     filterGroup: null,
     filterAttributeCode: null,
     filterNameProperty: 'name',
@@ -105,7 +97,7 @@ export const filterBlock = [
     dataTypeId: 1,
     colTypeCode: 'STANDARD',
     sortColName: 'a.name1',
-    filterColName: 'a.applicationCode',
+    filterColName: 'e.login',
     filterGroup: null,
     filterAttributeCode: null,
     filterNameProperty: 'name',
@@ -129,7 +121,7 @@ export const filterBlock = [
     dataTypeId: 1,
     colTypeCode: 'STANDARD',
     sortColName: 'a.name1',
-    filterColName: 'a.applicationCode',
+    filterColName: 'e.isActiveFlagCode',
     filterGroup: null,
     filterNameProperty: 'name',
     filterDictFormClassRefName: null,

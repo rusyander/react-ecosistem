@@ -10,8 +10,8 @@ import {
   Modal,
   ModalHeader,
   classNames,
+  pageCountOptions,
 } from 'Modules/UiKit';
-import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
 import { Icon } from '@iconify/react';
 import { getDataPagedM } from 'shared/Globals/globalApi/globalApi';
 import { GridSort } from 'shared/Globals/types/GridTypes';

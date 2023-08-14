@@ -18,6 +18,7 @@ export { Tooltip } from './ui/Tooltip';
 export { Dropdown } from './ui/Dropdown/Dropdown';
 export { ListBox } from './ui/ListBox/ListBox';
 export { HStack, VStack } from './ui/Stack';
+export { MessagesModal } from './ui/MessagesModal';
 
 export { classNames } from './lib/classNames/classNames';
 export { useInfiniteScroll } from './lib/hook/useInfiniteScroll';
@@ -26,3 +27,4 @@ export { useHover } from './lib/hook/useHover';
 export { useThrottle } from './lib/hook/useThrottle';
 export { useDebounce } from './lib/hook/useDebounce';
 export { addQueryParams } from './url/addQueryParams/addQueryParams';
+export { pageCountOptions } from './consts/pageElementSize';

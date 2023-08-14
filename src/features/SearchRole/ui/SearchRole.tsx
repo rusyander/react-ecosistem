@@ -18,8 +18,6 @@ export const SearchRole = memo((props: SearchRoleProps) => {
     props;
   const { t } = useTranslation();
 
-  console.log('initialData ---------------------------', initialData);
-
   // --- modal changeRole
   const [appChangeRoleModal, setAppChangeRoleModal] = useState(false);
   const openAppChangeRoleModal = useCallback(() => {
@@ -93,11 +91,13 @@ export const SearchRole = memo((props: SearchRoleProps) => {
         ))}
       </div>
       <Modal lazy isOpen={appChangeRoleModal} onClose={closeAppChangeRoleModal}>
-        <ChangeRoleModal
-          onClose={closeAppChangeRoleModal}
-          selectedRole={selectedRole}
-          changeRole={changeRole}
-        />
+        {appChangeRoleModal && (
+          <ChangeRoleModal
+            onClose={closeAppChangeRoleModal}
+            selectedRole={selectedRole}
+            changeRole={changeRole}
+          />
+        )}
       </Modal>
     </div>
   );

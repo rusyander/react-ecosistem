@@ -17,6 +17,7 @@ import {
   getAttrValuesM,
   getTreePartDataSprM,
 } from 'shared/Globals/globalApi/globalApi';
+import { Dropdown } from 'entities/Fields/Dropdown';
 
 interface FilterItemsProps {
   className?: string;
@@ -47,13 +48,13 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   const [between1, setBetween1] = useState('');
   const [between2, setBetween2] = useState('');
   const [betweenIndex, setBetweenIndex] = useState('');
-  const [dropdawnValue, setDropdawnValue] = useState([]);
   const normalizedValuesBetween = [between1, between2];
   useEffect(() => {
     onChange(betweenIndex, normalizedValuesBetween);
   }, [between1, between2]);
 
   //--------- For dropdown data
+  const [dropdawnValue, setDropdawnValue] = useState([]);
   const [dropdownData, setDropdownData] = useState<any>([]);
 
   const getDropdawnData = useCallback(() => {
@@ -214,7 +215,18 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.filterDisplayTypeCode === 'L' && (
                   <VStack max className={cls.input}>
                     <label htmlFor="">{t(inputs?.name)}</label>
-                    <ListBox
+                    <Dropdown
+                      key={inputs?.name}
+                      onChange={onChange}
+                      inputs={inputs}
+                      data={data}
+                      getAttrValues={getAttrValues}
+                      index={index}
+                      defaultValue={t(inputs?.value)}
+                      items={dropdownData?.[inputs?.filterAttributeCode] || []}
+                    />
+                    {/* <ListBox
+                      key={inputs?.name}
                       defaultValue={t(inputs?.value)}
                       onChange={(value) => {
                         setDropdawnValue(value);
@@ -223,7 +235,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       value={dropdawnValue}
                       // items={attrData?.[inputs?.filterAttributeCode] || []}
                       items={dropdownData?.[inputs?.filterAttributeCode] || []}
-                    />
+                    /> */}
                   </VStack>
                 )}
 
@@ -454,8 +466,9 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                           <sup className={cls.required}>*</sup>
                         )}
                       </HStack>
-                      <ListBox
+                      {/* <ListBox
                         // defaultValue={t(inputs?.value)}
+                        key={inputs?.token}
                         defaultValue={
                           inputs?.value
                             ? t(inputs?.value)
@@ -470,6 +483,23 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         }}
                         value={
                           dropdawnValue ? dropdawnValue : inputs?.defValData
+                        }
+                        items={attrData?.[inputs?.attributeCode] || []}
+                      /> */}
+                      {/* --------------------------- */}
+                      <Dropdown
+                        key={inputs?.name}
+                        onChange={onChange}
+                        inputs={inputs}
+                        data={data}
+                        getAttrValues={getAttrValues}
+                        index={index}
+                        defaultValue={
+                          inputs?.value
+                            ? t(inputs?.value)
+                            : inputs?.defValData?.name
+                            ? inputs?.defValData?.name
+                            : defaultValuesData?.data?.roleCodeName
                         }
                         items={attrData?.[inputs?.attributeCode] || []}
                       />

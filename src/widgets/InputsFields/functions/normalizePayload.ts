@@ -14,7 +14,7 @@ export const UseFilterPayload = (
       if (item.filterUpperSign && item.filterLikePercSign) {
         const payloadDataMap = {
           itemName: item.fieldName,
-          colName: item.name,
+          colName: item.filterColName,
           dataType: item.dataTypeId,
           condition: item.filterCondition,
           upperSign: item.filterUpperSign,

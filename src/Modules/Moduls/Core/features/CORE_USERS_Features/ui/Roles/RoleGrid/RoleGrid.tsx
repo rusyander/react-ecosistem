@@ -1,10 +1,9 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './RoleGrid.module.scss';
-import { Grid, classNames } from 'Modules/UiKit';
+import { Grid, classNames, pageCountOptions } from 'Modules/UiKit';
 
 import { GridSort } from 'shared/Globals/types/GridTypes';
-import { pageCountOptions } from 'Modules/Moduls/Core/widgets/CoreUsersWidgets/consts/consts';
 import {
   getDataGridM,
   getGridDataInitM,

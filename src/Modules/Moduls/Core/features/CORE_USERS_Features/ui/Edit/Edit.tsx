@@ -14,15 +14,15 @@ export const Edit = memo((props: EditProps) => {
   const { className, selectedField } = props;
   const { t } = useTranslation('core');
 
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const openModalFunction = () => {
-    setOpenEditModal(true);
+    setOpenModal(true);
   };
 
   const closeModalFunction = useCallback(() => {
-    setOpenEditModal(false);
-  }, [setOpenEditModal]);
+    setOpenModal(false);
+  }, [setOpenModal]);
 
   return (
     <div className={classNames(cls.edit, {}, [className])}>
@@ -38,16 +38,14 @@ export const Edit = memo((props: EditProps) => {
         </HStack>
       </Button>
 
-      {openEditModal && (
-        <Modal isOpen={openEditModal} onClose={closeModalFunction}>
-          {openEditModal && (
-            <EditModalContent
-              selectedField={selectedField}
-              closeModalFunction={closeModalFunction}
-            />
-          )}
-        </Modal>
-      )}
+      <Modal isOpen={openModal} onClose={closeModalFunction}>
+        {openModal && (
+          <EditModalContent
+            selectedField={selectedField}
+            closeModalFunction={closeModalFunction}
+          />
+        )}
+      </Modal>
     </div>
   );
 });

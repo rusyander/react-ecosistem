@@ -1,8 +1,13 @@
 import { rtkApi } from 'shared/api/rtkApi';
+import {
+  InitPolicyPropsResponse,
+  SaveDataPropsResponse,
+  UserRoleDataProps,
+} from '../model/types/usersTypes';
 
 const RoleApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
-    saveDataRole: build.mutation<any, any>({
+    saveDataRole: build.mutation<UserRoleDataProps, SaveDataPropsResponse>({
       query: (formData) => ({
         url: 'api/core/userRole/saveData',
         body: formData,
@@ -10,10 +15,21 @@ const RoleApi = rtkApi.injectEndpoints({
       }),
     }),
 
-    initPolicyDataRole: build.mutation<any, any>({
+    initPolicyDataRole: build.mutation<
+      UserRoleDataProps,
+      InitPolicyPropsResponse
+    >({
       query: (formData) => ({
         url: 'api/core/userRole/initPolicy',
         body: formData,
+        method: 'POST',
+      }),
+    }),
+
+    deleteUserRoleData: build.mutation<UserRoleDataProps, number>({
+      query: (roleId) => ({
+        url: '/api/core/userRole/deleteData',
+        body: roleId,
         method: 'POST',
       }),
     }),
@@ -22,3 +38,4 @@ const RoleApi = rtkApi.injectEndpoints({
 });
 export const SaveDataRoleM = RoleApi.useSaveDataRoleMutation;
 export const InitPolicyDataRoleM = RoleApi.useInitPolicyDataRoleMutation;
+export const DeleteUserRoleDataM = RoleApi.useDeleteUserRoleDataMutation;

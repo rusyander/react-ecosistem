@@ -1,3 +1,4 @@
+import { CoreSysParamsWidgets } from 'Modules/Moduls/Core/widgets/CoreSysParamsWidgets';
 import { Page } from 'Modules/UiKit';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,9 @@ export default function CORE_SYS_PARAMS() {
 
   return (
     <Page>
-      <div>CORE_SYS_PARAMS</div>
+      <div>
+        <CoreSysParamsWidgets />
+      </div>
     </Page>
   );
 }

@@ -19,6 +19,7 @@ export { Tooltip } from './shared';
 export { Dropdown } from './shared';
 export { ListBox } from './shared';
 export { HStack, VStack } from './shared';
+export { MessagesModal } from './shared';
 
 export { classNames } from './shared';
 export { useInfiniteScroll } from './shared';
@@ -28,6 +29,7 @@ export { useThrottle } from './shared';
 export { useDebounce } from './shared';
 
 export { addQueryParams } from './shared';
+export { pageCountOptions } from './shared';
 
 // entities
 export { TableRowContent } from './entities';

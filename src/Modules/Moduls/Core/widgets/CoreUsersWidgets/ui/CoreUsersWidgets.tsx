@@ -1,10 +1,15 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreUsersWidgets.module.scss';
-import { CheckFormEnterM, Grid, classNames } from 'Modules/UiKit';
+import {
+  CheckFormEnterM,
+  Grid,
+  classNames,
+  pageCountOptions,
+} from 'Modules/UiKit';
 
 import { Add, Edit, Roles } from '../../../features/CORE_USERS_Features';
-import { filterBlock, gridCols, pageCountOptions } from '../consts/consts';
+import { filterBlock, gridCols } from '../consts/consts';
 import { GridSort } from '../../../../../../shared/Globals/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
 import { getGridDataM } from 'shared/Globals/globalApi/globalApi';

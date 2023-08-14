@@ -1,9 +1,16 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './RolesGridDelete.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
-import { RolesGridDeleteModalContent } from '../RolesGridDeleteModalContent/RolesGridDeleteModalContent';
+import {
+  Button,
+  HStack,
+  MessagesModal,
+  Modal,
+  Texts,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
+import { DeleteUserRoleDataM } from '../../../../api/roleApi';
 
 interface RolesGridDeleteProps {
   className?: string;
@@ -13,6 +20,7 @@ interface RolesGridDeleteProps {
 export const RolesGridDelete = memo((props: RolesGridDeleteProps) => {
   const { className, selectedField } = props;
   const { t } = useTranslation('core');
+  const [deleteUserRoleData] = DeleteUserRoleDataM();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -23,6 +31,13 @@ export const RolesGridDelete = memo((props: RolesGridDeleteProps) => {
   const closeModalFunction = useCallback(() => {
     setOpenModal(false);
   }, [setOpenModal]);
+  const deleteRole = () => {
+    deleteUserRoleData(selectedField?.user_role_id).then((res: any) => {
+      if (res?.data?.result === '1') {
+        closeModalFunction();
+      }
+    });
+  };
 
   return (
     <div className={classNames(cls.rolesGridDelete, {}, [className])}>
@@ -40,12 +55,12 @@ export const RolesGridDelete = memo((props: RolesGridDeleteProps) => {
 
       {openModal && (
         <Modal zIndex={113} isOpen={openModal} onClose={closeModalFunction}>
-          {/* {openEditModal && (
-            <RolesGridDeleteModalContent
-              selectedField={selectedField}
-              closeModalFunction={closeModalFunction}
-            />
-          )} */}
+          <MessagesModal
+            title={t('Внимание')}
+            subTitle={t('Вы уверены?')}
+            onClose={closeModalFunction}
+            onCall={deleteRole}
+          />
         </Modal>
       )}
     </div>

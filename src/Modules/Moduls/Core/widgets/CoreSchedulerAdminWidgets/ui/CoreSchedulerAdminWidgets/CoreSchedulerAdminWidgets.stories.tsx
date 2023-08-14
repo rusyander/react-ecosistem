@@ -1,17 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
-import { RolesGridDeleteModalContent } from './RolesGridDeleteModalContent';
+import { CoreSchedulerAdminWidgets } from './CoreSchedulerAdminWidgets';
 import { StoreProvider } from 'app/providers/StoreProvider';
 import { Theme, ThemeProvider } from 'app/providers/ThemeProvider';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreDecorator } from 'shared/config/storybook/storeDecorator/StoreDecorator';
-
-const meta: Meta<typeof RolesGridDeleteModalContent> = {
-  title: 'shared/RolesGridDeleteModalContent',
-  component: RolesGridDeleteModalContent,
+const meta: Meta<typeof CoreSchedulerAdminWidgets> = {
+  title: '***/CoreSchedulerAdminWidgets',
+  component: CoreSchedulerAdminWidgets,
   tags: ['autodocs'],
-
   decorators: [
     (Story) => (
       <Suspense fallback={''}>
@@ -28,10 +25,8 @@ const meta: Meta<typeof RolesGridDeleteModalContent> = {
     ),
   ],
 };
-
 export default meta;
-type Story = StoryObj<typeof RolesGridDeleteModalContent>;
-
+type Story = StoryObj<typeof CoreSchedulerAdminWidgets>;
 export const Primary: Story = {
   args: {},
 };

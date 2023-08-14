@@ -13,15 +13,15 @@ export const Add = memo((props: AddProps) => {
   const { className } = props;
   const { t } = useTranslation('core');
 
-  const [openAddModal, setOpenAddModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const openModalFunction = useCallback(() => {
-    setOpenAddModal(true);
-  }, [setOpenAddModal]);
+    setOpenModal(true);
+  }, [setOpenModal]);
 
   const closeModalFunction = useCallback(() => {
-    setOpenAddModal(false);
-  }, [setOpenAddModal]);
+    setOpenModal(false);
+  }, [setOpenModal]);
 
   return (
     <div className={classNames(cls.add, {}, [className])}>
@@ -36,8 +36,8 @@ export const Add = memo((props: AddProps) => {
         </HStack>
       </Button>
 
-      <Modal isOpen={openAddModal} onClose={closeModalFunction} lazy>
-        {openAddModal && (
+      <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
+        {openModal && (
           <AddModalContent closeModalFunction={closeModalFunction} />
         )}
       </Modal>
