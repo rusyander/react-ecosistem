@@ -1,5 +1,8 @@
 @import 'reset';
 @import 'variables/globals';
+@import 'treeCss';
+// @import '../../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss';
+// @import 'node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss';
 
 body {
   font: var(--font-m);
@@ -13,7 +16,6 @@ body {
   width: calc(100vw - var(--collapsed-sidebar-width));
   margin-left: var(--collapsed-sidebar-width);
 }
-
 .page-wrapper {
   flex-grow: 1;
   flex-shrink: 100;

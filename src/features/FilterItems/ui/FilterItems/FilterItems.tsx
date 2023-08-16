@@ -11,7 +11,6 @@ import {
 } from 'Modules/UiKit';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import 'dayjs/locale/ru';
@@ -25,8 +24,8 @@ import {
 } from 'shared/Globals/globalApi/globalApi';
 import { Dropdown } from 'entities/Fields/Dropdown';
 import dayjs from 'dayjs';
-import { Datepicker } from 'entities/Fields/Datepicker';
-import { DateTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
+import { DatePicker } from 'entities/Fields/DatePickers';
+import { DateTimePicker } from 'entities/Fields/DateTimePicker';
 
 interface FilterItemsProps {
   className?: string;
@@ -58,7 +57,9 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   const [between2, setBetween2] = useState('');
   const [betweenIndex, setBetweenIndex] = useState('');
   const normalizedValuesBetween = [between1, between2];
+
   useEffect(() => {
+    console.log('normalizedValuesBetween', normalizedValuesBetween);
     onChange(betweenIndex, normalizedValuesBetween);
   }, [between1, between2]);
 
@@ -229,93 +230,47 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   inputs?.filterCondition === 'BETWEEN' &&
                   inputs?.dataTypeId === 4 && (
                     <VStack max gap="16" className={cls.datepicker}>
-                      {/* <Input
-                        onChange={(value) => setBetween1(value)}
-                        onClick={() => setBetweenIndex(index)}
-                        value={between1}
-                        isLabel
-                        label={`${t(inputs?.name)}  ${t('c:')}`}
-                        className={cls.input}
-                        placeholder={`${t(inputs?.name)}  ${t('c:')}`}
-                      /> */}
-                      {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <VStack max onClick={() => setBetweenIndex(index)}>
                         <DatePicker
-                          className={cls.input}
-                          label={`${t(inputs?.name)}  ${t('fromDAte')}`}
-                          value={between1}
                           onChange={(value) => setBetween1(value || '')}
-                          format="dd.MM.yyyy"
-                          onOpen={() => setBetweenIndex(index)}
-                        />
-                      </LocalizationProvider> */}
-                      <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                      >
-                        <DatePicker
-                          className={cls.input}
                           label={`${t(inputs?.name)}  ${t('fromDAte')}`}
-                          value={between1}
-                          onChange={(value) => setBetween1(value || '')}
-                          onOpen={() => setBetweenIndex(index)}
-                          // onChange={(value: any) => {
-                          //   const date = new Date(value || '');
-                          //   const day = date
-                          //     .getDate()
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const month = (date.getMonth() + 1)
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const year = date.getFullYear().toString();
-                          //   const dateValue = `${day}.${month}.${year}`;
-                          //   // return onChange(index, dateValue);
-                          //   setBetween1(dateValue);
-                          // }}
+                          inputs={inputs}
+                          defaultValuesData={defaultValuesData}
                         />
-                      </LocalizationProvider>
-                      {/* <Input
-                        onChange={(value) => setBetween2(value)}
-                        onClick={() => setBetweenIndex(index)}
-                        value={between2}
-                        isLabel
-                        label={`${t(inputs?.name)} ${t('по:')}`}
-                        className={cls.input}
-                        placeholder={`${t(inputs?.name)} ${t('по:')}`}
-                      /> */}
-                      <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                      >
+                      </VStack>
+                      <VStack max onClick={() => setBetweenIndex(index)}>
                         <DatePicker
-                          className={cls.input}
-                          label={`${t(inputs?.name)} ${t('toDate')}`}
-                          value={between2}
                           onChange={(value) => setBetween2(value || '')}
-                          onOpen={() => setBetweenIndex(index)}
-                          // onChange={(value: any) => {
-                          //   const date = new Date(value || '');
-                          //   const day = date
-                          //     .getDate()
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const month = (date.getMonth() + 1)
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const year = date.getFullYear().toString();
-                          //   const dateValue = `${day}.${month}.${year}`;
-                          //   // return onChange(index, dateValue);
-                          //   setBetween2(dateValue);
-                          // }}
+                          label={`${t(inputs?.name)} ${t('toDate')}`}
+                          inputs={inputs}
+                          defaultValuesData={defaultValuesData}
                         />
-                      </LocalizationProvider>
+                      </VStack>
                     </VStack>
                   )}
 
                 {inputs?.filterCondition === 'BETWEEN' &&
                   inputs?.dataTypeId === 132 && (
                     <VStack max gap="16" className={cls.datepicker}>
-                      <LocalizationProvider
+                      <VStack max gap="16" className={cls.datepicker}>
+                        <VStack max onClick={() => setBetweenIndex(index)}>
+                          <DateTimePicker
+                            onChange={(value) => setBetween1(value)}
+                            label={`${t(inputs?.name)}  ${t('fromDAte')}`}
+                            inputs={inputs}
+                            defaultValuesData={defaultValuesData}
+                          />
+                        </VStack>
+                        <VStack max onClick={() => setBetweenIndex(index)}>
+                          <DateTimePicker
+                            onChange={(value) => setBetween2(value)}
+                            label={`${t(inputs?.name)} ${t('toDate')}`}
+                            inputs={inputs}
+                            defaultValuesData={defaultValuesData}
+                          />
+                        </VStack>
+                      </VStack>
+                      {/* <LocalizationProvider
                         dateAdapter={AdapterDayjs}
                         adapterLocale="ru"
                       >
@@ -378,7 +333,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                           //   setBetween2(dateValue);
                           // }}
                         />
-                      </LocalizationProvider>
+                      </LocalizationProvider> */}
                     </VStack>
                   )}
 
@@ -448,19 +403,25 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.filterDisplayTypeCode === 'F' &&
                   inputs?.filterCondition !== 'BETWEEN' &&
                   inputs?.dataTypeId === 4 && (
-                    <Input
+                    // <Input
+                    //   onChange={(value) => onChange(index, value)}
+                    //   value={inputs?.value}
+                    //   isLabel
+                    //   type="date"
+                    //   form="dd.MM.yyyy"
+                    //   data-slots="dmy"
+                    //   pattern="\d{4}-\d{2}-\d{2}"
+                    //   label={inputs?.name}
+                    //   className={cls.input}
+                    //   placeholder={inputs?.name}
+                    //   requered={inputs?.isNullableFlag === 'N' ? true : false}
+                    //   style={{ width: inputs?.widthItem }}
+                    // />
+
+                    <DatePicker
                       onChange={(value) => onChange(index, value)}
-                      value={inputs?.value}
-                      isLabel
-                      type="date"
-                      form="dd.MM.yyyy"
-                      data-slots="dmy"
-                      pattern="\d{4}-\d{2}-\d{2}"
-                      label={inputs?.name}
-                      className={cls.input}
-                      placeholder={inputs?.name}
-                      requered={inputs?.isNullableFlag === 'N' ? true : false}
-                      style={{ width: inputs?.widthItem }}
+                      inputs={inputs}
+                      defaultValuesData={defaultValuesData}
                     />
                   )}
 
@@ -495,17 +456,11 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
-                        // value={
-                        //   !inputs?.value
-                        //     ? defaultValuesData?.data?.[inputs?.token]
-                        //     : inputs?.value
-                        // }
                         value={
-                          defaultValuesData?.data?.[inputs?.token]
-                            ? defaultValuesData?.data?.[inputs?.token]
-                            : inputs?.value
+                          inputs?.value
+                            ? inputs?.value
+                            : defaultValuesData?.data?.[inputs?.token]
                         }
-                        // value={inputs?.value}
                         isLabel
                         label={inputs?.name}
                         className={cls.input}
@@ -530,19 +485,11 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
-                        // value={
-                        //   inputs?.value
-                        //     ? inputs?.value
-                        //     : defaultValuesData?.data?.[inputs?.token]
-                        // }
                         value={
-                          defaultValuesData?.data?.[inputs?.token]
-                            ? defaultValuesData?.data?.[inputs?.token]
-                            : inputs?.value
+                          inputs?.value
                             ? inputs?.value
-                            : ''
+                            : defaultValuesData?.data?.[inputs?.token]
                         }
-                        // value={inputs?.value}
                         maxLength={inputs?.maxlength}
                         isLabel
                         label={inputs?.name}
@@ -551,9 +498,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                         style={{ width: inputs?.widthItem }}
                       />
-                      {/* {inputs?.value} ---
-                      {inputs?.name} ----
-                      {defaultValuesData?.data?.[inputs?.token]} */}
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
@@ -569,17 +513,11 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     <VStack max align="start" justify="start">
                       <Input
                         onChange={(value) => onChange(index, value)}
-                        // value={
-                        //   !inputs?.value
-                        //     ? defaultValuesData?.data?.[inputs?.token]
-                        //     : inputs?.value
-                        // }
                         value={
-                          defaultValuesData?.data?.[inputs?.token]
-                            ? defaultValuesData?.data?.[inputs?.token]
-                            : inputs?.value
+                          inputs?.value
+                            ? inputs?.value
+                            : defaultValuesData?.data?.[inputs?.token]
                         }
-                        // value={inputs?.value}
                         isLabel
                         label={inputs?.name}
                         placeholder={inputs?.name}
@@ -690,12 +628,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.displayTypeCode === 'FB' && (
                   <VStack max>
                     <VStack max className={cls.input}>
-                      {/* <HStack max>
-                        {inputs?.name}
-                        {inputs?.isNullableFlag === 'N' && (
-                          <sup className={cls.required}>*</sup>
-                        )}
-                      </HStack> */}
                       <HStack>
                         {inputs?.name}
                         {inputs?.isNullableFlag === 'N' && (
@@ -760,80 +692,13 @@ export const FilterItems = memo((props: FilterItemsProps) => {
 
                 {inputs?.displayTypeCode === 'F' &&
                   inputs?.dataTypeId === 4 && (
-                    <VStack max>
-                      <Input
-                        onChange={(value) => {
-                          const date = new Date(value);
-                          const day = date
-                            .getDate()
-                            .toString()
-                            .padStart(2, '0');
-                          const month = (date.getMonth() + 1)
-                            .toString()
-                            .padStart(2, '0');
-                          const year = date.getFullYear().toString();
-                          const dateValue = `${day}.${month}.${year}`;
-
-                          return onChange(index, dateValue);
-                        }}
-                        id="dateInput"
-                        value={
-                          inputs?.value
-                            ? inputs?.value?.split('.').reverse().join('.')
-                            : ''
-                        }
-                        // value={defaultValuesData?.data?.[inputs?.token]
-                        //   .split('.')
-                        //   .reverse()
-                        //   .join('.')}
-                        isLabel
-                        type="date"
-                        form="DD.MM.YYYY"
-                        // data-slots="dmy"
-                        maxLength={10}
-                        // pattern="\d{4}-\d{2}-\d{2}"
-                        label={inputs?.name}
-                        className={cls.input}
-                        placeholder={inputs?.name}
-                        requered={inputs?.isNullableFlag === 'N' ? true : false}
-                      />
-                      {/* ------------------------------------------------------------------------- */}
-                      {/* <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                      >
-                        <DatePicker
-                          className={cls.input}
-                          label={inputs?.name}
-                          value={inputs?.value}
-                          onChange={(value) => onChange(index, value)}
-                          // onOpen={() => setBetweenIndex(index)}
-                          // format="DD.MM.YYYY"
-                          // defaultValue={dayjs(
-                          //   // defaultValuesData?.data?.[inputs?.token]
-                          //   // '17.04.2022'
-                          //   '2022.04.17'
-                          // )}
-                          defaultValue={dayjs(
-                            defaultValuesData?.data?.[inputs?.token]
-                          )}
-                        />
-                        <h4>{defaultValuesData?.data?.[inputs?.token]}</h4>
-                      </LocalizationProvider> */}
-
-                      {/* <Datepicker
-                        defaultValuesData={defaultValuesData}
-                        inputs={inputs}
-                        onChange={onChange}
+                    <VStack max className={cls.inputs}>
+                      <DatePicker
+                        onChange={(value) => onChange(index, value)}
                         index={index}
-                      /> */}
-
-                      {/* {inputs?.value} ---
-                      {defaultValuesData?.data?.[inputs?.token]} --- */}
-                      {/* {defaultValuesData?.data?.[inputs?.token]
-                        .split('.')
-                        .reverse()
-                        .join('.')} */}
+                        inputs={inputs}
+                        defaultValuesData={defaultValuesData}
+                      />
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
@@ -846,12 +711,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.displayTypeCode === 'DQ' && (
                   <VStack max>
                     <VStack className={cls.input} max>
-                      {/* <label htmlFor="">
-                        {inputs?.name}
-                        {inputs?.isNullableFlag === 'N' && (
-                          <sup className={cls.required}>*</sup>
-                        )}
-                      </label> */}
                       <HStack>
                         {inputs?.name}
                         {inputs?.isNullableFlag === 'N' && (

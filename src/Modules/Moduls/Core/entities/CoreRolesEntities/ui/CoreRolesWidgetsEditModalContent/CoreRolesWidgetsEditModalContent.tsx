@@ -15,15 +15,29 @@ interface CoreRolesWidgetsEditModalContentProps {
   className?: string;
   selectedField: any;
   closeModalFunction: () => void;
+  getInit: any;
+  addDataRole: any;
+  getFgData: any;
+  getInitData: any;
+  addDataRoleQ: any;
 }
 
 export const CoreRolesWidgetsEditModalContent = memo(
   (props: CoreRolesWidgetsEditModalContentProps) => {
-    const { className, selectedField, closeModalFunction } = props;
+    const {
+      className,
+      selectedField,
+      closeModalFunction,
+      addDataRole,
+      addDataRoleQ,
+      getFgData,
+      getInit,
+      getInitData,
+    } = props;
     const { t } = useTranslation('core');
-    const [getInit, { data: getInitData }] = getInitM();
-    const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
-    const [getFgData] = getFgDataM();
+    // const [getInit, { data: getInitData }] = getInitM();
+    // const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
+    // const [getFgData] = getFgDataM();
     const [defaultData, setDefaultData] = useState<any>([]);
 
     const [inputsValue, setInputsValue]: any = useState([]);

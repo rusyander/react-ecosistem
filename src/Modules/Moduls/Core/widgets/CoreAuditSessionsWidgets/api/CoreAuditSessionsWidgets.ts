@@ -6,6 +6,7 @@ const CoreAuditSessionsWidgetsApi = rtkApi.injectEndpoints({
         url: '/api/core/audit/killSession',
         body: id,
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

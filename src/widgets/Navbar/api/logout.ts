@@ -7,6 +7,7 @@ const logoutApi = rtkApi.injectEndpoints({
         url: '/api/core/security/logout',
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
   }),
 });

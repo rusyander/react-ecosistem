@@ -8,6 +8,7 @@ const CoreSchedTasksWidgetsApi = rtkApi.injectEndpoints({
           _limit: limit,
         },
       }),
+      providesTags: ['User'],
     }),
   }),
   overrideExisting: true,

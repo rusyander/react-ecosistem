@@ -8,6 +8,7 @@ const SaveDataApi = rtkApi.injectEndpoints({
         body: formData,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
     getData: build.mutation({
       query: (id) => ({
@@ -15,6 +16,7 @@ const SaveDataApi = rtkApi.injectEndpoints({
         body: id,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

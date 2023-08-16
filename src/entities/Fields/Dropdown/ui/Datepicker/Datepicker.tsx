@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Datepicker.module.scss';
-import { classNames } from 'Moduls/UiKit';
+import { classNames } from 'Modules/UiKit';
 
 interface DatepickerProps {
   className?: string;

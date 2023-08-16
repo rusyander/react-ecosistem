@@ -14,15 +14,26 @@ import { AddDataRoleM } from 'Modules/Moduls/Core/features/CoreRolesFeatures/api
 interface CoreRolesWidgetsAddModalContentProps {
   className?: string;
   closeModalFunction: () => void;
+  getInit: any;
+  addDataRole: any;
+  getInitData: any;
+  addDataRoleQ: any;
 }
 
 export const CoreRolesWidgetsAddModalContent = memo(
   (props: CoreRolesWidgetsAddModalContentProps) => {
-    const { className, closeModalFunction } = props;
+    const {
+      className,
+      closeModalFunction,
+      addDataRole,
+      addDataRoleQ,
+      getInit,
+      getInitData,
+    } = props;
     const { t } = useTranslation('core');
-    const [getInit, { data: getInitData }] = getInitM();
+    // const [getInit, { data: getInitData }] = getInitM();
 
-    const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
+    // const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
 
     const [inputsValue, setInputsValue] = useState([]);
 

@@ -17,6 +17,7 @@ import {
   CoreRolesWidgetsAdd,
   CoreRolesWidgetsDelete,
   CoreRolesWidgetsEdit,
+  FormsAndActions,
 } from 'Modules/Moduls/Core/features/CoreRolesFeatures';
 
 export interface CoreRolesWidgetsProps {
@@ -172,7 +173,7 @@ export const CoreRolesWidgets = memo((props: CoreRolesWidgetsProps) => {
             <CoreRolesWidgetsAdd key={1} />,
             <CoreRolesWidgetsDelete key={2} selectedField={selected} />,
             <CoreRolesWidgetsEdit key={3} selectedField={selected} />,
-            // <RolesCancel key={4} closeModalFunction={closeModalFunction} />,
+            <FormsAndActions key={4} selectedField={selected} />,
           ]}
           // loading
           isLoading={isLoading}

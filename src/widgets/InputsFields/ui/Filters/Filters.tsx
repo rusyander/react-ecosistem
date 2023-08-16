@@ -90,6 +90,7 @@ export const Filters = memo((props: FiltersProps) => {
         value,
         isFilter
       );
+      console.log('data', data);
       if (isFilter) {
         setNewDataArray(data as any);
       }
@@ -101,6 +102,8 @@ export const Filters = memo((props: FiltersProps) => {
   // function for filter and update data
   const handleFilter = useCallback(() => {
     if (isFilter) {
+      console.log('newFilterPayload', newFilterPayload);
+
       getGridData?.(newFilterPayload);
     }
   }, [getGridData, isFilter, newFilterPayload]);

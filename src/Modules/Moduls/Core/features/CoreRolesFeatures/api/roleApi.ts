@@ -9,6 +9,7 @@ const RoleApi = rtkApi.injectEndpoints({
         body: data,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     deleteRole: build.mutation<RoleReturnData, string>({
@@ -17,6 +18,7 @@ const RoleApi = rtkApi.injectEndpoints({
         body: id,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

@@ -13,6 +13,7 @@ const RoleApi = rtkApi.injectEndpoints({
         body: formData,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     initPolicyDataRole: build.mutation<
@@ -24,6 +25,7 @@ const RoleApi = rtkApi.injectEndpoints({
         body: formData,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     deleteUserRoleData: build.mutation<UserRoleDataProps, number>({
@@ -32,6 +34,7 @@ const RoleApi = rtkApi.injectEndpoints({
         body: roleId,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

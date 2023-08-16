@@ -8,6 +8,7 @@ import {
 import { UserGridDataTypes } from 'Modules/Moduls/Core';
 
 const CoreGlobalApi = rtkApi.injectEndpoints({
+  // tagTypes: ["Post"],
   endpoints: (build) => ({
     checkFormEnter: build.mutation<CheckFormEnter, string>({
       query: (formCode: string) => ({
@@ -15,6 +16,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: formCode,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     getGridData: build.mutation<UserGridDataTypes, GridType>({
@@ -23,6 +25,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: arg,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     getAttrValues: build.mutation<GetAttrValues, string>({
@@ -31,6 +34,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: [{ code: atrCode }],
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     getTreePartDataSpr: build.mutation<GetTreePartDataSpr, string>({
@@ -39,6 +43,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: paramsId,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     getDataPaged: build.mutation<any, any>({
@@ -47,6 +52,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: data,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     getDataGrid: build.mutation<any, any>({
@@ -55,6 +61,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: path,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
     getGridDataInit: build.mutation<any, string>({
       query: (path) => ({
@@ -62,6 +69,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: path,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
     getInit: build.mutation<any, string>({
       query: (path) => ({
@@ -69,6 +77,7 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: path,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
 
     getFgData: build.mutation<any, any>({
@@ -77,6 +86,16 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
         body: path,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
+    }),
+
+    getAccessTree: build.mutation<any, string[]>({
+      query: (path) => ({
+        url: '/api/core/role/getAccessTree',
+        body: path,
+        method: 'POST',
+      }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,
@@ -90,3 +109,4 @@ export const getDataGridM = CoreGlobalApi.useGetDataGridMutation;
 export const getGridDataInitM = CoreGlobalApi.useGetGridDataInitMutation;
 export const getInitM = CoreGlobalApi.useGetInitMutation;
 export const getFgDataM = CoreGlobalApi.useGetFgDataMutation;
+export const getAccessTreeM = CoreGlobalApi.useGetAccessTreeMutation;

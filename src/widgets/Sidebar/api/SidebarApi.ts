@@ -9,6 +9,7 @@ const SidebarApi = rtkApi.injectEndpoints({
         body: number,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
     changeRole: build.mutation<InitDataTypes, number>({
       query: (code) => ({
@@ -16,6 +17,7 @@ const SidebarApi = rtkApi.injectEndpoints({
         body: code,
         method: 'POST',
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

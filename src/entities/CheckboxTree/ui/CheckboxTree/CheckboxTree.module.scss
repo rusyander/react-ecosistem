@@ -1,0 +1,10 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.childContainer {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}

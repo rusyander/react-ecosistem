@@ -13,6 +13,7 @@ const initialDataApi = rtkApi.injectEndpoints({
           session: body,
         },
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

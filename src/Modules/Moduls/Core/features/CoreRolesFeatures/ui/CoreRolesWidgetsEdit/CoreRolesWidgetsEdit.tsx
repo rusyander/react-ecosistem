@@ -4,6 +4,8 @@ import cls from './CoreRolesWidgetsEdit.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { CoreRolesWidgetsEditModalContent } from 'Modules/Moduls/Core/entities/CoreRolesEntities';
+import { getInitM, getFgDataM } from 'shared/Globals/globalApi/globalApi';
+import { AddDataRoleM } from '../../api/roleApi';
 
 interface CoreRolesWidgetsEditProps {
   className?: string;
@@ -13,6 +15,10 @@ interface CoreRolesWidgetsEditProps {
 export const CoreRolesWidgetsEdit = memo((props: CoreRolesWidgetsEditProps) => {
   const { className, selectedField } = props;
   const { t } = useTranslation('core');
+
+  const [getInit, { data: getInitData }] = getInitM();
+  const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
+  const [getFgData] = getFgDataM();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -43,6 +49,11 @@ export const CoreRolesWidgetsEdit = memo((props: CoreRolesWidgetsEditProps) => {
           <CoreRolesWidgetsEditModalContent
             selectedField={selectedField}
             closeModalFunction={closeModalFunction}
+            getInit={getInit}
+            addDataRole={addDataRole}
+            getFgData={getFgData}
+            getInitData={getInitData}
+            addDataRoleQ={addDataRoleQ}
           />
         )}
       </Modal>

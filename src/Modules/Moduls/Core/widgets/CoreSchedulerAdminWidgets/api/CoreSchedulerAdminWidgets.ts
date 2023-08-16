@@ -8,6 +8,7 @@ const CoreSchedulerAdminWidgetsApi = rtkApi.injectEndpoints({
           _limit: limit,
         },
       }),
+      providesTags: ['User'],
     }),
   }),
   overrideExisting: true,

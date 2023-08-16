@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Datepicker } from './Datepicker';
+import { FormsAndActions } from './FormsAndActions';
 import { StoreProvider } from 'app/providers/StoreProvider';
 import { Theme, ThemeProvider } from 'app/providers/ThemeProvider';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreDecorator } from 'shared/config/storybook/storeDecorator/StoreDecorator';
 
-const meta: Meta<typeof Datepicker> = {
-  title: 'shared/Datepicker',
-  component: Datepicker,
+const meta: Meta<typeof FormsAndActions> = {
+  title: 'shared/FormsAndActions',
+  component: FormsAndActions,
   tags: ['autodocs'],
 
   decorators: [
@@ -30,7 +30,7 @@ const meta: Meta<typeof Datepicker> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Datepicker>;
+type Story = StoryObj<typeof FormsAndActions>;
 
 export const Primary: Story = {
   args: {},

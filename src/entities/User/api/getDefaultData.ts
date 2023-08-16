@@ -6,6 +6,7 @@ const getDefaultDataApi = rtkApi.injectEndpoints({
       query: () => ({
         url: '/api/core/desktop/defaultData',
       }),
+      providesTags: ['User'],
     }),
   }),
   overrideExisting: true,
