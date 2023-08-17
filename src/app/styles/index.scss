@@ -3,7 +3,8 @@
 @import 'treeCss';
 // @import '../../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss';
 // @import 'node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss';
-
+@import 'primereact/resources/themes/lara-light-indigo/theme.css';
+@import 'primereact/resources/primereact.min.css';
 body {
   font: var(--font-m);
   color: var(--primary-color);
@@ -84,4 +85,11 @@ body {
 .formContent {
   max-height: 600px;
   overflow-y: auto;
+}
+
+// *********
+.p-tree {
+  background: transparent;
+  border: none;
+  padding: 0;
 }

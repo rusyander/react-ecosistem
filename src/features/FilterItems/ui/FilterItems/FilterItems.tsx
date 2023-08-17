@@ -1,20 +1,7 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './FilterItems.module.scss';
-import {
-  HStack,
-  Input,
-  ListBox,
-  Texts,
-  VStack,
-  classNames,
-} from 'Modules/UiKit';
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import 'dayjs/locale/ru';
-
+import { HStack, Input, Texts, VStack, classNames } from 'Modules/UiKit';
 import { $api } from 'shared/api/api';
 import { TreeViewInModal } from '../TreeViewInModal/TreeViewInModal';
 import { GridModal } from '../GridModal/GridModal';
@@ -23,7 +10,6 @@ import {
   getTreePartDataSprM,
 } from 'shared/Globals/globalApi/globalApi';
 import { Dropdown } from 'entities/Fields/Dropdown';
-import dayjs from 'dayjs';
 import { DatePicker } from 'entities/Fields/DatePickers';
 import { DateTimePicker } from 'entities/Fields/DateTimePicker';
 
@@ -270,70 +256,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                           />
                         </VStack>
                       </VStack>
-                      {/* <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                      >
-                        <DateTimePicker
-                          className={cls.input}
-                          label={`${t(inputs?.name)}  ${t('fromDAte')}`}
-                          value={between1}
-                          onChange={(value) => setBetween1(value || '')}
-                          //  format="dd.MM.yyyy"
-                          onOpen={() => setBetweenIndex(index)}
-                          viewRenderers={{
-                            hours: renderTimeViewClock,
-                            minutes: renderTimeViewClock,
-                            seconds: renderTimeViewClock,
-                          }}
-                          // onChange={(value: any) => {
-                          //   const date = new Date(value || '');
-                          //   const day = date
-                          //     .getDate()
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const month = (date.getMonth() + 1)
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const year = date.getFullYear().toString();
-                          //   const dateValue = `${day}.${month}.${year}`;
-                          //   // return onChange(index, dateValue);
-                          //   setBetween1(dateValue);
-                          // }}
-                        />
-                      </LocalizationProvider>
-
-                      <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        adapterLocale="ru"
-                      >
-                        <DateTimePicker
-                          className={cls.input}
-                          label={`${t(inputs?.name)} ${t('toDate')}`}
-                          value={between2}
-                          onChange={(value) => setBetween2(value || '')}
-                          onOpen={() => setBetweenIndex(index)}
-                          viewRenderers={{
-                            hours: renderTimeViewClock,
-                            minutes: renderTimeViewClock,
-                            seconds: renderTimeViewClock,
-                          }}
-                          // onChange={(value: any) => {
-                          //   const date = new Date(value || '');
-                          //   const day = date
-                          //     .getDate()
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const month = (date.getMonth() + 1)
-                          //     .toString()
-                          //     .padStart(2, '0');
-                          //   const year = date.getFullYear().toString();
-                          //   const dateValue = `${day}.${month}.${year}`;
-                          //   // return onChange(index, dateValue);
-                          //   setBetween2(dateValue);
-                          // }}
-                        />
-                      </LocalizationProvider> */}
                     </VStack>
                   )}
 

@@ -28,3 +28,9 @@ export interface UserRoles {
   code?: number;
   name?: string;
 }
+
+export interface SaveAccessDataPayload {
+  applicationCode: string;
+  code: string;
+  params: string[];
+}

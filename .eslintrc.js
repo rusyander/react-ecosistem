@@ -115,6 +115,8 @@ module.exports = {
     'no-unneeded-ternary': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
     'object-shorthand': 'off',
+    'no-unsafe-optional-chaining': 'warn',
+    '@typescript-eslint/consistent-type-assertions': 'warn',
     curly: 'off',
   },
   globals: {

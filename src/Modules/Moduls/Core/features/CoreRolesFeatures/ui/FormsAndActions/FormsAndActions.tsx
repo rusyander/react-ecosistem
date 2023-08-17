@@ -4,7 +4,7 @@ import cls from './FormsAndActions.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { FormsAndActionsModalContents } from 'Modules/Moduls/Core/entities/CoreRolesEntities';
-import { getAccessTreeM } from 'shared/Globals/globalApi/globalApi';
+import { SaveAccessDataM, getAccessTreeM } from '../../api/roleApi';
 
 interface FormsAndActionsProps {
   className?: string;
@@ -15,11 +15,8 @@ export const FormsAndActions = memo((props: FormsAndActionsProps) => {
   const { className, selectedField } = props;
   const { t } = useTranslation('core');
 
-  // const [getInit, { data: getInitData }] = getInitM();
-  // const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
-  // const [getFgData] = getFgDataM();
-
   const [getAccessTree, { data: getAccessTreeData }] = getAccessTreeM();
+  const [saveAccessData] = SaveAccessDataM();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -36,7 +33,7 @@ export const FormsAndActions = memo((props: FormsAndActionsProps) => {
       <Button
         onClick={openModalFunction}
         theme="background"
-        // disabled={!selectedField}
+        disabled={!selectedField}
         className={cls.addButtons}
       >
         <HStack gap="16">
@@ -52,11 +49,7 @@ export const FormsAndActions = memo((props: FormsAndActionsProps) => {
             closeModalFunction={closeModalFunction}
             getAccessTree={getAccessTree}
             getAccessTreeData={getAccessTreeData}
-            // getInit={getInit}
-            // addDataRole={addDataRole}
-            // getFgData={getFgData}
-            // getInitData={getInitData}
-            // addDataRoleQ={addDataRoleQ}
+            saveAccessData={saveAccessData}
           />
         )}
       </Modal>

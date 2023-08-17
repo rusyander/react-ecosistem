@@ -88,15 +88,6 @@ const CoreGlobalApi = rtkApi.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-
-    getAccessTree: build.mutation<any, string[]>({
-      query: (path) => ({
-        url: '/api/core/role/getAccessTree',
-        body: path,
-        method: 'POST',
-      }),
-      invalidatesTags: ['User'],
-    }),
   }),
   overrideExisting: true,
 });
@@ -109,4 +100,3 @@ export const getDataGridM = CoreGlobalApi.useGetDataGridMutation;
 export const getGridDataInitM = CoreGlobalApi.useGetGridDataInitMutation;
 export const getInitM = CoreGlobalApi.useGetInitMutation;
 export const getFgDataM = CoreGlobalApi.useGetFgDataMutation;
-export const getAccessTreeM = CoreGlobalApi.useGetAccessTreeMutation;
