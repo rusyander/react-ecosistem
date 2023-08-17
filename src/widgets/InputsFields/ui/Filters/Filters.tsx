@@ -45,23 +45,6 @@ export const Filters = memo((props: FiltersProps) => {
   );
 
   // payloadData
-
-  // filter payload
-  // const newFilterPayload = useMemo(
-  //   () => ({
-  //     filter: newDataArray,
-  //     pageNumber: 1,
-  //     pageSize: 100,
-  //     params: null,
-  //     sort: [],
-  //     totalCount: null,
-  //   }),
-  //   [newDataArray]
-  // );
-  // const newFilterPayload = useMemo(
-  //   () => ({ ...payloadData, filter: newDataArray }),
-  //   [newDataArray, payloadData]
-  // );
   const newFilterPayload = useMemo(() => {
     if (isFilter) {
       if (payloadData.filter !== undefined) {
@@ -82,7 +65,7 @@ export const Filters = memo((props: FiltersProps) => {
 
   // function for input change and update data
   const handleInputChange = useCallback(
-    (index: number, value: string) => {
+    (index: number, value: string, input?: any) => {
       const data = UseFilterPayload(
         filterColsData,
         setFilterColsData,
@@ -90,7 +73,6 @@ export const Filters = memo((props: FiltersProps) => {
         value,
         isFilter
       );
-      console.log('data', data);
       if (isFilter) {
         setNewDataArray(data as any);
       }
@@ -102,8 +84,6 @@ export const Filters = memo((props: FiltersProps) => {
   // function for filter and update data
   const handleFilter = useCallback(() => {
     if (isFilter) {
-      console.log('newFilterPayload', newFilterPayload);
-
       getGridData?.(newFilterPayload);
     }
   }, [getGridData, isFilter, newFilterPayload]);

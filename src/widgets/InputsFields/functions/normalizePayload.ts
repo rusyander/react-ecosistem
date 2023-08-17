@@ -8,10 +8,8 @@ export const UseFilterPayload = (
   const updatedData = [...data];
   updatedData[index] = { ...updatedData[index], value };
   setUpdateData(updatedData);
-  console.log('value', value);
 
   const changedData = updatedData.map((item) => {
-    // console.log('item-------------------------', item);
     if (isFilter && item.value !== '' && item.value !== undefined) {
       if (item.filterUpperSign && item.filterLikePercSign) {
         const payloadDataMap = {

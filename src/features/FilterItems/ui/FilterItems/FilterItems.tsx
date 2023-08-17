@@ -42,11 +42,14 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   const [between1, setBetween1] = useState('');
   const [between2, setBetween2] = useState('');
   const [betweenIndex, setBetweenIndex] = useState('');
+  const [inputsData, setInputsData] = useState<any>(null);
   const normalizedValuesBetween = [between1, between2];
 
   useEffect(() => {
     console.log('normalizedValuesBetween', normalizedValuesBetween);
-    onChange(betweenIndex, normalizedValuesBetween);
+    console.log('inputsData', inputsData);
+
+    onChange(betweenIndex, normalizedValuesBetween, inputsData);
   }, [between1, between2]);
 
   //--------- For dropdown data
@@ -203,6 +206,10 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       <Input
                         onChange={(value) => setBetween2(value)}
                         onClick={() => setBetweenIndex(index)}
+                        // onClick={() => {
+                        //   setBetweenIndex(index);
+                        //   setInputsData(inputs);
+                        // }}
                         value={between2}
                         isLabel
                         label={t(inputs?.name)}
@@ -216,17 +223,40 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   inputs?.filterCondition === 'BETWEEN' &&
                   inputs?.dataTypeId === 4 && (
                     <VStack max gap="16" className={cls.datepicker}>
-                      <VStack max onClick={() => setBetweenIndex(index)}>
+                      <VStack
+                        max
+                        // onClick={() => setBetweenIndex(index)}
+                        onClick={() => {
+                          console.log('inputs+++++++++++', inputs);
+                          // setBetweenIndex(index);
+                          // setInputsData(inputs);
+                        }}
+                      >
                         <DatePicker
-                          onChange={(value) => setBetween1(value || '')}
+                          onChange={(value) => {
+                            setBetween1(value || '');
+                            setBetweenIndex(index);
+                            setInputsData(inputs);
+                          }}
                           label={`${t(inputs?.name)}  ${t('fromDAte')}`}
                           inputs={inputs}
                           defaultValuesData={defaultValuesData}
                         />
                       </VStack>
-                      <VStack max onClick={() => setBetweenIndex(index)}>
+                      <VStack
+                        max
+                        // onClick={() => setBetweenIndex(index)}
+                        onClick={() => {
+                          setBetweenIndex(index);
+                          setInputsData(inputs);
+                        }}
+                      >
                         <DatePicker
-                          onChange={(value) => setBetween2(value || '')}
+                          onChange={(value) => {
+                            setBetween2(value || '');
+                            setBetweenIndex(index);
+                            setInputsData(inputs);
+                          }}
                           label={`${t(inputs?.name)} ${t('toDate')}`}
                           inputs={inputs}
                           defaultValuesData={defaultValuesData}
@@ -241,7 +271,11 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       <VStack max gap="16" className={cls.datepicker}>
                         <VStack max onClick={() => setBetweenIndex(index)}>
                           <DateTimePicker
-                            onChange={(value) => setBetween1(value)}
+                            onChange={(value) => {
+                              setBetween1(value);
+                              setBetweenIndex(index);
+                              setInputsData(inputs);
+                            }}
                             label={`${t(inputs?.name)}  ${t('fromDAte')}`}
                             inputs={inputs}
                             defaultValuesData={defaultValuesData}
@@ -249,7 +283,11 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         </VStack>
                         <VStack max onClick={() => setBetweenIndex(index)}>
                           <DateTimePicker
-                            onChange={(value) => setBetween2(value)}
+                            onChange={(value) => {
+                              setBetween2(value);
+                              setBetweenIndex(index);
+                              setInputsData(inputs);
+                            }}
                             label={`${t(inputs?.name)} ${t('toDate')}`}
                             inputs={inputs}
                             defaultValuesData={defaultValuesData}
