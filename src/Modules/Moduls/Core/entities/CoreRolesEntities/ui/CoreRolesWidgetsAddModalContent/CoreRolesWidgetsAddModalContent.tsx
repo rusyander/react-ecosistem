@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreRolesWidgetsAddModalContent.module.scss';
 import {
@@ -8,8 +8,6 @@ import {
   classNames,
 } from 'Modules/UiKit';
 import { convertArrayToObject, InputsFields } from 'widgets/InputsFields';
-import { getInitM } from 'shared/Globals/globalApi/globalApi';
-import { AddDataRoleM } from 'Modules/Moduls/Core/features/CoreRolesFeatures/api/roleApi';
 
 interface CoreRolesWidgetsAddModalContentProps {
   className?: string;
@@ -31,9 +29,6 @@ export const CoreRolesWidgetsAddModalContent = memo(
       getInitData,
     } = props;
     const { t } = useTranslation('core');
-    // const [getInit, { data: getInitData }] = getInitM();
-
-    // const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
 
     const [inputsValue, setInputsValue] = useState([]);
 

@@ -7,9 +7,7 @@ export default function CORE_SET_FORM_ACTION_AUDIT() {
 
   return (
     <Page>
-      <div>
-        <CoreSetFormActionAuditWidgets />
-      </div>
+      <CoreSetFormActionAuditWidgets />
     </Page>
   );
 }

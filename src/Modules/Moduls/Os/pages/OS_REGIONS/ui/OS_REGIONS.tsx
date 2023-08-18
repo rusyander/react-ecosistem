@@ -1,12 +1,13 @@
-import { Page } from "Modules/UiKit";
-import { useTranslation } from "react-i18next";
+import { OsRegionsWidgets } from 'Modules/Moduls/Os/widgets/OsRegionsWidgets';
+import { Page } from 'Modules/UiKit';
+import { useTranslation } from 'react-i18next';
 
 export default function OS_REGIONS() {
-  const { t } = useTranslation("");
+  const { t } = useTranslation('');
 
   return (
     <Page>
-      <div>OS_REGIONS</div>
+      <OsRegionsWidgets />
     </Page>
   );
 }

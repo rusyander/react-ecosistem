@@ -39,6 +39,7 @@ export const GridModal = memo((props: GridModalProps) => {
   const { t } = useTranslation();
 
   const [getDataPaged, { data: grid, isLoading }] = getDataPagedM();
+  const roleName = 'OS_EMPLOYEES';
 
   const [selected, setSelected]: any = useState(
     defaultValuesData
@@ -61,7 +62,7 @@ export const GridModal = memo((props: GridModalProps) => {
   // --------------------
   const gridParamsData = useMemo(() => {
     return {
-      dictCode: 'OS_EMPLOYEES',
+      dictCode: roleName,
       grid: {
         filter: [],
         pageNumber: currentPageNumber ?? 1,
@@ -96,7 +97,7 @@ export const GridModal = memo((props: GridModalProps) => {
   const sortData = useCallback(
     (sorted: GridSort[]) => {
       const gridParamsData = {
-        dictCode: 'OS_EMPLOYEES',
+        dictCode: roleName,
         grid: {
           filter: [],
           pageNumber: currentPageNumber,

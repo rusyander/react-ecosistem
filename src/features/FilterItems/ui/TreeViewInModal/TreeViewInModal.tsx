@@ -8,9 +8,9 @@ import {
   Input,
   Modal,
   ModalHeader,
-  TreeView,
   VStack,
 } from 'Modules/UiKit';
+import { TreeViewInModalContent } from '../TreeViewInModalContent/TreeViewInModalContent';
 
 interface DataElement {
   label: string;
@@ -19,31 +19,23 @@ interface DataElement {
 }
 interface TreeViewInModalPropsProps {
   className?: string;
-  data: any;
   selectTreeItems?: any;
   placeholder?: string;
-  valueData?: string;
   index?: number;
   onChange?: (index: any, value: any) => void;
-  updateTreeData?: any;
   sendTreeDataFirst?: any;
-  loadingTree?: boolean;
   modalTitle?: string;
   defaultValues?: any;
 }
 
 export const TreeViewInModal = memo(
   ({
-    data,
+    className,
     placeholder,
     selectTreeItems,
-    className,
-    valueData,
     index,
     onChange,
-    updateTreeData,
     sendTreeDataFirst,
-    loadingTree,
     modalTitle,
     defaultValues = undefined,
   }: TreeViewInModalPropsProps) => {
@@ -58,7 +50,6 @@ export const TreeViewInModal = memo(
     );
     const [inputValue, setInputValue] = useState(selectedFild);
     const inputValueRef = useRef(selectedFild) as React.MutableRefObject<any>;
-    const [clearInputValue, setClearInputValue] = useState(true);
 
     const { t } = useTranslation();
 
@@ -78,13 +69,7 @@ export const TreeViewInModal = memo(
       setSelectedForInput(null);
       setForClean(true);
       inputValueRef.current = null;
-      setInputValue('');
       setSelectedFild('');
-      setClearInputValue(false);
-
-      setTimeout(() => {
-        setClearInputValue(true);
-      }, 100);
     }, []);
 
     const OnClickCloseModal = useCallback(() => {
@@ -94,7 +79,7 @@ export const TreeViewInModal = memo(
     const selectRow = useCallback(() => {
       setForClean(false);
       setSelectedForInput(selectedFild);
-      setInputValue(selectedFild);
+      // setInputValue(selectedFild);
       selectTreeItems?.(selectedFild);
       setHasOpenModal(false);
       onChange?.(index, selectedFild?.organizationId);
@@ -148,13 +133,12 @@ export const TreeViewInModal = memo(
             </Button>
 
             <div className={cls.treeViewMaxWidth}>
-              <TreeView
-                data={data}
-                selectTreeItems={(value: any) => setSelectedFild(value)}
-                selectedFild={selectedFild}
-                updateTreeData={updateTreeData}
-                loadingTree={loadingTree}
-              />
+              {hasOpenModal && (
+                <TreeViewInModalContent
+                  selectTreeItems={(value: any) => setSelectedFild(value)}
+                  selectedFild={selectedFild}
+                />
+              )}
             </div>
           </VStack>
         </Modal>

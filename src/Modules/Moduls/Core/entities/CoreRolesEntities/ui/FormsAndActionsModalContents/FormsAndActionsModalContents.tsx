@@ -8,7 +8,6 @@ import {
   VStack,
   classNames,
 } from 'Modules/UiKit';
-
 import { CheckboxTreeDataProps } from 'shared/Globals/types/checkboxTreeTypes';
 import { convertToNormalizaCheckboxDefaultValue } from 'widgets/InputsFields';
 import { RoleReturnData } from 'Modules/Moduls/Core/features/CoreRolesFeatures/models/types/roleTypes';
@@ -30,41 +29,19 @@ export const FormsAndActionsModalContents = memo(
       closeModalFunction,
       selectedField,
       getAccessTree,
-      getAccessTreeData,
       saveAccessData,
     } = props;
-    // const userAcces = ['OS', 'OS_SYS_ADMIN'];
     const userAcces = [selectedField.application_code, selectedField.role_code];
-
     const { t } = useTranslation('core');
-
-    // -----------
-    // const [checked, setChecked] = useState<string[]>(
-    //   getAccessTreeData?.data?.accessData ?? []
-    // );
-    // const [checkboxTreeData, setCheckboxTreeData]: any = useState();
-
-    // const [expanded, setExpanded] = useState<string[]>([]);
-
-    // const onCheck = (value: string[]) => {
-    //   setChecked(value);
-    // };
-
-    // const onExpand = (value: string[]) => {
-    //   setExpanded(value);
-    // };
+    const roleCode = 'CORE_ROLE_FORMS_ACTIONS';
 
     useEffect(() => {
       getAccessTree(userAcces).then((res: CheckboxTreeDataProps | any) => {
         if (res?.data?.result === '1') {
-          // setChecked(res?.data?.data?.accessData);
           setSelectedKeys(
             convertToNormalizaCheckboxDefaultValue(res?.data?.data?.accessData)
           );
           setNodes(res?.data?.data?.access);
-          // setCheckboxTreeData(
-          //   transformCheckboxTreeData(res?.data?.data?.access)
-          // );
         }
       });
     }, []);
@@ -94,22 +71,12 @@ export const FormsAndActionsModalContents = memo(
           className,
         ])}
       >
-        <CheckFormEnterM checkFormEnterName="CORE_ROLE_FORMS_ACTIONS" />
+        <CheckFormEnterM checkFormEnterName={roleCode} />
         <ModalHeader
           title={t('Формы и действия роли') || ''}
           onClose={closeModalFunction}
         />
         <VStack max gap="32" className={cls.formContent}>
-          {/* {checkboxTreeData && checked && (
-            <CheckboxTree
-              checked={checked}
-              expanded={expanded}
-              nodes={checkboxTreeData}
-              onCheck={onCheck}
-              onExpand={onExpand}
-              iconsClass="fa5"
-            />
-          )} */}
           {nodes && (
             <Tree
               value={nodes}

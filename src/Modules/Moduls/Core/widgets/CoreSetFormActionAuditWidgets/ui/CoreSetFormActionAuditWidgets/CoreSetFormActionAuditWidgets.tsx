@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSetFormActionAuditWidgets.module.scss';
 import { Button, HStack, Texts, classNames } from 'Modules/UiKit';
@@ -7,8 +7,6 @@ import {
   saveConfigAccessTreeM,
 } from '../../api/CoreSetFormActionAuditWidgets';
 import { Icon } from '@iconify/react';
-
-import { Tree } from 'primereact/tree';
 import { convertToNormalizaCheckboxDefaultValue } from 'widgets/InputsFields';
 import { CoreSetFormActionAuditEntities } from 'Modules/Moduls/Core/entities/CoreSetFormActionAuditEntities';
 
@@ -44,8 +42,6 @@ export const CoreSetFormActionAuditWidgets = memo(
         saveConfigAccessTree(checked);
       }
     };
-
-    // -------------------------------------
 
     return (
       <div

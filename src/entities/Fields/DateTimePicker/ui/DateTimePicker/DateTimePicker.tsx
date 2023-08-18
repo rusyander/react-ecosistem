@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './DateTimePicker.module.scss';
-import { Input, classNames } from 'Modules/UiKit';
+import { Input } from 'Modules/UiKit';
 
 interface DateTimePickerProps {
   className?: string;
@@ -37,11 +37,6 @@ export const DateTimePicker = memo((props: DateTimePickerProps) => {
     const formatDate = (dateString: any) => {
       if (!dateString) return 'None';
       const date = new Date(dateString);
-      // const formattedDate = `${String(date.getDate()).padStart(
-      //   2,
-      //   '0'
-      // )}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
-
       const formattedDate = `${String(date.getDate()).padStart(
         2,
         '0'

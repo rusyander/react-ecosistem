@@ -7,8 +7,6 @@ import {
   VStack,
   classNames,
 } from 'Modules/UiKit';
-import { AddDataRoleM } from 'Modules/Moduls/Core/features/CoreRolesFeatures/api/roleApi';
-import { getFgDataM, getInitM } from 'shared/Globals/globalApi/globalApi';
 import { convertArrayToObject, InputsFields } from 'widgets/InputsFields';
 
 interface CoreRolesWidgetsEditModalContentProps {
@@ -35,9 +33,6 @@ export const CoreRolesWidgetsEditModalContent = memo(
       getInitData,
     } = props;
     const { t } = useTranslation('core');
-    // const [getInit, { data: getInitData }] = getInitM();
-    // const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
-    // const [getFgData] = getFgDataM();
     const [defaultData, setDefaultData] = useState<any>([]);
 
     const [inputsValue, setInputsValue]: any = useState([]);

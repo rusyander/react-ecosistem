@@ -1,8 +1,6 @@
 @import 'reset';
 @import 'variables/globals';
-@import 'treeCss';
-// @import '../../../node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss';
-// @import 'node_modules/react-checkbox-tree/src/scss/react-checkbox-tree.scss';
+
 @import 'primereact/resources/themes/lara-light-indigo/theme.css';
 @import 'primereact/resources/primereact.min.css';
 body {
@@ -87,7 +85,7 @@ body {
   overflow-y: auto;
 }
 
-// *********
+// ********* primeReact
 .p-tree {
   background: transparent;
   border: none;

@@ -65,7 +65,7 @@ export const Filters = memo((props: FiltersProps) => {
 
   // function for input change and update data
   const handleInputChange = useCallback(
-    (index: number, value: string, input?: any) => {
+    (index: number, value: string) => {
       const data = UseFilterPayload(
         filterColsData,
         setFilterColsData,

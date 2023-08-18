@@ -9,13 +9,12 @@ interface OsProps {
 
 export const Os = ({ className }: OsProps) => {
   return (
-    <StoreProviderOs>
-      <Suspense fallback={''}>
-        <div className="contentMargin">
-          <h1>OS</h1>
-          <AppRouter />
-        </div>
-      </Suspense>
-    </StoreProviderOs>
+    // <StoreProviderOs>
+    <Suspense fallback={''}>
+      <div className="contentMargin">
+        <AppRouter />
+      </div>
+    </Suspense>
+    // </StoreProviderOs>
   );
 };

@@ -50,6 +50,7 @@ export { Filter } from './features';
 // widgets
 export { Grid } from './widgets';
 export { GridInPopup } from './widgets';
+export { HeadersActionButtons } from './widgets';
 
 // page
 export { PageError } from './page';

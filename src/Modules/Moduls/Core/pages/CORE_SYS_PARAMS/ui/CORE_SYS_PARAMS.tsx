@@ -7,9 +7,7 @@ export default function CORE_SYS_PARAMS() {
 
   return (
     <Page>
-      <div>
-        <CoreSysParamsWidgets />
-      </div>
+      <CoreSysParamsWidgets />
     </Page>
   );
 }

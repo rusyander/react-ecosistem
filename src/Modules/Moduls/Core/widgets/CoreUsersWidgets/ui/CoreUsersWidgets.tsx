@@ -156,7 +156,7 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         // refresh Buttons
         showRefreshButton={true}
         // can open modal when double click on grid row
-        hasOpenGridRowModal={true}
+        hasOpenGridRowModal={false}
         //isSelectable
         isSelectable={true}
       />

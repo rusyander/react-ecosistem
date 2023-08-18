@@ -35,7 +35,6 @@ export const InputsFields = memo((props: InputsFieldsProps) => {
     const addNewValueFields: any = filterData?.map((item: any) => {
       return {
         ...item,
-        // value: defaultValuesData?.data?.[item.token] || null,
         value: null,
       };
     });

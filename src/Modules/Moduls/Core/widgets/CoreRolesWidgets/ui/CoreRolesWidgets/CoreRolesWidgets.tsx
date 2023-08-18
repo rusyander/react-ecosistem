@@ -46,7 +46,6 @@ export const CoreRolesWidgets = memo((props: CoreRolesWidgetsProps) => {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageLimit, setPageLimit] = useState(100);
   const roleName = 'CORE_ROLES';
-  // const roleName = gridDataInit?.data?.gridCode;
   const aplicationCode = gridDataInit?.data?.applicationCode;
 
   const headerData = gridDataInit?.data?.cols?.map((item: any) => {

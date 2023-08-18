@@ -75,77 +75,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   // console.log('attrData', attrData);
 
   // ---------------------------------------------------------- For tree data
-
-  const [getTreePartDataSpr, { data: getTreePartData }] = getTreePartDataSprM();
-
   const [selectTree, setSelectTree] = useState<any>('');
-  const [treeData, setTreeData]: any = useState([]);
-  const [selectedTreeDataFildId, setSelectedTreeDataFildId] = useState<any>('');
-
-  const sendTreeDataFirst = useCallback(() => {
-    getTreePartDataSpr('-1');
-    if (treeData === undefined || treeData.length === 0) {
-      setTreeData(getTreePartData?.data);
-    }
-  }, [getTreePartData?.data, getTreePartDataSpr, treeData]);
-
-  useEffect(() => {
-    sendTreeDataFirst();
-    // }
-  }, []);
-  const [loadingTree, setLoadingTree] = useState(false);
-
-  const updateTreeDataFunction = useCallback((id: number, newFields: any) => {
-    const findAndAddData = (data: any) => {
-      if (data.organizationId === id) {
-        const updatedData = { ...data, children: newFields };
-        if (newFields.childCount > 0) {
-          updatedData.children = [
-            ...(data.children || []),
-            ...newFields.children,
-          ];
-        }
-
-        return { ...updatedData, ...newFields };
-      } else if (data.children && data.children.length > 0) {
-        return { ...data, children: data.children.map(findAndAddData) };
-      }
-      return data;
-    };
-
-    setTimeout(() => {
-      setTreeData((prevTreeData: any) => prevTreeData.map(findAndAddData));
-    }, 0);
-  }, []);
-
-  const fetchDataFromBackend = useCallback(
-    async (id: number) => {
-      try {
-        setLoadingTree(true);
-        const newFields = await $api.post('/api/os/org/getTreePartDataSpr', id);
-        if (newFields.data) {
-          updateTreeDataFunction(id, newFields?.data?.data);
-          setLoadingTree(false);
-        }
-      } catch (error) {
-        console.error('Error fetching data from the backend:', error);
-      }
-    },
-    [updateTreeDataFunction]
-  );
-
-  const handleItemClick = useCallback(
-    (id: number) => {
-      setSelectedTreeDataFildId((prev: any) => {
-        const uniqueID = [...new Set(prev)];
-        return [...uniqueID, id];
-      });
-      if (!selectedTreeDataFildId.includes(id)) {
-        fetchDataFromBackend(id);
-      }
-    },
-    [fetchDataFromBackend, selectedTreeDataFildId]
-  );
 
   // grid
   const [selectGrid, setSelectGrid] = useState<any>('');
@@ -160,8 +90,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
       onChange(passIndex, password);
     }
   }, [password, passwordConf]);
-
-  // ------------------- fatePicker
 
   return (
     <div className={classNames(cls.coreUsersFilter, {}, [className])}>
@@ -187,8 +115,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                     </VStack>
                   )}
 
-                {/* <p>{errorData?.field}</p> */}
-
                 {inputs?.filterDisplayTypeCode === 'F' &&
                   inputs?.dataTypeId !== 4 &&
                   inputs?.dataTypeId !== 132 &&
@@ -206,10 +132,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       <Input
                         onChange={(value) => setBetween2(value)}
                         onClick={() => setBetweenIndex(index)}
-                        // onClick={() => {
-                        //   setBetweenIndex(index);
-                        //   setInputsData(inputs);
-                        // }}
                         value={between2}
                         isLabel
                         label={t(inputs?.name)}
@@ -223,15 +145,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   inputs?.filterCondition === 'BETWEEN' &&
                   inputs?.dataTypeId === 4 && (
                     <VStack max gap="16" className={cls.datepicker}>
-                      <VStack
-                        max
-                        // onClick={() => setBetweenIndex(index)}
-                        onClick={() => {
-                          console.log('inputs+++++++++++', inputs);
-                          // setBetweenIndex(index);
-                          // setInputsData(inputs);
-                        }}
-                      >
+                      <VStack max>
                         <DatePicker
                           onChange={(value) => {
                             setBetween1(value || '');
@@ -245,7 +159,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       </VStack>
                       <VStack
                         max
-                        // onClick={() => setBetweenIndex(index)}
                         onClick={() => {
                           setBetweenIndex(index);
                           setInputsData(inputs);
@@ -268,31 +181,29 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.filterCondition === 'BETWEEN' &&
                   inputs?.dataTypeId === 132 && (
                     <VStack max gap="16" className={cls.datepicker}>
-                      <VStack max gap="16" className={cls.datepicker}>
-                        <VStack max onClick={() => setBetweenIndex(index)}>
-                          <DateTimePicker
-                            onChange={(value) => {
-                              setBetween1(value);
-                              setBetweenIndex(index);
-                              setInputsData(inputs);
-                            }}
-                            label={`${t(inputs?.name)}  ${t('fromDAte')}`}
-                            inputs={inputs}
-                            defaultValuesData={defaultValuesData}
-                          />
-                        </VStack>
-                        <VStack max onClick={() => setBetweenIndex(index)}>
-                          <DateTimePicker
-                            onChange={(value) => {
-                              setBetween2(value);
-                              setBetweenIndex(index);
-                              setInputsData(inputs);
-                            }}
-                            label={`${t(inputs?.name)} ${t('toDate')}`}
-                            inputs={inputs}
-                            defaultValuesData={defaultValuesData}
-                          />
-                        </VStack>
+                      <VStack max onClick={() => setBetweenIndex(index)}>
+                        <DateTimePicker
+                          onChange={(value) => {
+                            setBetween1(value);
+                            setBetweenIndex(index);
+                            setInputsData(inputs);
+                          }}
+                          label={`${t(inputs?.name)}  ${t('fromDAte')}`}
+                          inputs={inputs}
+                          defaultValuesData={defaultValuesData}
+                        />
+                      </VStack>
+                      <VStack max onClick={() => setBetweenIndex(index)}>
+                        <DateTimePicker
+                          onChange={(value) => {
+                            setBetween2(value);
+                            setBetweenIndex(index);
+                            setInputsData(inputs);
+                          }}
+                          label={`${t(inputs?.name)} ${t('toDate')}`}
+                          inputs={inputs}
+                          defaultValuesData={defaultValuesData}
+                        />
                       </VStack>
                     </VStack>
                   )}
@@ -328,15 +239,12 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                   <VStack max className={cls.input}>
                     <label htmlFor="">{t(inputs?.name)}</label>
                     <TreeViewInModal
-                      data={treeData}
+                      // data={treeData}
                       selectTreeItems={(value: any) => setSelectTree(value)}
                       placeholder={t(inputs?.name)}
-                      valueData={inputs?.value}
+                      // valueData={inputs?.value}
                       index={index}
                       onChange={onChange}
-                      updateTreeData={handleItemClick}
-                      sendTreeDataFirst={sendTreeDataFirst}
-                      loadingTree={loadingTree}
                       modalTitle={props.modalTitle}
                     />
                   </VStack>
@@ -363,21 +271,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                 {inputs?.filterDisplayTypeCode === 'F' &&
                   inputs?.filterCondition !== 'BETWEEN' &&
                   inputs?.dataTypeId === 4 && (
-                    // <Input
-                    //   onChange={(value) => onChange(index, value)}
-                    //   value={inputs?.value}
-                    //   isLabel
-                    //   type="date"
-                    //   form="dd.MM.yyyy"
-                    //   data-slots="dmy"
-                    //   pattern="\d{4}-\d{2}-\d{2}"
-                    //   label={inputs?.name}
-                    //   className={cls.input}
-                    //   placeholder={inputs?.name}
-                    //   requered={inputs?.isNullableFlag === 'N' ? true : false}
-                    //   style={{ width: inputs?.widthItem }}
-                    // />
-
                     <DatePicker
                       onChange={(value) => onChange(index, value)}
                       inputs={inputs}
@@ -466,6 +359,7 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       )}
                     </VStack>
                   )}
+
                 {inputs?.displayTypeCode === 'F' &&
                   inputs?.widthItem &&
                   inputs?.dataTypeId !== 4 &&
@@ -484,43 +378,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         requered={inputs?.isNullableFlag === 'N' ? true : false}
                       />
 
-                      {JSON.stringify(errorData)?.includes(inputs?.token) && (
-                        <Texts
-                          text={`${inputs?.name} ${errorData?.[index]?.message}`}
-                          className={cls.errorText}
-                        />
-                      )}
-                    </VStack>
-                  )}
-                {inputs?.displayTypeCode === 'F' &&
-                  inputs?.condition === 'BETWEEN' && (
-                    <VStack max>
-                      <VStack max>
-                        <Input
-                          onChange={(value) => setBetween1(value)}
-                          onClick={() => setBetweenIndex(index)}
-                          value={between1}
-                          isLabel
-                          label={inputs?.name}
-                          className={cls.input}
-                          placeholder={inputs?.name}
-                          requered={
-                            inputs?.isNullableFlag === 'N' ? true : false
-                          }
-                        />
-                        <Input
-                          onChange={(value) => setBetween2(value)}
-                          onClick={() => setBetweenIndex(index)}
-                          value={between2}
-                          isLabel
-                          label={inputs?.name}
-                          className={cls.input}
-                          placeholder={inputs?.name}
-                          requered={
-                            inputs?.isNullableFlag === 'N' ? true : false
-                          }
-                        />
-                      </VStack>
                       {JSON.stringify(errorData)?.includes(inputs?.token) && (
                         <Texts
                           text={`${inputs?.name} ${errorData?.[index]?.message}`}
@@ -595,15 +452,15 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         )}
                       </HStack>
                       <TreeViewInModal
-                        data={treeData}
+                        // data={treeData}
                         selectTreeItems={(value: any) => setSelectTree(value)}
                         placeholder={t(inputs?.colName)}
-                        valueData={inputs?.value}
+                        // valueData={inputs?.value}
                         index={index}
                         onChange={onChange}
-                        updateTreeData={handleItemClick}
-                        sendTreeDataFirst={sendTreeDataFirst}
-                        loadingTree={loadingTree}
+                        // updateTreeData={handleItemClick}
+                        // sendTreeDataFirst={sendTreeDataFirst} d s
+                        // loadingTree={loadingTree}
                         modalTitle={props.modalTitle}
                         className={cls.dataTree}
                         defaultValues={defaultValuesData}

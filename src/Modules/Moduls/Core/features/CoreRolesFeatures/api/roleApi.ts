@@ -5,7 +5,7 @@ import { SaveAccessDataPayload } from 'shared/types/initType';
 
 const RoleApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
-    addDataRole: build.mutation<RoleReturnData, any>({
+    addDataRole: build.mutation<RoleReturnData, RoleReturnData>({
       query: (data) => ({
         url: '/api/core/role/addData',
         body: data,

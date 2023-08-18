@@ -7,8 +7,8 @@ import { Filter, Reload } from '../../../../features';
 interface HeadersActionButtonsProps {
   setCanOpenFilter?: (canOpenFilter: boolean) => void;
   isOpenFilter?: boolean;
-  showRefreshButton: boolean;
-  onRefresh: any;
+  showRefreshButton?: boolean;
+  onRefresh?: any;
   AddNewButtonComponents?: any[];
 }
 

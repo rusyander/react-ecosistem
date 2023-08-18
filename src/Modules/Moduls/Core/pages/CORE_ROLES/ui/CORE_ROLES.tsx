@@ -7,9 +7,7 @@ export default function CORE_ROLES() {
 
   return (
     <Page>
-      <div>
-        <CoreRolesWidgets />
-      </div>
+      <CoreRolesWidgets />
     </Page>
   );
 }
