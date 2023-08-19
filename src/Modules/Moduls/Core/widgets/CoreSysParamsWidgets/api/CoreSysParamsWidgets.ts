@@ -7,6 +7,7 @@ const CoreSysParamsApi = rtkApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['User'],
     }),
 
     getAttrValues: build.mutation<any[], any>({
@@ -15,6 +16,7 @@ const CoreSysParamsApi = rtkApi.injectEndpoints({
         method: 'POST',
         body: [{ code: 'CORE_APPLICATIONS' }],
       }),
+      invalidatesTags: ['User'],
     }),
   }),
   overrideExisting: true,

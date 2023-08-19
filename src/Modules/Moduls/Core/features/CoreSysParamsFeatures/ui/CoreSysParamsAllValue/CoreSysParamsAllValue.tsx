@@ -22,8 +22,6 @@ export const CoreSysParamsAllValue = memo(
     const [getSysParValuesGridData, { data: getSysParValuesGridDataQ }] =
       getSysParValuesGridDataM();
 
-    // console.log('selectedField', selectedField);
-
     const [openModal, setOpenModal] = useState(false);
 
     const openModalFunction = useCallback(() => {

@@ -1,18 +1,21 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsWidgets.module.scss';
 import {
   CheckFormEnterM,
   Grid,
+  Texts,
+  VStack,
   classNames,
   pageCountOptions,
 } from 'Modules/UiKit';
 
-import { getGridDataInitM } from 'shared/Globals/globalApi/globalApi';
+import { getInitM } from 'shared/Globals/globalApi/globalApi';
 import { GridSort } from 'shared/Globals/types/GridTypes';
-import { InputsFields } from 'widgets/InputsFields';
+import { InputsFields, convertArrayToObject } from 'widgets/InputsFields';
 import { filterBlock, gridColsHeader } from '../../consts/headerData';
 import { GetAttrValuesM, GetGridDataM } from '../../api/CoreSysParamsWidgets';
+
 import {
   CoreSysParamsAllValue,
   CoreSysParamsNewValue,
@@ -34,10 +37,8 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
   const { t } = useTranslation('core');
   const [getDataGrid, { data: grid, isLoading }]: any = GetGridDataM();
 
-  const [
-    getGridDataInit,
-    { data: gridDataInit, isLoading: gridDataInitLoading },
-  ] = getGridDataInitM();
+  const [getInit, { data: getInitData }] = getInitM();
+
   const [getAttrValues, { data: getAttrValuesQ }]: any = GetAttrValuesM();
 
   const [selected, setSelected]: any = useState('');
@@ -49,7 +50,7 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
   const getAttrValuesPayload = [{ code: 'CORE_APPLICATIONS' }];
   useEffect(() => {
     onPaginationPageChange();
-    getGridDataInit(roleName);
+    getInit('CORE_SYSTEM_PARAMS_FIELDS');
     getAttrValues(getAttrValuesPayload);
   }, []);
 
@@ -102,7 +103,7 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
           params: null,
           pageNumber: currentPageNumber,
           pageSize: pageLimit,
-          totalCount: totalCount ?? null,
+          totalCount: totalCount ?? 0,
           sort: sorted,
           filter: [],
         },
@@ -130,20 +131,87 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
     []
   );
 
+  // ---------------------
+
+  function transformObject(inputObject: any) {
+    const transformedObject = {
+      applCode: inputObject.applicationCode,
+      roleCode: inputObject.roleCode,
+      orgId: inputObject.organizationId,
+      userId: inputObject.userId,
+    };
+    return transformedObject;
+  }
+
+  const [inputsValue, setInputsValue] = useState([]);
+  const inputeRef: any = useRef(null);
+  const [transformData, setTransformData]: any = useState();
+  const gridHeight = currentGridHeight - inputeRef?.current?.clientHeight;
+  useEffect(() => {
+    handleSubmit();
+  }, [inputsValue]);
+
+  const handleSubmit = useCallback(() => {
+    // getDataGrid(gridParamsData);
+    const clearData = inputsValue.filter((item: any) => {
+      return item.fildValue !== null && item.fildValue !== undefined;
+    });
+    const value = convertArrayToObject(clearData);
+    const transformedObject = transformObject(value);
+    setTransformData(transformedObject);
+    const currentData = {
+      ...transformedObject,
+      gridRequest: {
+        params: null,
+        pageNumber: 1,
+        pageSize: 100,
+        totalCount: null,
+        sort: [],
+        filter: [],
+      },
+    };
+    if (value) {
+      getDataGrid(currentData);
+    }
+  }, [inputsValue]);
+
   return (
     <div className={classNames(cls.coreSysParamsWidgets, {}, [className])}>
       {roleName && <CheckFormEnterM checkFormEnterName={roleName} />}
+
+      <div ref={inputeRef}>
+        <div className={cls.Divider} />
+        <Texts size="sizeM" title={t('Уровень')} className={cls.margins} />
+        <div className={cls.Divider} />
+
+        {getInitData && (
+          <InputsFields
+            className={cls.filters}
+            filterData={getInitData?.data.attr ?? []}
+            isFilter={false}
+            setInputsValues={(data: any) => setInputsValue(data)}
+            // errorData={saveDataQ?.data}
+            attrData={getInitData?.data?.attrData}
+          />
+        )}
+
+        <Texts
+          size="sizeM"
+          title={t('Значения параметров выбранного уровня')}
+          className={cls.marginsValues}
+        />
+        <div className={cls.Divider} />
+      </div>
+
       {grid && (
         <Grid
           // for grid datagridColsHeader
           // gridCols={headerData ? headerData : []}
-          gridCols={gridColsHeader}
+          gridCols={gridColsHeader ? gridColsHeader : []}
           rowData={grid?.data?.content}
-          // gridCols={[]}
-          // rowData={[]}
           // for grid height
-          // gridHeight={630}
-          gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
+          gridHeight={gridHeight}
+          // gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
           // for modal
           // ModalContent={ModalContents}
           selectedFields={(selected: any) => setSelected(selected)}
@@ -171,7 +239,11 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
           onRefresh={refreshButtonFunction}
           // new button
           AddNewButtonComponents={[
-            <CoreSysParamsNewValue key={1} selectedField={selected} />,
+            <CoreSysParamsNewValue
+              key={1}
+              selectedField={selected}
+              fildValue={transformData}
+            />,
             <CoreSysParamsAllValue key={2} selectedField={selected} />,
             // <OsCountriesFeaturesDelete key={3} selectedField={selected} />,
           ]}
@@ -185,20 +257,20 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
           // can open modal when double click on grid row
           hasOpenGridRowModal={false}
           // pagination
-          // isPageable={true}
-          isPageable={
-            gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
-          }
+          isPageable={true}
+          // isPageable={
+          //   gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
+          // }
           // sort
-          // disableSorting={true}
-          disableSorting={
-            gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
-          }
+          disableSorting={true}
+          // disableSorting={
+          //   gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
+          // }
           //isSelectable
-          // isSelectable={true}
-          isSelectable={
-            gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
-          }
+          isSelectable={true}
+          // isSelectable={
+          //   gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
+          // }
         />
       )}
     </div>

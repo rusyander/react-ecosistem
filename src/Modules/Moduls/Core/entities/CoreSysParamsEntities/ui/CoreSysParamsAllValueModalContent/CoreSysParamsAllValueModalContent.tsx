@@ -57,8 +57,8 @@ export const CoreSysParamsAllValueModalContent = memo(
     ];
     useEffect(() => {
       getAttrValues(getAttrValuesPayload);
-      onPaginationPageChange();
       getSysParValuesGridData(roleName);
+      onPaginationPageChange();
     }, []);
 
     const gridParamsData = useMemo(() => {

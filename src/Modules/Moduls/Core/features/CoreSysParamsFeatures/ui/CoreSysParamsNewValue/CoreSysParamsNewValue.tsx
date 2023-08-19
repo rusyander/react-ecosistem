@@ -1,22 +1,23 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsNewValue.module.scss';
-import { Button, HStack, Texts, classNames } from 'Modules/UiKit';
+import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { addDataM } from 'Modules/Moduls/Os/features/OsCountriesFeatures/api/OsCountriesApi';
-import { getInitM } from 'shared/Globals/globalApi/globalApi';
+import { initSysParValuesM, saveDataM } from '../../api/CoreSysParamsApi';
+import { CoreSysParamsNewValueModalContent } from 'Modules/Moduls/Core/entities/CoreSysParamsEntities';
 
 interface CoreSysParamsNewValueProps {
   className?: string;
   selectedField: any;
+  fildValue: any;
 }
 
 export const CoreSysParamsNewValue = memo(
   (props: CoreSysParamsNewValueProps) => {
-    const { className, selectedField } = props;
+    const { className, selectedField, fildValue } = props;
     const { t } = useTranslation('core');
-    const [getInit, { data: getInitData }] = getInitM();
-    const [addData, { data: addDataQ }] = addDataM();
+    const [initSysParValues, { data: initSysParValuesQ }] = initSysParValuesM();
+    const [saveData, { data: saveDataQ }] = saveDataM();
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -34,6 +35,7 @@ export const CoreSysParamsNewValue = memo(
           onClick={openModalFunction}
           theme="background"
           className={cls.addButtons}
+          disabled={!selectedField}
         >
           <HStack gap="16">
             <Icon width={20} icon="zondicons:add-outline" />
@@ -41,17 +43,19 @@ export const CoreSysParamsNewValue = memo(
           </HStack>
         </Button>
 
-        {/* <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
+        <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
           {openModal && (
-            <OsCountriesAddModalContent
+            <CoreSysParamsNewValueModalContent
               closeModalFunction={closeModalFunction}
-              getInit={getInit}
-              saveData={addData}
-              getInitData={getInitData}
-              saveDataQ={addDataQ}
+              getInit={initSysParValues}
+              saveData={saveData}
+              getInitData={initSysParValuesQ}
+              saveDataQ={saveDataQ}
+              fildValue={fildValue}
+              selectedField={selectedField}
             />
           )}
-        </Modal> */}
+        </Modal>
       </div>
     );
   }

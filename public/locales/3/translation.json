@@ -83,5 +83,6 @@
   "e.roleCode": "Role",
   "e.orgId": "Organization",
   "e.userId": "User",
-  "Значения параметра": "Parameter values"
+  "Значения параметра": "Parameter values",
+  "Вести учёт действий пользователя?": "Keep track of user actions?"
 }
