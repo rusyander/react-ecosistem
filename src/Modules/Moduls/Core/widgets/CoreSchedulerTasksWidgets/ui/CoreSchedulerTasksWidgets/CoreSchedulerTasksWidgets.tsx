@@ -7,12 +7,12 @@ import {
   classNames,
   pageCountOptions,
 } from 'Modules/UiKit';
-import {
-  getDataGridM,
-  getGridDataInitM,
-} from 'shared/Globals/globalApi/globalApi';
-import { GridSort } from 'shared/Globals/types/GridTypes';
 import { InputsFields } from 'widgets/InputsFields';
+import {
+  GetAttrValuesM,
+  GetSchedulerTaskGridDataM,
+} from '../../api/CoreSchedulerTasks';
+import { gridColsData } from '../../consts/headerData';
 
 export interface CoreSchedulerTasksWidgetsProps {
   className?: string;
@@ -29,98 +29,103 @@ export const CoreSchedulerTasksWidgets = memo(
   ({ className }: CoreSchedulerTasksWidgetsProps) => {
     const { t } = useTranslation();
 
-    const [getDataGrid, { data: grid, isLoading }] = getDataGridM();
+    const [
+      getSchedulerTaskGridData,
+      { data: getSchedulerTaskGridDataQ, isLoading },
+    ]: any = GetSchedulerTaskGridDataM();
 
     const [
-      getGridDataInit,
-      { data: gridDataInit, isLoading: gridDataInitLoading },
-    ] = getGridDataInitM();
+      getAttrValues,
+      { data: getAttrValuesQ, isLoading: gridDataInitLoading },
+    ]: any = GetAttrValuesM();
 
     const [selected, setSelected]: any = useState('');
     const [totalCount, setTotalCount] = useState<number | null>(null);
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [pageLimit, setPageLimit] = useState(100);
-    const roleName = 'OS_COUNTRIES';
-    const aplicationCode = gridDataInit?.data?.applicationCode;
+    const roleName = 'CORE_SCHEDULER_TASKS';
+    // const aplicationCode = getAttrValuesQ?.data?.applicationCode;
+    const headerData: any = [];
 
-    const headerData = gridDataInit?.data?.cols?.map((item: any) => {
-      return {
-        field: item?.fieldName,
-        size: `${item.width}px`,
-        is_sortable_flag: item?.isSortableFlagCode === 'Y' ? true : false,
-        header: item?.name,
-      };
-    });
+    // const headerData = getAttrValuesQ?.data?.cols?.map((item: any) => {
+    //   return {
+    //     field: item?.fieldName,
+    //     size: `${item.width}px`,
+    //     is_sortable_flag: item?.isSortableFlagCode === 'Y' ? true : false,
+    //     header: item?.name,
+    //   };
+    // });
+
+    const attrData: any = [
+      { code: 'CORE_SCHED_T_PHASES' },
+      { code: 'CORE_SCHED_T_STATUS' },
+    ];
 
     useEffect(() => {
       onPaginationPageChange();
-      getGridDataInit(roleName);
+      getAttrValues(attrData);
     }, []);
 
-    const gridParamsData = useMemo(() => {
+    const gridParamsData: any = useMemo(() => {
       return {
-        gridCode: roleName,
-        gridRequest: {
-          filter: [],
-          pageNumber: currentPageNumber ?? 1,
-          pageSize: pageLimit ?? 100,
-          sort: [],
-          params: [],
-          totalCount: totalCount ?? null,
-        },
+        filter: [],
+        pageNumber: currentPageNumber ?? 1,
+        pageSize: pageLimit ?? 100,
+        sort: [],
+        params: [],
+        totalCount: totalCount ?? null,
       };
     }, [currentPageNumber, pageLimit, totalCount]);
 
     const refreshButtonFunction = useCallback(() => {
       if (gridParamsData) {
-        getDataGrid(gridParamsData);
+        getSchedulerTaskGridData(gridParamsData);
       }
-    }, [getDataGrid, gridParamsData]);
+    }, [getSchedulerTaskGridData, gridParamsData]);
 
     const onPaginationPageChange = useCallback(
       async (currentPage?: number, pageSizeElement?: number) => {
-        getDataGrid(gridParamsData);
+        getSchedulerTaskGridData(gridParamsData);
 
-        if (grid?.result === '1') {
-          if (grid?.data?.totalElements) {
+        if (getSchedulerTaskGridDataQ?.result === '1') {
+          if (getSchedulerTaskGridDataQ?.data?.totalElements) {
             setCurrentPageNumber(currentPage ?? 1);
             setPageLimit(pageSizeElement ?? 100);
-            setTotalCount(grid?.data?.totalElements);
+            setTotalCount(getSchedulerTaskGridDataQ?.data?.totalElements);
           }
         }
       },
-      [getDataGrid, grid?.data?.totalElements, grid?.result, gridParamsData]
+      [
+        getSchedulerTaskGridData,
+        getSchedulerTaskGridDataQ?.data?.totalElements,
+        getSchedulerTaskGridDataQ?.result,
+        gridParamsData,
+      ]
     );
 
     const sortData = useCallback(
-      (sorted: GridSort[]) => {
+      (sorted: any) => {
         const gridParamsData = {
-          gridCode: roleName,
-          gridRequest: {
-            filter: [],
-            pageNumber: currentPageNumber,
-            pageSize: pageLimit,
-            sort: sorted,
-            params: [],
-            totalCount: totalCount ?? 0,
-          },
+          filter: [],
+          pageNumber: currentPageNumber,
+          pageSize: pageLimit,
+          sort: sorted,
+          params: [],
+          totalCount: totalCount ?? 0,
         };
-        getDataGrid(gridParamsData);
+        getSchedulerTaskGridData(gridParamsData);
       },
-      [currentPageNumber, getDataGrid, pageLimit, totalCount]
+      [currentPageNumber, getSchedulerTaskGridData, pageLimit, totalCount]
     );
 
     const inputFoldsPayload = useMemo(
       () => ({
-        gridCode: roleName,
-        gridRequest: {
-          params: [],
-          pageNumber: 1,
-          pageSize: 100,
-          totalCount: null,
-          sort: [],
-          filter: null,
-        },
+        params: [],
+        pageNumber: 1,
+        pageSize: 100,
+        totalCount: null,
+        sort: [],
+        filter: null,
       }),
       []
     );
@@ -130,11 +135,11 @@ export const CoreSchedulerTasksWidgets = memo(
         className={classNames(cls.coreSchedulerTasksWidgets, {}, [className])}
       >
         {roleName && <CheckFormEnterM checkFormEnterName={roleName} />}
-        {headerData && (
+        {gridColsData && (
           <Grid
             // for grid data
-            gridCols={headerData ? headerData : []}
-            rowData={grid?.data?.content}
+            gridCols={gridColsData}
+            rowData={getSchedulerTaskGridDataQ?.data?.content ?? []}
             // gridCols={[]}
             // rowData={[]}
             // for grid height
@@ -147,14 +152,14 @@ export const CoreSchedulerTasksWidgets = memo(
             pageCountOptions={pageCountOptions}
             defaultPageSize={100}
             onPaginationPageChange={onPaginationPageChange}
-            totalDataCount={grid?.data?.totalElements}
+            totalDataCount={getSchedulerTaskGridDataQ?.data?.totalElements}
             // filter form
             FilterFormComponents={
               <InputsFields
-                getGridData={getDataGrid}
-                filterData={gridDataInit?.data?.cols}
+                getGridData={headerData ? headerData : []}
+                // filterData={getAttrValuesQ?.data?.cols}
                 payloadData={inputFoldsPayload}
-                attrData={gridDataInit?.data?.attr}
+                attrData={getAttrValuesQ?.data}
                 isFilter={true}
               />
             }
@@ -178,20 +183,20 @@ export const CoreSchedulerTasksWidgets = memo(
             // can open modal when double click on grid row
             hasOpenGridRowModal={false}
             // pagination
-            // isPageable={true}
-            isPageable={
-              gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
-            }
+            isPageable={true}
+            // isPageable={
+            //   gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
+            // }
             // sort
-            // disableSorting={true}
-            disableSorting={
-              gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
-            }
+            disableSorting={true}
+            // disableSorting={
+            //   gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
+            // }
             //isSelectable
-            // isSelectable={true}
-            isSelectable={
-              gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
-            }
+            isSelectable={true}
+            // isSelectable={
+            //   gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
+            // }
           />
         )}
       </div>

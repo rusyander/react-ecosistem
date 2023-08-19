@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import cls from './OsRegionsEdit.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { OsCountriesEditModalContent } from 'Modules/Moduls/Os/entities/OsCountriesEntities';
 import { getInitM, getFgDataM } from 'shared/Globals/globalApi/globalApi';
 import { saveDataM } from '../../api/OsRegionsWidgets';
+import { OsRegionsEditModalContent } from 'Modules/Moduls/Os/entities/OsRegionsEntities';
 
 interface OsRegionsEditProps {
   className?: string;
@@ -46,7 +46,7 @@ export const OsRegionsEdit = memo((props: OsRegionsEditProps) => {
 
       <Modal isOpen={openModal} onClose={closeModalFunction}>
         {openModal && (
-          <OsCountriesEditModalContent
+          <OsRegionsEditModalContent
             selectedField={selectedField}
             closeModalFunction={closeModalFunction}
             getInit={getInit}

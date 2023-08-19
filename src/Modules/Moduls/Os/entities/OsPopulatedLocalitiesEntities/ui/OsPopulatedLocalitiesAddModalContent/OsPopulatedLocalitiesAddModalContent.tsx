@@ -38,7 +38,11 @@ export const OsPopulatedLocalitiesAddModalContent = memo(
     }, []);
 
     const handleSubmit = useCallback(() => {
-      const value = convertArrayToObject(inputsValue);
+      // const value = convertArrayToObject(inputsValue);
+      const updateValue = inputsValue?.filter(
+        (item: any) => item.fildName !== 'countryCode'
+      );
+      const value = convertArrayToObject(updateValue);
       const currentData = {
         ...value,
       };

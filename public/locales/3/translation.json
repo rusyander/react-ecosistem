@@ -64,5 +64,24 @@
   "application_name": "Application name",
   "role_name": "Role name",
   "fromDAte": "from:",
-  "toDate": "to:"
+  "toDate": "to:",
+
+  "description": "Description",
+  "sys_value": "Sistem",
+  "appl_value": "Application",
+  "role_value": "Role",
+  "org_value": "Organization",
+  "user_value": "User",
+  "e.id.applicationCode": "Application",
+  "e.description1": "Description",
+
+  "level_name": "Level name",
+  "object_name": "Object name",
+  "parameter_value": "Parameter value",
+  "e.levelCode": "Level",
+  "e.applCode": "Application",
+  "e.roleCode": "Role",
+  "e.orgId": "Organization",
+  "e.userId": "User",
+  "Значения параметра": "Parameter values"
 }

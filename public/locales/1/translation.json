@@ -65,5 +65,24 @@
   "application_name": "Приложение",
   "role_name": "Наименование роли",
   "fromDAte": "c:",
-  "toDate": "по:"
+  "toDate": "по:",
+
+  "description": "Наименования параметра",
+  "sys_value": "Система",
+  "appl_value": "Приложение",
+  "role_value": "Роль",
+  "org_value": "Организация",
+  "user_value": "Пользователь",
+  "e.id.applicationCode": "Приложение",
+  "e.description1": "Наименование параметра",
+
+  "level_name": "Система",
+  "object_name": "Наименования уровня",
+  "parameter_value": "Значения параметра",
+  "e.levelCode": "Уровень",
+  "e.applCode": "Приложение",
+  "e.roleCode": "Роль",
+  "e.orgId": "Организация",
+  "e.userId": "Пользователь",
+  "Значения параметра": "Значения параметра"
 }

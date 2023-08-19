@@ -18,7 +18,7 @@ export const MessagesModal = memo((props: MessagesModalProps) => {
 
   const onCallHandler = useCallback(() => {
     console.log('onCallHandler');
-    // onCall?.()
+    onCall?.();
   }, [onCall]);
 
   const closeHandler = () => {

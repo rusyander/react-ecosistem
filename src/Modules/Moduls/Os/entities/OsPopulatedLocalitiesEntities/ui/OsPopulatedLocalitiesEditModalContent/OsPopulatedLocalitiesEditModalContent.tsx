@@ -42,9 +42,9 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
     const editDataPayload = useMemo(() => {
       return {
         code: 'OS_POPULATED_LOCALITY_FIELDS',
-        params: [selectedField?.country_code],
+        params: [selectedField?.populated_locality_id],
       };
-    }, [selectedField?.country_code]);
+    }, [selectedField?.populated_locality_id]);
 
     useEffect(() => {
       getInit('OS_POPULATED_LOCALITY_FIELDS');
@@ -55,7 +55,9 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
     }, []);
 
     const handleSubmit = useCallback(() => {
-      const updateValue = inputsValue;
+      const updateValue = inputsValue?.filter(
+        (item: any) => item.fildName !== 'countryCode'
+      );
 
       getFgData(editDataPayload).then((res: any) => {
         const resData = res?.data?.data;
@@ -68,6 +70,7 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
         const value = convertArrayToObject(updateValue);
         const addUserId = {
           ...value,
+          populatedLocalityId: selectedField?.populated_locality_id,
         };
 
         saveData(addUserId).then((res: any) => {
@@ -76,7 +79,14 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
           }
         });
       });
-    }, [inputsValue, getFgData, editDataPayload, saveData, closeModalFunction]);
+    }, [
+      inputsValue,
+      getFgData,
+      editDataPayload,
+      selectedField?.populated_locality_id,
+      saveData,
+      closeModalFunction,
+    ]);
 
     return (
       <div

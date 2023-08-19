@@ -33,7 +33,7 @@ export const OsRegionsDelete = memo((props: OsRegionsDeleteProps) => {
     setOpenModal(false);
   }, [setOpenModal]);
   const deleteRole = () => {
-    deleteData(selectedField?.country_code).then((res: any) => {
+    deleteData(selectedField?.region_id).then((res: any) => {
       if (res?.data?.result === '1') {
         closeModalFunction();
       }

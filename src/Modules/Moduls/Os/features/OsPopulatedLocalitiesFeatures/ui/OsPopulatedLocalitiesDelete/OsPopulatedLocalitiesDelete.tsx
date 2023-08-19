@@ -22,7 +22,7 @@ export const OsPopulatedLocalitiesDelete = memo(
     const { className, selectedField } = props;
     const { t } = useTranslation('os');
     const [deleteData] = deleteDataM();
-    console.log('selectedField', selectedField);
+    // console.log('selectedField', selectedField);
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -34,7 +34,7 @@ export const OsPopulatedLocalitiesDelete = memo(
       setOpenModal(false);
     }, [setOpenModal]);
     const deleteRole = () => {
-      deleteData(selectedField?.country_code).then((res: any) => {
+      deleteData(selectedField?.populated_locality_id).then((res: any) => {
         if (res?.data?.result === '1') {
           closeModalFunction();
         }

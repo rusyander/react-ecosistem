@@ -1,7 +1,7 @@
-import { memo, useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './OsOrgStructureWidgets.module.scss';
-import { HeadersActionButtons, classNames } from 'Modules/UiKit';
+import { HeadersActionButtons, VStack, classNames } from 'Modules/UiKit';
 import { TreeViewInModalContent } from 'features/FilterItems';
 import {
   OsOrgStructureWidgetsFeaturesAdd,
@@ -17,9 +17,7 @@ export interface OsOrgStructureWidgetsProps {
 export const OsOrgStructureWidgets = memo(
   ({ className }: OsOrgStructureWidgetsProps) => {
     const { t } = useTranslation();
-    const [selectedFild, setSelectedFild] = useState<any>([]);
-
-    // console.log('selectedFild', selectedFild);
+    const [selectedFild, setSelectedFild] = useState();
 
     return (
       <div className={classNames(cls.osOrgStructureWidgets, {}, [className])}>
@@ -42,10 +40,12 @@ export const OsOrgStructureWidgets = memo(
             />,
           ]}
         />
-        <TreeViewInModalContent
-          selectTreeItems={(value: any) => setSelectedFild(value)}
-          selectedFild={selectedFild}
-        />
+        <VStack max className={cls.osOrgStructureTree}>
+          <TreeViewInModalContent
+            selectTreeItems={(value: any) => setSelectedFild(value)}
+            selectedFild={selectedFild}
+          />
+        </VStack>
       </div>
     );
   }

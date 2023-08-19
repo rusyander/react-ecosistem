@@ -73,6 +73,7 @@ export const Filters = memo((props: FiltersProps) => {
         value,
         isFilter
       );
+
       if (isFilter) {
         setNewDataArray(data as any);
       }

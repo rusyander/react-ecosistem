@@ -1,0 +1,123 @@
+export const gridColsHeader = [
+  { field: 'level_name', size: '200px', is_sortable_flag: true }, // Система
+  { field: 'object_name', size: '200px', is_sortable_flag: true }, // Наименования уровня
+  { field: 'parameter_value', size: '100px', is_sortable_flag: true }, // Значения параметра
+];
+
+export const filterBlock = [
+  {
+    fieldName: 'level_name',
+    name: 'e.levelCode',
+    displayOrder: 1,
+    filterCondition: '=',
+    filterDisplayTypeCode: 'L',
+    filterDictCode: 'TEST',
+    filterCodeProperty: '-1',
+    filterUpperSign: null,
+    filterLikePercSign: null,
+    filterAttributeCode: 'CORE_SYS_PAR_LEVELS',
+    width: '70',
+    isSortableFlagCode: 'Y',
+
+    applicationCode: 'CORE',
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'a.name1',
+    filterColName: 'e.levelCode',
+    filterGroup: null,
+    filterNameProperty: 'name',
+    filterDictFormClassRefName: null,
+  }, // CORE_SYS_PAR_LEVELS  Уровень
+  {
+    fieldName: 'application',
+    name: 'e.applCode',
+    displayOrder: 1,
+    filterCondition: '=',
+    filterDisplayTypeCode: 'L',
+    filterDictCode: 'TEST',
+    filterCodeProperty: '-1',
+    filterUpperSign: null,
+    filterLikePercSign: null,
+    filterAttributeCode: 'CORE_APPLICATIONS',
+    width: '70',
+    isSortableFlagCode: 'Y',
+
+    applicationCode: 'CORE',
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'a.name1',
+    filterColName: 'e.applCode',
+    filterGroup: null,
+    filterNameProperty: 'name',
+    filterDictFormClassRefName: null,
+  }, // CORE_APPLICATIONS Приложение
+  {
+    fieldName: 'role',
+    name: 'e.roleCode',
+    displayOrder: 1,
+    filterCondition: '=',
+    filterDisplayTypeCode: 'L',
+    filterDictCode: 'TEST',
+    filterCodeProperty: '-1',
+    filterUpperSign: null,
+    filterLikePercSign: null,
+    filterAttributeCode: 'CORE_ROLES',
+    width: '70',
+    isSortableFlagCode: 'Y',
+
+    applicationCode: 'CORE',
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'a.name1',
+    filterColName: 'e.roleCode',
+    filterGroup: null,
+    filterNameProperty: 'name',
+    filterDictFormClassRefName: null,
+  }, // CORE_ROLES  Роль
+  {
+    fieldName: 'org_name',
+    name: 'e.orgId',
+    displayOrder: 2,
+    filterCondition: '=',
+    filterDisplayTypeCode: 'FB',
+    filterDictCode: 'TEST',
+    filterCodeProperty: '-1',
+    width: '220',
+    isSortableFlagCode: 'Y',
+    dataTypeId: 2,
+
+    applicationCode: 'CORE',
+    colTypeCode: 'STANDARD',
+    sortColName: 'e.orgId',
+    filterColName: 'a.applicationCode',
+    filterUpperSign: null,
+    filterLikePercSign: null,
+    filterGroup: null,
+    filterAttributeCode: null,
+    filterNameProperty: 'name',
+    filterDictFormClassRefName: null,
+  }, // Организация
+  {
+    fieldName: 'user',
+    name: 'e.userId',
+    displayOrder: 1,
+    filterCondition: '=',
+    filterDisplayTypeCode: 'L',
+    filterDictCode: 'TEST',
+    filterCodeProperty: '-1',
+    filterUpperSign: null,
+    filterLikePercSign: null,
+    filterAttributeCode: 'CORE_USERS',
+    width: '70',
+    isSortableFlagCode: 'Y',
+
+    applicationCode: 'CORE',
+    dataTypeId: 1,
+    colTypeCode: 'STANDARD',
+    sortColName: 'a.name1',
+    filterColName: 'e.userId',
+    filterGroup: null,
+    filterNameProperty: 'name',
+    filterDictFormClassRefName: null,
+  }, // CORE_USERS  Пользователь
+];

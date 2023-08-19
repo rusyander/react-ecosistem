@@ -46,7 +46,7 @@ export const OsPopulatedLocalitiesWidgets = memo(
     const [totalCount, setTotalCount] = useState<number | null>(null);
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [pageLimit, setPageLimit] = useState(100);
-    const roleName = 'OS_COUNTRIES';
+    const roleName = 'OS_POPULATED_LOCALITIES';
     const aplicationCode = gridDataInit?.data?.applicationCode;
 
     const headerData = gridDataInit?.data?.cols?.map((item: any) => {

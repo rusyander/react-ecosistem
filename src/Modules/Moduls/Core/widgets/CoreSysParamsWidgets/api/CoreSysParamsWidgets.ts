@@ -1,15 +1,23 @@
 import { rtkApi } from 'shared/api/rtkApi';
-const CoreSysParamsWidgetsApi = rtkApi.injectEndpoints({
+const CoreSysParamsApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({
-    getName: build.query<any[], null>({
-      query: (limit) => ({
-        url: 'api??',
-        params: {
-          _limit: limit,
-        },
+    getGridData: build.mutation<any[], null>({
+      query: (data) => ({
+        url: '/api/core/sysPar/getGridData',
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    getAttrValues: build.mutation<any[], any>({
+      query: (data) => ({
+        url: '/api/core/attr/getAttrValues',
+        method: 'POST',
+        body: [{ code: 'CORE_APPLICATIONS' }],
       }),
     }),
   }),
   overrideExisting: true,
 });
-//export const getName = name.useGetNameQuery;
+export const GetGridDataM = CoreSysParamsApi.useGetGridDataMutation;
+export const GetAttrValuesM = CoreSysParamsApi.useGetAttrValuesMutation;

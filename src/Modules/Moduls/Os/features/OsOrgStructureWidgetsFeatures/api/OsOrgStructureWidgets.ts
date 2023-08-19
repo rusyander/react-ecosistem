@@ -9,8 +9,16 @@ const OsOrgStructureWidgetsApi = rtkApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    deleteData: build.mutation<PayloadData, number>({
+      query: (id) => ({
+        url: '/api/os/org/deleteData',
+        body: id,
+        method: 'POST',
+      }),
+    }),
   }),
   overrideExisting: true,
 });
 
 export const saveDataM = OsOrgStructureWidgetsApi.useSaveDataMutation;
+export const deleteDataM = OsOrgStructureWidgetsApi.useDeleteDataMutation;

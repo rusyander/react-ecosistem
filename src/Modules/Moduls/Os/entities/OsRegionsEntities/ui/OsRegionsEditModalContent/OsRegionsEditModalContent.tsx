@@ -42,9 +42,9 @@ export const OsRegionsEditModalContent = memo(
     const editDataPayload = useMemo(() => {
       return {
         code: 'OS_REGION_FIELDS',
-        params: [selectedField?.country_code],
+        params: [selectedField?.region_id],
       };
-    }, [selectedField?.country_code]);
+    }, [selectedField?.region_id]);
 
     useEffect(() => {
       getInit('OS_REGION_FIELDS');
@@ -68,6 +68,7 @@ export const OsRegionsEditModalContent = memo(
         const value = convertArrayToObject(updateValue);
         const addUserId = {
           ...value,
+          regionId: selectedField?.region_id,
         };
 
         saveData(addUserId).then((res: any) => {
@@ -76,7 +77,14 @@ export const OsRegionsEditModalContent = memo(
           }
         });
       });
-    }, [inputsValue, getFgData, editDataPayload, saveData, closeModalFunction]);
+    }, [
+      inputsValue,
+      getFgData,
+      editDataPayload,
+      selectedField?.region_id,
+      saveData,
+      closeModalFunction,
+    ]);
 
     return (
       <div

@@ -14,7 +14,7 @@ interface OsOrgStructureWidgetsFeaturesAddProps {
 
 export const OsOrgStructureWidgetsFeaturesAdd = memo(
   (props: OsOrgStructureWidgetsFeaturesAddProps) => {
-    const { className, selectedField } = props;
+    const { className, selectedField = undefined } = props;
     const { t } = useTranslation('os');
     const [getInit, { data: getInitData }] = getInitM();
     const [saveData, { data: saveDataQ }] = saveDataM();

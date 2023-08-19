@@ -2,13 +2,9 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './FilterItems.module.scss';
 import { HStack, Input, Texts, VStack, classNames } from 'Modules/UiKit';
-import { $api } from 'shared/api/api';
 import { TreeViewInModal } from '../TreeViewInModal/TreeViewInModal';
 import { GridModal } from '../GridModal/GridModal';
-import {
-  getAttrValuesM,
-  getTreePartDataSprM,
-} from 'shared/Globals/globalApi/globalApi';
+import { getAttrValuesM } from 'shared/Globals/globalApi/globalApi';
 import { Dropdown } from 'entities/Fields/Dropdown';
 import { DatePicker } from 'entities/Fields/DatePickers';
 import { DateTimePicker } from 'entities/Fields/DateTimePicker';
@@ -46,9 +42,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
   const normalizedValuesBetween = [between1, between2];
 
   useEffect(() => {
-    console.log('normalizedValuesBetween', normalizedValuesBetween);
-    console.log('inputsData', inputsData);
-
     onChange(betweenIndex, normalizedValuesBetween, inputsData);
   }, [between1, between2]);
 
@@ -90,6 +83,10 @@ export const FilterItems = memo((props: FilterItemsProps) => {
       onChange(passIndex, password);
     }
   }, [password, passwordConf]);
+
+  // ------------
+
+  // console.log('defaultValuesData', defaultValuesData);
 
   return (
     <div className={classNames(cls.coreUsersFilter, {}, [className])}>
@@ -221,17 +218,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                       defaultValue={t(inputs?.value)}
                       items={dropdownData?.[inputs?.filterAttributeCode] || []}
                     />
-                    {/* <ListBox
-                      key={inputs?.name}
-                      defaultValue={t(inputs?.value)}
-                      onChange={(value) => {
-                        setDropdawnValue(value);
-                        onChange(index, value.code);
-                      }}
-                      value={dropdawnValue}
-                      // items={attrData?.[inputs?.filterAttributeCode] || []}
-                      items={dropdownData?.[inputs?.filterAttributeCode] || []}
-                    /> */}
                   </VStack>
                 )}
 
@@ -395,27 +381,6 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                           <sup className={cls.required}>*</sup>
                         )}
                       </HStack>
-                      {/* <ListBox
-                        // defaultValue={t(inputs?.value)}
-                        key={inputs?.token}
-                        defaultValue={
-                          inputs?.value
-                            ? t(inputs?.value)
-                            : inputs?.defValData?.name
-                            ? inputs?.defValData?.name
-                            : defaultValuesData?.data?.roleCodeName
-                          // : defaultValuesData?.data?.[inputs?.token]
-                        }
-                        onChange={(value) => {
-                          setDropdawnValue(value);
-                          onChange(index, value.code);
-                        }}
-                        value={
-                          dropdawnValue ? dropdawnValue : inputs?.defValData
-                        }
-                        items={attrData?.[inputs?.attributeCode] || []}
-                      /> */}
-                      {/* --------------------------- */}
                       <Dropdown
                         key={inputs?.name}
                         onChange={onChange}
@@ -429,6 +394,8 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                             : inputs?.defValData?.name
                             ? inputs?.defValData?.name
                             : defaultValuesData?.data?.roleCodeName
+                            ? defaultValuesData?.data?.roleCodeName
+                            : defaultValuesData?.data?.[`${inputs?.token}Name`]
                         }
                         items={attrData?.[inputs?.attributeCode] || []}
                       />
@@ -452,15 +419,10 @@ export const FilterItems = memo((props: FilterItemsProps) => {
                         )}
                       </HStack>
                       <TreeViewInModal
-                        // data={treeData}
                         selectTreeItems={(value: any) => setSelectTree(value)}
                         placeholder={t(inputs?.colName)}
-                        // valueData={inputs?.value}
                         index={index}
                         onChange={onChange}
-                        // updateTreeData={handleItemClick}
-                        // sendTreeDataFirst={sendTreeDataFirst} d s
-                        // loadingTree={loadingTree}
                         modalTitle={props.modalTitle}
                         className={cls.dataTree}
                         defaultValues={defaultValuesData}

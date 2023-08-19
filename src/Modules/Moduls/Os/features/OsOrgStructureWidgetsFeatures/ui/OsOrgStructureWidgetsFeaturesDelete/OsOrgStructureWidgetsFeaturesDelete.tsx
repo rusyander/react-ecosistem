@@ -10,6 +10,7 @@ import {
   classNames,
 } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
+import { deleteDataM } from '../../api/OsOrgStructureWidgets';
 
 interface OsOrgStructureWidgetsFeaturesDeleteProps {
   className?: string;
@@ -20,7 +21,7 @@ export const OsOrgStructureWidgetsFeaturesDelete = memo(
   (props: OsOrgStructureWidgetsFeaturesDeleteProps) => {
     const { className, selectedField } = props;
     const { t } = useTranslation('os');
-    // const [deleteUserRoleData] = DeleteUserRoleDataM();
+    const [deleteData] = deleteDataM();
     // console.log('selectedField', selectedField);
 
     const [openModal, setOpenModal] = useState(false);
@@ -33,11 +34,11 @@ export const OsOrgStructureWidgetsFeaturesDelete = memo(
       setOpenModal(false);
     }, [setOpenModal]);
     const deleteRole = () => {
-      // deleteUserRoleData(selectedField?.user_role_id).then((res: any) => {
-      //   if (res?.data?.result === '1') {
-      //     closeModalFunction();
-      //   }
-      // });
+      deleteData(selectedField?.organizationId).then((res: any) => {
+        if (res?.data?.result === '1') {
+          closeModalFunction();
+        }
+      });
     };
 
     return (
