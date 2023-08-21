@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
 import cls from './TreeDataSkeleton.module.scss';
 import { HStack, Skeleton, VStack, classNames } from 'Modules/UiKit';
 
@@ -9,7 +8,6 @@ interface TreeDataSkeletonProps {
 
 export const TreeDataSkeleton = memo((props: TreeDataSkeletonProps) => {
   const { className } = props;
-  const { t } = useTranslation();
 
   const fackeArray = Array(13).fill(1);
   return (

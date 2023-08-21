@@ -1,6 +1,12 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import cls from './TreeViewInModalContent.module.scss';
-import { TreeView, classNames } from 'Modules/UiKit';
+import {
+  IsError,
+  NoData,
+  TreeDataSkeleton,
+  TreeView,
+  classNames,
+} from 'Modules/UiKit';
 import { getTreePartDataSprM } from 'shared/Globals/globalApi/globalApi';
 import { $api } from 'shared/api/api';
 
@@ -14,7 +20,7 @@ export const TreeViewInModalContent = memo(
   (props: TreeViewInModalContentProps) => {
     const { className, selectedFild, selectTreeItems } = props;
 
-    const [getTreePartDataSpr, { data: getTreePartData }] =
+    const [getTreePartDataSpr, { data: getTreePartData, isLoading, isError }] =
       getTreePartDataSprM();
 
     const [treeData, setTreeData]: any = useState<any>([]);
@@ -91,10 +97,11 @@ export const TreeViewInModalContent = memo(
       [fetchDataFromBackend, selectedTreeDataFildId]
     );
 
-    // console.log('getTreePartData', getTreePartData);
-
     return (
       <div className={classNames(cls.treeViewInModalContent, {}, [className])}>
+        {isLoading && <TreeDataSkeleton />}
+        {isError && <IsError />}
+        {treeData?.length === 0 && <NoData />}
         {getTreePartData && (
           <TreeView
             data={treeData}

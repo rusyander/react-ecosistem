@@ -2,7 +2,11 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreRolesWidgetsEditModalContent.module.scss';
 import {
+  CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
   VStack,
   classNames,
@@ -18,6 +22,7 @@ interface CoreRolesWidgetsEditModalContentProps {
   getFgData: any;
   getInitData: any;
   addDataRoleQ: any;
+  refetchGridData?: () => void;
 }
 
 export const CoreRolesWidgetsEditModalContent = memo(
@@ -31,11 +36,13 @@ export const CoreRolesWidgetsEditModalContent = memo(
       getFgData,
       getInit,
       getInitData,
+      refetchGridData,
     } = props;
     const { t } = useTranslation('core');
     const [defaultData, setDefaultData] = useState<any>([]);
-
     const [inputsValue, setInputsValue]: any = useState([]);
+
+    const [isErrored, setIsErrored] = useState(false);
 
     const editDataPayload = useMemo(() => {
       return {
@@ -66,12 +73,14 @@ export const CoreRolesWidgetsEditModalContent = memo(
         const value = convertArrayToObject(updateValue);
         const addUserId = { ...value, roleCode: selectedField?.role_code };
 
-        addDataRole(addUserId);
-
-        if (res?.data.result === '1') {
-          closeModalFunction();
-        }
-        // }
+        addDataRole(addUserId).then((res: any) => {
+          if (res?.data?.result === '1') {
+            refetchGridData?.();
+            closeModalFunction();
+          } else {
+            setIsErrored(true);
+          }
+        });
       });
     }, [
       inputsValue,
@@ -79,6 +88,7 @@ export const CoreRolesWidgetsEditModalContent = memo(
       editDataPayload,
       selectedField?.role_code,
       addDataRole,
+      refetchGridData,
       closeModalFunction,
     ]);
 
@@ -88,11 +98,15 @@ export const CoreRolesWidgetsEditModalContent = memo(
           className,
         ])}
       >
+        {isErrored && <ErrorMessage isEdit isOpen setIsError={setIsErrored} />}
+        <CheckFormEnterM checkFormEnterName={'CORE_USER_ROLE_ADD_EDIT'} />
         <ModalHeader
           title={t('Реквизиты пользователя') || ''}
           onClose={closeModalFunction}
         />
         <VStack max gap="32" className="formContent">
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}

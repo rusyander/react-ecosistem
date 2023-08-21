@@ -1,5 +1,4 @@
 import { memo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import cls from './OsOrgStructureWidgets.module.scss';
 import { HeadersActionButtons, VStack, classNames } from 'Modules/UiKit';
 import { TreeViewInModalContent } from 'features/FilterItems';
@@ -16,7 +15,6 @@ export interface OsOrgStructureWidgetsProps {
 
 export const OsOrgStructureWidgets = memo(
   ({ className }: OsOrgStructureWidgetsProps) => {
-    const { t } = useTranslation();
     const [selectedFild, setSelectedFild] = useState();
 
     return (

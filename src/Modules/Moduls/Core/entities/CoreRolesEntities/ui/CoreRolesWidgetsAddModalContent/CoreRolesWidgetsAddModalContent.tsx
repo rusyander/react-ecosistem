@@ -2,7 +2,11 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreRolesWidgetsAddModalContent.module.scss';
 import {
+  CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
   VStack,
   classNames,
@@ -16,6 +20,7 @@ interface CoreRolesWidgetsAddModalContentProps {
   addDataRole: any;
   getInitData: any;
   addDataRoleQ: any;
+  refetchGridData?: () => void;
 }
 
 export const CoreRolesWidgetsAddModalContent = memo(
@@ -27,10 +32,13 @@ export const CoreRolesWidgetsAddModalContent = memo(
       addDataRoleQ,
       getInit,
       getInitData,
+      refetchGridData,
     } = props;
     const { t } = useTranslation('core');
 
     const [inputsValue, setInputsValue] = useState([]);
+
+    const [isErrored, setIsErrored] = useState(false);
 
     useEffect(() => {
       getInit('CORE_ROLE_FIELDS');
@@ -38,13 +46,15 @@ export const CoreRolesWidgetsAddModalContent = memo(
 
     const handleSubmit = useCallback(() => {
       const value = convertArrayToObject(inputsValue);
-      addDataRole(value);
-      if (addDataRoleQ?.result === '1') {
-        closeModalFunction();
-      }
-    }, [addDataRole, closeModalFunction, inputsValue, addDataRoleQ?.result]);
-
-    console.log('getInitData', getInitData);
+      addDataRole(value).then((res: any) => {
+        if (res?.data?.result === '1') {
+          refetchGridData?.();
+          closeModalFunction();
+        } else {
+          setIsErrored(true);
+        }
+      });
+    }, [inputsValue, addDataRole, refetchGridData, closeModalFunction]);
 
     return (
       <div
@@ -52,11 +62,16 @@ export const CoreRolesWidgetsAddModalContent = memo(
           className,
         ])}
       >
+        {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+        <CheckFormEnterM checkFormEnterName={'CORE_USER_ROLE_ADD_EDIT'} />
         <ModalHeader
           title={t('Реквизиты пользовательской роли') || ''}
           onClose={closeModalFunction}
         />
         <VStack className="formContent" max>
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
+
           {getInitData && (
             <InputsFields
               className={cls.filters}

@@ -1,7 +1,17 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreRolesWidgetsAdd.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  Toast,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { CoreRolesWidgetsAddModalContent } from 'Modules/Moduls/Core/entities/CoreRolesEntities';
 import { getInitM } from 'shared/Globals/globalApi/globalApi';
@@ -9,13 +19,14 @@ import { AddDataRoleM } from '../../api/roleApi';
 
 interface CoreRolesWidgetsAddProps {
   className?: string;
+  refetchGridData?: () => void;
 }
 
 export const CoreRolesWidgetsAdd = memo((props: CoreRolesWidgetsAddProps) => {
-  const { className } = props;
+  const { className, refetchGridData } = props;
   const { t } = useTranslation('core');
-  const [getInit, { data: getInitData }] = getInitM();
-  const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
+  const [getInit, { data: getInitData, isLoading, isError }] = getInitM();
+  const [addDataRole, { data: addDataRoleQ, isSuccess }] = AddDataRoleM();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -39,16 +50,22 @@ export const CoreRolesWidgetsAdd = memo((props: CoreRolesWidgetsAddProps) => {
           <Texts text={t('Добавить')} />
         </HStack>
       </Button>
+      {isSuccess && <Toast isAdd />}
 
       <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
         {openModal && (
-          <CoreRolesWidgetsAddModalContent
-            closeModalFunction={closeModalFunction}
-            getInit={getInit}
-            addDataRole={addDataRole}
-            getInitData={getInitData}
-            addDataRoleQ={addDataRoleQ}
-          />
+          <VStack max>
+            {isLoading && <InputsDataSkeleton />}
+            {isError && <IsError />}
+            <CoreRolesWidgetsAddModalContent
+              closeModalFunction={closeModalFunction}
+              getInit={getInit}
+              addDataRole={addDataRole}
+              getInitData={getInitData}
+              addDataRoleQ={addDataRoleQ}
+              refetchGridData={refetchGridData}
+            />
+          </VStack>
         )}
       </Modal>
     </div>

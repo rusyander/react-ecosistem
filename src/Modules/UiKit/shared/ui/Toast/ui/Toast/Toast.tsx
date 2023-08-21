@@ -1,4 +1,4 @@
-import { memo, useRef, useEffect } from 'react';
+import { memo, useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './Toast.module.scss';
 import { classNames } from 'Modules/UiKit';
@@ -15,17 +15,24 @@ export const Toast = memo((props: ToastProps) => {
   const { className, isAdd = false, isDelete = false, isEdit = false } = props;
   const { t } = useTranslation();
 
+  const [isAdded, setIsAdded] = useState(isAdd);
+  const [isEdited, setIsEdited] = useState(isEdit);
+  const [isDeleted, setIsDeleted] = useState(isDelete);
+
   const toast: any = useRef(null);
 
   useEffect(() => {
-    if (isAdd) {
+    if (isAdded) {
       showSuccessAdd();
+      setIsAdded(false);
     }
-    if (isDelete) {
+    if (isDeleted) {
       showSuccessDelete();
+      setIsDeleted(false);
     }
-    if (isEdit) {
+    if (isEdited) {
       showSuccessEdit();
+      setIsEdited(false);
     }
   }, [isAdd, isEdit, isDelete]);
 

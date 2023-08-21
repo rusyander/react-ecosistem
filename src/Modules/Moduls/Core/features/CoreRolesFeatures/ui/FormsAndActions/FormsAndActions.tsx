@@ -1,7 +1,18 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './FormsAndActions.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  CheckFormEnterM,
+  HStack,
+  IsError,
+  Modal,
+  Texts,
+  Toast,
+  TreeDataSkeleton,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { FormsAndActionsModalContents } from 'Modules/Moduls/Core/entities/CoreRolesEntities';
 import { SaveAccessDataM, getAccessTreeM } from '../../api/roleApi';
@@ -15,8 +26,9 @@ export const FormsAndActions = memo((props: FormsAndActionsProps) => {
   const { className, selectedField } = props;
   const { t } = useTranslation('core');
 
-  const [getAccessTree, { data: getAccessTreeData }] = getAccessTreeM();
-  const [saveAccessData] = SaveAccessDataM();
+  const [getAccessTree, { data: getAccessTreeData, isLoading, error }] =
+    getAccessTreeM();
+  const [saveAccessData, { isSuccess }] = SaveAccessDataM();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,16 +53,23 @@ export const FormsAndActions = memo((props: FormsAndActionsProps) => {
           <Texts text={t('Формы и действия')} />
         </HStack>
       </Button>
+      {isSuccess && <Toast isEdit />}
 
       <Modal isOpen={openModal} onClose={closeModalFunction}>
         {openModal && (
-          <FormsAndActionsModalContents
-            selectedField={selectedField}
-            closeModalFunction={closeModalFunction}
-            getAccessTree={getAccessTree}
-            getAccessTreeData={getAccessTreeData}
-            saveAccessData={saveAccessData}
-          />
+          <VStack max>
+            <CheckFormEnterM checkFormEnterName={'CORE_ROLE_FORMS_ACTIONS'} />
+
+            {isLoading && <TreeDataSkeleton />}
+            {error && <IsError />}
+            <FormsAndActionsModalContents
+              selectedField={selectedField}
+              closeModalFunction={closeModalFunction}
+              getAccessTree={getAccessTree}
+              getAccessTreeData={getAccessTreeData}
+              saveAccessData={saveAccessData}
+            />
+          </VStack>
         )}
       </Modal>
     </div>

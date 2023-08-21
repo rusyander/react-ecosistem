@@ -1,20 +1,12 @@
 interface PageGridParamsDataProps {
   roleName?: string;
-  currentPageNumber?: number | any;
+  currentPageNumber?: number | undefined;
   pageLimit?: number;
   totalCount?: number | null;
   sorted?: string[] | null;
   filter?: string[] | null;
 }
 
-// export const pageGridParamsData = (
-//   roleName: string,
-//   currentPageNumber: number | any,
-//   pageLimit: number,
-//   totalCount: number | null,
-//   sorted: any = [],
-//   filter: any = []
-// ) => {
 export const pageGridParamsData = (props: PageGridParamsDataProps) => {
   const {
     roleName,
@@ -36,17 +28,3 @@ export const pageGridParamsData = (props: PageGridParamsDataProps) => {
     },
   };
 };
-
-// useMemo(() => {
-//     return {
-//       gridCode: roleName,
-//       gridRequest: {
-//         filter: [],
-//         pageNumber: currentPageNumber ?? 1,
-//         pageSize: pageLimit ?? null,
-//         sort: [],
-//         params: [],
-//         totalCount: totalCount ?? null,
-//       },
-//     };
-//   }, [currentPageNumber, pageLimit, roleName, totalCount]);

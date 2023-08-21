@@ -10,7 +10,7 @@ interface GridSkeletonProps {
 export const GridSkeleton = memo((props: GridSkeletonProps) => {
   const { className, height } = props;
 
-  const fackeArray = Array(10).fill(1);
+  const fackeArray = Array(30).fill(1);
 
   return (
     <div

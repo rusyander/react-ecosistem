@@ -66,8 +66,8 @@ export const Dropdown = memo((props: DropdownProps) => {
         onChange(index, value.code);
       }}
       value={dropdawnValue}
-      items={items}
-      // items={items[0].country_code === 'UZB' ? normalizeDataForRegions : items}
+      // items={items}
+      items={items[0]?.country_code === 'UZB' ? normalizeDataForRegions : items}
     />
   );
 });

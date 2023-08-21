@@ -72,18 +72,15 @@ export const CoreAuditLoginWidgets = memo(
       if (gridParamsData) {
         const newData = pageGridParamsData({
           roleName: roleName,
-          currentPageNumber: currentPageNumber,
+          currentPageNumber: 1,
           pageLimit: pageLimit,
           totalCount: totalCount,
           sorted: sortedData,
           filter: filtersData,
         });
-        console.log('newData', newData);
-
         getDataGrid(newData);
       }
     }, [
-      currentPageNumber,
       filtersData,
       getDataGrid,
       gridParamsData,
@@ -111,7 +108,11 @@ export const CoreAuditLoginWidgets = memo(
       [getDataGrid, roleName]
     );
 
-    const inputFoldsPayload = pageGridParamsData({ roleName, filter: null });
+    const inputFoldsPayload = pageGridParamsData({
+      roleName,
+      filter: null,
+      sorted: [],
+    });
 
     const refetchGridData = useCallback(() => {
       getDataGrid(gridParamsData);
@@ -121,7 +122,7 @@ export const CoreAuditLoginWidgets = memo(
     return (
       <div className={classNames(cls.coreAuditLoginWidgets, {}, [className])}>
         {roleName && <CheckFormEnterM checkFormEnterName={roleName} />}
-        {!headerData && gridDataInitLoading && (
+        {!headerData && gridIsLoading && (
           <GridSkeleton height={currentGridHeight} />
         )}
         {headerData && (

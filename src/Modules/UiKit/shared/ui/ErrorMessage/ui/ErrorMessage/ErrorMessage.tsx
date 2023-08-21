@@ -12,6 +12,7 @@ interface ErrorMessageProps {
   isAdd?: boolean;
   isEdit?: boolean;
   isDelete?: boolean;
+  setIsError?: (value: boolean) => void | undefined;
 }
 
 export const ErrorMessage = memo((props: ErrorMessageProps) => {
@@ -23,6 +24,7 @@ export const ErrorMessage = memo((props: ErrorMessageProps) => {
     isAdd = false,
     isDelete = false,
     isEdit = false,
+    setIsError = (value: boolean) => (value = false),
   } = props;
   const { t } = useTranslation();
 
@@ -30,7 +32,8 @@ export const ErrorMessage = memo((props: ErrorMessageProps) => {
 
   const closeModalFunction = useCallback(() => {
     setOpenModal(false);
-  }, [setOpenModal]);
+    setIsError(false);
+  }, [setIsError]);
 
   return (
     <div className={classNames(cls.errorMessage, {}, [className])}>
