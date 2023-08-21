@@ -84,5 +84,13 @@
   "e.orgId": "Organization",
   "e.userId": "User",
   "Значения параметра": "Parameter values",
-  "Вести учёт действий пользователя?": "Keep track of user actions?"
+  "Вести учёт действий пользователя?": "Keep track of user actions?",
+
+  "Ок": "Ok",
+  "При создании нового элемента произошла ошибка, пожалуйста попробуйте повторить чуть позже или проверьте правельно ли вы заполнили все поля": "An error occurred while creating a new item, please try again later or check if you filled in all the fields correctly.",
+  "При редактировании элемента произошла ошибка, пожалуйста попробуйте повторить чуть позже или проверьте правельно ли вы заполнили все поля": "An error occurred while editing an item, please try again later or check if you filled in all the fields correctly.",
+  "При удалении элемента произошла ошибка, пожалуйста попробуйте повторить чуть позже или проверьте правельно ли вы заполнили все поля": "An error occurred while deleting an item, please try again later or check if you filled in all the fields correctly.",
+  "Новый элемент создан": "New item created",
+  "Элемент удален": "Item deleted",
+  "Элемент отредактирован": "Item edited"
 }

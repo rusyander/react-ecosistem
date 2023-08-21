@@ -114,8 +114,8 @@ export const CoreSysParamsAllValueModalContent = memo(
           parameterCode: selectedField?.parameter_code,
           gridRequest: {
             params: null,
-            pageNumber: currentPageNumber,
-            pageSize: pageLimit,
+            pageNumber: 1,
+            pageSize: 100,
             totalCount: totalCount ?? null,
             sort: sorted,
             filter: [],
@@ -123,13 +123,7 @@ export const CoreSysParamsAllValueModalContent = memo(
         };
         getSysParValuesGridData(gridParamsData);
       },
-      [
-        currentPageNumber,
-        getSysParValuesGridData,
-        pageLimit,
-        selectedField?.parameter_code,
-        totalCount,
-      ]
+      [getSysParValuesGridData, selectedField?.parameter_code, totalCount]
     );
 
     const inputFoldsPayload = useMemo(
@@ -148,11 +142,18 @@ export const CoreSysParamsAllValueModalContent = memo(
       []
     );
 
-    console.log(
-      'getSysParValuesGridDataQ',
-      getSysParValuesGridDataQ?.data?.content
-    );
-    console.log('getAttrValuesQ', getAttrValuesQ?.data);
+    // console.log(
+    //   'getSysParValuesGridDataQ',
+    //   getSysParValuesGridDataQ?.data?.content
+    // );
+
+    const defData = {
+      level_name: 'Система',
+      displayTypeCode: 'L',
+      object_name: '',
+      parameter_value: 'Да',
+      attribute_code: 'YES_NO',
+    };
 
     return (
       <div

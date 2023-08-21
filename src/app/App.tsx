@@ -3,7 +3,15 @@ import { useTheme } from './providers/ThemeProvider';
 import { useSelector } from 'react-redux';
 import { UserActions, getDefaultDataQ, getUserAuthData } from 'entities/User';
 import { LoginPage } from 'pages/LoginPage';
-import { Loader, classNames } from 'Modules/UiKit';
+import {
+  ErrorMessage,
+  GridSkeleton,
+  InputsDataSkeleton,
+  Loader,
+  Toast,
+  TreeDataSkeleton,
+  classNames,
+} from 'Modules/UiKit';
 import { MainPage } from 'pages/MainPage';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 
@@ -31,6 +39,9 @@ export default function App() {
           </>
         )}
       </Suspense>
+      {/* <TreeDataSkeleton /> */}
+      {/* <GridSkeleton height={600} /> */}
+      {/* <InputsDataSkeleton /> */}
     </div>
   );
 }

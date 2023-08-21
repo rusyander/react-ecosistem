@@ -1,0 +1,31 @@
+.gridSkeleton {
+  width: 100%;
+  //   background: green;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  position: relative;
+}
+.hstack {
+  width: 100%;
+}
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--light-blue);
+  margin-top: 10px;
+}
+.borders {
+  border: 1px solid var(--border-color);
+  padding: 5px;
+}
+.paginations {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.gridData {
+  max-height: 500px;
+  overflow-y: auto;
+}

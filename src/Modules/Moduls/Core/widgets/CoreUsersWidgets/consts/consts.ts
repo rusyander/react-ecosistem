@@ -1,7 +1,6 @@
 import { GridRow } from '../../../../../../shared/Globals/types/filterBlock';
 
 export const gridCols: GridRow[] = [
-  // { field: 'user_id', size: '220px', is_sortable_flag: true },
   { field: 'org_name', size: '220px', is_sortable_flag: true },
   { field: 'first_last_name', size: '220px', is_sortable_flag: true },
   { field: 'login', size: '140px', is_sortable_flag: true },
@@ -177,39 +176,5 @@ export const filterBlock2 = [
     codeProperty: 'code',
     nameProperty: 'name',
     attrCode: 'YES_NO',
-  },
-];
-
-//     organizationId: 43,
-//     organizationCode: 'main_seven',
-//     name: 'Головная организация 7',
-//     iconCode: null,
-//     childCount: 2,
-//     parentOrganizationId: null,
-
-export const standartInputs = [
-  {
-    itemName: 'first',
-    colName: 'e.first',
-    dataType: 1,
-    displayType: 'F',
-    value: '',
-    required: true,
-  },
-  {
-    itemName: 'two',
-    colName: 'e.two',
-    dataType: 1,
-    displayType: 'F',
-    value: '',
-    required: true,
-  },
-  {
-    itemName: 'tree',
-    colName: 'e.tree',
-    dataType: 1,
-    displayType: 'F',
-    value: '',
-    required: false,
   },
 ];

@@ -5,7 +5,6 @@ import {
   CheckFormEnterM,
   Grid,
   Texts,
-  VStack,
   classNames,
   pageCountOptions,
 } from 'Modules/UiKit';
@@ -49,6 +48,8 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
 
   const getAttrValuesPayload = [{ code: 'CORE_APPLICATIONS' }];
   useEffect(() => {
+    console.log('render');
+
     onPaginationPageChange();
     getInit('CORE_SYSTEM_PARAMS_FIELDS');
     getAttrValues(getAttrValuesPayload);
@@ -80,7 +81,7 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
   const onPaginationPageChange = useCallback(
     async (currentPage?: number, pageSizeElement?: number) => {
       getDataGrid(gridParamsData);
-
+      console.log('onPaginationPageChange render');
       if (grid?.result === '1') {
         if (grid?.data?.totalElements) {
           setCurrentPageNumber(currentPage ?? 1);
@@ -94,6 +95,8 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
 
   const sortData = useCallback(
     (sorted: GridSort[]) => {
+      console.log('sorted render');
+
       const gridParamsData = {
         applCode: null,
         roleCode: null,
@@ -101,16 +104,18 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
         userId: null,
         gridRequest: {
           params: null,
-          pageNumber: currentPageNumber,
-          pageSize: pageLimit,
+          pageNumber: 1,
+          pageSize: 100,
           totalCount: totalCount ?? 0,
           sort: sorted,
           filter: [],
         },
       };
-      getDataGrid(gridParamsData);
+      getDataGrid(gridParamsData).then((res: any) => {
+        console.log(res);
+      });
     },
-    [currentPageNumber, getDataGrid, pageLimit, totalCount]
+    [getDataGrid, totalCount]
   );
 
   const inputFoldsPayload = useMemo(
@@ -173,7 +178,7 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
     if (value) {
       getDataGrid(currentData);
     }
-  }, [inputsValue]);
+  }, [getDataGrid, inputsValue]);
 
   return (
     <div className={classNames(cls.coreSysParamsWidgets, {}, [className])}>

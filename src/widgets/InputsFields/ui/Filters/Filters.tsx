@@ -19,6 +19,8 @@ interface FiltersProps {
   errorData?: any;
   defaultValuesData?: any;
   payloadData?: any;
+  refetchClearData?: () => void;
+  filteredData?: (value: any) => void;
 }
 
 export const Filters = memo((props: FiltersProps) => {
@@ -33,6 +35,8 @@ export const Filters = memo((props: FiltersProps) => {
     errorData,
     defaultValuesData,
     payloadData,
+    refetchClearData,
+    filteredData,
   } = props;
   const { t } = useTranslation();
 
@@ -76,10 +80,11 @@ export const Filters = memo((props: FiltersProps) => {
 
       if (isFilter) {
         setNewDataArray(data as any);
+        filteredData?.(data);
       }
       setInputsValues?.(data);
     },
-    [filterColsData, isFilter, setInputsValues]
+    [filterColsData, filteredData, isFilter, setInputsValues]
   );
 
   // function for filter and update data
@@ -91,8 +96,9 @@ export const Filters = memo((props: FiltersProps) => {
 
   // function for clear filter
   const clear = useCallback(() => {
-    setFilterColsData(filterData as any);
-  }, [filterData]);
+    // setFilterColsData(filterData as any);
+    refetchClearData?.();
+  }, [refetchClearData]);
 
   // function for keydown
   const onKeyDown = useCallback(

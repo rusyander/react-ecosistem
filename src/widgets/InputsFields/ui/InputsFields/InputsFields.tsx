@@ -13,6 +13,8 @@ interface InputsFieldsProps {
   attrData?: any;
   errorData?: any;
   defaultValuesData?: any;
+  refetchClearData?: () => void;
+  filteredData?: (value: any) => void;
 }
 
 export const InputsFields = memo((props: InputsFieldsProps) => {
@@ -27,6 +29,8 @@ export const InputsFields = memo((props: InputsFieldsProps) => {
     defaultValuesData,
     errorData,
     payloadData,
+    refetchClearData,
+    filteredData,
   } = props;
 
   const [noFilterInputsData, setNoFilterInputsData] = useState(null);
@@ -56,6 +60,8 @@ export const InputsFields = memo((props: InputsFieldsProps) => {
           modalTitle={modalTitle}
           isFilter={isFilter}
           payloadData={payloadData}
+          refetchClearData={refetchClearData}
+          filteredData={filteredData}
           // if not filter
           setInputsValues={setInputsValues}
           attrData={attrData}
