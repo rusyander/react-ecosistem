@@ -54,7 +54,7 @@ export const pageGridParamsDataNoBeckend = (props: PageGridParamsDataProps) => {
     pageNumber: currentPageNumber ?? 1,
     pageSize: pageLimit ?? 100,
     sort: sorted ? sorted : [],
-    params: [],
+    params: null,
     totalCount: totalCount ?? null,
   };
 };
@@ -72,6 +72,7 @@ export const pageGridParamsDataNoBeckendWithInputs = (
     roleCode = null,
     orgId = null,
     userId = null,
+    params = [],
   } = props;
   return {
     applCode: applCode ? applCode : null,
@@ -79,11 +80,11 @@ export const pageGridParamsDataNoBeckendWithInputs = (
     orgId: orgId ? orgId : null,
     userId: userId ? userId : null,
     gridRequest: {
-      filter: filter ? filter : [],
+      filter: filter ? filter : null,
       pageNumber: currentPageNumber ?? 1,
       pageSize: pageLimit ?? 100,
       sort: sorted ? sorted : [],
-      params: [],
+      params: null,
       totalCount: totalCount ?? null,
     },
   };

@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreUsersWidgets.module.scss';
 import {
@@ -37,9 +37,26 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
   >(1);
   const [pageLimit, setPageLimit] = useState<number | undefined>(100);
   const [sortedData, setSortedData] = useState([]);
-  const [filtersData, setFiltersData] = useState([]);
+  const [filtersData, setFiltersData] = useState(null);
 
   const roleName = 'CORE_USERS';
+
+  const gridParamsData = pageGridParamsDataNoBeckend({
+    currentPageNumber: currentPageNumber,
+    pageLimit: pageLimit,
+    totalCount: totalCount,
+    filter: [],
+  });
+  // const gridParamsData = useMemo(() => {
+  //   return {
+  //     filter: [],
+  //     pageNumber: currentPageNumber ?? 1,
+  //     pageSize: pageLimit ?? 100,
+  //     params: [],
+  //     sort: [],
+  //     totalCount: totalCount ?? 0,
+  //   };
+  // }, [currentPageNumber, pageLimit, totalCount]);
 
   useEffect(() => {
     refetchGridData();
@@ -51,17 +68,9 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalCount, currentPageNumber, pageLimit]);
 
-  const gridParamsData = pageGridParamsDataNoBeckend({
-    roleName: roleName,
-    currentPageNumber: currentPageNumber,
-    pageLimit: pageLimit,
-    totalCount: totalCount,
-  });
-
   const refreshButtonFunction = useCallback(() => {
     if (gridParamsData) {
       const newData = pageGridParamsDataNoBeckend({
-        roleName: roleName,
         currentPageNumber: 1,
         pageLimit: pageLimit,
         totalCount: totalCount,
@@ -75,7 +84,6 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
     getGridData,
     gridParamsData,
     pageLimit,
-    roleName,
     sortedData,
     totalCount,
   ]);

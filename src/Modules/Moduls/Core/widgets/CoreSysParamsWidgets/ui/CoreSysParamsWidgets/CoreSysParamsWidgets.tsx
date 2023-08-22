@@ -107,11 +107,14 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
     (sorted) => {
       setSortedData(sorted);
       const gridsortDataParamsData = pageGridParamsDataNoBeckendWithInputs({
+        filter: [],
         sorted,
+        params: null,
+        totalCount: totalCount,
       });
       getDataGrid(gridsortDataParamsData);
     },
-    [getDataGrid]
+    [getDataGrid, totalCount]
   );
 
   const inputFoldsPayload = pageGridParamsDataNoBeckendWithInputs({
@@ -145,7 +148,6 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
   }, [inputsValue]);
 
   const handleSubmit = useCallback(() => {
-    // getDataGrid(gridParamsData);
     const clearData = inputsValue.filter((item: any) => {
       return item.fildValue !== null && item.fildValue !== undefined;
     });
