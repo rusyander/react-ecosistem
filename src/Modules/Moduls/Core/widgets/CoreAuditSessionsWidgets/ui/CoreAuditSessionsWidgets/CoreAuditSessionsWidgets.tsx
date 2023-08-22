@@ -19,6 +19,7 @@ import {
   headerGridData,
   pageGridParamsData,
 } from 'widgets/InputsFields';
+import { CoreAuditSessionsFeatures } from 'Modules/Moduls/Core/features/CoreAuditSessionsFeatures';
 
 export interface CoreAuditSessionsWidgetsProps {
   className?: string;
@@ -34,6 +35,7 @@ export const CoreAuditSessionsWidgets = memo(
 
     const [getGridDataInit, { data: gridDataInit }] = getGridDataInitM();
 
+    const [selected, setSelected] = useState<any>(null);
     const [totalCount, setTotalCount] = useState<number | null>(null);
     const [currentPageNumber, setCurrentPageNumber] = useState<
       number | undefined
@@ -151,6 +153,16 @@ export const CoreAuditSessionsWidgets = memo(
             setSortFields={sortData}
             // refresh function
             onRefresh={refreshButtonFunction}
+            // selected row
+            selectedFields={(value) => setSelected(value)}
+            // new button
+            AddNewButtonComponents={[
+              <CoreAuditSessionsFeatures
+                key={1}
+                selectedField={selected}
+                refetchGridData={refetchGridData}
+              />,
+            ]}
             // loading
             isLoading={gridIsLoading}
             // optional components

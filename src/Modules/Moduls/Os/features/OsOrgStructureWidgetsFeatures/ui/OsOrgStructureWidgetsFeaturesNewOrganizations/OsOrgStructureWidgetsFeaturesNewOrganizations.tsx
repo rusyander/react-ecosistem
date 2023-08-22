@@ -1,7 +1,16 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './OsOrgStructureWidgetsFeaturesNewOrganizations.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { getInitM } from 'shared/Globals/globalApi/globalApi';
 import { saveDataM } from '../../api/OsOrgStructureWidgets';
@@ -9,13 +18,14 @@ import { OsOrgStructureNewOrganizationsModelContent } from 'Modules/Moduls/Os/en
 
 interface OsOrgStructureWidgetsFeaturesNewOrganizationsProps {
   className?: string;
+  refetchData?: () => void;
 }
 
 export const OsOrgStructureWidgetsFeaturesNewOrganizations = memo(
   (props: OsOrgStructureWidgetsFeaturesNewOrganizationsProps) => {
-    const { className } = props;
+    const { className, refetchData } = props;
     const { t } = useTranslation('os');
-    const [getInit, { data: getInitData }] = getInitM();
+    const [getInit, { data: getInitData, isLoading, isError }] = getInitM();
     const [saveData, { data: saveDataQ }] = saveDataM();
 
     const [openModal, setOpenModal] = useState(false);
@@ -49,13 +59,18 @@ export const OsOrgStructureWidgetsFeaturesNewOrganizations = memo(
 
         <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
           {openModal && (
-            <OsOrgStructureNewOrganizationsModelContent
-              closeModalFunction={closeModalFunction}
-              getInit={getInit}
-              saveData={saveData}
-              getInitData={getInitData}
-              saveDataQ={saveDataQ}
-            />
+            <VStack max>
+              {isLoading && <InputsDataSkeleton />}
+              {isError && <IsError />}
+              <OsOrgStructureNewOrganizationsModelContent
+                closeModalFunction={closeModalFunction}
+                getInit={getInit}
+                saveData={saveData}
+                getInitData={getInitData}
+                saveDataQ={saveDataQ}
+                refetchData={refetchData}
+              />
+            </VStack>
           )}
         </Modal>
       </div>

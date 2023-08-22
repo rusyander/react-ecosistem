@@ -3,8 +3,12 @@ import { useTranslation } from 'react-i18next';
 import cls from './OsRegionsAddModalContent.module.scss';
 import {
   CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -17,6 +21,7 @@ interface OsRegionsAddModalContentProps {
   saveData: any;
   getInitData: any;
   saveDataQ: any;
+  refetchGridData?: () => void;
 }
 
 export const OsRegionsAddModalContent = memo(
@@ -28,10 +33,13 @@ export const OsRegionsAddModalContent = memo(
       closeModalFunction,
       getInit,
       getInitData,
+      refetchGridData,
     } = props;
     const { t } = useTranslation('os');
 
     const [inputsValue, setInputsValue] = useState([]);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     useEffect(() => {
       getInit('OS_REGION_FIELDS');
@@ -43,11 +51,18 @@ export const OsRegionsAddModalContent = memo(
         ...value,
       };
       saveData(currentData).then((res: any) => {
-        if (res?.result === '1') {
-          closeModalFunction();
+        if (res?.data?.result === '1') {
+          refetchGridData?.();
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+            closeModalFunction();
+          }, 1000);
+        } else {
+          setIsErrored(true);
         }
       });
-    }, [inputsValue, saveData, closeModalFunction]);
+    }, [inputsValue, saveData, refetchGridData, closeModalFunction]);
 
     return (
       <div
@@ -59,6 +74,10 @@ export const OsRegionsAddModalContent = memo(
           onClose={closeModalFunction}
         />
         <VStack className="formContent" max>
+          {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+          {isSuccess && <Toast isAdd />}
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}

@@ -8,6 +8,7 @@ import {
   ModalHeader,
   NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -39,6 +40,7 @@ export const CoreRolesWidgetsAddModalContent = memo(
     const [inputsValue, setInputsValue] = useState([]);
 
     const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     useEffect(() => {
       getInit('CORE_ROLE_FIELDS');
@@ -49,7 +51,11 @@ export const CoreRolesWidgetsAddModalContent = memo(
       addDataRole(value).then((res: any) => {
         if (res?.data?.result === '1') {
           refetchGridData?.();
-          closeModalFunction();
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+            closeModalFunction();
+          }, 1000);
         } else {
           setIsErrored(true);
         }
@@ -62,13 +68,14 @@ export const CoreRolesWidgetsAddModalContent = memo(
           className,
         ])}
       >
-        {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
         <CheckFormEnterM checkFormEnterName={'CORE_USER_ROLE_ADD_EDIT'} />
         <ModalHeader
           title={t('Реквизиты пользовательской роли') || ''}
           onClose={closeModalFunction}
         />
         <VStack className="formContent" max>
+          {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+          {isSuccess && <Toast isAdd />}
           {!getInitData?.data?.attrData && <InputsDataSkeleton />}
           {getInitData?.data?.attrData?.length === 0 && <NoData />}
 

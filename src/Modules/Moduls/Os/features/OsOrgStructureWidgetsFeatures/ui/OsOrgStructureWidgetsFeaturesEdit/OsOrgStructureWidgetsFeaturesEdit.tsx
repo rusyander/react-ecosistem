@@ -1,9 +1,17 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './OsOrgStructureWidgetsFeaturesEdit.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { AddDataRoleM } from 'Modules/Moduls/Core/features/CoreRolesFeatures/api/roleApi';
 import { getInitM, getFgDataM } from 'shared/Globals/globalApi/globalApi';
 import { saveDataM } from '../../api/OsOrgStructureWidgets';
 import { OsOrgStructureEditModalContent } from 'Modules/Moduls/Os/entities/OsOrgStructureWidgetsEntities';
@@ -11,14 +19,15 @@ import { OsOrgStructureEditModalContent } from 'Modules/Moduls/Os/entities/OsOrg
 interface OsOrgStructureWidgetsFeaturesEditProps {
   className?: string;
   selectedField: any;
+  refetchData?: () => void;
 }
 
 export const OsOrgStructureWidgetsFeaturesEdit = memo(
   (props: OsOrgStructureWidgetsFeaturesEditProps) => {
-    const { className, selectedField } = props;
+    const { className, selectedField, refetchData } = props;
     const { t } = useTranslation('os');
 
-    const [getInit, { data: getInitData }] = getInitM();
+    const [getInit, { data: getInitData, isLoading, isError }] = getInitM();
     const [saveData, { data: saveDataQ }] = saveDataM();
     const [getFgData] = getFgDataM();
 
@@ -49,18 +58,22 @@ export const OsOrgStructureWidgetsFeaturesEdit = memo(
             <Texts text={t('Редактировать')} />
           </HStack>
         </Button>
-
         <Modal isOpen={openModal} onClose={closeModalFunction}>
           {openModal && (
-            <OsOrgStructureEditModalContent
-              selectedField={selectedField}
-              closeModalFunction={closeModalFunction}
-              getInit={getInit}
-              saveData={saveData}
-              getFgData={getFgData}
-              getInitData={getInitData}
-              saveDataQ={saveDataQ}
-            />
+            <VStack max>
+              {isLoading && <InputsDataSkeleton />}
+              {isError && <IsError />}
+              <OsOrgStructureEditModalContent
+                selectedField={selectedField}
+                closeModalFunction={closeModalFunction}
+                getInit={getInit}
+                saveData={saveData}
+                getFgData={getFgData}
+                getInitData={getInitData}
+                saveDataQ={saveDataQ}
+                refetchData={refetchData}
+              />
+            </VStack>
           )}
         </Modal>
       </div>

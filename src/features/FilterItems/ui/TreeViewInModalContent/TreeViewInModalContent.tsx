@@ -14,16 +14,17 @@ interface TreeViewInModalContentProps {
   className?: string;
   selectedFild?: any;
   selectTreeItems?: any;
+  treeDatas?: any;
 }
 
 export const TreeViewInModalContent = memo(
   (props: TreeViewInModalContentProps) => {
-    const { className, selectedFild, selectTreeItems } = props;
+    const { className, selectedFild, selectTreeItems, treeDatas } = props;
 
     const [getTreePartDataSpr, { data: getTreePartData, isLoading, isError }] =
       getTreePartDataSprM();
 
-    const [treeData, setTreeData]: any = useState<any>([]);
+    const [treeData, setTreeData]: any = useState<any>(treeDatas || []);
     const [selectedTreeDataFildId, setSelectedTreeDataFildId] = useState<
       number | string | any
     >('');
@@ -38,7 +39,6 @@ export const TreeViewInModalContent = memo(
 
     useEffect(() => {
       sendTreeDataFirst();
-      // }
     }, []);
     const [loadingTree, setLoadingTree] = useState(false);
 

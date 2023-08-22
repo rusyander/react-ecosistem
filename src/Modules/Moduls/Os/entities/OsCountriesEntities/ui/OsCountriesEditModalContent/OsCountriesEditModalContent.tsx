@@ -2,8 +2,12 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import cls from './OsCountriesEditModalContent.module.scss';
 import {
   CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -19,6 +23,7 @@ interface OsCountriesEditModalContentProps {
   saveDataQ: any;
   getFgData: any;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const OsCountriesEditModalContent = memo(
@@ -32,11 +37,13 @@ export const OsCountriesEditModalContent = memo(
       saveDataQ,
       selectedField,
       getFgData,
+      refetchGridData,
     } = props;
     const [defaultData, setDefaultData] = useState<any>([]);
 
     const [inputsValue, setInputsValue]: any = useState([]);
-    // console.log('selectedField', selectedField);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const editDataPayload = useMemo(() => {
       return {
@@ -70,12 +77,26 @@ export const OsCountriesEditModalContent = memo(
         };
 
         saveData(addUserId).then((res: any) => {
-          if (res?.result === '1') {
-            closeModalFunction();
+          if (res?.data?.result === '1') {
+            refetchGridData?.();
+            setIsSuccess(true);
+            setTimeout(() => {
+              setIsSuccess(false);
+              closeModalFunction();
+            }, 1000);
+          } else {
+            setIsErrored(true);
           }
         });
       });
-    }, [inputsValue, getFgData, editDataPayload, saveData, closeModalFunction]);
+    }, [
+      inputsValue,
+      getFgData,
+      editDataPayload,
+      saveData,
+      refetchGridData,
+      closeModalFunction,
+    ]);
 
     return (
       <div
@@ -86,7 +107,11 @@ export const OsCountriesEditModalContent = memo(
           title={t('Реквизиты организации') || ''}
           onClose={closeModalFunction}
         />
+        {isErrored && <ErrorMessage isEdit isOpen setIsError={setIsErrored} />}
+        {isSuccess && <Toast isEdit />}
         <VStack max gap="32" className="formContent">
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}

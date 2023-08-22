@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import cls from './OsOrgStructureWidgets.module.scss';
 import { HeadersActionButtons, VStack, classNames } from 'Modules/UiKit';
 import { TreeViewInModalContent } from 'features/FilterItems';
@@ -8,6 +8,7 @@ import {
   OsOrgStructureWidgetsFeaturesNewOrganizations,
   OsOrgStructureWidgetsFeaturesDelete,
 } from 'Modules/Moduls/Os/features/OsOrgStructureWidgetsFeatures';
+import { getTreePartDataSprM } from 'shared/Globals/globalApi/globalApi';
 
 export interface OsOrgStructureWidgetsProps {
   className?: string;
@@ -16,6 +17,13 @@ export interface OsOrgStructureWidgetsProps {
 export const OsOrgStructureWidgets = memo(
   ({ className }: OsOrgStructureWidgetsProps) => {
     const [selectedFild, setSelectedFild] = useState();
+    const [getTreePartDataSpr] = getTreePartDataSprM();
+    const [treeDatas, setTreeDatas]: any = useState<any>([]);
+    const refetchData = useCallback(() => {
+      getTreePartDataSpr('-1').then((res: any) => {
+        setTreeDatas(res?.data?.data);
+      });
+    }, [getTreePartDataSpr]);
 
     return (
       <div className={classNames(cls.osOrgStructureWidgets, {}, [className])}>
@@ -26,15 +34,21 @@ export const OsOrgStructureWidgets = memo(
             <OsOrgStructureWidgetsFeaturesAdd
               key={1}
               selectedField={selectedFild}
+              refetchData={refetchData}
             />,
             <OsOrgStructureWidgetsFeaturesEdit
               key={2}
               selectedField={selectedFild}
+              refetchData={refetchData}
             />,
-            <OsOrgStructureWidgetsFeaturesNewOrganizations key={3} />,
+            <OsOrgStructureWidgetsFeaturesNewOrganizations
+              key={3}
+              refetchData={refetchData}
+            />,
             <OsOrgStructureWidgetsFeaturesDelete
               key={4}
               selectedField={selectedFild}
+              refetchData={refetchData}
             />,
           ]}
         />
@@ -42,6 +56,7 @@ export const OsOrgStructureWidgets = memo(
           <TreeViewInModalContent
             selectTreeItems={(value: any) => setSelectedFild(value)}
             selectedFild={selectedFild}
+            treeDatas={treeDatas}
           />
         </VStack>
       </div>

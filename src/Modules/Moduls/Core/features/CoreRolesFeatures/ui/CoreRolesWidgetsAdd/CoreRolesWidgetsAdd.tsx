@@ -8,7 +8,6 @@ import {
   IsError,
   Modal,
   Texts,
-  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -26,7 +25,7 @@ export const CoreRolesWidgetsAdd = memo((props: CoreRolesWidgetsAddProps) => {
   const { className, refetchGridData } = props;
   const { t } = useTranslation('core');
   const [getInit, { data: getInitData, isLoading, isError }] = getInitM();
-  const [addDataRole, { data: addDataRoleQ, isSuccess }] = AddDataRoleM();
+  const [addDataRole, { data: addDataRoleQ }] = AddDataRoleM();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -50,8 +49,6 @@ export const CoreRolesWidgetsAdd = memo((props: CoreRolesWidgetsAddProps) => {
           <Texts text={t('Добавить')} />
         </HStack>
       </Button>
-      {isSuccess && <Toast isAdd />}
-
       <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
         {openModal && (
           <VStack max>

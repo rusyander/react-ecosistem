@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import cls from './CoreAuditSessionsFeatures.module.scss';
 import {
   Button,
+  ErrorMessage,
   HStack,
   MessagesModal,
   Modal,
   Texts,
+  Toast,
   classNames,
 } from 'Modules/UiKit';
 import { KillSessionM } from '../../../../widgets/CoreAuditSessionsWidgets/api/CoreAuditSessionsWidgets';
@@ -14,13 +16,15 @@ import { KillSessionM } from '../../../../widgets/CoreAuditSessionsWidgets/api/C
 interface CoreAuditSessionsFeaturesProps {
   className?: string;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const CoreAuditSessionsFeatures = memo(
   (props: CoreAuditSessionsFeaturesProps) => {
-    const { className, selectedField } = props;
+    const { className, selectedField, refetchGridData } = props;
     const { t } = useTranslation('core');
-    const [killSession] = KillSessionM();
+    const [killSession, { isSuccess }] = KillSessionM();
+    const [isErrored, setIsErrored] = useState(false);
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -34,7 +38,10 @@ export const CoreAuditSessionsFeatures = memo(
     const deleteRole = () => {
       killSession(selectedField?.login_id).then((res: any) => {
         if (res?.data?.result === '1') {
+          refetchGridData?.();
           closeModalFunction();
+        } else {
+          setIsErrored(true);
         }
       });
     };
@@ -53,9 +60,13 @@ export const CoreAuditSessionsFeatures = memo(
             <Texts text={t('Завершить сеанс')} />
           </HStack>
         </Button>
+        {isSuccess && <Toast isDelete />}
 
-        {openModal && (
-          <Modal zIndex={113} isOpen={openModal} onClose={closeModalFunction}>
+        <Modal zIndex={113} isOpen={openModal} onClose={closeModalFunction}>
+          {isErrored && (
+            <ErrorMessage isDelete isOpen setIsError={setIsErrored} />
+          )}
+          {openModal && (
             <MessagesModal
               title={t('Внимание')}
               subTitle={t(
@@ -64,8 +75,8 @@ export const CoreAuditSessionsFeatures = memo(
               onClose={closeModalFunction}
               onCall={deleteRole}
             />
-          </Modal>
-        )}
+          )}
+        </Modal>
       </div>
     );
   }

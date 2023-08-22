@@ -3,10 +3,13 @@ import { useTranslation } from 'react-i18next';
 import cls from './OsRegionsDelete.module.scss';
 import {
   Button,
+  ErrorMessage,
   HStack,
+  IsError,
   MessagesModal,
   Modal,
   Texts,
+  Toast,
   classNames,
 } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
@@ -15,13 +18,15 @@ import { deleteDataM } from '../../api/OsRegionsWidgets';
 interface OsRegionsDeleteProps {
   className?: string;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const OsRegionsDelete = memo((props: OsRegionsDeleteProps) => {
-  const { className, selectedField } = props;
+  const { className, selectedField, refetchGridData } = props;
   const { t } = useTranslation('os');
-  const [deleteData] = deleteDataM();
-  console.log('selectedField', selectedField);
+  const [deleteData, { isError }] = deleteDataM();
+  const [isErrored, setIsErrored] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -35,7 +40,14 @@ export const OsRegionsDelete = memo((props: OsRegionsDeleteProps) => {
   const deleteRole = () => {
     deleteData(selectedField?.region_id).then((res: any) => {
       if (res?.data?.result === '1') {
-        closeModalFunction();
+        refetchGridData?.();
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          closeModalFunction();
+        }, 1000);
+      } else {
+        setIsErrored(true);
       }
     });
   };
@@ -53,6 +65,10 @@ export const OsRegionsDelete = memo((props: OsRegionsDeleteProps) => {
           <Texts text={t('Удалить')} />
         </HStack>
       </Button>
+
+      {isError && <IsError />}
+      {isErrored && <ErrorMessage isDelete isOpen setIsError={setIsErrored} />}
+      {isSuccess && <Toast isDelete />}
 
       {openModal && (
         <Modal zIndex={113} isOpen={openModal} onClose={closeModalFunction}>

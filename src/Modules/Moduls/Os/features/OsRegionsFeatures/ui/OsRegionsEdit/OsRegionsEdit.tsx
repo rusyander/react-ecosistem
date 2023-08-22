@@ -1,7 +1,16 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './OsRegionsEdit.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { getInitM, getFgDataM } from 'shared/Globals/globalApi/globalApi';
 import { saveDataM } from '../../api/OsRegionsWidgets';
@@ -10,13 +19,14 @@ import { OsRegionsEditModalContent } from 'Modules/Moduls/Os/entities/OsRegionsE
 interface OsRegionsEditProps {
   className?: string;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const OsRegionsEdit = memo((props: OsRegionsEditProps) => {
-  const { className, selectedField } = props;
+  const { className, selectedField, refetchGridData } = props;
   const { t } = useTranslation('os');
 
-  const [getInit, { data: getInitData }] = getInitM();
+  const [getInit, { data: getInitData, isLoading, isError }] = getInitM();
   const [saveData, { data: saveDataQ }] = saveDataM();
   const [getFgData] = getFgDataM();
 
@@ -46,15 +56,20 @@ export const OsRegionsEdit = memo((props: OsRegionsEditProps) => {
 
       <Modal isOpen={openModal} onClose={closeModalFunction}>
         {openModal && (
-          <OsRegionsEditModalContent
-            selectedField={selectedField}
-            closeModalFunction={closeModalFunction}
-            getInit={getInit}
-            saveData={saveData}
-            getFgData={getFgData}
-            getInitData={getInitData}
-            saveDataQ={saveDataQ}
-          />
+          <VStack max>
+            {isLoading && <InputsDataSkeleton />}
+            {isError && <IsError />}
+            <OsRegionsEditModalContent
+              selectedField={selectedField}
+              closeModalFunction={closeModalFunction}
+              getInit={getInit}
+              saveData={saveData}
+              getFgData={getFgData}
+              getInitData={getInitData}
+              saveDataQ={saveDataQ}
+              refetchGridData={refetchGridData}
+            />
+          </VStack>
         )}
       </Modal>
     </div>

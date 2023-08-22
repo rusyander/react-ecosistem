@@ -2,8 +2,12 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import cls from './OsPopulatedLocalitiesEditModalContent.module.scss';
 import {
   CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -19,6 +23,7 @@ interface OsPopulatedLocalitiesEditModalContentProps {
   saveDataQ: any;
   getFgData: any;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const OsPopulatedLocalitiesEditModalContent = memo(
@@ -32,12 +37,14 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
       saveDataQ,
       selectedField,
       getFgData,
+      refetchGridData,
     } = props;
     const [defaultData, setDefaultData] = useState<any>([]);
+    const { t } = useTranslation('os');
 
     const [inputsValue, setInputsValue]: any = useState([]);
-    const { t } = useTranslation('os');
-    // console.log('selectedField', selectedField);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const editDataPayload = useMemo(() => {
       return {
@@ -74,8 +81,15 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
         };
 
         saveData(addUserId).then((res: any) => {
-          if (res?.result === '1') {
-            closeModalFunction();
+          if (res?.data?.result === '1') {
+            refetchGridData?.();
+            setIsSuccess(true);
+            setTimeout(() => {
+              setIsSuccess(false);
+              closeModalFunction();
+            }, 1000);
+          } else {
+            setIsErrored(true);
           }
         });
       });
@@ -85,6 +99,7 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
       editDataPayload,
       selectedField?.populated_locality_id,
       saveData,
+      refetchGridData,
       closeModalFunction,
     ]);
 
@@ -100,6 +115,12 @@ export const OsPopulatedLocalitiesEditModalContent = memo(
           onClose={closeModalFunction}
         />
         <VStack max gap="32" className="formContent">
+          {isErrored && (
+            <ErrorMessage isEdit isOpen setIsError={setIsErrored} />
+          )}
+          {isSuccess && <Toast isEdit />}
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}

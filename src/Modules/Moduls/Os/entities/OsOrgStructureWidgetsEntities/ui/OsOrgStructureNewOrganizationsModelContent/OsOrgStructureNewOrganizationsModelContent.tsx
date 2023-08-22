@@ -3,8 +3,12 @@ import { useTranslation } from 'react-i18next';
 import cls from './OsOrgStructureNewOrganizationsModelContent.module.scss';
 import {
   CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -17,6 +21,7 @@ interface OsOrgStructureNewOrganizationsModelContentProps {
   saveData?: any;
   getInitData?: any;
   saveDataQ?: any;
+  refetchData?: () => void;
 }
 
 export const OsOrgStructureNewOrganizationsModelContent = memo(
@@ -28,10 +33,13 @@ export const OsOrgStructureNewOrganizationsModelContent = memo(
       saveDataQ,
       getInit,
       getInitData,
+      refetchData,
     } = props;
     const { t } = useTranslation('os');
 
     const [inputsValue, setInputsValue] = useState([]);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     useEffect(() => {
       getInit('OS_ORGANIZATION_FIELDS');
@@ -41,13 +49,20 @@ export const OsOrgStructureNewOrganizationsModelContent = memo(
       const value = convertArrayToObject(inputsValue);
       const currentData = {
         ...value,
-        // parentOrganizationId: null,
       };
-      saveData(currentData);
-      if (saveDataQ?.result === '1') {
-        closeModalFunction();
-      }
-    }, [inputsValue, saveData, saveDataQ?.result, closeModalFunction]);
+      saveData(currentData).then((res: any) => {
+        if (res?.data?.result === '1') {
+          refetchData?.();
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+            closeModalFunction();
+          }, 1000);
+        } else {
+          setIsErrored(true);
+        }
+      });
+    }, [inputsValue, saveData, refetchData, closeModalFunction]);
 
     return (
       <div
@@ -62,7 +77,12 @@ export const OsOrgStructureNewOrganizationsModelContent = memo(
           title={t('Реквизиты организации') || ''}
           onClose={closeModalFunction}
         />
+        {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+        {isSuccess && <Toast isAdd />}
+
         <VStack className="formContent" max>
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}

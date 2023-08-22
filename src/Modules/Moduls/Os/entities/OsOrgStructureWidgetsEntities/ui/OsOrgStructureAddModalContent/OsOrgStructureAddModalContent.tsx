@@ -3,8 +3,12 @@ import { useTranslation } from 'react-i18next';
 import cls from './OsOrgStructureAddModalContent.module.scss';
 import {
   CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -18,6 +22,7 @@ interface OsOrgStructureAddModalContentProps {
   getInitData?: any;
   saveDataQ?: any;
   selectedField?: any;
+  refetchData?: () => void;
 }
 
 export const OsOrgStructureAddModalContent = memo(
@@ -30,10 +35,13 @@ export const OsOrgStructureAddModalContent = memo(
       getInit,
       getInitData,
       selectedField,
+      refetchData,
     } = props;
     const { t } = useTranslation('os');
 
     const [inputsValue, setInputsValue] = useState([]);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     useEffect(() => {
       getInit('OS_ORGANIZATION_FIELDS');
@@ -45,15 +53,23 @@ export const OsOrgStructureAddModalContent = memo(
         ...value,
         parentOrganizationId: selectedField?.organizationId,
       };
-      saveData(currentData);
-      if (saveDataQ?.result === '1') {
-        closeModalFunction();
-      }
+      saveData(currentData).then((res: any) => {
+        if (res?.data?.result === '1') {
+          refetchData?.();
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+            closeModalFunction();
+          }, 1000);
+        } else {
+          setIsErrored(true);
+        }
+      });
     }, [
       inputsValue,
       selectedField?.organizationId,
       saveData,
-      saveDataQ?.result,
+      refetchData,
       closeModalFunction,
     ]);
 
@@ -65,12 +81,16 @@ export const OsOrgStructureAddModalContent = memo(
           [className]
         )}
       >
+        {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+        {isSuccess && <Toast isAdd />}
         <CheckFormEnterM checkFormEnterName="OS_ORG_STRUCTURE_ADD_EDIT" />
         <ModalHeader
           title={t('Реквизиты организации') || ''}
           onClose={closeModalFunction}
         />
         <VStack className="formContent" max>
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}
