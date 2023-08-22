@@ -3,18 +3,25 @@ import { useTranslation } from 'react-i18next';
 import cls from './Edit.module.scss';
 import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { EditModalContent } from '../EditModalContent/EditModalContent';
+import { SaveDataM, GetDataM } from '../../api/saveData';
+import { fildListAddNewEdit } from '../../consts/const';
+import { EditModalContent } from 'Modules/Moduls/Core/entities/CoreUsersEntities';
 
 interface EditProps {
   className?: string;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const Edit = memo((props: EditProps) => {
-  const { className, selectedField } = props;
+  const { className, selectedField, refetchGridData } = props;
   const { t } = useTranslation('core');
 
+  const [saveData, { data: saveDataQ }] = SaveDataM();
+  const [getData] = GetDataM();
+
   const [openModal, setOpenModal] = useState(false);
+  const fildListAddNewEdits = fildListAddNewEdit;
 
   const openModalFunction = () => {
     setOpenModal(true);
@@ -43,6 +50,11 @@ export const Edit = memo((props: EditProps) => {
           <EditModalContent
             selectedField={selectedField}
             closeModalFunction={closeModalFunction}
+            saveData={saveData}
+            saveDataQ={saveDataQ}
+            getData={getData}
+            refetchGridData={refetchGridData}
+            fildListAddNewEdits={fildListAddNewEdits}
           />
         )}
       </Modal>

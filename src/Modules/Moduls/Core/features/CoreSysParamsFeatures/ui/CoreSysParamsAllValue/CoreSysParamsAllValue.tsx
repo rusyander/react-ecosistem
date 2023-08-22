@@ -1,7 +1,16 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsAllValue.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import {
   getAttrValuesM,
@@ -19,8 +28,10 @@ export const CoreSysParamsAllValue = memo(
     const { className, selectedField } = props;
     const { t } = useTranslation('core');
     const [getAttrValues, { data: getAttrValuesQ }] = getAttrValuesM();
-    const [getSysParValuesGridData, { data: getSysParValuesGridDataQ }] =
-      getSysParValuesGridDataM();
+    const [
+      getSysParValuesGridData,
+      { data: getSysParValuesGridDataQ, isLoading, isError },
+    ] = getSysParValuesGridDataM();
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -38,6 +49,7 @@ export const CoreSysParamsAllValue = memo(
           onClick={openModalFunction}
           theme="background"
           className={cls.addButtons}
+          disabled={!selectedField}
         >
           <HStack gap="16">
             <Icon width={20} icon="zondicons:add-outline" />
@@ -47,14 +59,18 @@ export const CoreSysParamsAllValue = memo(
 
         <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
           {openModal && (
-            <CoreSysParamsAllValueModalContent
-              closeModalFunction={closeModalFunction}
-              getAttrValues={getAttrValues}
-              getAttrValuesQ={getAttrValuesQ}
-              getSysParValuesGridData={getSysParValuesGridData}
-              getSysParValuesGridDataQ={getSysParValuesGridDataQ}
-              selectedField={selectedField}
-            />
+            <VStack max>
+              {isLoading && <InputsDataSkeleton />}
+              {isError && <IsError />}
+              <CoreSysParamsAllValueModalContent
+                closeModalFunction={closeModalFunction}
+                getAttrValues={getAttrValues}
+                getAttrValuesQ={getAttrValuesQ}
+                getSysParValuesGridData={getSysParValuesGridData}
+                getSysParValuesGridDataQ={getSysParValuesGridDataQ}
+                selectedField={selectedField}
+              />
+            </VStack>
           )}
         </Modal>
       </div>

@@ -1,14 +1,24 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './RoleGrid.module.scss';
-import { Grid, classNames, pageCountOptions } from 'Modules/UiKit';
-
-import { GridSort } from 'shared/Globals/types/GridTypes';
+import {
+  Grid,
+  GridSkeleton,
+  IsError,
+  NoData,
+  classNames,
+  pageCountOptions,
+} from 'Modules/UiKit';
 import {
   getDataGridM,
   getGridDataInitM,
 } from 'shared/Globals/globalApi/globalApi';
-import { InputsFields } from 'widgets/InputsFields';
+import {
+  InputsFields,
+  currentGridHeight,
+  headerGridData,
+  pageGridParamsData,
+} from 'widgets/InputsFields';
 import { RolesGridAdd } from '../RolesGridActions/RolesGridAdd/RolesGridAdd';
 import { RolesGridEdit } from '../RolesGridActions/RolesGridEdit/RolesGridEdit';
 import { RolesGridDelete } from '../RolesGridActions/RolesGridDelete/RolesGridDelete';
@@ -22,118 +32,113 @@ interface RoleGridProps {
 export const RoleGrid = memo((props: RoleGridProps) => {
   const { className, closeModalFunction } = props;
   const { t } = useTranslation('core');
-  const [getDataGrid, { data: grid, isLoading }] = getDataGridM();
   const [
-    getGridDataInit,
-    { data: gridDataInit, isLoading: gridDataInitLoading },
-  ] = getGridDataInitM();
+    getDataGrid,
+    { data: grid, isLoading: gridIsLoading, error: gridDataError },
+  ] = getDataGridM();
+  const [getGridDataInit, { data: gridDataInit }] = getGridDataInitM();
 
   const [selected, setSelected]: any = useState('');
   const [totalCount, setTotalCount] = useState<number | null>(null);
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [pageLimit, setPageLimit] = useState(100);
-  const headerData = [
-    {
-      field: 'user_role_name',
-      size: `${gridDataInit?.data?.cols?.[0].width}px`,
-      is_sortable_flag: true,
-    },
-    {
-      field: 'application_name',
-      size: `${gridDataInit?.data?.cols?.[1].width}px`,
-      is_sortable_flag: true,
-    },
-    {
-      field: 'role_name',
-      size: `${gridDataInit?.data?.cols?.[2].width}px`,
-      is_sortable_flag: true,
-    },
-  ];
+  const [currentPageNumber, setCurrentPageNumber] = useState<
+    number | undefined
+  >(1);
+  const [pageLimit, setPageLimit] = useState<number | undefined>(100);
+  const [sortedData, setSortedData] = useState([]);
+  const [filtersData, setFiltersData] = useState([]);
+
+  const roleName = gridDataInit?.data?.gridCode
+    ? gridDataInit?.data?.gridCode
+    : 'CORE_USER_ROLES';
+
+  const headerData = headerGridData(gridDataInit);
 
   useEffect(() => {
-    onPaginationPageChange();
-    getGridDataInit('CORE_USER_ROLES');
+    refetchGridData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const gridParamsData = useMemo(() => {
-    return {
-      gridCode: 'CORE_USER_ROLES',
-      gridRequest: {
-        filter: [],
-        pageNumber: currentPageNumber ?? 1,
-        pageSize: pageLimit ?? 100,
-        sort: [],
-        params: [1],
-        totalCount: totalCount ?? 0,
-      },
-    };
-  }, [currentPageNumber, pageLimit, totalCount]);
+  useEffect(() => {
+    getDataGrid(gridParamsData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalCount, currentPageNumber, pageLimit]);
+
+  const gridParamsData = pageGridParamsData({
+    roleName: roleName,
+    currentPageNumber: currentPageNumber,
+    pageLimit: pageLimit,
+    totalCount: totalCount,
+    params: [1],
+  });
 
   const refreshButtonFunction = useCallback(() => {
     if (gridParamsData) {
-      getDataGrid(gridParamsData);
+      const newData = pageGridParamsData({
+        roleName: roleName,
+        currentPageNumber: 1,
+        pageLimit: pageLimit,
+        totalCount: totalCount,
+        sorted: sortedData,
+        filter: filtersData,
+        params: [1],
+      });
+      getDataGrid(newData);
     }
-  }, [getDataGrid, gridParamsData]);
+  }, [
+    filtersData,
+    getDataGrid,
+    gridParamsData,
+    pageLimit,
+    roleName,
+    sortedData,
+    totalCount,
+  ]);
 
   const onPaginationPageChange = useCallback(
     async (currentPage?: number, pageSizeElement?: number) => {
-      getDataGrid(gridParamsData);
-
-      if (grid?.result === '1') {
-        if (grid?.data?.totalElements) {
-          setCurrentPageNumber(currentPage ?? 1);
-          setPageLimit(pageSizeElement ?? 100);
-          setTotalCount(grid?.data?.totalElements);
-        }
-      }
+      setCurrentPageNumber((prev) => (prev = currentPage));
+      setPageLimit(pageSizeElement);
+      setTotalCount(grid?.data?.totalElements);
     },
-    [getDataGrid, grid?.data?.totalElements, grid?.result, gridParamsData]
+    [grid?.data?.totalElements]
   );
 
   const sortData = useCallback(
-    (sorted: GridSort[]) => {
-      const gridParamsData = {
-        gridCode: 'CORE_USER_ROLES',
-        gridRequest: {
-          filter: [],
-          pageNumber: currentPageNumber,
-          pageSize: pageLimit,
-          sort: sorted,
-          params: [5],
-          totalCount: totalCount ?? 0,
-        },
-      };
-      getDataGrid(gridParamsData);
+    (sorted) => {
+      setSortedData(sorted);
+      const gridsortDataParamsData = pageGridParamsData({
+        roleName,
+        sorted,
+        params: [1],
+      });
+      getDataGrid(gridsortDataParamsData);
     },
-    [currentPageNumber, getDataGrid, pageLimit, totalCount]
+    [getDataGrid, roleName]
   );
 
-  const inputFoldsPayload = useMemo(
-    () => ({
-      gridCode: 'CORE_USER_ROLES',
-      gridRequest: {
-        params: [1],
-        pageNumber: 1,
-        pageSize: 100,
-        totalCount: null,
-        sort: [],
-        filter: null,
-      },
-    }),
-    []
-  );
+  const inputFoldsPayload = pageGridParamsData({
+    roleName,
+    filter: null,
+    sorted: [],
+    params: [1],
+  });
+
+  const refetchGridData = useCallback(() => {
+    getDataGrid(gridParamsData);
+    getGridDataInit(roleName);
+  }, [getDataGrid, getGridDataInit, gridParamsData, roleName]);
 
   return (
     <div className={classNames(cls.roleGrid, {}, [className])}>
+      {!headerData && gridIsLoading && (
+        <GridSkeleton height={currentGridHeight} />
+      )}
       {gridDataInit && (
         <Grid
           // for grid data
           gridCols={gridDataInit ? headerData : []}
           rowData={grid?.data?.content}
-          // for grid height
           gridHeight={630}
-          // for modal
-          // ModalContent={ModalContents}
           selectedFields={(selected: any) => setSelected(selected)}
           // pagination
           pageCountOptions={pageCountOptions}
@@ -149,6 +154,8 @@ export const RoleGrid = memo((props: RoleGridProps) => {
               attrData={gridDataInit?.data?.attr}
               modalTitle={t('Справочник')}
               isFilter={true}
+              refetchClearData={refetchGridData}
+              filteredData={(value) => setFiltersData(value)}
             />
           }
           // sort function
@@ -157,28 +164,44 @@ export const RoleGrid = memo((props: RoleGridProps) => {
           onRefresh={refreshButtonFunction}
           // new button
           AddNewButtonComponents={[
-            <RolesGridAdd key={1} />,
-            <RolesGridEdit key={2} selectedField={selected} />,
-            <RolesGridDelete key={3} selectedField={selected} />,
+            <RolesGridAdd key={1} refetchGridData={refetchGridData} />,
+            <RolesGridEdit
+              key={2}
+              refetchGridData={refetchGridData}
+              selectedField={selected}
+            />,
+            <RolesGridDelete
+              key={3}
+              refetchGridData={refetchGridData}
+              selectedField={selected}
+            />,
             <RolesCancel key={4} closeModalFunction={closeModalFunction} />,
           ]}
           // loading
-          isLoading={isLoading}
+          isLoading={gridIsLoading}
           // optional components
-          // pagination
-          isPageable={true}
           // filter button
           showIsOpenFilter={true}
-          // sort
-          disableSorting={true}
           // refresh Buttons
           showRefreshButton={true}
           // can open modal when double click on grid row
           hasOpenGridRowModal={true}
+          // pagination
+          isPageable={
+            gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
+          }
+          // sort
+          disableSorting={
+            gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
+          }
           //isSelectable
-          isSelectable={true}
+          isSelectable={
+            gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
+          }
         />
       )}
+      {grid?.data?.content === 0 && <NoData />}
+      {gridDataError && <IsError />}
     </div>
   );
 });

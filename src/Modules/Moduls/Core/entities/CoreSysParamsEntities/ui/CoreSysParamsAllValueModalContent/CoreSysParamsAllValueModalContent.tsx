@@ -1,16 +1,19 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsAllValueModalContent.module.scss';
 import {
   CheckFormEnterM,
   Grid,
+  GridSkeleton,
   ModalHeader,
+  NoData,
   classNames,
   pageCountOptions,
 } from 'Modules/UiKit';
 
-import { InputsFields } from 'widgets/InputsFields';
+import { InputsFields, pageGridSysParamsAllValue } from 'widgets/InputsFields';
 import { filterBlock, gridColsHeader } from '../../consts/headerFildsData';
+import { getAttrValuesPayload } from 'Modules/Moduls/Core/features/CoreSysParamsFeatures/consts/filterParams';
 
 interface CoreSysParamsAllValueModalContentProps {
   className?: string;
@@ -35,125 +38,93 @@ export const CoreSysParamsAllValueModalContent = memo(
     } = props;
     const { t } = useTranslation('core');
 
-    const [selected, setSelected]: any = useState('');
     const [totalCount, setTotalCount] = useState<number | null>(null);
-    const [currentPageNumber, setCurrentPageNumber] = useState(1);
-    const [pageLimit, setPageLimit] = useState(100);
+    const [currentPageNumber, setCurrentPageNumber] = useState<
+      number | undefined
+    >(1);
+    const [pageLimit, setPageLimit] = useState<number | undefined>(100);
+    const [sortedData, setSortedData] = useState([]);
+    const [filtersData, setFiltersData] = useState([]);
     const roleName = 'CORE_SYSTEM_PARAMS';
 
-    const getAttrValuesPayload = [
-      {
-        code: 'CORE_SYS_PAR_LEVELS',
-      },
-      {
-        code: 'CORE_APPLICATIONS',
-      },
-      {
-        code: 'CORE_ROLES',
-      },
-      {
-        code: 'CORE_USERS',
-      },
-    ];
     useEffect(() => {
       getAttrValues(getAttrValuesPayload);
-      getSysParValuesGridData(roleName);
-      onPaginationPageChange();
+      refetchGridData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const gridParamsData = useMemo(() => {
-      return {
-        applicationCode: 'CORE',
-        parameterCode: selectedField?.parameter_code,
-        gridRequest: {
-          filter: [],
-          pageNumber: currentPageNumber ?? 1,
-          pageSize: pageLimit ?? 100,
-          sort: [],
-          params: [],
-          totalCount: totalCount ?? null,
-        },
-      };
-    }, [
-      currentPageNumber,
-      pageLimit,
-      selectedField?.parameter_code,
-      totalCount,
-    ]);
+    useEffect(() => {
+      // getGridData(gridParamsData);
+      getAttrValues(getAttrValuesPayload);
+      getSysParValuesGridData(gridParamsData);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [totalCount, currentPageNumber, pageLimit]);
+
+    const gridParamsData = pageGridSysParamsAllValue({
+      roleName: roleName,
+      currentPageNumber: currentPageNumber,
+      pageLimit: pageLimit,
+      totalCount: totalCount,
+      applicationCode: 'CORE',
+      parameterCode: selectedField?.parameter_code,
+    });
 
     const refreshButtonFunction = useCallback(() => {
       if (gridParamsData) {
-        getSysParValuesGridData(gridParamsData);
+        const newData = pageGridSysParamsAllValue({
+          roleName: roleName,
+          currentPageNumber: 1,
+          pageLimit: pageLimit,
+          totalCount: totalCount,
+          sorted: sortedData,
+          filter: filtersData,
+          applicationCode: 'CORE',
+          parameterCode: selectedField?.parameter_code,
+        });
+        getSysParValuesGridData(newData);
       }
-    }, [getSysParValuesGridData, gridParamsData]);
+    }, [
+      filtersData,
+      getSysParValuesGridData,
+      gridParamsData,
+      pageLimit,
+      selectedField?.parameter_code,
+      sortedData,
+      totalCount,
+    ]);
 
     const onPaginationPageChange = useCallback(
       async (currentPage?: number, pageSizeElement?: number) => {
-        getSysParValuesGridData(gridParamsData);
-
-        if (getSysParValuesGridDataQ?.result === '1') {
-          if (getSysParValuesGridDataQ?.data?.totalElements) {
-            setCurrentPageNumber(currentPage ?? 1);
-            setPageLimit(pageSizeElement ?? 100);
-            setTotalCount(getSysParValuesGridDataQ?.data?.totalElements);
-          }
-        }
+        setCurrentPageNumber((prev) => (prev = currentPage));
+        setPageLimit(pageSizeElement);
+        setTotalCount(getSysParValuesGridDataQ?.data?.totalElements);
       },
-      [
-        getSysParValuesGridData,
-        getSysParValuesGridDataQ?.data?.totalElements,
-        getSysParValuesGridDataQ?.result,
-        gridParamsData,
-      ]
+      [getSysParValuesGridDataQ?.data?.totalElements]
     );
-
     const sortData = useCallback(
-      (sorted: any) => {
-        const gridParamsData = {
+      (sorted) => {
+        setSortedData(sorted);
+        const gridsortDataParamsData = pageGridSysParamsAllValue({
+          sorted,
           applicationCode: 'CORE',
           parameterCode: selectedField?.parameter_code,
-          gridRequest: {
-            params: null,
-            pageNumber: 1,
-            pageSize: 100,
-            totalCount: totalCount ?? null,
-            sort: sorted,
-            filter: [],
-          },
-        };
-        getSysParValuesGridData(gridParamsData);
+        });
+        getSysParValuesGridData(gridsortDataParamsData);
       },
-      [getSysParValuesGridData, selectedField?.parameter_code, totalCount]
+      [getSysParValuesGridData, selectedField?.parameter_code]
     );
 
-    const inputFoldsPayload = useMemo(
-      () => ({
-        applicationCode: 'CORE',
-        parameterCode: selectedField?.parameter_code,
-        gridRequest: {
-          params: null,
-          pageNumber: 1,
-          pageSize: 100,
-          totalCount: null,
-          sort: [],
-          filter: null,
-        },
-      }),
-      []
-    );
+    const inputFoldsPayload = pageGridSysParamsAllValue({
+      roleName,
+      filter: null,
+      sorted: [],
+      applicationCode: 'CORE',
+      parameterCode: selectedField?.parameter_code,
+    });
 
-    // console.log(
-    //   'getSysParValuesGridDataQ',
-    //   getSysParValuesGridDataQ?.data?.content
-    // );
-
-    const defData = {
-      level_name: 'Система',
-      displayTypeCode: 'L',
-      object_name: '',
-      parameter_value: 'Да',
-      attribute_code: 'YES_NO',
-    };
+    const refetchGridData = useCallback(() => {
+      getSysParValuesGridData(gridParamsData);
+    }, [getSysParValuesGridData, gridParamsData]);
 
     return (
       <div
@@ -166,19 +137,14 @@ export const CoreSysParamsAllValueModalContent = memo(
           onClose={closeModalFunction}
         />
         {roleName && <CheckFormEnterM checkFormEnterName={roleName} />}
+        {!gridColsHeader && !getSysParValuesGridDataQ && (
+          <GridSkeleton height={630} />
+        )}
         {getSysParValuesGridDataQ && (
           <Grid
-            // for grid datagridColsHeader
-            // gridCols={headerData ? headerData : []}
             gridCols={gridColsHeader}
             rowData={getSysParValuesGridDataQ?.data?.content}
-            // gridCols={[]}
-            // rowData={[]}
-            // for grid height
             gridHeight={630}
-            // for modal
-            // ModalContent={ModalContents}
-            selectedFields={(selected: any) => setSelected(selected)}
             // pagination
             pageCountOptions={pageCountOptions}
             defaultPageSize={100}
@@ -188,13 +154,12 @@ export const CoreSysParamsAllValueModalContent = memo(
             FilterFormComponents={
               <InputsFields
                 getGridData={getSysParValuesGridData}
-                // filterData={gridDataInit?.data?.cols}
                 filterData={filterBlock}
                 payloadData={inputFoldsPayload}
-                // attrData={gridDataInit?.data?.attr}
-                // attrData={filterData}
                 attrData={getAttrValuesQ?.data}
                 isFilter={true}
+                refetchClearData={refetchGridData}
+                filteredData={(value) => setFiltersData(value)}
               />
             }
             // sort function
@@ -214,21 +179,13 @@ export const CoreSysParamsAllValueModalContent = memo(
             hasOpenGridRowModal={false}
             // pagination
             isPageable={true}
-            // isPageable={
-            //   gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
-            // }
             // sort
             disableSorting={true}
-            // disableSorting={
-            //   gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
-            // }
             //isSelectable
             isSelectable={true}
-            // isSelectable={
-            //   gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
-            // }
           />
         )}
+        {getSysParValuesGridDataQ?.data?.content === 0 && <NoData />}
       </div>
     );
   }

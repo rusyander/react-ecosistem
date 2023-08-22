@@ -1,19 +1,5 @@
 import { rtkApi } from 'shared/api/rtkApi';
-
-const getAttrValuesPayload = [
-  {
-    code: 'CORE_SYS_PAR_LEVELS',
-  },
-  {
-    code: 'CORE_APPLICATIONS',
-  },
-  {
-    code: 'CORE_ROLES',
-  },
-  {
-    code: 'CORE_USERS',
-  },
-];
+import { getAttrValuesPayload } from '../consts/filterParams';
 
 const CoreGlobalApi = rtkApi.injectEndpoints({
   endpoints: (build) => ({

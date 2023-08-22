@@ -3,9 +3,13 @@ import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsNewValueModalContent.module.scss';
 import {
   CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
   Texts,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -20,6 +24,7 @@ interface CoreSysParamsNewValueModalContentProps {
   saveDataQ: any;
   fildValue: any;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const CoreSysParamsNewValueModalContent = memo(
@@ -33,10 +38,13 @@ export const CoreSysParamsNewValueModalContent = memo(
       saveData,
       saveDataQ,
       selectedField,
+      refetchGridData,
     } = props;
     const { t } = useTranslation();
 
     const [inputsValue, setInputsValue] = useState([]);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const data = useMemo(
       () => ({
@@ -64,10 +72,17 @@ export const CoreSysParamsNewValueModalContent = memo(
 
       saveData(currentData).then((res: any) => {
         if (res?.data?.result === '1') {
-          closeModalFunction();
+          refetchGridData?.();
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+            closeModalFunction();
+          }, 1000);
+        } else {
+          setIsErrored(true);
         }
       });
-    }, [inputsValue, data, saveData, closeModalFunction]);
+    }, [inputsValue, data, saveData, refetchGridData, closeModalFunction]);
 
     return (
       <div
@@ -86,6 +101,12 @@ export const CoreSysParamsNewValueModalContent = memo(
             className={cls.usersShecheds}
           />
           <VStack className="formContent" max>
+            {isErrored && (
+              <ErrorMessage isAdd isOpen setIsError={setIsErrored} />
+            )}
+            {isSuccess && <Toast isAdd />}
+            {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+            {getInitData?.data?.attrData?.length === 0 && <NoData />}
             {getInitData && (
               <InputsFields
                 className={cls.filters}

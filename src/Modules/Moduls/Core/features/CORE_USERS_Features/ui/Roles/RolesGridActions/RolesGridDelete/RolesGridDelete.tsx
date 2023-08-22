@@ -3,10 +3,13 @@ import { useTranslation } from 'react-i18next';
 import cls from './RolesGridDelete.module.scss';
 import {
   Button,
+  ErrorMessage,
   HStack,
+  IsError,
   MessagesModal,
   Modal,
   Texts,
+  Toast,
   classNames,
 } from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
@@ -15,13 +18,15 @@ import { DeleteUserRoleDataM } from '../../../../api/roleApi';
 interface RolesGridDeleteProps {
   className?: string;
   selectedField: any;
+  refetchGridData?: () => void;
 }
 
 export const RolesGridDelete = memo((props: RolesGridDeleteProps) => {
-  const { className, selectedField } = props;
+  const { className, selectedField, refetchGridData } = props;
   const { t } = useTranslation('core');
-  const [deleteUserRoleData] = DeleteUserRoleDataM();
-
+  const [deleteUserRoleData, { isError }] = DeleteUserRoleDataM();
+  const [isErrored, setIsErrored] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const openModalFunction = () => {
@@ -34,7 +39,14 @@ export const RolesGridDelete = memo((props: RolesGridDeleteProps) => {
   const deleteRole = () => {
     deleteUserRoleData(selectedField?.user_role_id).then((res: any) => {
       if (res?.data?.result === '1') {
-        closeModalFunction();
+        refetchGridData?.();
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          closeModalFunction();
+        }, 1000);
+      } else {
+        setIsErrored(true);
       }
     });
   };
@@ -53,16 +65,20 @@ export const RolesGridDelete = memo((props: RolesGridDeleteProps) => {
         </HStack>
       </Button>
 
-      {openModal && (
-        <Modal zIndex={113} isOpen={openModal} onClose={closeModalFunction}>
+      {isError && <IsError />}
+      {isErrored && <ErrorMessage isDelete isOpen setIsError={setIsErrored} />}
+      {isSuccess && <Toast isDelete />}
+
+      <Modal zIndex={113} isOpen={openModal} onClose={closeModalFunction}>
+        {openModal && (
           <MessagesModal
             title={t('Внимание')}
             subTitle={t('Вы уверены?')}
             onClose={closeModalFunction}
             onCall={deleteRole}
           />
-        </Modal>
-      )}
+        )}
+      </Modal>
     </div>
   );
 });

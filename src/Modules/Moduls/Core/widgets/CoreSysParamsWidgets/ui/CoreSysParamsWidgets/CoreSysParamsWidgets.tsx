@@ -1,17 +1,23 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsWidgets.module.scss';
 import {
   CheckFormEnterM,
   Grid,
+  IsError,
+  NoData,
   Texts,
   classNames,
   pageCountOptions,
 } from 'Modules/UiKit';
 
 import { getInitM } from 'shared/Globals/globalApi/globalApi';
-import { GridSort } from 'shared/Globals/types/GridTypes';
-import { InputsFields, convertArrayToObject } from 'widgets/InputsFields';
+import {
+  InputsFields,
+  convertArrayToObject,
+  currentGridHeight,
+  pageGridParamsDataNoBeckendWithInputs,
+} from 'widgets/InputsFields';
 import { filterBlock, gridColsHeader } from '../../consts/headerData';
 import { GetAttrValuesM, GetGridDataM } from '../../api/CoreSysParamsWidgets';
 
@@ -24,117 +30,99 @@ export interface CoreSysParamsWidgetsProps {
   className?: string;
 }
 
-const screenHeight = window.innerHeight;
-const navbarHeight = 50;
-const breadcrumbsHeight = 37;
-const paginationHeight = 42;
-const currentGridHeight =
-  screenHeight - (navbarHeight + breadcrumbsHeight + paginationHeight);
-
 export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
   const { className } = props;
   const { t } = useTranslation('core');
-  const [getDataGrid, { data: grid, isLoading }]: any = GetGridDataM();
-
+  const [
+    getDataGrid,
+    { data: grid, isLoading: gridIsLoading, error: gridDataError },
+  ]: any = GetGridDataM();
   const [getInit, { data: getInitData }] = getInitM();
-
   const [getAttrValues, { data: getAttrValuesQ }]: any = GetAttrValuesM();
 
   const [selected, setSelected]: any = useState('');
   const [totalCount, setTotalCount] = useState<number | null>(null);
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [pageLimit, setPageLimit] = useState(100);
+  const [currentPageNumber, setCurrentPageNumber] = useState<
+    number | undefined
+  >(1);
+  const [pageLimit, setPageLimit] = useState<number | undefined>(100);
+  const [sortedData, setSortedData] = useState([]);
+  const [filtersData, setFiltersData] = useState([]);
+
   const roleName = 'CORE_SYSTEM_PARAMS';
 
   const getAttrValuesPayload = [{ code: 'CORE_APPLICATIONS' }];
-  useEffect(() => {
-    console.log('render');
 
-    onPaginationPageChange();
+  useEffect(() => {
+    refetchGridData();
     getInit('CORE_SYSTEM_PARAMS_FIELDS');
     getAttrValues(getAttrValuesPayload);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const gridParamsData = useMemo(() => {
-    return {
-      applCode: null,
-      roleCode: null,
-      orgId: null,
-      userId: null,
-      gridRequest: {
-        filter: [],
-        pageNumber: currentPageNumber ?? 1,
-        pageSize: pageLimit ?? 100,
-        sort: [],
-        params: [],
-        totalCount: totalCount ?? null,
-      },
-    };
-  }, [currentPageNumber, pageLimit, totalCount]);
+  useEffect(() => {
+    getDataGrid(gridParamsData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalCount, currentPageNumber, pageLimit]);
+
+  const gridParamsData = pageGridParamsDataNoBeckendWithInputs({
+    roleName: roleName,
+    currentPageNumber: currentPageNumber,
+    pageLimit: pageLimit,
+    totalCount: totalCount,
+  });
 
   const refreshButtonFunction = useCallback(() => {
     if (gridParamsData) {
-      getDataGrid(gridParamsData);
+      const newData = pageGridParamsDataNoBeckendWithInputs({
+        roleName: roleName,
+        currentPageNumber: 1,
+        pageLimit: pageLimit,
+        totalCount: totalCount,
+        sorted: sortedData,
+        filter: filtersData,
+      });
+      getDataGrid(newData);
     }
-  }, [getDataGrid, gridParamsData]);
+  }, [
+    filtersData,
+    getDataGrid,
+    gridParamsData,
+    pageLimit,
+    roleName,
+    sortedData,
+    totalCount,
+  ]);
 
   const onPaginationPageChange = useCallback(
     async (currentPage?: number, pageSizeElement?: number) => {
-      getDataGrid(gridParamsData);
-      console.log('onPaginationPageChange render');
-      if (grid?.result === '1') {
-        if (grid?.data?.totalElements) {
-          setCurrentPageNumber(currentPage ?? 1);
-          setPageLimit(pageSizeElement ?? 100);
-          setTotalCount(grid?.data?.totalElements);
-        }
-      }
+      setCurrentPageNumber((prev) => (prev = currentPage));
+      setPageLimit(pageSizeElement);
+      setTotalCount(grid?.data?.totalElements);
     },
-    [getDataGrid, grid?.data?.totalElements, grid?.result, gridParamsData]
+    [grid?.data?.totalElements]
   );
 
   const sortData = useCallback(
-    (sorted: GridSort[]) => {
-      console.log('sorted render');
-
-      const gridParamsData = {
-        applCode: null,
-        roleCode: null,
-        orgId: null,
-        userId: null,
-        gridRequest: {
-          params: null,
-          pageNumber: 1,
-          pageSize: 100,
-          totalCount: totalCount ?? 0,
-          sort: sorted,
-          filter: [],
-        },
-      };
-      getDataGrid(gridParamsData).then((res: any) => {
-        console.log(res);
+    (sorted) => {
+      setSortedData(sorted);
+      const gridsortDataParamsData = pageGridParamsDataNoBeckendWithInputs({
+        sorted,
       });
+      getDataGrid(gridsortDataParamsData);
     },
-    [getDataGrid, totalCount]
+    [getDataGrid]
   );
 
-  const inputFoldsPayload = useMemo(
-    () => ({
-      applCode: null,
-      roleCode: null,
-      orgId: null,
-      userId: null,
-      gridRequest: {
-        params: null,
-        pageNumber: 1,
-        pageSize: 100,
-        totalCount: null,
-        sort: [],
-        filter: null,
-      },
-    }),
-    []
-  );
+  const inputFoldsPayload = pageGridParamsDataNoBeckendWithInputs({
+    roleName,
+    filter: null,
+    sorted: [],
+  });
+
+  const refetchGridData = useCallback(() => {
+    getDataGrid(gridParamsData);
+  }, [getDataGrid, gridParamsData]);
 
   // ---------------------
 
@@ -195,7 +183,6 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
             filterData={getInitData?.data.attr ?? []}
             isFilter={false}
             setInputsValues={(data: any) => setInputsValue(data)}
-            // errorData={saveDataQ?.data}
             attrData={getInitData?.data?.attrData}
           />
         )}
@@ -210,15 +197,9 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
 
       {grid && (
         <Grid
-          // for grid datagridColsHeader
-          // gridCols={headerData ? headerData : []}
           gridCols={gridColsHeader ? gridColsHeader : []}
           rowData={grid?.data?.content}
-          // for grid height
           gridHeight={gridHeight}
-          // gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
-          // for modal
-          // ModalContent={ModalContents}
           selectedFields={(selected: any) => setSelected(selected)}
           // pagination
           pageCountOptions={pageCountOptions}
@@ -229,13 +210,12 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
           FilterFormComponents={
             <InputsFields
               getGridData={getDataGrid}
-              // filterData={gridDataInit?.data?.cols}
               filterData={filterBlock}
               payloadData={inputFoldsPayload}
-              // attrData={gridDataInit?.data?.attr}
-              // attrData={filterData}
               attrData={getAttrValuesQ?.data}
               isFilter={true}
+              refetchClearData={refetchGridData}
+              filteredData={(value) => setFiltersData(value)}
             />
           }
           // sort function
@@ -248,12 +228,12 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
               key={1}
               selectedField={selected}
               fildValue={transformData}
+              refetchGridData={refetchGridData}
             />,
             <CoreSysParamsAllValue key={2} selectedField={selected} />,
-            // <OsCountriesFeaturesDelete key={3} selectedField={selected} />,
           ]}
           // loading
-          isLoading={isLoading}
+          isLoading={gridIsLoading}
           // optional components
           // filter button
           showIsOpenFilter={true}
@@ -263,21 +243,14 @@ export const CoreSysParamsWidgets = memo((props: CoreSysParamsWidgetsProps) => {
           hasOpenGridRowModal={false}
           // pagination
           isPageable={true}
-          // isPageable={
-          //   gridDataInit?.data?.isPageableFlagCode === 'Y' ? true : false
-          // }
           // sort
           disableSorting={true}
-          // disableSorting={
-          //   gridDataInit?.data?.isSortableFlagCode === 'Y' ? true : false
-          // }
           //isSelectable
           isSelectable={true}
-          // isSelectable={
-          //   gridDataInit?.data?.isSelectableFlagCode === 'Y' ? true : false
-          // }
         />
       )}
+      {grid?.data?.content === 0 && <NoData />}
+      {gridDataError && <IsError />}
     </div>
   );
 });

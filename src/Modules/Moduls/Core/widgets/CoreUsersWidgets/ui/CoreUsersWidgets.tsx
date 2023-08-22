@@ -1,121 +1,124 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreUsersWidgets.module.scss';
 import {
   CheckFormEnterM,
   Grid,
+  GridSkeleton,
+  IsError,
+  NoData,
   classNames,
   pageCountOptions,
 } from 'Modules/UiKit';
 
 import { Add, Edit, Roles } from '../../../features/CORE_USERS_Features';
 import { filterBlock, gridCols } from '../consts/consts';
-import { GridSort } from '../../../../../../shared/Globals/types/GridTypes';
 import { Content } from '../model/types/coreUsersWidgets';
 import { getGridDataM } from 'shared/Globals/globalApi/globalApi';
-import { InputsFields } from 'widgets/InputsFields';
+import {
+  InputsFields,
+  currentGridHeight,
+  pageGridParamsDataNoBeckend,
+} from 'widgets/InputsFields';
 export interface CoreUsersWidgetsProps {
   className?: string;
 }
-
-const screenHeight = window.innerHeight;
-const navbarHeight = 50;
-const breadcrumbsHeight = 37;
-const paginationHeight = 42;
-const currentGridHeight =
-  screenHeight - (navbarHeight + breadcrumbsHeight + paginationHeight);
-
-const ModalContents = () => {
-  return <div>modal</div>;
-};
-
 export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
   const { t } = useTranslation('core');
-  const [getGridData, { data: grid, isLoading }] = getGridDataM();
-  const [showFilters, setShowFilters] = useState(false);
+  const [
+    getGridData,
+    { data: grid, isLoading: gridIsLoading, error: gridDataError },
+  ]: any = getGridDataM();
 
   const [selected, setSelected] = useState(null);
   const [totalCount, setTotalCount] = useState<number | null>(null);
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [pageLimit, setPageLimit] = useState(100);
+  const [currentPageNumber, setCurrentPageNumber] = useState<
+    number | undefined
+  >(1);
+  const [pageLimit, setPageLimit] = useState<number | undefined>(100);
+  const [sortedData, setSortedData] = useState([]);
+  const [filtersData, setFiltersData] = useState([]);
 
-  // --------------------
-  const gridParamsData = useMemo(() => {
-    return {
-      filter: [],
-      pageNumber: currentPageNumber ?? 1,
-      pageSize: pageLimit ?? 100,
-      params: [],
-      sort: [],
-      totalCount: totalCount ?? 0,
-    };
-  }, [currentPageNumber, pageLimit, totalCount]);
+  const roleName = 'CORE_USERS';
 
   useEffect(() => {
-    onPaginationPageChange();
+    refetchGridData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    getGridData(gridParamsData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalCount, currentPageNumber, pageLimit]);
+
+  const gridParamsData = pageGridParamsDataNoBeckend({
+    roleName: roleName,
+    currentPageNumber: currentPageNumber,
+    pageLimit: pageLimit,
+    totalCount: totalCount,
+  });
 
   const refreshButtonFunction = useCallback(() => {
     if (gridParamsData) {
-      getGridData(gridParamsData);
+      const newData = pageGridParamsDataNoBeckend({
+        roleName: roleName,
+        currentPageNumber: 1,
+        pageLimit: pageLimit,
+        totalCount: totalCount,
+        sorted: sortedData,
+        filter: filtersData,
+      });
+      getGridData(newData);
     }
-  }, [getGridData, gridParamsData]);
+  }, [
+    filtersData,
+    getGridData,
+    gridParamsData,
+    pageLimit,
+    roleName,
+    sortedData,
+    totalCount,
+  ]);
 
   const onPaginationPageChange = useCallback(
     async (currentPage?: number, pageSizeElement?: number) => {
-      getGridData(gridParamsData);
-
-      if (grid?.result === '1') {
-        if (grid?.data?.totalElements) {
-          setCurrentPageNumber(currentPage ?? 1);
-          setPageLimit(pageSizeElement ?? 100);
-          setTotalCount(grid?.data?.totalElements);
-        }
-      }
+      setCurrentPageNumber((prev) => (prev = currentPage));
+      setPageLimit(pageSizeElement);
+      setTotalCount(grid?.data?.totalElements);
     },
-    [getGridData, grid?.data?.totalElements, grid?.result, gridParamsData]
+    [grid?.data?.totalElements]
   );
 
   const sortData = useCallback(
-    (sorted: GridSort[]) => {
-      const gridParamsData = {
-        filter: [],
-        pageNumber: currentPageNumber,
-        pageSize: pageLimit,
-        params: null,
-        sort: sorted,
-        totalCount: totalCount ?? 0,
-      };
-      getGridData(gridParamsData);
+    (sorted) => {
+      setSortedData(sorted);
+      const gridsortDataParamsData = pageGridParamsDataNoBeckend({ sorted });
+      getGridData(gridsortDataParamsData);
     },
-    [currentPageNumber, getGridData, pageLimit, totalCount]
+    [getGridData]
   );
 
-  // console.log('grid+++++++++++++++++', grid);
+  const inputFoldsPayload = pageGridParamsDataNoBeckend({
+    roleName,
+    filter: null,
+    sorted: [],
+  });
 
-  const inputFoldsPayload = useMemo(
-    () => ({
-      filter: null,
-      pageNumber: 1,
-      pageSize: 100,
-      params: null,
-      sort: [],
-      totalCount: null,
-    }),
-    []
-  );
+  const refetchGridData = useCallback(() => {
+    getGridData(gridParamsData);
+  }, [getGridData, gridParamsData]);
 
   return (
     <div className={classNames(cls.coreUsersWidgets, {}, [className])}>
-      <CheckFormEnterM />
+      <CheckFormEnterM checkFormEnterName={roleName} />
+      {!gridCols && gridIsLoading && (
+        <GridSkeleton height={currentGridHeight} />
+      )}
       <Grid
         // for grid data
         gridCols={gridCols}
         rowData={grid?.data?.content as Content[]}
-        // for grid height
-        gridHeight={currentGridHeight !== 0 ? currentGridHeight : 500}
-        // for modal
-        // ModalContent={ModalContents}
+        gridHeight={currentGridHeight}
         selectedFields={(selected: any) => setSelected(selected)}
         // pagination
         pageCountOptions={pageCountOptions}
@@ -131,7 +134,8 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
             filterData={filterBlock}
             modalTitle={t('Справочник')}
             isFilter={true}
-            // setInputsValues={(data: any) => console.log('dataInputs', data)}
+            refetchClearData={refetchGridData}
+            filteredData={(value) => setFiltersData(value)}
           />
         }
         // sort function
@@ -140,12 +144,16 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         onRefresh={refreshButtonFunction}
         // new button
         AddNewButtonComponents={[
-          <Add key={1} />,
-          <Edit key={2} selectedField={selected} />,
+          <Add key={1} refetchGridData={refetchGridData} />,
+          <Edit
+            key={2}
+            refetchGridData={refetchGridData}
+            selectedField={selected}
+          />,
           <Roles key={3} />,
         ]}
         // loading
-        isLoading={isLoading}
+        isLoading={gridIsLoading}
         // optional components
         // pagination
         isPageable={true}
@@ -160,6 +168,8 @@ export const CoreUsersWidgets = memo(({ className }: CoreUsersWidgetsProps) => {
         //isSelectable
         isSelectable={true}
       />
+      {grid?.data?.content === 0 && <NoData />}
+      {gridDataError && <IsError />}
     </div>
   );
 });

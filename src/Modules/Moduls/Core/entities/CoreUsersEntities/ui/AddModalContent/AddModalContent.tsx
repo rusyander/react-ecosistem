@@ -1,63 +1,73 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './AddModalContent.module.scss';
 import {
+  CheckFormEnterM,
+  ErrorMessage,
   ModalHeader,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
-import { SaveDataM } from '../../api/saveData';
 import { convertArrayToObject, InputsFields } from 'widgets/InputsFields';
-import { fildListAddNew } from '../../consts/const';
 
 interface AddModalContentProps {
   className?: string;
   closeModalFunction: () => void;
+  saveData: any;
+  saveDataQ: any;
+  refetchGridData?: () => void;
+  fildListAddNews: any;
 }
 
 export const AddModalContent = memo((props: AddModalContentProps) => {
-  const { className, closeModalFunction } = props;
+  const {
+    className,
+    closeModalFunction,
+    saveData,
+    saveDataQ,
+    refetchGridData,
+    fildListAddNews,
+  } = props;
   const { t } = useTranslation('core');
 
-  const [saveData, { data: saveDataQ }] = SaveDataM();
-
   const [inputsValue, setInputsValue] = useState([]);
+  const [isErrored, setIsErrored] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = useCallback(() => {
     const value = convertArrayToObject(inputsValue);
-    saveData(value);
-    if (saveDataQ?.result === '1') {
-      closeModalFunction();
-    }
-  }, [saveData, closeModalFunction, inputsValue, saveDataQ?.result]);
-
-  const inputFoldsPayload = useMemo(
-    () => ({
-      filter: null,
-      pageNumber: 1,
-      pageSize: 100,
-      params: null,
-      sort: [],
-      totalCount: null,
-    }),
-    []
-  );
+    saveData(value).then((res: any) => {
+      if (res?.data?.result === '1') {
+        refetchGridData?.();
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          closeModalFunction();
+        }, 1000);
+      } else {
+        setIsErrored(true);
+      }
+    });
+  }, [inputsValue, saveData, refetchGridData, closeModalFunction]);
 
   return (
     <div className={classNames(cls.addModalContent, {}, [className])}>
+      <CheckFormEnterM checkFormEnterName="CORE_USER_ADD_EDIT" />
       <ModalHeader
         title={t('Реквизиты пользователя') || ''}
         onClose={closeModalFunction}
       />
       <VStack className="formContent" max>
+        {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+        {isSuccess && <Toast isAdd />}
+
         <InputsFields
           className={cls.filters}
-          filterData={fildListAddNew}
+          filterData={fildListAddNews}
           modalTitle={t('Справочник')}
           isFilter={false}
-          payloadData={inputFoldsPayload}
-          // setInputsValues={(data: any) => console.log('setInputsValues', data)}
           setInputsValues={(data: any) => setInputsValue(data)}
           errorData={saveDataQ?.data}
         />

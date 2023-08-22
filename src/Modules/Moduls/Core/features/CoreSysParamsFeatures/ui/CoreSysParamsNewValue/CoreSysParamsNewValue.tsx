@@ -1,7 +1,16 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './CoreSysParamsNewValue.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
 import { initSysParValuesM, saveDataM } from '../../api/CoreSysParamsApi';
 import { CoreSysParamsNewValueModalContent } from 'Modules/Moduls/Core/entities/CoreSysParamsEntities';
@@ -10,13 +19,15 @@ interface CoreSysParamsNewValueProps {
   className?: string;
   selectedField: any;
   fildValue: any;
+  refetchGridData?: () => void;
 }
 
 export const CoreSysParamsNewValue = memo(
   (props: CoreSysParamsNewValueProps) => {
-    const { className, selectedField, fildValue } = props;
+    const { className, selectedField, fildValue, refetchGridData } = props;
     const { t } = useTranslation('core');
-    const [initSysParValues, { data: initSysParValuesQ }] = initSysParValuesM();
+    const [initSysParValues, { data: initSysParValuesQ, isLoading, isError }] =
+      initSysParValuesM();
     const [saveData, { data: saveDataQ }] = saveDataM();
 
     const [openModal, setOpenModal] = useState(false);
@@ -45,15 +56,20 @@ export const CoreSysParamsNewValue = memo(
 
         <Modal isOpen={openModal} onClose={closeModalFunction} lazy>
           {openModal && (
-            <CoreSysParamsNewValueModalContent
-              closeModalFunction={closeModalFunction}
-              getInit={initSysParValues}
-              saveData={saveData}
-              getInitData={initSysParValuesQ}
-              saveDataQ={saveDataQ}
-              fildValue={fildValue}
-              selectedField={selectedField}
-            />
+            <VStack max>
+              {isLoading && <InputsDataSkeleton />}
+              {isError && <IsError />}
+              <CoreSysParamsNewValueModalContent
+                closeModalFunction={closeModalFunction}
+                getInit={initSysParValues}
+                saveData={saveData}
+                getInitData={initSysParValuesQ}
+                saveDataQ={saveDataQ}
+                fildValue={fildValue}
+                selectedField={selectedField}
+                refetchGridData={refetchGridData}
+              />
+            </VStack>
           )}
         </Modal>
       </div>

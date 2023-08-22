@@ -1,17 +1,34 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './RolesGridAdd.module.scss';
-import { Button, HStack, Modal, Texts, classNames } from 'Modules/UiKit';
+import {
+  Button,
+  HStack,
+  InputsDataSkeleton,
+  IsError,
+  Modal,
+  Texts,
+  VStack,
+  classNames,
+} from 'Modules/UiKit';
 import { Icon } from '@iconify/react';
-import { RolesGridAddModalContent } from '../RolesGridAddModalContent/RolesGridAddModalContent';
+import { getInitM } from 'shared/Globals/globalApi/globalApi';
+import { SaveDataRoleM, InitPolicyDataRoleM } from '../../../../api/roleApi';
+import { RolesGridAddModalContent } from 'Modules/Moduls/Core/entities/CoreUsersEntities';
 
 interface RolesGridAddProps {
   className?: string;
+  refetchGridData: () => void;
 }
 
 export const RolesGridAdd = memo((props: RolesGridAddProps) => {
-  const { className } = props;
+  const { className, refetchGridData } = props;
   const { t } = useTranslation('core');
+
+  const [saveDataRole, { data: saveDataRoleData }] = SaveDataRoleM();
+  const [initPolicyDataRole, { data: initPolicyDataRoleData }] =
+    InitPolicyDataRoleM();
+  const [getInit, { data: getInitData, isLoading, isError }] = getInitM();
 
   const [openAddModal, setOpenAddModal] = useState(false);
 
@@ -43,7 +60,20 @@ export const RolesGridAdd = memo((props: RolesGridAddProps) => {
         lazy
       >
         {openAddModal && (
-          <RolesGridAddModalContent closeModalFunction={closeModalFunction} />
+          <VStack max>
+            {isLoading && <InputsDataSkeleton />}
+            {isError && <IsError />}
+            <RolesGridAddModalContent
+              closeModalFunction={closeModalFunction}
+              saveDataRole={saveDataRole}
+              saveDataRoleData={saveDataRoleData}
+              initPolicyDataRole={initPolicyDataRole}
+              initPolicyDataRoleData={initPolicyDataRoleData}
+              getInit={getInit}
+              getInitData={getInitData}
+              refetchGridData={refetchGridData}
+            />
+          </VStack>
         )}
       </Modal>
     </div>

@@ -2,8 +2,13 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import cls from './RolesGridAddModalContent.module.scss';
 import {
+  CheckFormEnterM,
+  ErrorMessage,
+  InputsDataSkeleton,
   ModalHeader,
+  NoData,
   SubmitFormFooter,
+  Toast,
   VStack,
   classNames,
 } from 'Modules/UiKit';
@@ -12,27 +17,39 @@ import {
   convertArrayToObject,
   transformData,
 } from 'widgets/InputsFields';
-import { getInitM } from 'shared/Globals/globalApi/globalApi';
-import { InitPolicyDataRoleM, SaveDataRoleM } from '../../../../api/roleApi';
 
 interface RolesGridAddModalContentProps {
   className?: string;
   closeModalFunction: () => void;
+
+  saveDataRole: any;
+  saveDataRoleData: any;
+  initPolicyDataRole: any;
+  initPolicyDataRoleData: any;
+  getInit: any;
+  getInitData: any;
+  refetchGridData: any;
 }
 
 export const RolesGridAddModalContent = memo(
   (props: RolesGridAddModalContentProps) => {
-    const { className, closeModalFunction } = props;
+    const {
+      className,
+      closeModalFunction,
+      getInit,
+      getInitData,
+      initPolicyDataRole,
+      initPolicyDataRoleData,
+      refetchGridData,
+      saveDataRole,
+      saveDataRoleData,
+    } = props;
     const { t } = useTranslation('core');
-
-    const [saveDataRole, { data: saveDataRoleData }] = SaveDataRoleM();
-    const [initPolicyDataRole, { data: initPolicyDataRoleData }] =
-      InitPolicyDataRoleM();
-
-    const [getInit, { data: getInitData }] = getInitM();
 
     const [inputsValue, setInputsValue]: any = useState([]);
     const [inputsValueInitPolicy, setInputsValueInitPolicy]: any = useState([]);
+    const [isErrored, setIsErrored] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     useEffect(() => {
       getInit('CORE_USER_ROLES');
       initPolicyDataRole({ applicationCode: 'CORE', userRoleId: null });
@@ -62,18 +79,37 @@ export const RolesGridAddModalContent = memo(
         policies: policy === false ? defaultData : policy,
       };
       if (inputsValue[0]?.fildValue === null) {
-        saveDataRole(currValue);
+        saveDataRole(currValue).then((res: any) => {
+          if (res?.data?.result === '1') {
+            refetchGridData?.();
+            setIsSuccess(true);
+            setTimeout(() => {
+              setIsSuccess(false);
+              closeModalFunction();
+            }, 1000);
+          } else {
+            setIsErrored(true);
+          }
+        });
       } else {
-        saveDataRole(currentData);
-      }
-      if (saveDataRoleData?.result === '1') {
-        closeModalFunction();
+        saveDataRole(currentData).then((res: any) => {
+          if (res?.data?.result === '1') {
+            refetchGridData?.();
+            setIsSuccess(true);
+            setTimeout(() => {
+              setIsSuccess(false);
+              closeModalFunction();
+            }, 1000);
+          } else {
+            setIsErrored(true);
+          }
+        });
       }
     }, [
       inputsValue,
       inputsValueInitPolicy,
       saveDataRole,
-      saveDataRoleData?.result,
+      refetchGridData,
       closeModalFunction,
     ]);
 
@@ -81,11 +117,16 @@ export const RolesGridAddModalContent = memo(
       <div
         className={classNames(cls.rolesGridAddModalContent, {}, [className])}
       >
+        <CheckFormEnterM checkFormEnterName={'CORE_USER_ROLE_ADD_EDIT'} />
         <ModalHeader
           title={t('Реквизиты пользователя') || ''}
           onClose={closeModalFunction}
         />
         <VStack max gap="32" className="formContent">
+          {isErrored && <ErrorMessage isAdd isOpen setIsError={setIsErrored} />}
+          {isSuccess && <Toast isAdd />}
+          {!getInitData?.data?.attrData && <InputsDataSkeleton />}
+          {getInitData?.data?.attrData?.length === 0 && <NoData />}
           {getInitData && (
             <InputsFields
               className={cls.filters}

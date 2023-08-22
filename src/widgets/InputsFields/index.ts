@@ -11,4 +11,9 @@ export { currentGridHeight } from './functions/gridHeight';
 export { headerGridData } from './functions/configureHeaderDataGrid';
 
 //grid params
-export { pageGridParamsData } from './functions/gridParamsDataPaginations';
+export {
+  pageGridParamsData,
+  pageGridParamsDataNoBeckend,
+  pageGridParamsDataNoBeckendWithInputs,
+  pageGridSysParamsAllValue,
+} from './functions/gridParamsDataPaginations';
