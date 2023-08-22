@@ -153,12 +153,6 @@ export const CoreAuditLoginWidgets = memo(
             setSortFields={sortData}
             // refresh function
             onRefresh={refreshButtonFunction}
-            // new button
-            // AddNewButtonComponents={[
-            //   <OsCountriesFeaturesAdd key={1} />,
-            //   <OsCountriesFeaturesEdit key={2} selectedField={selected} />,
-            //   <OsCountriesFeaturesDelete key={3} selectedField={selected} />,
-            // ]}
             // loading
             isLoading={gridIsLoading}
             // optional components
